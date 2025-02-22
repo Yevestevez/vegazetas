@@ -6,6 +6,7 @@
 - Crear nuevo usuario
 - Modificar datos de usuario
 - Eliminar usuario
+- Login/logout
 
 ### Recetas
 - Añadir recetas nuevas
@@ -36,7 +37,8 @@
 ### Data Model
 
 Usuario
-- id (uuid)
+
+- id (ObjectId MongoDB)
 - name (string)
 - email (string)
 - username (string)
@@ -45,8 +47,9 @@ Usuario
     - amigos (para compartir las recetas)
 
 Receta
-- id (uuid)
-- author id
+
+- id (ObjectID MongoDB)
+- author id (UserId)
 - título
 - breve descripción
 - ingredientes y cantidades
