@@ -1,8 +1,10 @@
-# Receipts App
+# Vegazetas
 
 ## Intro
 
-Lorem ipsum ...
+**Vegazetas** es una aplicación web que permite **crear, ordenar, compartir y descubrir recetas** veganas. Cuenta con un buscador de recetas filtrando por etiquetas e ingredientes.
+
+En futuras versiones contará con una **lista de la compra** automática que añade los ingredientes desde cada receta con solo pulsar un botón, además de un **planificador de menús** mediante un calendario.
 
 ![The Office Gif](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjd0ZGh0czA0MHJ3aTFlaDhmcjBtMmtsMjM4eWh6dHNsdTBwN296ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hKyroc5P7axuU/giphy.webp)
 
@@ -11,9 +13,33 @@ Lorem ipsum ...
 
 ### Use Cases
 
+User
+
+- Registrarse como usuario nuevo
+- Iniciar sesión
+- Editar perfil (nombre, contraseña, foto...)
+- Eliminar usuario
+
+- Descubrir nuevas recetas de otros usuarios (sección ***Descubre***)
+- Buscar recetas filtrando por ingredientes o etiquetas
+- Crear una nueva receta (➕)
+- Guardar una nueva receta en ***borrador***
+- Editar una receta previamente creada
+- Eliminar una receta previamente creada
+- Visualizar recetas propias (sección ***Mis recetas***)
+- Generar listas personalizadas de recetas (sección ***Listas***)
+- Generar listas de recetas favoritas desde las recetas (🩷)
+- Generar listas de enlaces para guardar recetas externas a la apliación (sección ***Enlaces***)
+
+---
+
+- Generar una lista de la compra desde cada receta mediante un botón
+- Editar la manualmente la lista de la compra (añadir, eliminar y ordenar ingredientes)
+- Planificar los menús mediante un calendario
+
 ### UXUI Design
 
-[Figma](https://)
+[Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=15-54&p=f&t=RmO05IfsXMPjmZim-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=15%3A54)
 
 
 ## Technical
@@ -40,19 +66,39 @@ Lorem ipsum ...
 
 ### Data Model
 
-User
-- id (uuid)
-- name (string)
-- email (string)
-- username (string)
-- password (string)
-- role (string, regular|provider)
+**User**
+- id *(ObjectId)*
+- name *(string)*
+- email *(string)*
+- username *(string)*
+- password *(string) - bcrypt*
+- image *(string)*
 
-Receipts
-- id (uuid)
-- title (string)
-- description (string)
-- image (string)
+**Recipe**
+- id *(ObjectId)*
+- author *(ObjectId - User)*
+- date *(Date (default: Date.now))*
+- name *(string)*
+- images *(strings array)*
+- description *(string)*
+- time *(number)*
+- tags *(strings array)*
+- difficulty *(string)*
+- ingredients *(objects array)*
+    - [ingredient {
+        name: string,
+        quantity: num,
+        unit: string,
+        note: string,
+        main: boolean (default: true)
+        }]
+- steps *(objects array)*
+    - [step {
+        order: number,
+        text: string,
+        note: string,
+        image: string, 
+    }]
 
 ### Coverage
 

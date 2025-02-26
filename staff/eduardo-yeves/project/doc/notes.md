@@ -28,9 +28,9 @@
 - Posibilidad de crear listas o carpetas de recetas
 - Compartir receta con otro usuario
 - Añadir temporizador (para cuando estás cocinando)
-- Botón para que no se apague la pantalla de la tablet al cocinar
+- **Botón para que no se apague la pantalla de la tablet al cocinar**
 - Filtrar recetas con frutas y verduras de temporada
-- Posibilidad de cambiar el tamaño de la letra (puedes necesitarlo más grande al cocinar)
+- **Posibilidad de cambiar el tamaño de la letra (puedes necesitarlo más grande al cocinar)**
 - Mostrar sugerencia de recetas parecidas dentro de una receta
 - Opción de generar PDF/imprimir receta
 
