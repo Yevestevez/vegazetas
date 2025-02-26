@@ -74,6 +74,19 @@ User
 - password *(string) - bcrypt*
 - image *(string)*
 
+**Ingredient**
+- name: string
+- quantity: num
+- unit: string
+- note: string
+- main: boolean (default: true)
+
+**Step**
+- order: number
+- text: string
+- note: string
+- image: string 
+
 **Recipe**
 - id *(ObjectId)*
 - author *(ObjectId - User)*
@@ -84,21 +97,9 @@ User
 - time *(number)*
 - tags *(strings array)*
 - difficulty *(string)*
-- ingredients *(objects array)*
-    - [ingredient {
-        name: string,
-        quantity: num,
-        unit: string,
-        note: string,
-        main: boolean (default: true)
-        }]
-- steps *(objects array)*
-    - [step {
-        order: number,
-        text: string,
-        note: string,
-        image: string, 
-    }]
+- ingredients *(ingredients array)*
+- steps *(steps array)*
+ 
 
 ### Coverage
 

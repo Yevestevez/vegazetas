@@ -22,6 +22,40 @@ const user = new Schema({
     }
 })
 
+const ingredient = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    quantity: {
+        type: Number
+    },
+    unit: {
+        type: String
+    },
+    note: {
+        type: String
+    },
+    main: {
+        type: Boolean,
+        required: true,
+        default: true
+    }
+})
+
+const step = new Schema({
+    text: {
+        type: String,
+        required: true
+    },
+    note: {
+        type: String,
+    },
+    image: {
+        type: String
+    }
+})
+
 const recipe = new Schema({
     author: {
         type: ObjectId,
@@ -49,59 +83,30 @@ const recipe = new Schema({
         required: true
     },
     tags: [{
-        type: String,
-        required: true
+        type: String
     }],
     difficulty: {
         type: String,
-        required: true
+        required: true,
+        enum: ['easy', 'medium', 'difficult']
     },
-    ingredients: [{
-        type: Object({
-            name: {
-                type: String,
-                required: true,
-                unique: true,
-            },
-            quantity: {
-                type: Number
-            },
-            unit: {
-                type: String
-            },
-            note: {
-                type: String
-            },
-            main: {
-                type: Boolean,
-                required: true,
-                default: true
-            }
-        })
-    }],
-    steps: [{
-        type: Object({
-            order: {
-                type: Number
-            },
-            text: {
-                type: String,
-                required: true
-            },
-            note: {
-                type: String,
-            },
-            image: {
-                type: String
-            }
-        })
-    }]
+    ingredients: [
+        ingredient
+    ],
+    steps: [
+        step
+    ]
 })
 
 const User = model('User', user)
+const Ingredient = model('Ingrediente', ingredient)
+const Step = model('Step', step)
 const Recipe = model('Recipe', recipe)
+
 
 export {
     User,
-    Recipe
+    Ingredient,
+    Step,
+    Recipe,
 }
