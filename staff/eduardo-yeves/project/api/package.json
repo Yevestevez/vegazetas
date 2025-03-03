@@ -5,12 +5,15 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "node index.js",
+    "inspect": "node --inspect-brk index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "com": "file:../com",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "mongoose": "^8.10.2"

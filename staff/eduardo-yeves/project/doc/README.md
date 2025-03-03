@@ -75,17 +75,17 @@ User
 - image *(string)*
 
 **Ingredient**
-- name: string
-- quantity: num
-- unit: string
-- note: string
-- main: boolean (default: true)
+- name *(string)*
+- quantity *(num)*
+- unit *(string)*
+- note *(string)*
+- main *(boolean (default: true))*
 
 **Step**
-- order: number
-- text: string
-- note: string
-- image: string 
+- order *(number)*
+- text *(string)*
+- note *(string)*
+- image *(string)* 
 
 **Recipe**
 - id *(ObjectId)*

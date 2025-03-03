@@ -37,3 +37,27 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 - Crear los **esquemas (user, recipe) y modelos de datos(User, Recipe)** en *models.js* // [Apuntes Mongoose](https://github.com/Yevestevez/apuntes-desarrollo-web-full-stack/blob/main/JavaScript/Base-datos-MongoDB/04-mongoose.md)
 
 - Exportar los modelos desde *models.js* mediante ```export { User, Recipes }```
+
+- Crear ***populate.js*** para añadir documentos a la base de datos
+
+- Crear el directorio ***logic*** en *api*
+
+- Crear el fichero ***registerUser*** en *logic* e implementar la lógica de registro a nivel de *api* de manera básica (sin *errors*, *validate* ni *bcrypt*)
+
+- Crear el ficheron ***registerUser.test.js*** e implementar el *test* "rápido" de la lógica
+
+- Generar funciones ***connectToDB*** y ***startApi*** en *index.js* para arrancar rápidamente la *api* y conectarla con *mongoose*
+
+- Ensamblar la lógica *registerUser* en el servidor *api (index.js)* como una ruta ***api.post***
+
+- Generar el *script* de acceso directo para arrancar la *api* y arrancar con el inspector en *package.json* ```"scripts": { "start": "node index.js", "inspect": "node --inspect-brk index.js" }``` y probar que la *api* arranca correctamente y conecta con la *db* ([Apuntes instalación y arranque db](https://github.com/Yevestevez/apuntes-desarrollo-web-full-stack/blob/main/JavaScript/Base-datos-MongoDB/02-servidor-mongodb-windows.md))
+
+- Crear el directorio ***test*** en *api* y generar el fichero ***register-user.sh*** para probar que la lógica de *registerUser* funciona del lado del servidor en *index.js (api.post('/users'),...)*
+
+- Generar el fichero ***register-user.js*** para probar que la lógica de *registerUser* funciona del lado del servidor en *index.js (api.post('/users'),...)* mediante ```fetch```
+
+- Crear un ***paquete común (com)*** que contenga ***validate*** (para validar los tipos de datos permitidos en cada caso) y ***errors*** con los errores personalizados
+
+- Generar validate.js y errors.js donde personalizar los errores
+
+- 
