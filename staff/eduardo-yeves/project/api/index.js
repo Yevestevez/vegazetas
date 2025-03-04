@@ -4,14 +4,14 @@ import cors from 'cors'
 import logic from './logic/index.js'
 import mongoose from 'mongoose'
 
+import jsonBodyParser from './middlewares/jsonBodyParser.js'
+
 const connectToDb = () => mongoose.connect('mongodb://localhost:27017/vegazetas')
     .then(() => console.log('DB connected'))
 
 const startApi = () => {
     const PORT = 8080
     const api = express()
-
-    const jsonBodyParser = express.json();
 
     api.use(cors())
 

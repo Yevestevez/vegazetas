@@ -58,6 +58,8 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Crear un ***paquete común (com)*** que contenga ***validate*** (para validar los tipos de datos permitidos en cada caso) y ***errors*** con los errores personalizados
 
-- Generar validate.js y errors.js donde personalizar los errores
+- Generar ***validate.js*** y ***errors.js*** donde validar datos y personalizar errores
 
-- 
+- Crear el directorio ***middlewares*** en *api* y dentro ***jsonBodyParser.js*** para "traducir" de JSON a objeto JS en las peticiones *HTTP* (lo importo en index.js para poder usarlo)
+
+- Instalar ***bcryptjs***, importarlo y usarlo en *register.js* para generar un *hash* que reemplace a la *password*

@@ -33,7 +33,7 @@ const ingredient = new Schema({
     unit: {
         type: String
     },
-    note: {
+    annotation: {
         type: String
     },
     main: {

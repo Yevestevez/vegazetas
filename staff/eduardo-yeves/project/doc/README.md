@@ -78,7 +78,7 @@ User
 - name *(string)*
 - quantity *(num)*
 - unit *(string)*
-- note *(string)*
+- annotation *(string)*
 - main *(boolean (default: true))*
 
 **Step**
