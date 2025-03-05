@@ -82,4 +82,4 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Implementar la lógica ***getUserName*** y su test aislado
 
-<!-- - Generar los test para la lógica ***getUserName*** conectada a la *api* *(api/test/[get-user-name.js, get-user-name.sh])* -->
+- Conectar la lógica ***getUserName*** con la *api*. Generar los test para la lógica ***getUserName*** conectada a la *api* *(api/test/[get-user-name.js, get-user-name.sh])*

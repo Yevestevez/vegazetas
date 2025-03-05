@@ -48,6 +48,21 @@ const startApi = () => {
         }
     })
 
+    api.get('/users', (req, res) => {
+        try {
+            const token = req.headers.authorization.slice(7)
+            const payload = jwt.verify(token, process.env.JWT_SECRET)
+
+            const { sub: userId } = payload
+
+            logic.getUserName(userId)
+                .then(name => res.json(name))
+                .catch(error => { throw new Error(error) })
+        } catch (error) {
+            res.status(404).json({ error: constructor.name, message: error.message })
+        }
+    })
+
     api.listen(process.env.PORT, () => console.log(`API running on ${process.env.PORT}`))
 }
 
