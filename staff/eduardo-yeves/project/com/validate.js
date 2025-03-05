@@ -78,6 +78,11 @@ const validate = {
     annotation(annotation) {
         if (typeof annotation !== 'string') throw new ValidationError('invalid annotation type')
         if (annotation.length < 20) throw new ValidationError('invalid annotation length')
+    },
+
+    id(id, explain = 'id') {
+        if (typeof id !== 'string') throw new Error(`invalid ${explain} type`)
+        if (id.length < 10) throw new Error(`invalid ${explain} length`)
     }
 }
 

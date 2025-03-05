@@ -1,18 +1,16 @@
-fetch('http://localhost:8080/users', {
+fetch('http://localhost:8080/users/auth', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
     },
-    body: '{"name":"Edu Yeves","email":"edu@yeves.com","username":"eduyeves","password":"123123123"}'
+    body: '{"email":"edu@yeves.com","password":"123123123"}'
 })
     .then(res => {
         const { status } = res
 
-        if (status === 201) {
-            console.log('OK', status)
-
-            return
-        }
+        if (status === 200)
+            return res.json()
+                .then(body => console.log('OK', status, body))
 
         return res.json()
             .then(body => console.log('KO', status, body))

@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import jwt from 'jsonwebtoken'
 
 import express from 'express'
 import cors from 'cors'
@@ -27,6 +28,23 @@ const startApi = () => {
                 .catch(error => { throw new Error(error) })
         } catch (error) {
             res.status(400).json({ error: error.constructor.name, message: error.message })
+        }
+    })
+
+    api.post('/users/auth', jsonBodyParser, (req, res) => {
+        try {
+            const { email, password } = req.body
+
+            logic.authenticateUser(email, password)
+                .then(userId => {
+                    const payload = { sub: userId }
+                    const token = jwt.sign(payload, process.env.JWT_SECRET)
+
+                    res.json(token)
+                })
+                .catch(error => { throw new Error(error) })
+        } catch (error) {
+            res.status(401).json({ error: error.constructor.name, message: error.message })
         }
     })
 

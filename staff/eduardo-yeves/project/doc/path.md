@@ -74,4 +74,12 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Añadir ***authenticateUser*** al índice *(index.js)* de las lógicas
 
-- Generar los test para la lógica **authenticateUser** conectada a la *api* *(api/test/[authenticate-user.js, authenticate-user.sh])*
+- Conectar la lógica ***authenticateUser*** a la *api* en index.js
+
+- Generar los test para la lógica ***authenticateUser*** conectada a la *api* *(api/test/[authenticate-user.js, authenticate-user.sh])*
+
+- Instalar ***JWT*** e implementar *JWT* en la ruta de *api* para autenticar *(users/auth)*, además de añadirlo a *dotenv* para proteger *SECRET*
+
+- Implementar la lógica ***getUserName*** y su test aislado
+
+<!-- - Generar los test para la lógica ***getUserName*** conectada a la *api* *(api/test/[get-user-name.js, get-user-name.sh])* -->
