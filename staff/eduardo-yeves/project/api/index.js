@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import express from 'express'
 import cors from 'cors'
 
@@ -6,11 +8,10 @@ import mongoose from 'mongoose'
 
 import jsonBodyParser from './middlewares/jsonBodyParser.js'
 
-const connectToDb = () => mongoose.connect('mongodb://localhost:27017/vegazetas')
+const connectToDb = () => mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('DB connected'))
 
 const startApi = () => {
-    const PORT = 8080
     const api = express()
 
     api.use(cors())
@@ -29,7 +30,7 @@ const startApi = () => {
         }
     })
 
-    api.listen(PORT, () => console.log(`API running on ${PORT}`))
+    api.listen(process.env.PORT, () => console.log(`API running on ${process.env.PORT}`))
 }
 
 connectToDb()

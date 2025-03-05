@@ -62,4 +62,16 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Crear el directorio ***middlewares*** en *api* y dentro ***jsonBodyParser.js*** para "traducir" de JSON a objeto JS en las peticiones *HTTP* (lo importo en index.js para poder usarlo)
 
-- Instalar ***bcryptjs***, importarlo y usarlo en *register.js* para generar un *hash* que reemplace a la *password*
+- Instalar ***bcryptjs*** (```npm i bcryptjs```), importarlo y usarlo en *register.js* para generar un *hash* que reemplace a *password* para más seguridad
+
+- Instalar ***dotenv*** en la *api* (```npm i dotenv```), generar el fichero ***.dotenv*** y añadir el puerto que usamos en la api (```PORT = 8080```), la dirección de la base de datos (```MONGO_URL = mongodb://localhost:27017/vegazetas```) y la dirección de la *db* para test (```MONGO_URL = mongodb://localhost:27017/vegazetas-test```). 
+
+- Importar *dotenv* en la *api* (lo antes posible, línea 1) (```import 'dotenv/config'```) y sustituir esos datos en la *api* por su acceso de *dotenv* (```process.env.XXX```)
+
+- Implementar la lógica ***authenticateUser***
+
+- Generar el test básico ***authenticateUser.test*** para comprobar que la lógica funciona de manera aislada
+
+- Añadir ***authenticateUser*** al índice *(index.js)* de las lógicas
+
+- Generar los test para la lógica **authenticateUser** conectada a la *api* *(api/test/[authenticate-user.js, authenticate-user.sh])*

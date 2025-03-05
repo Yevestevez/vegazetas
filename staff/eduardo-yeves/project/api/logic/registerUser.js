@@ -10,7 +10,6 @@ const registerUser = (name, email, username, password) => {
     validate.email(email)
     validate.username(username)
     validate.password(password)
-    // bcrypt.hash()
 
     return bcrypt.hash(password, 10)
         .catch(error => { throw new SystemError(error.message) })
