@@ -16,7 +16,10 @@ function App() {
     const [view, setView] = useState('landing')
 
     const handleLoginLinkClick = () => setView('login')
+
     const handleRegisterLinkClick = () => setView('register')
+
+    const handleUserRegistered = () => setView('home')
 
     useEffect(() => {
         switch (view) {
@@ -30,7 +33,7 @@ function App() {
                 navigate('/login')
                 break
             case 'home':
-                navigate('/home')
+                navigate('/')
                 break
         }
     }, [view])
@@ -46,7 +49,7 @@ function App() {
             } />
 
             <Route path="/register" element={
-                <Register onLoginClicked={handleLoginLinkClick} />
+                <Register onLoginClicked={handleLoginLinkClick} onUserRegisterd={handleUserRegistered} />
             } />
 
             <Route path="/login" element={

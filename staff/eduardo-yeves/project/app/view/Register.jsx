@@ -1,4 +1,9 @@
-function Register({ onLoginClicked }) {
+import logic from '../logic'
+
+import { errors } from 'com'
+const { DuplicityError, SytemError } = errors
+
+function Register({ onLoginClicked, onUserRegisterd }) {
     const handleLoginLinkClick = event => {
         event.preventDefault()
 
@@ -8,8 +13,31 @@ function Register({ onLoginClicked }) {
     const handleFormSubmit = event => {
         event.preventDefault()
 
-        alert('form sent')
-        // implementar lógica registerUser y onUserRegistered() con props para pasar el resultado a App, que cambiará la vista a Login
+        const form = event.target
+
+        const name = form.name.value
+        const email = form.email.value
+        const username = form.username.value
+        const password = form.password.value
+
+        try {
+            logic.registerUser(name, email, username, password)
+                .then(() => {
+                    form.reset()
+
+                    onUserRegisterd()
+                })
+                .catch(error => {
+                    if (error instanceof DuplicityError)
+                        alert(error.message)
+                    else if (error instanceof SytemError)
+                        alert('Sorry, try again later')
+                })
+        } catch (error) {
+            alert(error.message)
+
+            console.error(error)
+        }
     }
 
     console.log('Register -> render')
