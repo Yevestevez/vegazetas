@@ -83,3 +83,15 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 - Implementar la lógica ***getUserName*** y su test aislado
 
 - Conectar la lógica ***getUserName*** con la *api*. Generar los test para la lógica ***getUserName*** conectada a la *api* *(api/test/[get-user-name.js, get-user-name.sh])*
+
+- implementar la ***app*** de manera básica *(npm init -y (module) / React / index.html, main.jsx y main.css / com / vite / tailwindcss / React Router DOM)*
+
+- Enlazamos todo y empezamos a pintar *Routes* y *Route* a las **4 vistas principales** *(Landing, Register, Login y Home)*
+
+- Mecanizar enlaces a la vista de *Register* y *Login* desde *Landing* mediante *onclick* y *props*
+
+- Mecanizar navegación con links entre las Register y Login
+
+- Crear formularios Register y Login (sin lógicas)
+
+<!-- - Implementar la lógica ***RegisterUser*** en ***App*** -->

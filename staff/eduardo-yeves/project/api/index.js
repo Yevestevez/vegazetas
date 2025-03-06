@@ -42,7 +42,7 @@ const startApi = () => {
 
                     res.json(token)
                 })
-                .catch(error => { throw new Error(error) })
+                .catch(error => res.status(400).json({ error: error.constructor.name, message: error.message }))
         } catch (error) {
             res.status(401).json({ error: error.constructor.name, message: error.message })
         }

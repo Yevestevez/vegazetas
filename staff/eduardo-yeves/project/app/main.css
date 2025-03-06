@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@layer components {
+    .input {
+        @apply flex border-1 border-black
+    }
+}
