@@ -25,7 +25,7 @@ function Register({ onLoginClicked, onUserRegisterd }) {
                 .then(() => {
                     form.reset()
 
-                    onUserRegisterd()
+                    onUserRegistered()
                 })
                 .catch(error => {
                     if (error instanceof DuplicityError)

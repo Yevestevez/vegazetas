@@ -96,4 +96,6 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Implementar la lógica ***RegisterUser*** en ***app*** y llamarla desde la vista *Register*
 
-<!-- - Implementar la lógica de ***LoginUser*** en ***app*** y llamarla desde la vista *Login* -->
+- Implementar la lógica de ***LoginUser*** en ***app*** y llamarla desde la vista *Login*
+
+<!-- - Implementar la lógica de ***getUserName*** en ***app*** y llamarla desde la vista *Home* -->

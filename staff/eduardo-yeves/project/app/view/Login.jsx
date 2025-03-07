@@ -1,4 +1,9 @@
-function Login({ onRegisterClicked }) {
+import logic from '../logic'
+
+import { errors } from 'com'
+const { NotFoundError, SytemError } = errors
+
+function Login({ onRegisterClicked, onUserLoggedIn }) {
     const handleRegisterLinkClick = event => {
         event.preventDefault()
 
@@ -8,7 +13,29 @@ function Login({ onRegisterClicked }) {
     const handleFormSubmit = event => {
         event.preventDefault()
 
-        alert('form sent')
+        const form = event.target
+
+        const email = form.email.value
+        const password = form.password.value
+
+        try {
+            logic.loginUser(email, password)
+                .then(() => {
+                    form.reset()
+
+                    onUserLoggedIn()
+                })
+                .catch(error => {
+                    if (error instanceof NotFoundError)
+                        alert(error.message)
+                    else if (error instanceof SytemError)
+                        alert('Sorry try again')
+                })
+        } catch (error) {
+            alert(error.message)
+
+            console.error(error)
+        }
     }
 
     console.log('Login -> render')
