@@ -1,7 +1,7 @@
 import logic from '../logic'
 
 import { errors } from 'com'
-const { NotFoundError, SytemError } = errors
+const { CredentialsError, SystemError } = errors
 
 function Login({ onRegisterClicked, onUserLoggedIn }) {
     const handleRegisterLinkClick = event => {
@@ -26,9 +26,9 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                     onUserLoggedIn()
                 })
                 .catch(error => {
-                    if (error instanceof NotFoundError)
+                    if (error instanceof CredentialsError)
                         alert(error.message)
-                    else if (error instanceof SytemError)
+                    else if (error instanceof SystemError)
                         alert('Sorry try again')
                 })
         } catch (error) {

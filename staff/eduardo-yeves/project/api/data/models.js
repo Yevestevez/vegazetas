@@ -23,7 +23,7 @@ const user = new Schema({
 })
 
 const ingredient = new Schema({
-    name: {
+    ingredientName: {
         type: String,
         required: true,
     },
@@ -51,7 +51,7 @@ const step = new Schema({
     note: {
         type: String,
     },
-    image: {
+    stepImage: {
         type: String
     }
 })
@@ -62,19 +62,19 @@ const recipe = new Schema({
         ref: 'User',
         required: true
     },
-    name: {
+    title: {
         type: String,
         required: true,
         unique: true
     },
+    images: [{
+        type: String
+    }],
     date: {
         type: Date,
         required: true,
         default: Date.now
     },
-    images: [{
-        type: String
-    }],
     description: {
         type: String,
     },
@@ -82,17 +82,18 @@ const recipe = new Schema({
         type: Number,
         required: true
     },
-    tags: [{
-        type: String
-    }],
     difficulty: {
         type: String,
         required: true,
         enum: ['easy', 'medium', 'difficult']
     },
-    ingredients: [
-        ingredient
-    ],
+    tags: [{
+        type: String
+    }],
+    ingredients: [{
+        type: String,
+        required: true
+    }],
     steps: [
         step
     ]

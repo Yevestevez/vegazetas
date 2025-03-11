@@ -98,4 +98,14 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Implementar la lógica de ***LoginUser*** en ***app*** y llamarla desde la vista *Login*
 
-<!-- - Implementar la lógica de ***getUserName*** en ***app*** y llamarla desde la vista *Home* -->
+- Implementar la lógica de ***getUserName*** en ***app*** y llamarla desde la vista *Home*
+
+- Implementar tests spec *(mocka/chai/c8)* para las 3 lógicas de usuario de la *api (authenticateUser, getUserName, RegisterUser)*
+
+- Crear lógica createRecipe y generar su test aislado
+
+<!-- - Conectar lógica createRecipe con api y generar test de api -->
+
+<!-- - Crear el componente CreateRecipe en app -->
+
+<!-- - Crear lógica createRecipe en app para conectar con api -->

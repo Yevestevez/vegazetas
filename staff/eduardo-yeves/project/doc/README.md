@@ -72,32 +72,32 @@ User
 - email *(string)*
 - username *(string)*
 - password *(string) - bcrypt*
-- image *(string)*
 
-**Ingredient**
-- name *(string)*
+**Ingredient** **¡ACTUALIZAR!**
+- id *(ObjectId)*
+- ingredientName *(string)*
 - quantity *(num)*
 - unit *(string)*
 - annotation *(string)*
 - main *(boolean (default: true))*
 
 **Step**
-- order *(number)*
+- id *(ObjectId)*
 - text *(string)*
 - note *(string)*
-- image *(string)* 
+- stepImage *(string)* 
 
 **Recipe**
 - id *(ObjectId)*
 - author *(ObjectId - User)*
-- date *(Date (default: Date.now))*
-- name *(string)*
 - images *(strings array)*
+- title *(string)*
+- date *(Date (default: Date.now))*
 - description *(string)*
 - time *(number)*
-- tags *(strings array)*
 - difficulty *(string)*
-- ingredients *(ingredients array)*
+- tags *(strings array)*
+- ingredients *(ingredients array)* **¡ACTUALIZAR!**
 - steps *(steps array)*
  
 

@@ -1,7 +1,7 @@
 import logic from '../logic'
 
 import { errors } from 'com'
-const { DuplicityError, SytemError } = errors
+const { DuplicityError, SystemError } = errors
 
 function Register({ onLoginClicked, onUserRegisterd }) {
     const handleLoginLinkClick = event => {
@@ -30,7 +30,7 @@ function Register({ onLoginClicked, onUserRegisterd }) {
                 .catch(error => {
                     if (error instanceof DuplicityError)
                         alert(error.message)
-                    else if (error instanceof SytemError)
+                    else if (error instanceof SystemError)
                         alert('Sorry, try again later')
                 })
         } catch (error) {
@@ -45,7 +45,7 @@ function Register({ onLoginClicked, onUserRegisterd }) {
     return <div>
         <h1>Hola Register!</h1>
 
-        <form className="flex flex-col gap-2 m-5" onSubmit={handleFormSubmit}>
+        <form className="flex flex-col gap-2 m-5 just " onSubmit={handleFormSubmit}>
             <label htmlFor="name">Name</label>
             <input className="input" type="text" id="name" />
 

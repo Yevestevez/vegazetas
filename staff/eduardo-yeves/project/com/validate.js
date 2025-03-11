@@ -8,14 +8,15 @@ const URL_REGEX = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-
 
 const validate = {
 
+    id(id, explain = 'id') {
+        if (typeof id !== 'string') throw new Error(`invalid ${explain} type`)
+        if (id.length < 10) throw new Error(`invalid ${explain} length`)
+    },
+
+    // User
     name(name) {
         if (typeof name !== 'string') throw new ValidationError('invalid name type')
         if (name.length < 1 || name.length > 30) throw new ValidationError('invalid name length')
-    },
-
-    username(username) {
-        if (typeof username !== 'string') throw new ValidationError('invalid username type')
-        if (!USERNAME_REGEX.test(username)) throw new ValidationError('invalid username syntax')
     },
 
     email(email) {
@@ -23,35 +24,43 @@ const validate = {
         if (!EMAIL_REGEX.test(email)) new ValidationError('invalid email syntax')
     },
 
+    username(username) {
+        if (typeof username !== 'string') throw new ValidationError('invalid username type')
+        if (!USERNAME_REGEX.test(username)) throw new ValidationError('invalid username syntax')
+        if (username.length < 1 || username.length > 25) throw new ValidationError('invalid username length')
+    },
+
     password(password) {
         if (typeof password !== 'string') throw new ValidationError('invalid password type')
         if (!PASSWORD_REGEX.test(password)) throw new ValidationError('invalid password syntax')
     },
 
-    quantity(quantity) {
-        if (typeof quantity !== 'number' || !Number.isInteger(quantity)) throw new ValidationError('invalid quantity type')
-        if (quantity.length < 1 || quantity.length > 10) throw new ValidationError('invalid quantity length')
-        if (quantity <= 0) throw new ValidationError('invalid quantity')
+    // Recipe
+    title(title) {
+        if (typeof title !== 'string') throw new ValidationError('invalid title type')
+        if (title.length < 1 || title.length > 80) throw new ValidationError('invalid title length')
     },
 
-    unit(unit) {
-        if (typeof unit !== 'string') throw new ValidationError('invalid unit type')
-        if (unit.length < 1 || unit.length > 20) throw new ValidationError('invalid unit lenght')
+    images(images) {
+        if (!Array.isArray(images)) throw new ValidationError('invalid images type')
+        if (images.length > 6) throw new ValidationError('too many images (max 6)')
+        if (images.some(image => typeof image !== 'string' || !URL_REGEX.test(image))) throw new ValidationError('invalid images syntax')
     },
 
-    note(note) {
-        if (typeof note !== 'string') throw new ValidationError('invalid note type')
-        if (note.length < 1 || note.length > 400) throw new ValidationError('invalid note length')
+    description(description) {
+        if (typeof description !== 'string') throw new ValidationError('invalid description type')
+        if (description.length < 1 || description.length > 300) throw new ValidationError('invalid description length')
     },
 
-    text(text) {
-        if (typeof text !== 'string') throw new ValidationError('invalid text type')
-        if (text.length < 1 || text.length > 300) throw new ValidationError('invalid text length')
+    time(time) {
+        if (typeof time !== 'number' || !Number.isInteger(time)) throw new ValidationError('invalid time type')
+        if (time.length < 1 || time.length > 4) throw new ValidationError('invalid time length')
+        if (time <= 0) throw new ValidationError('invalid time')
     },
 
-    image(image) {
-        if (typeof image !== 'string') throw new ValidationError('invalid image type')
-        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image syntax')
+    difficulty(difficulty) {
+        if (typeof difficulty !== 'string') throw new ValidationError('invalid difficulty type')
+        if (!['easy', 'medium', 'difficult'].includes(difficulty)) throw new ValidationError('invalid difficulty (must be easy, medium or difficult)')
     },
 
     tags(tags) {
@@ -60,12 +69,7 @@ const validate = {
         if (tags.some(tag => typeof tag !== 'string' || tag.length < 1 || tag.length > 20)) throw new ValidationError('each tag must be a string between 1 and 20 characters')
     },
 
-    difficulty(difficulty) {
-        if (typeof difficulty !== 'string') throw new ValidationError('invalid difficulty type')
-        if (difficulty !== 'easy' | difficulty !== 'medium' | difficulty !== 'difficult') throw new ValidationError('invalid difficulty (must be easy, medium or difficult')
-    },
-
-    Ingredients(ingredients) {
+    ingredients(ingredients) {
         if (!Array.isArray(ingredients)) throw new ValidationError('invalid ingredients type')
         if (ingredients.length > 30) throw new ValidationError('too many ingredients (max 30)')
     },
@@ -75,14 +79,42 @@ const validate = {
         if (steps.length > 20) throw new ValidationError('too many steps (max 20)')
     },
 
-    annotation(annotation) {
-        if (typeof annotation !== 'string') throw new ValidationError('invalid annotation type')
-        if (annotation.length < 20) throw new ValidationError('invalid annotation length')
+    // Step
+    text(text) {
+        if (typeof text !== 'string') throw new ValidationError('invalid text type')
+        if (text.length < 1 || text.length > 300) throw new ValidationError('invalid text length')
     },
 
-    id(id, explain = 'id') {
-        if (typeof id !== 'string') throw new Error(`invalid ${explain} type`)
-        if (id.length < 10) throw new Error(`invalid ${explain} length`)
+    note(note) {
+        if (typeof note !== 'string') throw new ValidationError('invalid note type')
+        if (note.length < 1 || note.length > 300) throw new ValidationError('invalid note length')
+    },
+
+    stepImage(stepImage) {
+        if (typeof stepImage !== 'string') throw new ValidationError('invalid stepImage type')
+        if (!URL_REGEX.test(stepImage)) throw new ValidationError('invalid stepImage syntax')
+    },
+
+    // Ingredient
+    ingredientName(ingredientName) {
+        if (typeof ingredientName !== 'string') throw new ValidationError('invalid ingredientName type')
+        if (ingredientName.length < 1 || ingredientName.length > 30) throw new ValidationError('invalid ingredientName length')
+    },
+
+    quantity(quantity) {
+        if (typeof quantity !== 'number' || !Number.isInteger(quantity)) throw new ValidationError('invalid quantity type')
+        if (quantity.length < 1 || quantity.length > 6) throw new ValidationError('invalid quantity length')
+        if (quantity <= 0) throw new ValidationError('invalid quantity')
+    },
+
+    unit(unit) {
+        if (typeof unit !== 'string') throw new ValidationError('invalid unit type')
+        if (unit.length < 1 || unit.length > 20) throw new ValidationError('invalid unit lenght')
+    },
+
+    annotation(annotation) {
+        if (typeof annotation !== 'string') throw new ValidationError('invalid annotation type')
+        if (annotation.length < 20) throw new ValidationError('invalid annotation length, max 20 characters')
     }
 }
 

@@ -1,7 +1,7 @@
 fetch('http://localhost:8080/users/', {
     method: 'GET',
     headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2M4MDYwNGMzMTBkM2NlYWZlYzMzMjciLCJpYXQiOjE3NDExOTA5MTN9.1kxWPSOrLvm2WDZPZXI0texXxFxboYStlxY7G_Me-nY'
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2M4MDYwNGMzMTBkM2NlYWZlYzMzMjciLCJpYXQiOjE3NDEzNTI5Njl9.mH6YX0z3pY79R3fA5v2DpHHqN8SXVsvjLhO_-V10PX8'
     }
 })
     .then(res => {
