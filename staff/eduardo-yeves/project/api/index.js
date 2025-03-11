@@ -8,7 +8,7 @@ import mongoose from 'mongoose'
 // import logic from './logic/index.js'
 // import jsonBodyParser from './middlewares/jsonBodyParser.js'
 
-import { usersRouter } from './routes/index.js'
+import { usersRouter, recipesRouter } from './routes/index.js'
 import errorHandler from './middlewares/errorHandler.js'
 
 const connectToDb = () => mongoose.connect(process.env.MONGO_URL)
@@ -22,6 +22,8 @@ const startApi = () => {
     api.get('/', (req, res) => res.send('Hello, API!'))
 
     api.use('/users', usersRouter)
+
+    api.use('/recipes', recipesRouter)
 
     api.use(errorHandler)
 
