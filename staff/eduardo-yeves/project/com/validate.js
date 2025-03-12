@@ -115,7 +115,13 @@ const validate = {
 
     annotation(annotation) {
         if (annotation && typeof annotation !== 'string') throw new ValidationError('invalid annotation type')
-        if (annotation && annotation.length < 20) throw new ValidationError('invalid annotation length, max 20 characters')
+        if (annotation && annotation.length > 20) throw new ValidationError('invalid annotation length, max 20 characters')
+    },
+
+    main(main) {
+        if (typeof main !== 'boolean') {
+            throw new ValidationError('main must be a boolean (true or false)')
+        }
     }
 }
 

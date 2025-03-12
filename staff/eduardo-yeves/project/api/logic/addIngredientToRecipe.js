@@ -3,28 +3,27 @@ import { Recipe } from '../data/models.js'
 import { validate, errors } from 'com'
 const { NotFoundError, SystemError } = errors
 
-const createIngredientsInRecipe = (recipeId, ingredients) => {
+const addIngredientToRecipe = (recipeId, name, quantity, unit, annotation, main) => {
     validate.id(recipeId, 'recipeId')
-    validate.ingredients(ingredients)
+    validate.name(name)
+    validate.quantity(quantity)
+    validate.unit(unit)
+    validate.annotation(annotation)
+    validate.main(main)
 
-    ingredients.forEach(({ name, quantity, unit, annotation }) => {
-        validate.name(name)
-        validate.quantity(quantity)
-        validate.unit(unit)
-        validate.annotation(annotation)
-    })
+    const ingredient = { name, quantity, unit, annotation, main }
 
     return Recipe.findById(recipeId)
         .catch(error => { throw new SystemError(error.message) })
         .then(recipe => {
             if (!recipe) throw new NotFoundError('recipe not found')
 
-            recipe.ingredients.push(...ingredients)
+            recipe.ingredients.push(ingredient)
 
             return recipe.save()
                 .catch(error => { throw new SystemError(error.message) })
         })
-        .then(ingredients => { })
+        .then(recipe => { })
 }
 
-export default createIngredientsInRecipe
+export default addIngredientToRecipe

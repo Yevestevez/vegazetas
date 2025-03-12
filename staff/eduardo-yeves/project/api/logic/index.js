@@ -3,7 +3,7 @@ import authenticateUser from './authenticateUser.js'
 import getUserName from './getUserName.js'
 import createRecipe from './createRecipe.js'
 import getMyRecipes from './getMyRecipes.js'
-import createIngredientsInRecipe from './createIngredientsInRecipe.js'
+import addIngredientToRecipe from './addIngredientToRecipe.js'
 
 const logic = {
     registerUser,
@@ -11,7 +11,7 @@ const logic = {
     getUserName,
     createRecipe,
     getMyRecipes,
-    createIngredientsInRecipe
+    addIngredientToRecipe
 }
 
 export default logic
