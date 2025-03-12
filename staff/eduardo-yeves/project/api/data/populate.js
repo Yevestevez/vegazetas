@@ -11,14 +11,12 @@ mongoose.connect('mongodb://localhost:27017/vegazetas')
 
         const step1 = new Step({ order: 1, text: 'sofríe el tofu hasta que se dore' })
 
-        const tofuCoreano = new Recipe({ author: ana._id, name: 'Tofu Coreano', time: 30, tags: ['tofu', 'coreano', 'picante', 'asiático', 'arroz'], difficulty: 'easy', ingredients: [tofu, arroz], steps: [step1] })
+        const tofuCoreano = new Recipe({ author: ana._id, title: 'Tofu Coreano', time: 30, tags: ['tofu', 'coreano', 'picante', 'asiático', 'arroz'], difficulty: 'easy', ingredients: [tofu, arroz], steps: [step1] })
 
-        return Promise.all([ana.save(), tofu.save(), arroz.save(), step1.save(), tofuCoreano.save()])
+        return Promise.all([ana.save(), tofuCoreano.save()])
     })
-    .then(([ana, tofu, arroz, step1, tofuCoreano]) => {
+    .then(([ana, tofuCoreano]) => {
         console.log('user saved', ana._id)
-        console.log('ingredients saved', tofu._id, arroz._id)
-        console.log('step saved', step1._id)
         console.log('recipe saved', tofuCoreano._id)
     })
     .catch(error => console.error(error))

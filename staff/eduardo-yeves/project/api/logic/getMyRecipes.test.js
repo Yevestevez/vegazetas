@@ -1,11 +1,11 @@
 import mongoose from 'mongoose'
-import getUserName from './getUserName.js'
+import getMyRecipes from './getMyRecipes.js'
 
 mongoose.connect('mongodb://localhost:27017/vegazetas')
     .then(() => {
         try {
-            getUserName('67d085c48f8bef38f0adc8db')
-                .then(result => console.log('user name:', result))
+            getMyRecipes('67d085c48f8bef38f0adc8db')
+                .then(recipes => console.log('recipes gotten', recipes))
                 .catch(error => console.error(error))
         } catch (error) {
             console.error(error)

@@ -23,7 +23,7 @@ const user = new Schema({
 })
 
 const ingredient = new Schema({
-    ingredientName: {
+    name: {
         type: String,
         required: true,
     },
@@ -90,10 +90,9 @@ const recipe = new Schema({
     tags: [{
         type: String
     }],
-    ingredients: [{
-        type: String,
-        required: true
-    }],
+    ingredients: [
+        ingredient
+    ],
     steps: [
         step
     ]

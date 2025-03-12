@@ -108,7 +108,7 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Crear ***spec test*** de ***createRecipe***
 
-<!-- - Crear lógica ***getRecipes*** y generar su *test aislado* -->
+- Crear lógica ***getRecipes*** y generar su *test aislado*
 
 <!-- - Conectar lógica ***getRecipes*** con api y generar *test de api* -->
 

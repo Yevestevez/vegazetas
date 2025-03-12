@@ -10,9 +10,7 @@ const createRecipe = (
     description,
     time,
     difficulty,
-    tags,
-    ingredients,
-    steps
+    tags
 ) => {
     validate.id(userId, 'userId')
     validate.title(title)
@@ -21,8 +19,6 @@ const createRecipe = (
     validate.time(time)
     validate.difficulty(difficulty)
     validate.tags(tags)
-    validate.ingredients(ingredients)
-    validate.steps(steps)
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -36,9 +32,7 @@ const createRecipe = (
                 description,
                 time,
                 difficulty,
-                tags,
-                ingredients,
-                steps
+                tags
             })
 
             return recipe.save()

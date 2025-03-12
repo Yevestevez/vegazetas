@@ -73,9 +73,9 @@ User
 - username *(string)*
 - password *(string) - bcrypt*
 
-**Ingredient** **¡ACTUALIZAR!**
+**Ingredient**
 - id *(ObjectId)*
-- ingredientName *(string)*
+- name *(string)*
 - quantity *(num)*
 - unit *(string)*
 - annotation *(string)*
@@ -97,7 +97,7 @@ User
 - time *(number)*
 - difficulty *(string)*
 - tags *(strings array)*
-- ingredients *(ingredients array)* **¡ACTUALIZAR!**
+- ingredients *(ingredients array)*
 - steps *(steps array)*
  
 

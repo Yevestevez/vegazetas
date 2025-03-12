@@ -27,8 +27,6 @@ describe('createRecipe', () => {
                     35, // time
                     'easy', // difficulty (easy | medium | difficult)
                     ['tofu', 'coreano', 'arroz', 'picante'], // tags
-                    ['tofu', 'arroz', 'cebolla', 'salsa de soja'], // ingredients
-                    [{ text: 'sofríe el tofu!' }] // steps
                 )
                     .then(result => {
                         expect(result).to.be.undefined
@@ -43,8 +41,6 @@ describe('createRecipe', () => {
                         expect(recipe.time).to.equal(35)
                         expect(recipe.difficulty).to.equal('easy')
                         expect(recipe.tags).to.deep.equal(['tofu', 'coreano', 'arroz', 'picante'])
-                        expect(recipe.ingredients).to.deep.equal(['tofu', 'arroz', 'cebolla', 'salsa de soja'])
-                        //expect(recipe.steps).to.deep.equal([{ text: 'sofríe el tofu!' }])
                     })
             })
     })
@@ -62,8 +58,6 @@ describe('createRecipe', () => {
                     35, // time
                     'easy', // difficulty (easy | medium | difficult)
                     ['tofu', 'coreano', 'arroz', 'picante'], // tags
-                    ['tofu', 'arroz', 'cebolla', 'salsa de soja'], // ingredients
-                    [{ text: 'sofríe el tofu!' }] // steps
                 )
             })
             .catch(error => catchedError = error)
