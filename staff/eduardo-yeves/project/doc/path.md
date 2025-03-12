@@ -116,6 +116,10 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Actualizar la lógica ***createIngredientsInRecipe*** a ***addIngredientToRecipe*** para añadir un ingrediente cada vez introduciendo los campos por parámetros
 
+<!-- - conectar la lógica addIngredientToRecipe con la api y generar su test de api -->
+
+<!-- - Crear el componente/vista Menu.jsx en app que redirige al resto de vistas (MyRecipes, Discover...) -->
+
 <!-- - Crear el componente ***Recipe.jsx*** en *app* -->
 
 <!-- - Crear el componente ***MyRecipes.jsx*** en *app* -->

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import logic from '../logic'
+import logic from '../../logic'
 
 import { errors } from 'com'
 const { NotFoundError, SystemError } = errors

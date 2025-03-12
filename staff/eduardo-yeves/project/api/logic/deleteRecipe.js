@@ -1,18 +1,12 @@
+import OwnershipError from 'com/errors/OwnershipError.js'
 import { User, Recipe } from '../data/models.js'
 
 import { validate, errors } from 'com'
 const { NotFoundError, SystemError } = errors
 
-const addIngredientToRecipe = (userId, recipeId, name, quantity, unit, annotation, main) => {
+const deleteRecipe = (userId, recipeId) => {
     validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
-    validate.name(name)
-    validate.quantity(quantity)
-    validate.unit(unit)
-    validate.annotation(annotation)
-    validate.main(main)
-
-    const ingredient = { name, quantity, unit, annotation, main }
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -24,13 +18,13 @@ const addIngredientToRecipe = (userId, recipeId, name, quantity, unit, annotatio
                 .then(recipe => {
                     if (!recipe) throw new NotFoundError('recipe not found')
 
-                    recipe.ingredients.push(ingredient)
+                    if (recipe.author.toString() !== userId) throw new OwnershipError('user is not author of recipe')
 
-                    return recipe.save()
+                    return recipe.deleteOne({ _id: recipe._id })
                         .catch(error => { throw new SystemError(error.message) })
                 })
         })
         .then(recipe => { })
 }
 
-export default addIngredientToRecipe
+export default deleteRecipe

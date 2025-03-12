@@ -1,18 +1,26 @@
-import { User, Recipe } from '../data/models.js'
+import { Recipe, User } from '../data/models.js'
 
 import { validate, errors } from 'com'
-const { NotFoundError, SystemError } = errors
+const { NotFoundError, SystemError, OwnershipError } = errors
 
-const addIngredientToRecipe = (userId, recipeId, name, quantity, unit, annotation, main) => {
+const updateRecipe = (
+    userId,
+    recipeId,
+    title,
+    images,
+    description,
+    time,
+    difficulty,
+    tags
+) => {
     validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
-    validate.name(name)
-    validate.quantity(quantity)
-    validate.unit(unit)
-    validate.annotation(annotation)
-    validate.main(main)
-
-    const ingredient = { name, quantity, unit, annotation, main }
+    validate.title(title)
+    validate.images(images)
+    validate.description(description)
+    validate.time(time)
+    validate.difficulty(difficulty)
+    validate.tags(tags)
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -24,13 +32,19 @@ const addIngredientToRecipe = (userId, recipeId, name, quantity, unit, annotatio
                 .then(recipe => {
                     if (!recipe) throw new NotFoundError('recipe not found')
 
-                    recipe.ingredients.push(ingredient)
+                    recipe.title = title
+                    recipe.images = images
+                    recipe.description = description
+                    recipe.time = time
+                    recipe.difficulty = difficulty
+                    recipe.tags = tags
 
                     return recipe.save()
                         .catch(error => { throw new SystemError(error.message) })
                 })
+
         })
         .then(recipe => { })
 }
 
-export default addIngredientToRecipe
+export default updateRecipe

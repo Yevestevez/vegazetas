@@ -1,19 +1,14 @@
 import mongoose from 'mongoose'
-import addIngredientToRecipe from './addIngredientToRecipe.js'
+import deleteRecipe from './deleteRecipe.js'
 
 mongoose.connect('mongodb://localhost:27017/vegazetas')
     .then(() => {
         try {
-            addIngredientToRecipe(
+            deleteRecipe(
                 '67d1cf5801353466dc7e899a', // userId
                 '67d1cf5801353466dc7e899e', // recipeId
-                'Salsa Sriracha', // name
-                2, // quantity
-                'g', // unit
-                'Picante!', // annotation
-                true // main
             )
-                .then(result => console.log('ingredient added to recipe', result))
+                .then(result => console.log('recipe deleted', result))
                 .catch(error => console.error(error))
         } catch (error) {
             console.error(error)
