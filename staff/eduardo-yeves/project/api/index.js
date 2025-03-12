@@ -27,50 +27,6 @@ const startApi = () => {
 
     api.use(errorHandler)
 
-    // api.post('/users', jsonBodyParser, (req, res) => {
-    //     try {
-    //         const { name, email, username, password } = req.body
-
-    //         logic.registerUser(name, email, username, password)
-    //             .then(() => res.status(201).send())
-    //             .catch(error => { throw new Error(error) })
-    //     } catch (error) {
-    //         res.status(400).json({ error: error.constructor.name, message: error.message })
-    //     }
-    // })
-
-    // api.post('/users/auth', jsonBodyParser, (req, res) => {
-    //     try {
-    //         const { email, password } = req.body
-
-    //         logic.authenticateUser(email, password)
-    //             .then(userId => {
-    //                 const payload = { sub: userId }
-    //                 const token = jwt.sign(payload, process.env.JWT_SECRET)
-
-    //                 res.json(token)
-    //             })
-    //             .catch(error => res.status(400).json({ error: error.constructor.name, message: error.message }))
-    //     } catch (error) {
-    //         res.status(401).json({ error: error.constructor.name, message: error.message })
-    //     }
-    // })
-
-    // api.get('/users', (req, res) => {
-    //     try {
-    //         const token = req.headers.authorization.slice(7)
-    //         const payload = jwt.verify(token, process.env.JWT_SECRET)
-
-    //         const { sub: userId } = payload
-
-    //         logic.getUserName(userId)
-    //             .then(name => res.json(name))
-    //             .catch(error => { throw new Error(error) })
-    //     } catch (error) {
-    //         res.status(404).json({ error: constructor.name, message: error.message })
-    //     }
-    // })
-
     api.listen(process.env.PORT, () => console.log(`API running on ${process.env.PORT}`))
 }
 

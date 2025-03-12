@@ -72,6 +72,7 @@ const validate = {
     ingredients(ingredients) {
         if (!Array.isArray(ingredients)) throw new ValidationError('invalid ingredients type')
         if (ingredients.length > 30) throw new ValidationError('too many ingredients (max 30)')
+        if (ingredients.length < 1) throw new ValidationError('there must be at least one ingredient')
     },
 
     steps(steps) {
@@ -108,13 +109,13 @@ const validate = {
     },
 
     unit(unit) {
-        if (typeof unit !== 'string') throw new ValidationError('invalid unit type')
-        if (unit.length < 1 || unit.length > 20) throw new ValidationError('invalid unit lenght')
+        if (unit && typeof unit !== 'string') throw new ValidationError('invalid unit type')
+        if (unit && (unit.length < 1 || unit.length > 20)) throw new ValidationError('invalid unit length')
     },
 
     annotation(annotation) {
-        if (typeof annotation !== 'string') throw new ValidationError('invalid annotation type')
-        if (annotation.length < 20) throw new ValidationError('invalid annotation length, max 20 characters')
+        if (annotation && typeof annotation !== 'string') throw new ValidationError('invalid annotation type')
+        if (annotation && annotation.length < 20) throw new ValidationError('invalid annotation length, max 20 characters')
     }
 }
 

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import createRecipe from './createRecipe.js'
-import { Step } from '../data/models.js'
 
 mongoose.connect('mongodb://localhost:27017/vegazetas')
     .then(() => {

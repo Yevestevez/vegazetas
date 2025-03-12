@@ -1,0 +1,1 @@
+curl -X GET -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2QwODVjNDhmOGJlZjM4ZjBhZGM4ZGIiLCJpYXQiOjE3NDE3NzcxMTJ9.vx54_bqswy7nrgiFywReSiByVs5whwYAraIv-wySytM' http://localhost:8080/recipes/ -v
