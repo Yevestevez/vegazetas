@@ -6,8 +6,11 @@ import createRecipe from './createRecipe.js'
 import getMyRecipes from './getMyRecipes.js'
 import deleteRecipe from './deleteRecipe.js'
 import updateRecipe from './updateRecipe.js'
+
 import addIngredientToRecipe from './addIngredientToRecipe.js'
 import removeIngredientFromRecipe from './removeIngredientFromRecipe.js'
+
+import addStepToRecipe from './addStepToRecipe.js'
 
 const logic = {
     registerUser,
@@ -19,7 +22,8 @@ const logic = {
     deleteRecipe,
     updateRecipe,
     addIngredientToRecipe,
-    removeIngredientFromRecipe
+    removeIngredientFromRecipe,
+    addStepToRecipe
 }
 
 export default logic

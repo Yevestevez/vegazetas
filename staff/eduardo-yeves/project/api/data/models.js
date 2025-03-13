@@ -51,7 +51,7 @@ const step = new Schema({
     note: {
         type: String,
     },
-    stepImage: {
+    image: {
         type: String
     }
 })

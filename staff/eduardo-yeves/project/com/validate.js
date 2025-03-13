@@ -91,9 +91,9 @@ const validate = {
         if (note.length < 1 || note.length > 300) throw new ValidationError('invalid note length')
     },
 
-    stepImage(stepImage) {
-        if (typeof stepImage !== 'string') throw new ValidationError('invalid stepImage type')
-        if (!URL_REGEX.test(stepImage)) throw new ValidationError('invalid stepImage syntax')
+    image(image) {
+        if (typeof image !== 'string') throw new ValidationError('invalid image type')
+        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image syntax')
     },
 
     // Ingredient

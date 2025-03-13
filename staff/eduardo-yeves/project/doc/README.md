@@ -85,7 +85,7 @@ User
 - id *(ObjectId)*
 - text *(string)*
 - note *(string)*
-- stepImage *(string)* 
+- image *(string)* 
 
 **Recipe**
 - id *(ObjectId)*

@@ -1,15 +1,22 @@
 import createRecipeHandler from './createRecipeHandler.js'
 import getMyRecipesHandler from './getMyRecipesHandler.js'
-import addIngredientToRecipeHandler from './addIngredientToRecipeHandler.js'
-import removeIngredientFromRecipeHandler from './removeIngredientFromRecipeHandler.js'
 import deleteRecipeHandler from './deleteRecipeHandler.js'
 import updateRecipeHandler from './updateRecipeHandler.js'
+
+import addIngredientToRecipeHandler from './addIngredientToRecipeHandler.js'
+import removeIngredientFromRecipeHandler from './removeIngredientFromRecipeHandler.js'
+
+import addStepToRecipeHandler from './addStepToRecipeHandler.js'
+
 
 export {
     createRecipeHandler,
     getMyRecipesHandler,
+    deleteRecipeHandler,
+    updateRecipeHandler,
+
     addIngredientToRecipeHandler,
     removeIngredientFromRecipeHandler,
-    deleteRecipeHandler,
-    updateRecipeHandler
+
+    addStepToRecipeHandler
 }
