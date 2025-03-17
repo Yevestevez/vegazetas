@@ -32,6 +32,8 @@ const updateRecipe = (
                 .then(recipe => {
                     if (!recipe) throw new NotFoundError('recipe not found')
 
+                    if (recipe.author.toString() !== userId) throw new OwnershipError('user is not author of recipe')
+
                     recipe.title = title
                     recipe.images = images
                     recipe.description = description

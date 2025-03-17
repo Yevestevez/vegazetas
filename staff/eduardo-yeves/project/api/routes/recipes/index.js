@@ -1,6 +1,17 @@
 import { Router } from 'express'
 
-import { createRecipeHandler, getMyRecipesHandler, deleteRecipeHandler, addIngredientToRecipeHandler, removeIngredientFromRecipeHandler, updateRecipeHandler, addStepToRecipeHandler } from './handlers/index.js'
+import {
+    createRecipeHandler,
+    getMyRecipesHandler,
+    deleteRecipeHandler,
+    updateRecipeHandler,
+
+    addIngredientToRecipeHandler,
+    removeIngredientFromRecipeHandler,
+
+    addStepToRecipeHandler,
+    removeStepFromRecipeHandler
+} from './handlers/index.js'
 
 import jsonBodyParser from '../../middlewares/jsonBodyParser.js'
 
@@ -15,5 +26,6 @@ router.post('/:recipeId/ingredients', jsonBodyParser, addIngredientToRecipeHandl
 router.delete('/:recipeId/ingredients/:ingredientId', removeIngredientFromRecipeHandler)
 
 router.post('/:recipeId/steps', jsonBodyParser, addStepToRecipeHandler)
+router.delete('/:recipeId/steps/:stepId', removeStepFromRecipeHandler)
 
 export default router

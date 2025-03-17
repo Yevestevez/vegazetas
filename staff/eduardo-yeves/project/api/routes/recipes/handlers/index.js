@@ -7,6 +7,7 @@ import addIngredientToRecipeHandler from './addIngredientToRecipeHandler.js'
 import removeIngredientFromRecipeHandler from './removeIngredientFromRecipeHandler.js'
 
 import addStepToRecipeHandler from './addStepToRecipeHandler.js'
+import removeStepFromRecipeHandler from './removeStepFromRecipeHandler.js'
 
 
 export {
@@ -18,5 +19,6 @@ export {
     addIngredientToRecipeHandler,
     removeIngredientFromRecipeHandler,
 
-    addStepToRecipeHandler
+    addStepToRecipeHandler,
+    removeStepFromRecipeHandler
 }

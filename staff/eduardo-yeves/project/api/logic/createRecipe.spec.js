@@ -12,9 +12,9 @@ const { NotFoundError } = errors
 import createRecipe from './createRecipe.js'
 
 describe('createRecipe', () => {
-    before(() => mongoose.connect(process.env.TEST_MONGO_URL));
+    before(() => mongoose.connect(process.env.TEST_MONGO_URL))
 
-    beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]));
+    beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
     it('succeeds on existing user', () => {
         return User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: '123123123' })
@@ -67,7 +67,7 @@ describe('createRecipe', () => {
             })
     })
 
-    afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]));
+    afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    after(() => mongoose.disconnect());
+    after(() => mongoose.disconnect())
 })

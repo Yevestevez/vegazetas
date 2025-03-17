@@ -126,13 +126,9 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Crear lógica ***addStepToRecipe***, su test aislado, conectar con *api* y generar test de *api*
 
-<!-- - Crear lógica ***removeSteptoRecipe***, su test aislado, conectar con *api* y generar test de *api* -->
+- Crear lógica ***removeSteptoRecipe***, su test aislado, conectar con *api* y generar test de *api*
 
-<!-- - Comprobar los spec test de las lógicas que ya tengo ***(authenticateUser, createRecipe, getUserName, registerUser)*** -->
-
-<!-- - Generar los spec test de las lógicas que me faltan ***(addIngredienteToRecipe, addStepToRecipe, deleteRecipe, getMyRecipes, removeIngredientFromRecipe, removeStepFromRecipe, updateRecipe)*** -->
-
-
+- Generar los spec test de las lógicas que me faltan ***(addIngredienteToRecipe, addStepToRecipe, deleteRecipe, getMyRecipes, removeIngredientFromRecipe, removeStepFromRecipe, updateRecipe)***
 
 <!-- - Trabajar estilos de las vistas iniciales de la app (Landing, Register,  Login) -->
 
