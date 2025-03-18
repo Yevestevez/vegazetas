@@ -43,8 +43,6 @@ function App() {
     console.log('App -> render')
 
     return <>
-        <h1>HOLA APP!</h1>
-
         <Routes>
             <Route path="/landing" element={
                 <Landing onLoginClicked={handleLoginLinkClick} onRegisterClicked={handleRegisterLinkClick} />
