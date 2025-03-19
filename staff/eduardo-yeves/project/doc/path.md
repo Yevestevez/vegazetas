@@ -130,7 +130,7 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Generar los spec test de las lógicas que me faltan ***(addIngredienteToRecipe, addStepToRecipe, deleteRecipe, getMyRecipes, removeIngredientFromRecipe, removeStepFromRecipe, updateRecipe)***
 
-<!-- - Trabajar estilos de las vistas iniciales de la app (Landing, Register,  Login) -->
+- Trabajar estilos de las vistas iniciales de la app (Landing, Register,  Login)
 
 
 <!-- - Crear el componente/vista Menu.jsx en app que redirige al resto de vistas (MyRecipes, Discover...) -->
