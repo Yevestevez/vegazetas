@@ -132,16 +132,30 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Trabajar estilos de las vistas iniciales de la app (Landing, Register,  Login)
 
+- Crear el árbol de componentes y reflejarlo en README.md para tener clara la estructura de la app 
 
-<!-- - Crear el componente/vista Menu.jsx en app que redirige al resto de vistas (MyRecipes, Discover...) -->
+- Agregar lógicas isUserLoggedIn y logoutUser en app/logic y usar isUserLoggedIn en App.jsx
 
-<!-- - Crear el componente ***Recipe.jsx*** en *app* -->
+- Diferenciar Header en dos componentes distintos según la vista:
 
-<!-- - Crear el componente ***MyRecipes.jsx*** en *app* -->
+    - Crear Header (Menu) con botón logout y conectar lógica logoutUser
 
-<!-- - Llamar a ***Recipe*** desde ***MyRecipes*** *(map)* para pintar todas mis recetas -->
+    <!-- - Crear Header (resto vistas) más pequeño y con botón logout y conectar lógica logoutUser -->
 
-<!-- - Llamar a Recipes desde ***Discover*** para pintar las recetas (por ahora que muestre todas, sin filtrar) -->
+- Agregar lógica getMyRecipes en app/logic para usarlo en MyRecipes/RecipeThumbnail
+
+- Crear el componente/vista Menu.jsx en app que redirige al resto de vistas (MyRecipes, Discover...)
+
+- Crear el componente ***Recipe.jsx*** en *app*
+
+- Crear el componente ***MyRecipes.jsx*** en *app*
+
+- Llamar a ***RecipeThumbnail*** desde ***MyRecipes*** *(map)* para pintar todas las miniaturas de mis recetas
+
+<!-- - Actualizar RecipeThumbnail.jsx para que muestre las miniaturas correctamente -->
+
+<!-- - Actualizar Recipe.jsx para que muestre la receta entera -->
+
 
 <!-- - Crear lógica createRecipe en app para conectar con api -->
 

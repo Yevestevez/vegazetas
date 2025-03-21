@@ -1,38 +1,68 @@
-import { useState, useEffect } from 'react'
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
-import logic from '../../logic'
+import Menu from './Menu'
+import MyRecipes from './MyRecipes'
+import Recipe from './common/Recipe'
 
-import { errors } from 'com'
-const { NotFoundError, SystemError } = errors
+function Home({ onUserLoggedOut }) {
+    const navigate = useNavigate()
+    const location = useLocation()
 
-function Home() {
-    const [name, setName] = useState(null)
+    let viewInPath = location.pathname.slice(1)
+    if (viewInPath !== 'my-recipes' && viewInPath !== 'create-recipe' && !viewInPath.startsWith('recipe'))
+        viewInPath = 'menu'
+
+    const [view, setView] = useState('menu') // useState(viewInPath)???
+    const [selectedRecipe, setSelectedRecipe] = useState(null)
+
+    const handleMyRecipesLinkClick = () => setView('my-recipes')
+    // const handlecreateRecipeLinkClick = () => setView('create-recipe')
+    const handleRecipeThumbnailClick = (recipe) => {
+        setSelectedRecipe(recipe)
+        setView('recipe')
+    }
+
+    const handleUserLoggedOut = () => onUserLoggedOut()
 
     useEffect(() => {
-        console.log('Home -> "componentDidMount" (useEffect)')
-
-        try {
-            logic.getUserName()
-                .then(name => setName(name))
-                .catch(error => {
-                    if (error instanceof NotFoundError)
-                        alert(error.message)
-                    else if (error instanceof SystemError)
-                        alert('sorry, try again')
-                })
-        } catch (error) {
-            alert(error.message)
-
-            console.error(error)
+        switch (view) {
+            case 'menu':
+                navigate('/menu')
+                break
+            case 'my-recipes':
+                navigate('/my-recipes')
+                break
+            case 'recipe':
+                if (selectedRecipe) navigate(`/recipe/${selectedRecipe.id}`)
+                break
         }
-    }, [])
+    }, [view, selectedRecipe])
 
     console.log('Home -> render')
 
-    return <div>
-        <h1>Hola Home!</h1>
-        <h2>{name}</h2>
-    </div>
+    return <main>
+        <Routes>
+            <Route
+                path="/menu"
+                element={<Menu
+                    onMyRecipesClicked={handleMyRecipesLinkClick}
+                    onUserLoggedOut={handleUserLoggedOut}
+                />}
+            />
+
+            <Route
+                path="/my-recipes"
+                element={<MyRecipes
+                    onRecipeThumbnailClick={handleRecipeThumbnailClick}
+                />}
+            />
+
+            <Route
+                path="/recipe/:id"
+                element={<Recipe recipe={selectedRecipe} />} />
+        </Routes>
+    </main>
 }
 
 export default Home

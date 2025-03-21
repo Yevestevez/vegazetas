@@ -5,7 +5,7 @@ mongoose.connect('mongodb://localhost:27017/vegazetas')
     .then(() => {
         try {
             createRecipe(
-                '67d085c48f8bef38f0adc8db', // userId
+                '67d1cf5801353466dc7e899a', // userId
                 'Tofu coreano 10', // title
                 ['https://danzadefogones.com/wp-content/uploads/2018/01/Tofu-picante-estilo-coreano.jpg', 'https://danzadefogones.com/wp-content/uploads/2018/01/Tofu-picante-estilo-coreano-4.jpg'], // images
                 'Descripción de la receta', // description

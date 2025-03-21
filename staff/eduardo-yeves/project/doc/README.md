@@ -99,7 +99,34 @@ User
 - tags *(strings array)*
 - ingredients *(ingredients array)*
 - steps *(steps array)*
- 
+
+### UI Components
+
+```sh
+App
+ |- Landing
+ |- Register
+ |- Login
+ |- Home
+    # |- Profile (edit, delete...)
+    |- Menu
+    |- MyRecipes
+        |- [RecipeThumbnail]
+    |- Recipe
+        |- DeleteRecipe
+        |- UpdateRecipe
+            |- AddIngredientToRecipe
+            |- RemoveIngredientToRecipe
+            |- AddStepToRecipe
+            |- RemoveStepToRecipe
+    # |- Favorites
+    # |- Lists
+    # |- Menus
+    # |- Shopping list
+    # |- Discover
+    # |- Links
+    |- CreateRecipe
+ ```
 
 ### Coverage
 
