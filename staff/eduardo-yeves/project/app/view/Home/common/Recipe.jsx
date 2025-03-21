@@ -5,15 +5,19 @@
 // import formatDate from '../helper/formatDate'
 
 // import { useAppContext } from '../../context'
+import Header from '../common/Header'
 
-import { useParams } from "react-router-dom"
+function Recipe({ recipe, onUserLoggedOut, onLogoClicked }) {
+    const handleUserLoggedOut = () => onUserLoggedOut()
 
-function Recipe({ recipes }) {
-
+    const handleLogoLinkCLick = () => onLogoClicked()
     console.log('Recipe -> render');
 
-    return <article>
-
+    return <article className='pt-25'>
+        <Header
+            onUserLoggedOut={handleUserLoggedOut}
+            onLogoClicked={handleLogoLinkCLick}
+        />
         <h3>Hi, Recipe!</h3>
 
         <h3>{recipe.title}</h3>

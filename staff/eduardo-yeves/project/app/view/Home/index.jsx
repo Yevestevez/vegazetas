@@ -10,6 +10,7 @@ function Home({ onUserLoggedOut }) {
     const location = useLocation()
 
     let viewInPath = location.pathname.slice(1)
+
     if (viewInPath !== 'my-recipes' && viewInPath !== 'create-recipe' && !viewInPath.startsWith('recipe'))
         viewInPath = 'menu'
 
@@ -22,6 +23,8 @@ function Home({ onUserLoggedOut }) {
         setSelectedRecipe(recipe)
         setView('recipe')
     }
+
+    const handleLogoLinkClick = () => setView('menu')
 
     const handleUserLoggedOut = () => onUserLoggedOut()
 
@@ -37,7 +40,7 @@ function Home({ onUserLoggedOut }) {
                 if (selectedRecipe) navigate(`/recipe/${selectedRecipe.id}`)
                 break
         }
-    }, [view, selectedRecipe])
+    }, [view, selectedRecipe, location.pathname, navigate])
 
     console.log('Home -> render')
 
@@ -55,12 +58,19 @@ function Home({ onUserLoggedOut }) {
                 path="/my-recipes"
                 element={<MyRecipes
                     onRecipeThumbnailClick={handleRecipeThumbnailClick}
+                    onUserLoggedOut={handleUserLoggedOut}
+                    onLogoClicked={handleLogoLinkClick}
                 />}
             />
 
             <Route
                 path="/recipe/:id"
-                element={<Recipe recipe={selectedRecipe} />} />
+                element={<Recipe
+                    recipe={selectedRecipe}
+                    onUserLoggedOut={handleUserLoggedOut}
+                    onLogoClicked={handleLogoLinkClick}
+                />}
+            />
         </Routes>
     </main>
 }

@@ -3,7 +3,7 @@ import logic from '../../../logic'
 
 import { FaRegUserCircle } from "react-icons/fa"
 
-function Header({ onUserLoggedOut }) {
+function Header({ onUserLoggedOut, onLogoClicked }) {
     const [name, setName] = useState(null)
 
     useEffect(() => {
@@ -37,30 +37,34 @@ function Header({ onUserLoggedOut }) {
         }
     }
 
+    const handleLogoLinkClick = event => {
+        event.preventDefault()
+
+        onLogoClicked()
+    }
+
     console.log('Header -> render')
 
     // Estilos comunes (TailwindCSS)
     const logoClasses = `
-    text-[13vw] 
+    text-[8vw]/[80%]
     anybody-logo text-center
-    text-aquamarine
+    text-sgbus-green
     drop-shadow-[0.1em_0.1em_0_rgba(0,0,0,0.8)]
 `
-    return <>
-        <div className="flex flex-col items-center pt-6 pb-6 w-full gap-2 bg-folly ">
-            <h1 className={logoClasses}>Vegazetas</h1>
+    return <div className="fixed top-0 flex flex-row items-center justify-between py-5 px-10 w-full bg-veronica z-10">
+        <a href="" onClick={handleLogoLinkClick}>
+            <h1 className={logoClasses}>Vega<br></br>zetas</h1>
+        </a>
 
-            <div className="flex flex-row gap-6 items-center">
-                <FaRegUserCircle className="text-aquamarine text-[17vw] drop-shadow-[1.3vw_1.3vw_0_rgba(0,0,0,0.8)] bg-folly rounded-full" />
+        <div className="flex flex-row gap-3 items-center align-middle justify-center">
+            <button className="anybody text-sgbus-green text-[2.7vw]/[130%]" type="button" onClick={handleLogoutButtonClick}>Cerrar<br></br>sesión</button>
 
-                <div className="flex flex-col items-start">
-                    <h2 className="anybody-title text-aquamarine text-[5.5vw] -mb-1 drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]">{name}</h2>
-                    <p className="anybody text-aquamarine text-[3.5vw] font-semibold">¿Qué vas a comer hoy?</p>
-                    <button className="anybody text-aquamarine text-[2.5vw] mt-2 underline underline-offset-3 decoration-2" type="button" onClick={handleLogoutButtonClick}>Cerrar sesión</button>
-                </div>
-            </div>
+            <FaRegUserCircle className="text-sgbus-green text-[13vw] drop-shadow-[1.3vw_1.3vw_0_rgba(0,0,0,0.8)] bg-veronica rounded-full" />
+
+
         </div>
-    </>
+    </div>
 }
 
 export default Header

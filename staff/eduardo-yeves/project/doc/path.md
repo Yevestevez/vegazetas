@@ -130,21 +130,21 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Generar los spec test de las lógicas que me faltan ***(addIngredienteToRecipe, addStepToRecipe, deleteRecipe, getMyRecipes, removeIngredientFromRecipe, removeStepFromRecipe, updateRecipe)***
 
-- Trabajar estilos de las vistas iniciales de la app (Landing, Register,  Login)
+- Trabajar **estilos** de las vistas iniciales de la app *(Landing, Register,  Login)*
 
-- Crear el árbol de componentes y reflejarlo en README.md para tener clara la estructura de la app 
+- Crear el **árbol de componentes** y reflejarlo en README.md para tener clara la estructura de la app 
 
-- Agregar lógicas isUserLoggedIn y logoutUser en app/logic y usar isUserLoggedIn en App.jsx
+- Agregar lógicas ***isUserLoggedIn*** y ***logoutUser*** en *app/logic* y usar ***isUserLoggedIn*** en *App.jsx*
 
 - Diferenciar Header en dos componentes distintos según la vista:
 
-    - Crear Header (Menu) con botón logout y conectar lógica logoutUser
+    - Crear Header (Menu) con ***botón logout*** y conectar lógica ***logoutUser***
 
     <!-- - Crear Header (resto vistas) más pequeño y con botón logout y conectar lógica logoutUser -->
 
-- Agregar lógica getMyRecipes en app/logic para usarlo en MyRecipes/RecipeThumbnail
+- Agregar lógica ***getMyRecipes*** en *app/logic* para usarlo en *MyRecipes/RecipeThumbnail*
 
-- Crear el componente/vista Menu.jsx en app que redirige al resto de vistas (MyRecipes, Discover...)
+- Crear el componente ***Menu.jsx*** en *app* que redirige al resto de vistas *(MyRecipes, Discover...)*
 
 - Crear el componente ***Recipe.jsx*** en *app*
 
@@ -152,10 +152,15 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Llamar a ***RecipeThumbnail*** desde ***MyRecipes*** *(map)* para pintar todas las miniaturas de mis recetas
 
-<!-- - Actualizar RecipeThumbnail.jsx para que muestre las miniaturas correctamente -->
+- Crear *app/views/helper* y añadir ***formatDate.js*** que luego usaré en *RecipeThumbnail* y *Recipe para mostrar* la fecha de la receta correctamente
 
-<!-- - Actualizar Recipe.jsx para que muestre la receta entera -->
+- Implementar **link en el logo de *Header*** común, que redirige a *Menu*
 
+- Actualizar estilos de RecipeThumbnail.jsx para que muestre las miniaturas correctamente
+
+- Conectar RecipeThumbnail con Recipe pasando la receta por props
+
+<!-- - Actualizar Recipe.jsx para que muestre la receta entera y tocar mínimamente estilos -->
 
 <!-- - Crear lógica createRecipe en app para conectar con api -->
 

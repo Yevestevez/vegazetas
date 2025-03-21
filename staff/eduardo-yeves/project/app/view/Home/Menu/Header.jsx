@@ -47,7 +47,7 @@ function Header({ onUserLoggedOut }) {
     drop-shadow-[0.1em_0.1em_0_rgba(0,0,0,0.8)]
 `
     return <>
-        <div className="flex flex-col items-center pt-6 pb-6 w-full gap-2 bg-folly ">
+        <div className="flex flex-col items-center py-6 w-full gap-2 bg-folly ">
             <h1 className={logoClasses}>Vegazetas</h1>
 
             <div className="flex flex-row gap-6 items-center">
@@ -56,7 +56,7 @@ function Header({ onUserLoggedOut }) {
                 <div className="flex flex-col items-start">
                     <h2 className="anybody-title text-aquamarine text-[5.5vw] -mb-1 drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]">{name}</h2>
                     <p className="anybody text-aquamarine text-[3.5vw] font-semibold">¿Qué vas a comer hoy?</p>
-                    <button className="anybody text-aquamarine text-[2.5vw] mt-2 underline underline-offset-3 decoration-2" type="button" onClick={handleLogoutButtonClick}>Cerrar sesión</button>
+                    <button className="anybody text-aquamarine text-[2.7vw] mt-2" type="button" onClick={handleLogoutButtonClick}>Cerrar sesión</button>
                 </div>
             </div>
         </div>

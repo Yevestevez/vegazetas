@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 
 import logic from '../../../logic'
 import RecipeThumbnail from '../common/RecipeThumbnail'
+import Header from '../common/Header'
 
 // import { useAppContext } from '../../context';
 
-function MyRecipes({ onRecipeThumbnailClick }) {
+function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked }) {
     // const { alert } = useAppContext();
 
     const [myRecipes, setMyRecipes] = useState([])
@@ -35,15 +36,21 @@ function MyRecipes({ onRecipeThumbnailClick }) {
     const handleRecipeDeleted = () => loadMyRecipes()
     const handleRecipeUpdated = () => loadMyRecipes()
     const handleRecipeThumbnailClick = (recipe) => onRecipeThumbnailClick(recipe)
+    const handleUserLoggedOut = () => onUserLoggedOut()
+
+    const handleLogoLinkCLick = () => onLogoClicked()
 
     console.log('MyRecipes -> render')
 
-    return <>
-        <div>
-            <h1>Hello, MyRecipes</h1>
-        </div>
+    return <div className="flex flex-col items-center text-center bg-canary h-full w-screen pt-25">
+        <Header
+            onUserLoggedOut={handleUserLoggedOut}
+            onLogoClicked={handleLogoLinkCLick}
+        />
 
-        <main>
+        <h1 className="py-3 anybody-logo text-folly text-[6vw] drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]">Tus recetas</h1>
+
+        <main className="w-full">
             {myRecipes.map(recipe => (
                 <RecipeThumbnail
                     key={recipe.id}
@@ -53,7 +60,7 @@ function MyRecipes({ onRecipeThumbnailClick }) {
                     onRecipeThumbnailClick={() => handleRecipeThumbnailClick(recipe)}
                 />))}
         </main>
-    </>
+    </div>
 }
 
 export default MyRecipes
