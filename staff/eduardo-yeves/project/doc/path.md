@@ -160,7 +160,9 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Conectar RecipeThumbnail con Recipe pasando la receta por props
 
-<!-- - Actualizar Recipe.jsx para que muestre la receta entera y tocar mínimamente estilos -->
+- Actualizar ***Recipe.jsx*** para que muestre la receta entera y aplicar estilos
+
+- Actualizar ***populate*** con 2 usuarios y 2 recetas nuevas
 
 <!-- - Crear lógica createRecipe en app para conectar con api -->
 

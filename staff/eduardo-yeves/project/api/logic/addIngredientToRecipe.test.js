@@ -6,11 +6,11 @@ mongoose.connect('mongodb://localhost:27017/vegazetas')
         try {
             addIngredientToRecipe(
                 '67d1cf5801353466dc7e899a', // userId
-                '67d1cf5801353466dc7e899e', // recipeId
-                'Salsa Sriracha', // name
-                2, // quantity
+                '67dc62da801658ed71cff7d9', // recipeId
+                'Tofu', // name
+                200, // quantity
                 'g', // unit
-                'Picante!', // annotation
+                'nota', // annotation
                 true // main
             )
                 .then(result => console.log('ingredient added to recipe', result))

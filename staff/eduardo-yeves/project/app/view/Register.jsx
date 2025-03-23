@@ -3,7 +3,7 @@ import logic from '../logic'
 import { errors } from 'com'
 const { DuplicityError, SystemError } = errors
 
-function Register({ onLoginClicked, onUserRegisterd }) {
+function Register({ onLoginClicked, onUserRegistered }) {
     const handleLoginLinkClick = event => {
         event.preventDefault()
 
