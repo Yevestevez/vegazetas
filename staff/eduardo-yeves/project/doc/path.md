@@ -164,6 +164,8 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Actualizar ***populate*** con 2 usuarios y 2 recetas nuevas
 
-<!-- - Crear lógica createRecipe en app para conectar con api -->
+- Crear lógica createRecipe en app para conectar con api
 
-<!-- - Crear el componente CreateRecipe en app -->
+- Crear el componente CreateRecipe en app
+
+<!-- - Actualizar el componente CreateRecipe para que admita los campos necesarios -->

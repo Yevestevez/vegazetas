@@ -1,9 +1,10 @@
-import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import Menu from './Menu'
 import MyRecipes from './MyRecipes'
 import Recipe from './common/Recipe'
+import CreateRecipe from './CreateRecipe'
 
 function Home({ onUserLoggedOut }) {
     const navigate = useNavigate()
@@ -18,7 +19,7 @@ function Home({ onUserLoggedOut }) {
     const [selectedRecipe, setSelectedRecipe] = useState(null)
 
     const handleMyRecipesLinkClick = () => setView('my-recipes')
-    // const handlecreateRecipeLinkClick = () => setView('create-recipe')
+    const handleCreateRecipeClick = () => setView('create-recipe')
     const handleRecipeThumbnailClick = (recipe) => {
         setSelectedRecipe(recipe)
         setView('recipe')
@@ -28,6 +29,8 @@ function Home({ onUserLoggedOut }) {
 
     const handleUserLoggedOut = () => onUserLoggedOut()
 
+
+
     useEffect(() => {
         switch (view) {
             case 'menu':
@@ -35,6 +38,9 @@ function Home({ onUserLoggedOut }) {
                 break
             case 'my-recipes':
                 navigate('/my-recipes')
+                break
+            case 'create-recipe':
+                navigate('/create-recipe')
                 break
             case 'recipe':
                 if (selectedRecipe) navigate(`/recipe/${selectedRecipe.id}`)
@@ -51,6 +57,7 @@ function Home({ onUserLoggedOut }) {
                 element={<Menu
                     onMyRecipesClicked={handleMyRecipesLinkClick}
                     onUserLoggedOut={handleUserLoggedOut}
+                    onCreateRecipeClicked={handleCreateRecipeClick}
                 />}
             />
 
@@ -69,6 +76,12 @@ function Home({ onUserLoggedOut }) {
                     recipe={selectedRecipe}
                     onUserLoggedOut={handleUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
+                />}
+            />
+
+            <Route
+                path="/create-recipe"
+                element={<CreateRecipe
                 />}
             />
         </Routes>

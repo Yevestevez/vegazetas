@@ -4,6 +4,7 @@ import getUserName from "./getUserName"
 import isUserLoggedIn from "./isUserLoggedIn"
 import logoutUser from "./logoutUser"
 import getMyRecipes from "./getMyRecipes"
+import createRecipe from "./createRecipe"
 
 const logic = {
     registerUser,
@@ -11,7 +12,8 @@ const logic = {
     getUserName,
     isUserLoggedIn,
     logoutUser,
-    getMyRecipes
+    getMyRecipes,
+    createRecipe
 }
 
 export default logic

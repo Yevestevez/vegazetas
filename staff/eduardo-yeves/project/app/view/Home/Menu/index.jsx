@@ -1,6 +1,6 @@
 import Header from './Header'
 
-function Menu({ onMyRecipesClicked, onUserLoggedOut }) {
+function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
     const handleMyRecipesLinkClick = event => {
         event.preventDefault()
 
@@ -8,6 +8,12 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut }) {
     }
 
     const handleUserLoggedOut = () => onUserLoggedOut()
+
+    const handleCreateRecipeClick = event => {
+        event.preventDefault()
+
+        onCreateRecipeClicked()
+    }
 
 
     console.log('Menu -> render')
@@ -73,7 +79,7 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut }) {
                 <a className={`${linkClasses} bg-aquamarine mt-[6vw] text-dark-orange -rotate-1 hover:rotate-2`} href="" >Descubre</a>
                 <a className={`${linkClasses} bg-dark-orange mt-[6vw] text-veronica rotate-1 hover:-rotate-2`} href="" >Enlaces</a>
             </div>
-            <a className={`${btnClasses}flex items-center justify-center text-center bg-folly mt-[8vw] text-spring-bud`} href="" >Nueva<br></br>receta</a>
+            <a className={`${btnClasses}flex items-center justify-center text-center bg-folly mt-[8vw] text-spring-bud`} href="" onClick={handleCreateRecipeClick}>Nueva<br></br>receta</a>
         </main>
     </div>
 }
