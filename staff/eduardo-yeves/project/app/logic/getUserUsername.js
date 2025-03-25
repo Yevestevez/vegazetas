@@ -1,7 +1,7 @@
 import { errors } from 'com'
 
-const getUserName = () => {
-    return fetch(`${import.meta.env.VITE_API_URL}/users/name`, {
+const getUserUsername = () => {
+    return fetch(`${import.meta.env.VITE_API_URL}/users/username`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`
@@ -26,4 +26,4 @@ const getUserName = () => {
         })
 }
 
-export default getUserName
+export default getUserUsername

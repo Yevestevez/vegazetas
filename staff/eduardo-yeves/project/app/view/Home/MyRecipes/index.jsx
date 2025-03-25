@@ -35,7 +35,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked }) {
 
     const handleRecipeDeleted = () => loadMyRecipes()
     const handleRecipeUpdated = () => loadMyRecipes()
-    const handleRecipeThumbnailClick = (recipe) => onRecipeThumbnailClick(recipe)
+    const handleRecipeThumbnailClick = (recipeId) => onRecipeThumbnailClick(recipeId)
     const handleUserLoggedOut = () => onUserLoggedOut()
 
     const handleLogoLinkCLick = () => onLogoClicked()
@@ -57,7 +57,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked }) {
                     recipe={recipe}
                     onRecipeDeleted={handleRecipeDeleted}
                     onRecipeUpdated={handleRecipeUpdated}
-                    onRecipeThumbnailClick={() => handleRecipeThumbnailClick(recipe)}
+                    onRecipeThumbnailClick={handleRecipeThumbnailClick}
                 />))}
         </main>
     </div>

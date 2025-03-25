@@ -16,7 +16,7 @@ describe('getMyRecipes', () => {
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it('succeeds on existing user and recipes', () => {
+    it.only('succeeds on existing user and recipes', () => {
         const frodo = new User({ name: 'Frodo Baggins', email: 'frodo@baggins.com', username: 'FrodoBaggins', password: '123123123' })
         const sam = new User({ name: 'Sam Gamgee', email: 'sam@gamgee.com', username: 'SamGamgee', password: '123123123' })
 
@@ -39,12 +39,12 @@ describe('getMyRecipes', () => {
                         const tartaChocolateB = recipes.find(recipe => recipe.id === tartaChocolate.id)
                         expect(tartaChocolateB.author.id).to.equal(frodo.id)
                         expect(tartaChocolateB.author.username).to.equal(frodo.username)
-                        expect(tartaChocolateB.tittle).to.equal(tartaChocolate.tittle)
-                        expect(tartaChocolateB.images).to.deep.equal(tartaChocolate.images)
-                        expect(tartaChocolateB.description).to.equal(tartaChocolate.description)
-                        expect(tartaChocolateB.time).to.equal(tartaChocolate.time)
-                        expect(tartaChocolateB.difficulty).to.equal(tartaChocolate.difficulty)
-                        expect(tartaChocolateB.tags).to.deep.equal(tartaChocolate.tags)
+                        expect(tartaChocolateB.title).to.equal(tartaChocolate.title)
+                        expect(tartaChocolateB.image).to.equal(tartaChocolate.images[0])
+                        expect(tartaChocolateB.description).to.be.undefined
+                        expect(tartaChocolateB.time).to.be.undefined
+                        expect(tartaChocolateB.difficulty).to.be.undefined
+                        expect(tartaChocolateB.tags).to.be.undefined
 
                         const calabazaGiganteB = recipes.find(recipe => recipe.id === calabazaGigante.id)
                         expect(calabazaGiganteB).to.not.exist
@@ -54,10 +54,10 @@ describe('getMyRecipes', () => {
                         expect(hierbaDelViejoTobyB.author.username).to.equal(frodo.username)
                         expect(hierbaDelViejoTobyB.tittle).to.equal(hierbaDelViejoToby.tittle)
                         expect(hierbaDelViejoTobyB.images).to.deep.equal(hierbaDelViejoToby.images)
-                        expect(hierbaDelViejoTobyB.description).to.equal(hierbaDelViejoToby.description)
-                        expect(hierbaDelViejoTobyB.time).to.equal(hierbaDelViejoToby.time)
-                        expect(hierbaDelViejoTobyB.difficulty).to.equal(hierbaDelViejoToby.difficulty)
-                        expect(hierbaDelViejoTobyB.tags).to.deep.equal(hierbaDelViejoToby.tags)
+                        expect(hierbaDelViejoTobyB.description).to.be.undefined
+                        expect(hierbaDelViejoTobyB.time).to.be.undefined
+                        expect(hierbaDelViejoTobyB.difficulty).to.be.undefined
+                        expect(hierbaDelViejoTobyB.tags).to.be.undefined
                     })
             })
     })

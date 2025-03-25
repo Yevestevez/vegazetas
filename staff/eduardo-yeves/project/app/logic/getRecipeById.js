@@ -1,11 +1,11 @@
 import { errors } from 'com'
 
-const getUserName = () => {
-    return fetch(`${import.meta.env.VITE_API_URL}/users/name`, {
+const getRecipeById = (recipeId) => {
+    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`
-        },
+        }
     })
         .catch(error => { throw new Error(error.message) })
         .then(res => {
@@ -13,7 +13,7 @@ const getUserName = () => {
 
             if (status === 200)
                 return res.json()
-                    .then(name => name)
+                    .then(myRecipes => myRecipes)
 
             return res.json()
                 .then(body => {
@@ -26,4 +26,4 @@ const getUserName = () => {
         })
 }
 
-export default getUserName
+export default getRecipeById

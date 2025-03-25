@@ -10,7 +10,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
     const handleRecipeThumbnailClick = event => {
         event.preventDefault()
 
-        onRecipeThumbnailClick()
+        onRecipeThumbnailClick(recipe.id)
     }
 
     console.log('RecipeThumbnail -> render')

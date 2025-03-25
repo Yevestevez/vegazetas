@@ -11,7 +11,33 @@ const getMyRecipes = userId => {
         .then(user => {
             if (!user) throw new NotFoundError('user not found')
 
-            return Recipe.find({ author: user._id }).populate('author', 'username').sort('-date').lean()
+            return Recipe.find({ author: user._id })
+                .select('_id title images author date')
+                .populate('author', 'username')
+                .lean()
+                // .aggregate([
+                //     { $match: { author: user._id } },
+                //     {
+                //         $project: {
+                //             image: { $arrayElemAt: ['$images', 0] }
+                //         }
+                //     },
+                //     {
+                //         $lookup: {
+                //             from: 'users',
+                //             localField: 'author',
+                //             foreignField: '_id',
+                //             as: 'author'
+                //         }
+                //     },
+                //     {
+                //         $unwind: {
+                //             path: '$author',
+                //             preserveNullAndEmptyArrays: true
+                //         }
+                //     }
+                // ])
+                .sort('-date')
                 .catch(error => { throw new SystemError(error.message) })
                 .then(recipes => {
                     recipes.forEach(recipe => {

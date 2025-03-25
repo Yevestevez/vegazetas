@@ -1,28 +1,56 @@
-// import { useState } from 'react'
-
-// import logic from '../../../logic'
-
-// import formatDate from '../helper/formatDate'
-
 // import { useAppContext } from '../../context'
+import { useEffect, useState } from 'react'
+import { useParams } from "react-router-dom"
 
 import { FaShareAlt } from "react-icons/fa"
 import { FaListUl } from "react-icons/fa6"
 import { FaChevronCircleUp } from "react-icons/fa"
 import { FaChevronCircleLeft } from "react-icons/fa"
 
+import logic from '../../../logic'
 import formatDate from '../../helper/formatDate'
 import Header from '../common/Header'
 
-function Recipe({ recipe, onUserLoggedOut, onLogoClicked }) {
+function Recipe({ onUserLoggedOut, onLogoClicked }) {
+    const { id: recipeId } = useParams()
+
+    const [recipe, setRecipe] = useState(null)
+    const [author, setAuthor] = useState(null)
+
+    useEffect(() => {
+        if (!recipeId) return
+
+        logic.getRecipeById(recipeId)
+            .then(recipe => {
+                setRecipe(recipe)
+                return recipe.author
+            })
+            .then(authorId => {
+                logic.getUserUsername(authorId)
+                    .then(username => setAuthor(username))
+                    .catch(error => {
+                        alert('Error al obtener el autor')
+
+                        console.error(error)
+                    })
+            })
+            .catch(error => {
+                alert('Error al cargar la receta')
+
+                console.error(error)
+            })
+    }, [recipeId])
+
     const handleUserLoggedOut = () => onUserLoggedOut()
     const handleLogoLinkCLick = () => onLogoClicked()
 
-    const images = recipe.images
-
     console.log('Recipe -> render')
+    console.log('Recipe ID:', recipeId)
+    console.log(recipe)
 
-    return <article className='pt-23  bg-aquamarine h-screen w-screen'>
+    if (!recipe) return <p>Cargando receta...</p>
+
+    return <article className="pt-23  bg-aquamarine h-screen w-screen">
         <Header
             onUserLoggedOut={handleUserLoggedOut}
             onLogoClicked={handleLogoLinkCLick}
@@ -44,7 +72,7 @@ function Recipe({ recipe, onUserLoggedOut, onLogoClicked }) {
 
         <div className="p-5 mx-auto -mt-8 flex flex-col justify-center align-middle items-center text-center text-canary bg-sgbus-green h-auto w-80 drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]">
             <h2 className="anybody-logo text-[6vw]">{recipe.title}</h2>
-            <h3 className=" mb-4 anybody text-[4vw] underline decoration-[0.5em]">@{recipe.author.username}</h3>
+            <h3 className=" mb-4 anybody text-[4vw] underline decoration-[0.5em]">@{author}</h3>
             <time className="anybody text-[3vw]">{formatDate(recipe.date)}</time>
         </div>
 
@@ -105,8 +133,6 @@ function Recipe({ recipe, onUserLoggedOut, onLogoClicked }) {
                 </button>
             </div>
         </div>
-
-
 
     </article >
 }

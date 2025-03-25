@@ -11,11 +11,11 @@ const createRecipe = (
 ) => {
     validate.id(userId, 'userId')
     validate.title(title)
-    validate.images(images)
-    validate.description(description)
-    validate.time(time)
-    validate.difficulty(difficulty)
-    validate.tags(tags)
+    if (images) validate.images(images)
+    if (description) validate.description(description)
+    if (time) validate.time(time)
+    if (difficulty) validate.difficulty(difficulty)
+    if (tags) validate.tags(tags)
 
     return fetch(`${import.meta.env.VITE_API_URL}/recipes`, {
         method: 'POST',

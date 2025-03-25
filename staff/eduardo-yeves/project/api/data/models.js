@@ -80,11 +80,9 @@ const recipe = new Schema({
     },
     time: {
         type: Number,
-        required: true
     },
     difficulty: {
         type: String,
-        required: true,
         enum: ['easy', 'medium', 'difficult']
     },
     tags: [{
