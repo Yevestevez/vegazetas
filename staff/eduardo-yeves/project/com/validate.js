@@ -47,6 +47,10 @@ const validate = {
         if (images.some(image => typeof image !== 'string' || !URL_REGEX.test(image))) throw new ValidationError('invalid images syntax')
     },
 
+    image(image) {
+        if (typeof image !== 'string' || !URL_REGEX.test(image)) throw new ValidationError('invalid images syntax')
+    },
+
     description(description) {
         if (typeof description !== 'string') throw new ValidationError('invalid description type')
         if (description.length < 1 || description.length > 300) throw new ValidationError('invalid description length')
@@ -67,6 +71,10 @@ const validate = {
         if (!Array.isArray(tags)) throw new ValidationError('invalid tags type')
         if (tags.length > 20) throw new ValidationError('too many tags (max 20)')
         if (tags.some(tag => typeof tag !== 'string' || tag.length < 1 || tag.length > 20)) throw new ValidationError('each tag must be a string between 1 and 20 characters')
+    },
+
+    tag(tag) {
+        if (typeof tag !== 'string' || tag.length < 1 || tag.length > 20) throw new ValidationError('each tag must have between 1 and 20 characters')
     },
 
     ingredients(ingredients) {

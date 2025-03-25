@@ -10,6 +10,10 @@ import removeIngredientFromRecipeHandler from './removeIngredientFromRecipeHandl
 import addStepToRecipeHandler from './addStepToRecipeHandler.js'
 import removeStepFromRecipeHandler from './removeStepFromRecipeHandler.js'
 
+import addImageToRecipeHandler from './addImageToRecipeHandler.js'
+
+import addTagToRecipeHandler from './addTagToRecipeHandler.js'
+
 
 export {
     createRecipeHandler,
@@ -22,5 +26,9 @@ export {
     removeIngredientFromRecipeHandler,
 
     addStepToRecipeHandler,
-    removeStepFromRecipeHandler
+    removeStepFromRecipeHandler,
+
+    addImageToRecipeHandler,
+
+    addTagToRecipeHandler
 }

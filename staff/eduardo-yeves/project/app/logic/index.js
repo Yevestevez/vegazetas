@@ -10,6 +10,14 @@ import getMyRecipes from "./getMyRecipes"
 import getRecipeById from "./getRecipeById"
 import createRecipe from "./createRecipe"
 
+import addIngredientToRecipe from "./addIngredientToRecipe"
+
+import addStepToRecipe from "./addStepToRecipe"
+
+import addImageToRecipe from "./addImageToRecipe"
+
+import addTagToRecipe from "./addTagToRecipe"
+
 
 
 const logic = {
@@ -23,7 +31,15 @@ const logic = {
 
     getMyRecipes,
     getRecipeById,
-    createRecipe
+    createRecipe,
+
+    addIngredientToRecipe,
+
+    addStepToRecipe,
+
+    addImageToRecipe,
+
+    addTagToRecipe
 }
 
 export default logic
