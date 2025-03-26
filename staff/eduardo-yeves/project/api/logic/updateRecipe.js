@@ -7,20 +7,16 @@ const updateRecipe = (
     userId,
     recipeId,
     title,
-    images,
     description,
     time,
-    difficulty,
-    tags
+    difficulty
 ) => {
     validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
     validate.title(title)
-    validate.images(images)
-    validate.description(description)
-    validate.time(time)
-    validate.difficulty(difficulty)
-    validate.tags(tags)
+    if (description) validate.description(description)
+    if (time) validate.time(time)
+    if (difficulty) validate.difficulty(difficulty)
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -35,11 +31,9 @@ const updateRecipe = (
                     if (recipe.author.toString() !== userId) throw new OwnershipError('user is not author of recipe')
 
                     recipe.title = title
-                    recipe.images = images
                     recipe.description = description
                     recipe.time = time
                     recipe.difficulty = difficulty
-                    recipe.tags = tags
 
                     return recipe.save()
                         .catch(error => { throw new SystemError(error.message) })

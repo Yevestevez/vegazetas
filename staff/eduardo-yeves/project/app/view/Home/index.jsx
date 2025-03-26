@@ -103,6 +103,14 @@ function Home({ onUserLoggedOut }) {
             <Route
                 path="/create-recipe/:id"
                 element={<CreateRecipe
+                    view="create"
+                />}
+            />
+
+            <Route
+                path="/update-recipe/:id"
+                element={<CreateRecipe
+                    view="update"
                 />}
             />
         </Routes>

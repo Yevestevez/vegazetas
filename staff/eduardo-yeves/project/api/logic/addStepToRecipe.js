@@ -7,8 +7,8 @@ const addStepToRecipe = (userId, recipeId, text, note, image) => {
     validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
     validate.text(text)
-    validate.note(note)
-    validate.image(image)
+    if (note) validate.note(note)
+    if (image) validate.image(image)
 
     const step = { text, note, image }
 

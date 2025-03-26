@@ -7,14 +7,12 @@ import logic from '../../../logic'
 
 // import { useAppContext } from '../../context'
 
-function CreateRecipe() {
+function CreateRecipe({ view }) {
     // const { alert } = useAppContext()
     const { id: recipeId } = useParams()
     console.log(recipeId)
 
     const [recipe, setRecipe] = useState(null)
-    const [tag, setTag] = useState('')
-    const [image, setImage] = useState('')
 
     useEffect(() => {
         console.log('recipe -> "componentDidMount" (useEffect)')
@@ -41,20 +39,22 @@ function CreateRecipe() {
         }
     }
 
-    const handleTagsFormSubmit = (event) => {
+    const handleTagFormSubmit = (event) => {
         event.preventDefault()
 
-        const tag = event.target.tag.value.trim()
+        const form = event.target
 
-        if (!tag) return // Evita enviar etiquetas vacías
+        const tag = form.tag.value.trim()
 
-        logic.addTagToRecipe(recipe._id, tag)
+        if (!tag) return
+
+        logic.addTagToRecipe(recipe.id, tag)
             .then(() => {
                 setRecipe(prevRecipe => ({
                     ...prevRecipe,
                     tags: [...(prevRecipe.tags ?? []), tag] // Asegura que tags sea un array
                 }))
-                setTag("") // Limpiar el input después de agregar la etiqueta
+                form.reset()
             })
             .catch(error => {
                 alert(error.message)
@@ -63,20 +63,22 @@ function CreateRecipe() {
             })
     }
 
-    const handleImagesFormSubmit = (event) => {
+    const handleImageFormSubmit = (event) => {
         event.preventDefault()
 
-        const image = event.target.image.value.trim()
+        const form = event.target
 
-        if (!image) return // Evita enviar etiquetas vacías
+        const image = form.image.value.trim()
 
-        logic.addImageToRecipe(recipe._id, image)
+        if (!image) return
+
+        logic.addImageToRecipe(recipe.id, image)
             .then(() => {
                 setRecipe(prevRecipe => ({
                     ...prevRecipe,
                     images: [...(prevRecipe.images ?? []), image] // Asegura que images sea un array
                 }))
-                setImage("") // Limpiar el input después de agregar la imagen
+                form.reset()
             })
             .catch(error => {
                 alert(error.message)
@@ -85,71 +87,144 @@ function CreateRecipe() {
             })
     }
 
-    const handleIngredientsFormSubmit = (event) => {
-        event.preventDefault();
+    const handleIngredientFormSubmit = (event) => {
+        event.preventDefault()
 
-        const name = event.target.name.value.trim()
+        const form = event.target
+
+        const name = form.name.value.trim()
         const quantity = parseFloat(event.target.quantity.value.trim())
         const unit = event.target.unit.value.trim()
         const annotation = event.target.annotation.value.trim()
         // const main = event.target.main.value.trim()
         const main = JSON.parse(event.target.main.value.trim())
 
-        // Verificar que todos los campos necesarios estén llenos
-        if (!name) return // Evita enviar nombres vacíos
+        if (!name) return
         if (!quantity) return
         if (!unit) return
 
-        // Llamada a la lógica para enviar los datos al backend
-        logic.addIngredientToRecipe(recipe._id, name, quantity, unit, annotation, main)
+        logic.addIngredientToRecipe(recipe.id, name, quantity, unit, annotation, main)
             .then(() => {
-                // Si la adición es exitosa, actualizar el estado de la receta
-                const newIngredient = { name, quantity, unit, annotation, main };  // Crear el objeto de ingrediente
+                const newIngredient = { name, quantity, unit, annotation, main }
                 setRecipe(prevRecipe => ({
                     ...prevRecipe,
                     ingredients: [...(prevRecipe.ingredients ?? []), newIngredient],  // Asegurar que ingredients sea un array
                 }));
 
-                // Limpiar los campos del formulario
-                event.target.reset()
+                form.reset()
             })
             .catch(error => {
-                alert(error.message) // Mostrar el error si algo sale mal
+                alert(error.message)
                 console.error(error)
-            });
-    };
+            })
+    }
+
+    const handleStepFormSubmit = (event) => {
+        event.preventDefault()
+
+        const form = event.target
+
+        const text = form.text.value.trim()
+        const note = form.note.value.trim()
+        const image = form.image.value.trim()
+
+        if (!text) return
+
+        logic.addStepToRecipe(recipe.id, text, note, image)
+            .then(() => {
+                const newStep = { text, note, image }
+                setRecipe(prevRecipe => ({
+                    ...prevRecipe,
+                    steps: [...(prevRecipe.steps ?? []), newStep],  // Asegurar que steps sea un array
+                }))
+
+                form.reset()
+            })
+            .catch(error => {
+                alert(error.message)
+                console.error(error)
+            })
+    }
+
+    const handleRecipeFormSubmit = (event) => {
+        event.preventDefault()
+
+        const form = event.target
+
+        const title = form.title.value.trim()
+        const description = form.description.value.trim()
+        const time = parseFloat(form.time.value.trim())
+        const difficulty = form.difficulty.value.trim()
+
+        if (!title) return
+
+        logic.updateRecipe(recipe.id, title, description, time, difficulty)
+            .then(() => {
+                setRecipe(prevRecipe => ({
+                    ...prevRecipe,
+                    title,
+                    description,
+                    time,
+                    difficulty
+                }))
+
+                form.reset()
+            })
+            .catch(error => {
+                alert(error.message)
+                console.error(error)
+            })
+    }
 
     if (!recipe) return <p>Cargando...</p>
 
     console.log('CreateRecipe -> render')
 
-    return <section className="pt-23">
+    return <section className="flex flex-col pt-23 gap-10">
         <Header />
 
         <h1>Crea tu nueva receta</h1>
 
-        <h2 className="text-blue-500">Editando: <br></br>
-            author: {recipe.author} <br></br>
-            id: {recipe._id} <br></br>
-            title: {recipe.title} <br></br>
-            images: [{recipe.images}] <br></br>
-            date: {recipe.date} <br></br>
-            description: {recipe.description} <br></br>
-            time: {recipe.time} <br></br>
-            difficulty: {recipe.difficulty} <br></br>
-            tags: [{recipe.tags}] <br></br>
-            {/* ingredients: [{recipe.ingredients}] <br></br> */}
-            steps: [{recipe.steps}] <br></br>
-        </h2 >
+        <form className="flex flex-col w-80" onSubmit={handleRecipeFormSubmit}>
+            <input
+                className="border-2"
+                type="text"
+                name="title"
+                placeholder="Pon un nombre a tu receta"
+                defaultValue={recipe.title}
+            />
+            <textarea
+                className="border-2"
+                type="text"
+                name="description"
+                placeholder="describe brevemente tu receta"
+                defaultValue={recipe.description}
+            />
+            <input
+                className="border-2"
+                type="number"
+                name="time"
+                placeholder="¿cuánto se tarda? en minutos"
+                defaultValue={recipe.time}
+            />
+            <input
+                className="border-2"
+                type="text"
+                name="difficulty"
+                placeholder="easy, medium o difficult"
+                defaultValue={recipe.difficulty}
+            />
+            <button type="submit">Actualizar receta</button>
+        </form>
 
-        <form onSubmit={handleTagsFormSubmit}>
+        <form className="flex flex-col w-80" onSubmit={handleTagFormSubmit}>
             <input
                 className="border-2"
                 type="text"
                 name="tag"
                 placeholder="Añadir etiqueta"
             />
-            <button type="submit">Agregar</button>
+            <button type="submit">Añadir etiqueta</button>
 
             <ul>
                 {(recipe.tags ?? []).map((tag, index) => (
@@ -158,14 +233,14 @@ function CreateRecipe() {
             </ul>
         </form>
 
-        <form onSubmit={handleImagesFormSubmit}>
+        <form className="flex flex-col w-80" onSubmit={handleImageFormSubmit}>
             <input
                 className="border-2"
-                type="text"
+                type="url"
                 name="image"
                 placeholder="Añadir imagen"
             />
-            <button type="submit">Agregar</button>
+            <button type="submit">Agregar imagen</button>
 
             <ul className="flex flex-wrap">
                 {(recipe.images ?? []).map((image, index) => (
@@ -176,7 +251,7 @@ function CreateRecipe() {
             </ul>
         </form>
 
-        <form onSubmit={handleIngredientsFormSubmit}>
+        <form className="flex flex-col w-80" onSubmit={handleIngredientFormSubmit}>
             <input
                 className="border-2"
                 type="text"
@@ -199,7 +274,7 @@ function CreateRecipe() {
                 className="border-2"
                 type="text"
                 name="annotation"
-                placeholder="Añadir nota"
+                placeholder="Añadir anotación"
             />
             <input
                 className="border-2"
@@ -210,14 +285,51 @@ function CreateRecipe() {
             <button type="submit">Agregar ingrediente</button>
 
             <ul className="flex flex-wrap">
-                {(recipe.images ?? []).map((image, index) => (
-                    <li key={index}>
-                        <img src={image} alt={`Image ${index}`} className="h-30 w-auto" />
+                {(recipe.ingredients ?? []).map((ingredient, index) => (
+                    <li key={index} className="border p-2 m-2">
+                        <div><strong>{ingredient.name}</strong></div>
+                        <div>Cantidad: {ingredient.quantity}</div>
+                        <div>Unidad: {ingredient.unit}</div>
+                        <div>Nota: {ingredient.annotation}</div>
+                        <div>Principal: {ingredient.main ? 'Sí' : 'No'}</div>
                     </li>
                 ))}
             </ul>
         </form>
 
+        <form className="flex flex-col w-80" onSubmit={handleStepFormSubmit}>
+            <input
+                className="border-2"
+                type="text"
+                name="text"
+                placeholder="Añadir paso"
+            />
+            <input
+                className="border-2"
+                type="text"
+                name="note"
+                placeholder="Añadir nota"
+            />
+            <input
+                className="border-2"
+                type="text"
+                name="image"
+                placeholder="Añadir imagen"
+            />
+            <button type="submit">Agregar paso</button>
+
+            <ul className="flex flex-wrap">
+                {(recipe.steps ?? []).map((step, index) => (
+                    <li key={index} className="border p-2 m-2">
+                        <div><strong>{step.text}</strong></div>
+                        <div>nota: {step.note}</div>
+                        <li key={index}>
+                            {step.image && <img src={step.image} alt={`Image ${index}`} className="h-30 w-auto" />}
+                        </li>
+                    </li>
+                ))}
+            </ul>
+        </form>
 
     </section >
 }

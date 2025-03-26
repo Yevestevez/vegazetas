@@ -9,6 +9,7 @@ import getUserUsername from "./getUserUsername"
 import getMyRecipes from "./getMyRecipes"
 import getRecipeById from "./getRecipeById"
 import createRecipe from "./createRecipe"
+import updateRecipe from "./updateRecipe"
 
 import addIngredientToRecipe from "./addIngredientToRecipe"
 
@@ -17,8 +18,6 @@ import addStepToRecipe from "./addStepToRecipe"
 import addImageToRecipe from "./addImageToRecipe"
 
 import addTagToRecipe from "./addTagToRecipe"
-
-
 
 const logic = {
     registerUser,
@@ -32,6 +31,7 @@ const logic = {
     getMyRecipes,
     getRecipeById,
     createRecipe,
+    updateRecipe,
 
     addIngredientToRecipe,
 

@@ -1,33 +1,36 @@
 import { validate, errors } from 'com'
 
-const addStepToRecipe = (
+const updateRecipe = (
     recipeId,
-    text,
-    note,
-    image
+    title,
+    description,
+    time,
+    difficulty
 ) => {
     validate.id(recipeId, 'recipeId')
-    validate.text(text)
-    if (note) validate.note(note)
-    if (image) validate.image(image)
+    validate.title(title)
+    if (description) validate.description(description)
+    if (time) validate.time(time)
+    if (difficulty) validate.difficulty(difficulty)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/steps`, {
-        method: 'POST',
+    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
+        method: 'PATCH',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            text,
-            note,
-            image
+            title,
+            description,
+            time,
+            difficulty
         })
     })
         .catch(error => { throw new Error(error.message) })
         .then(res => {
             const { status } = res
 
-            if (status === 201) return
+            if (status === 204) return
 
             return res.json()
                 .then(body => {
@@ -40,4 +43,4 @@ const addStepToRecipe = (
         })
 }
 
-export default addStepToRecipe
+export default updateRecipe

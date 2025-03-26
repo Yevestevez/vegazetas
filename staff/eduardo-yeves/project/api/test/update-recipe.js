@@ -6,14 +6,9 @@ fetch('http://localhost:8080/recipes/67d1e51c8bbaa07b840ebc52', {
     },
     body: JSON.stringify({
         title: 'Tofu japonés',
-        images: [
-            'https://danzadefogones.com/wp-content/uploads/2018/01/Tofu-picante-estilo-coreano.jpg',
-            'https://danzadefogones.com/wp-content/uploads/2018/01/Tofu-picante-estilo-coreano-4.jpg'
-        ],
         description: 'Otra descripción',
         time: 50,
         difficulty: 'medium',
-        tags: ['tofu', 'arroz', 'PICANTE!']
     })
 })
     .then(res => {

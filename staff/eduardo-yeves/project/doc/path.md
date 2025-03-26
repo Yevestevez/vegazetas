@@ -179,15 +179,31 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Conectar las lógicas ***addIngredientToRecipe, addStepToRecipe, addImageToRecipe y addTagToRecipe*** con la *app*
 
+- Conectar CreateRecipe desde el botón "Nueva Receta" de Menu para crear nuevo borrador de receta y navegar a el borrador en modo edición
+
+- Agregar las lógicas addImageToRecipe, addTagToRecipe y addIngredientToRecipe en el componente CreateRecipe
+
+- Agregar la lógica addStepToRecipe en el componente CreateRecipe
+
+- Conectar la lógica updateRecipe con el componente CreateRecipe
+
+- Limpiar los _id y __v de recipe y author en getRecipeById
 
 *...commit*
 
+<!-- - Limpiar en getRecipeById el resto de _id, __v de la receta (ingredients, steps) -->
 
-Conectar CreateRecipe desde el botón "Nueva Receta" de Menu para crear nuevo borrador de receta y navegar a el borrador en modo edición
+<!-- - Arreglar que se pueda dejar sin mandar el main de los ingredientes (si no se especifica por defecto debe ser true, como dice el modelo) TRATAR EL MAIN COMO BOOLEANO EN EL INPUT ¿CHECK?-->
+
+
+
+<!-- - Actualizar el componente CreateRecipe para que admita los campos necesarios y los vaya enviando según se necesita, y también al final con el botón "Guardar receta! -->
 
 <!-- - Crear las lógicas removeImageFromRecipe y removeTagFromRecipe  -->
 
 <!-- - Conectar las lógicas removeIngredientFromRecipe, removeStepFromRecipe, removeImageFromRecipe y removeTagFromRecipe con app -->
 
 
-<!-- - Actualizar el componente CreateRecipe para que admita los campos necesarios y los vaya enviando según se necesita, y también al final con el botón "Guardar receta! -->
+
+
+<!-- - Redirigir a Login cuando, después de desconectar la app se borra sessionStorage y sigue anclada en un componente interno -->

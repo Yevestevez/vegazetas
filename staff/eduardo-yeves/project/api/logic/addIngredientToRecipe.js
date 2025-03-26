@@ -9,8 +9,8 @@ const addIngredientToRecipe = (userId, recipeId, name, quantity, unit, annotatio
     validate.name(name)
     validate.quantity(quantity)
     validate.unit(unit)
-    validate.annotation(annotation)
-    validate.main(main)
+    if (annotation) validate.annotation(annotation)
+    if (main !== undefined) validate.main(main)
 
     const ingredient = { name, quantity, unit, annotation, main }
 
