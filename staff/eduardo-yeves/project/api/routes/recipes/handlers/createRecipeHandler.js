@@ -31,7 +31,7 @@ export default (req, res, next) => {
             ingredients,
             steps
         )
-            .then(() => res.status(201).send())
+            .then((recipeId) => res.status(201).json(recipeId))
             .catch(error => next(error))
     } catch (error) {
         next(error)

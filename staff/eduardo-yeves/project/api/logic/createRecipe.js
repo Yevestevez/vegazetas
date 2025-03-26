@@ -38,7 +38,11 @@ const createRecipe = (
             return recipe.save()
                 .catch(error => { throw new SystemError(error.message) })
         })
-        .then(recipe => { })
+        .then(recipe => {
+            const recipeId = recipe._id.toString()
+
+            return recipeId
+        })
 }
 
 export default createRecipe

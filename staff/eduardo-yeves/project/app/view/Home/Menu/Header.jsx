@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import logic from '../../../logic'
 
+import { errors } from 'com'
+const { NotFoundError, SystemError } = errors
+
 import { FaRegUserCircle } from "react-icons/fa"
 
 function Header({ onUserLoggedOut }) {

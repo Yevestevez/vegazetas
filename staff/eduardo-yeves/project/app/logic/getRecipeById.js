@@ -13,7 +13,7 @@ const getRecipeById = (recipeId) => {
 
             if (status === 200)
                 return res.json()
-                    .then(myRecipes => myRecipes)
+                    .then(recipe => recipe)
 
             return res.json()
                 .then(body => {

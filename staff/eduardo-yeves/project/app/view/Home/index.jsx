@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 
 import logic from '../../logic'
 
+import NotFoundError from 'com/errors/NotFoundError'
+
 import Menu from './Menu'
 import MyRecipes from './MyRecipes'
 import Recipe from './common/Recipe'
@@ -17,36 +19,28 @@ function Home({ onUserLoggedOut }) {
     if (viewInPath !== 'my-recipes' && !viewInPath.startsWith('create-recipe') && !viewInPath.startsWith('recipe'))
         viewInPath = 'menu'
 
-    const [view, setView] = useState(viewInPath) // useState(viewInPath)???
+    const [view, setView] = useState(viewInPath)
     const [selectedRecipeId, setSelectedRecipeId] = useState(null)
 
     const handleMyRecipesLinkClick = () => setView('my-recipes')
 
-    // const handleCreateRecipeClick = () => {
-    //     const userId = logic.getUserId()
+    const handleCreateRecipeClick = () => {
+        Promise.resolve(logic.getUserId())
+            .then(userId => {
+                if (!userId) throw new NotFoundError('user not found')
+                return logic.createRecipe(userId, `Borrador de receta ${Date.now()}`)
+            })
+            .then(recipeId => {
+                if (!recipeId) throw new NotFoundError('recipe not found')
 
-    //     if (!userId) {
-    //         alert("User not logged in")
-    //         return;
-    //     }
-
-    //     logic.createRecipe(
-    //         userId, // userId
-    //         `Borrador de receta ${Date.now()}`, // title
-    //     )
-    //         .then(() => logic.getMyRecipes(userId))
-    //         .then(recipes => {
-    //             if (!recipes.length) throw new Error('Error al obtener la nueva receta')
-
-    //             const recipeDraft = recipes[0]
-    //             setSelectedRecipeId(recipeDraft)
-    //             setView('create-recipe')
-    //         })
-    //         .catch(error => {
-    //             alert(error.message)
-    //             console.error(error)
-    //         })
-    // }
+                setSelectedRecipeId(recipeId)
+                setView('create-recipe')
+            })
+            .catch(error => {
+                alert(error.message)
+                console.error(error)
+            })
+    }
 
     const handleRecipeThumbnailClick = (recipeId) => {
         setSelectedRecipeId(recipeId)
@@ -66,7 +60,9 @@ function Home({ onUserLoggedOut }) {
                 navigate('/my-recipes')
                 break
             case 'create-recipe':
-                if (selectedRecipeId) navigate(`/create-recipe/${selectedRecipeId}`)
+                if (selectedRecipeId) {
+                    navigate(`/create-recipe/${selectedRecipeId}`)
+                }
                 break
             case 'recipe':
                 if (selectedRecipeId) navigate(`/recipe/${selectedRecipeId}`)
@@ -83,7 +79,7 @@ function Home({ onUserLoggedOut }) {
                 element={<Menu
                     onMyRecipesClicked={handleMyRecipesLinkClick}
                     onUserLoggedOut={handleUserLoggedOut}
-                // onCreateRecipeClicked={handleCreateRecipeClick}
+                    onCreateRecipeClicked={handleCreateRecipeClick}
                 />}
             />
 
@@ -99,7 +95,6 @@ function Home({ onUserLoggedOut }) {
             <Route
                 path="/recipe/:id"
                 element={<Recipe
-                    recipeId={selectedRecipeId}
                     onUserLoggedOut={handleUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
                 />}
@@ -108,7 +103,6 @@ function Home({ onUserLoggedOut }) {
             <Route
                 path="/create-recipe/:id"
                 element={<CreateRecipe
-                    recipeDraft={selectedRecipeId}
                 />}
             />
         </Routes>

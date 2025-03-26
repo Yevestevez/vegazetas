@@ -1,11 +1,6 @@
 import { validate, errors } from 'com'
 
-const addTagToRecipe = (
-    userId,
-    recipeId,
-    tag,
-) => {
-    validate.id(userId, 'userId')
+const addTagToRecipe = (recipeId, tag) => {
     validate.id(recipeId, 'recipeId')
     validate.tag(tag)
 

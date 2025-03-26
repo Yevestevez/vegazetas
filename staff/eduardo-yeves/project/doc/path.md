@@ -175,14 +175,19 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Mejorar el componente *Recipe* para que obtenga *recipeId* por params y traiga la receta gracias a *getRecipeById* y el username del author gracias a *getUserUsername*
 
-*...commit*
-
 - Crear las lógicas ***addImageToRecipe*** y ***addTagToRecipe*** *(api/app)* para controlar el envio de nuevas imágenes y etiquetas en el momento de crear la receta
 
-- conectar las lógicas ***addIngredientToRecipe, addStepToRecipe, addImageToRecipe y addTagToRecipe*** con la *app*
+- Conectar las lógicas ***addIngredientToRecipe, addStepToRecipe, addImageToRecipe y addTagToRecipe*** con la *app*
 
+
+*...commit*
+
+
+Conectar CreateRecipe desde el botón "Nueva Receta" de Menu para crear nuevo borrador de receta y navegar a el borrador en modo edición
 
 <!-- - Crear las lógicas removeImageFromRecipe y removeTagFromRecipe  -->
+
+<!-- - Conectar las lógicas removeIngredientFromRecipe, removeStepFromRecipe, removeImageFromRecipe y removeTagFromRecipe con app -->
 
 
 <!-- - Actualizar el componente CreateRecipe para que admita los campos necesarios y los vaya enviando según se necesita, y también al final con el botón "Guardar receta! -->

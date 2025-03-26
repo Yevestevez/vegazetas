@@ -9,8 +9,8 @@ const URL_REGEX = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-
 const validate = {
 
     id(id, explain = 'id') {
-        if (typeof id !== 'string') throw new Error(`invalid ${explain} type`)
-        if (id.length < 10) throw new Error(`invalid ${explain} length`)
+        if (typeof id !== 'string') throw new ValidationError(`invalid ${explain} type`)
+        if (id.length < 10) throw new ValidationError(`invalid ${explain} length`)
     },
 
     // User

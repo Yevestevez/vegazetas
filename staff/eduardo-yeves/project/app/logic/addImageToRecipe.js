@@ -1,11 +1,6 @@
 import { validate, errors } from 'com'
 
-const addImageToRecipe = (
-    userId,
-    recipeId,
-    image,
-) => {
-    validate.id(userId, 'userId')
+const addImageToRecipe = (recipeId, image) => {
     validate.id(recipeId, 'recipeId')
     validate.image(image)
 

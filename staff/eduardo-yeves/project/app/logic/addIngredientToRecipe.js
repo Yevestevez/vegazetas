@@ -1,7 +1,6 @@
 import { validate, errors } from 'com'
 
 const addIngredientToRecipe = (
-    userId,
     recipeId,
     name,
     quantity,
@@ -9,7 +8,6 @@ const addIngredientToRecipe = (
     annotation,
     main
 ) => {
-    validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
     validate.name(name)
     validate.quantity(quantity)
