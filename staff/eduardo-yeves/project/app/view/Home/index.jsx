@@ -61,6 +61,9 @@ function Home({ onUserLoggedOut }) {
 
     const handleUserLoggedOut = () => onUserLoggedOut()
 
+    const handleRecipeDeleted = () => setView('my-recipes')
+
+
     useEffect(() => {
         switch (view) {
             case 'menu':
@@ -108,6 +111,7 @@ function Home({ onUserLoggedOut }) {
                     onUserLoggedOut={handleUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
                     onEditRecipeClicked={handleRecipeEditClick}
+                    onRecipeDeleted={handleRecipeDeleted}
                 />}
             />
 
@@ -116,6 +120,7 @@ function Home({ onUserLoggedOut }) {
                 element={<CreateRecipe
                     view="create"
                     onToRecipeClicked={handleToRecipeClick}
+                    onRecipeDeleted={handleRecipeDeleted}
                 />}
             />
 
@@ -123,6 +128,8 @@ function Home({ onUserLoggedOut }) {
                 path="/update-recipe/:id"
                 element={<CreateRecipe
                     view="update"
+                    onToRecipeClicked={handleToRecipeClick}
+                    onRecipeDeleted={handleRecipeDeleted}
                 />}
             />
         </Routes>

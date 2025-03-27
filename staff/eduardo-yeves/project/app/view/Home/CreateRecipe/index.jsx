@@ -7,7 +7,7 @@ import logic from '../../../logic'
 
 // import { useAppContext } from '../../context'
 
-function CreateRecipe({ view, onToRecipeClick }) {
+function CreateRecipe({ view, onToRecipeClicked, onRecipeDeleted }) {
     // const { alert } = useAppContext()
     const { id: recipeId } = useParams()
     console.log(recipeId)
@@ -39,26 +39,32 @@ function CreateRecipe({ view, onToRecipeClick }) {
         }
     }
 
-    const handleTagFormSubmit = (event) => {
+    const handleRecipeFormSubmit = (event) => {
         event.preventDefault()
 
         const form = event.target
 
-        const tag = form.tag.value.trim()
+        const title = form.title.value.trim()
+        const description = form.description.value.trim() || undefined
+        const time = parseFloat(form.time.value.trim()) || undefined
+        const difficulty = form.difficulty.value.trim() || undefined
 
-        if (!tag) return
+        if (!title) return
 
-        logic.addTagToRecipe(recipe.id, tag)
+        logic.updateRecipe(recipe.id, title, description, time, difficulty)
             .then(() => {
                 setRecipe(prevRecipe => ({
                     ...prevRecipe,
-                    tags: [...(prevRecipe.tags ?? []), tag] // Asegura que tags sea un array
+                    title,
+                    description,
+                    time,
+                    difficulty
                 }))
+
                 form.reset()
             })
             .catch(error => {
                 alert(error.message)
-
                 console.error(error)
             })
     }
@@ -87,6 +93,30 @@ function CreateRecipe({ view, onToRecipeClick }) {
             })
     }
 
+    const handleTagFormSubmit = (event) => {
+        event.preventDefault()
+
+        const form = event.target
+
+        const tag = form.tag.value.trim()
+
+        if (!tag) return
+
+        logic.addTagToRecipe(recipe.id, tag)
+            .then(() => {
+                setRecipe(prevRecipe => ({
+                    ...prevRecipe,
+                    tags: [...(prevRecipe.tags ?? []), tag] // Asegura que tags sea un array
+                }))
+                form.reset()
+            })
+            .catch(error => {
+                alert(error.message)
+
+                console.error(error)
+            })
+    }
+
     const handleIngredientFormSubmit = (event) => {
         event.preventDefault()
 
@@ -95,7 +125,7 @@ function CreateRecipe({ view, onToRecipeClick }) {
         const name = form.name.value.trim()
         const quantity = parseFloat(event.target.quantity.value.trim())
         const unit = event.target.unit.value.trim()
-        const annotation = event.target.annotation.value.trim()
+        const annotation = event.target.annotation.value.trim() || undefined
         const main = form.main.checked
 
         if (!name) return
@@ -124,8 +154,8 @@ function CreateRecipe({ view, onToRecipeClick }) {
         const form = event.target
 
         const text = form.text.value.trim()
-        const note = form.note.value.trim()
-        const image = form.image.value.trim()
+        const note = form.note.value.trim() || undefined
+        const image = form.image.value.trim() || undefined
 
         if (!text) return
 
@@ -145,43 +175,24 @@ function CreateRecipe({ view, onToRecipeClick }) {
             })
     }
 
-    const handleRecipeFormSubmit = (event) => {
-        event.preventDefault()
-
-        const form = event.target
-
-        const title = form.title.value.trim()
-        const description = form.description.value.trim()
-        const time = parseFloat(form.time.value.trim())
-        const difficulty = form.difficulty.value.trim()
-
-        if (!title) return
-
-        logic.updateRecipe(recipe.id, title, description, time, difficulty)
-            .then(() => {
-                setRecipe(prevRecipe => ({
-                    ...prevRecipe,
-                    title,
-                    description,
-                    time,
-                    difficulty
-                }))
-
-                form.reset()
-            })
-            .catch(error => {
-                alert(error.message)
-                console.error(error)
-            })
-    }
-
     const handleToRecipeClick = (event) => {
         event.preventDefault()
 
         onToRecipeClicked(recipe.id)
     }
 
-    if (!recipe) return <p>Cargando...</p>
+    const handleDeleteButtonClick = () => {
+        if (window.confirm('Delete recipe?')) {
+            logic.deleteRecipe(recipe.id)
+                .then(() => onRecipeDeleted())
+                .catch(error => {
+                    alert(error.message)
+                    console.error(error)
+                })
+        }
+    }
+
+    if (!recipe) return <p>Cargando receta...</p>
 
     console.log('CreateRecipe -> render')
 
@@ -321,7 +332,7 @@ function CreateRecipe({ view, onToRecipeClick }) {
                 />
                 <input
                     className="border-2"
-                    type="text"
+                    type="url"
                     name="image"
                     placeholder="Añadir imagen"
                 />
@@ -332,15 +343,15 @@ function CreateRecipe({ view, onToRecipeClick }) {
                         <li key={index} className="border p-2 m-2">
                             <div><strong>{step.text}</strong></div>
                             <div>nota: {step.note}</div>
-                            <li key={index}>
-                                {step.image && <img src={step.image} alt={`Image ${index}`} className="h-30 w-auto" />}
-                            </li>
+                            {step.image && <img src={step.image} alt={`Image ${index}`} className="h-30 w-auto" />}
+
                         </li>
                     ))}
                 </ul>
             </form>
 
             <a href="" onClick={handleToRecipeClick}>Ir a la receta </a>
+            <button type="button" onClick={handleDeleteButtonClick}>Eliminar receta ❌</button>
         </main>
 
     </section >

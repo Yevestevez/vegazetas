@@ -11,7 +11,7 @@ import logic from '../../../logic'
 import formatDate from '../../helper/formatDate'
 import Header from '../common/Header'
 
-function Recipe({ onUserLoggedOut, onLogoClicked, onEditRecipeClicked }) {
+function Recipe({ onUserLoggedOut, onLogoClicked, onEditRecipeClicked, onRecipeDeleted }) {
     const { id: recipeId } = useParams()
 
     const [recipe, setRecipe] = useState(null)
@@ -49,9 +49,16 @@ function Recipe({ onUserLoggedOut, onLogoClicked, onEditRecipeClicked }) {
         onEditRecipeClicked(recipe.id)
     }
 
-    console.log('Recipe -> render')
-    console.log('Recipe ID:', recipeId)
-    console.log(recipe)
+    const handleDeleteButtonClick = () => {
+        if (window.confirm('Delete recipe?')) {
+            logic.deleteRecipe(recipe.id)
+                .then(() => onRecipeDeleted())
+                .catch(error => {
+                    alert(error.message)
+                    console.error(error)
+                })
+        }
+    }
 
     if (!recipe) return <p>Cargando receta...</p>
 
@@ -140,6 +147,8 @@ function Recipe({ onUserLoggedOut, onLogoClicked, onEditRecipeClicked }) {
         </div>
 
         <button type="button" onClick={handleEditRecipeButton}>Editar receta</button>
+
+        <button type="button" onClick={handleDeleteButtonClick}>Eliminar receta ❌</button>
 
     </article >
 }

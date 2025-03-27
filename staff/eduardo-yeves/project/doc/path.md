@@ -189,8 +189,6 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Limpiar los _id y __v de recipe y author en getRecipeById
 
-*...commit*
-
 - Limpiar en getRecipeById el resto de _id, __v de la receta (ingredients, steps)
 
 - Cambiar el tipo de input de "main" a checkbox y manejarlo en el handle correspondiente
@@ -201,14 +199,28 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Crear botón "editar receta" en Recipe para editar la receta que estás viendo
 
+*...commit*
 
-<!-- - Mejorar la recepción de datos en inputs para que no haya problemas al enviar campos no obligatorios (ahora validate los rechaza porque se envian '') -->
+- Mejorar la recepción de datos en inputs para que no haya problemas al enviar campos no obligatorios (ahora validate los rechaza porque se envian '')
+
+- Implementar en Recipe y createRecipe la lógica deleteRecipe (ya la tengo en api)
 
 <!-- - Crear las lógicas removeImageFromRecipe y removeTagFromRecipe  -->
 
 <!-- - Conectar las lógicas removeIngredientFromRecipe, removeStepFromRecipe, removeImageFromRecipe y removeTagFromRecipe con app -->
 
+<!-- - Renombrar el componente CreateRecipe por SaveRecipe (explica mejor para que sirve el componente ya que nos sirve tanto para crear como editar una receta) -->
 
+<!-- - Si el usuario no tiene recetas, en my-recipes mostrar un texto tipo (todavía no has creado ninguna receta) y un botón de Crear Receta -->
 
+...
+
+<!-- - Implementar useContext para los alerts de toda la app -->
+
+<!-- - Repasar todos los test y specs de todas las lógicas -->
+
+<!-- Terminar el README.md comprobando que todo está actualizado (models, cases, coverage, etc...) -->
+
+...
 
 <!-- - Redirigir a Login cuando, después de desconectar la app se borra sessionStorage y sigue anclada en un componente interno -->

@@ -10,6 +10,7 @@ import getMyRecipes from "./getMyRecipes"
 import getRecipeById from "./getRecipeById"
 import createRecipe from "./createRecipe"
 import updateRecipe from "./updateRecipe"
+import deleteRecipe from "./deleteRecipe"
 
 import addIngredientToRecipe from "./addIngredientToRecipe"
 
@@ -32,6 +33,7 @@ const logic = {
     getRecipeById,
     createRecipe,
     updateRecipe,
+    deleteRecipe,
 
     addIngredientToRecipe,
 
