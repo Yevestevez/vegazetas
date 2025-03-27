@@ -140,7 +140,7 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
     - Crear Header (Menu) con ***botón logout*** y conectar lógica ***logoutUser***
 
-    <!-- - Crear Header (resto vistas) más pequeño y con botón logout y conectar lógica logoutUser -->
+    - Crear Header (resto vistas) más pequeño y con botón logout y conectar lógica logoutUser
 
 - Agregar lógica ***getMyRecipes*** en *app/logic* para usarlo en *MyRecipes/RecipeThumbnail*
 
@@ -191,13 +191,18 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 *...commit*
 
-<!-- - Limpiar en getRecipeById el resto de _id, __v de la receta (ingredients, steps) -->
+- Limpiar en getRecipeById el resto de _id, __v de la receta (ingredients, steps)
 
-<!-- - Arreglar que se pueda dejar sin mandar el main de los ingredientes (si no se especifica por defecto debe ser true, como dice el modelo) TRATAR EL MAIN COMO BOOLEANO EN EL INPUT ¿CHECK?-->
+- Cambiar el tipo de input de "main" a checkbox y manejarlo en el handle correspondiente
+
+- Actualizar el componente CreateRecipe para que admita los campos necesarios y los vaya enviando según se necesita
+
+- Crear botón "ir a receta"  al final de createRecipe que lleve a la receta que has editado
+
+- Crear botón "editar receta" en Recipe para editar la receta que estás viendo
 
 
-
-<!-- - Actualizar el componente CreateRecipe para que admita los campos necesarios y los vaya enviando según se necesita, y también al final con el botón "Guardar receta! -->
+<!-- - Mejorar la recepción de datos en inputs para que no haya problemas al enviar campos no obligatorios (ahora validate los rechaza porque se envian '') -->
 
 <!-- - Crear las lógicas removeImageFromRecipe y removeTagFromRecipe  -->
 

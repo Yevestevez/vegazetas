@@ -13,6 +13,7 @@ const getMyRecipes = userId => {
 
             return Recipe.find({ author: user._id })
                 .select('_id title images author date')
+                .select('-__v')
                 .populate('author', 'username')
                 .lean()
                 // .aggregate([
@@ -44,7 +45,7 @@ const getMyRecipes = userId => {
                         recipe.id = recipe._id.toString()
                         delete recipe._id
 
-                        delete recipe.__v
+                        // delete recipe.__v
 
                         if (recipe.author._id) {
                             recipe.author.id = recipe.author._id.toString()

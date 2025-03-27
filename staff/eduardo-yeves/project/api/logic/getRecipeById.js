@@ -32,6 +32,22 @@ const getRecipeById = (userId, recipeId) => {
                 delete recipe.author._id
             }
 
+            if (Array.isArray(recipe.ingredients)) {
+                recipe.ingredients.forEach(ingredient => {
+                    ingredient.id = ingredient._id.toString()
+                    delete ingredient._id
+                    delete ingredient.__v
+                })
+            }
+
+            if (Array.isArray(recipe.steps)) {
+                recipe.steps.forEach(step => {
+                    step.id = step._id.toString()
+                    delete step._id
+                    delete step.__v
+                })
+            }
+
             recipe.own = userId === recipe.author
 
             return recipe

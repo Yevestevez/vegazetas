@@ -42,7 +42,17 @@ function Home({ onUserLoggedOut }) {
             })
     }
 
+    const handleRecipeEditClick = (recipeId) => {
+        setSelectedRecipeId(recipeId)
+        setView('create-recipe')
+    }
+
     const handleRecipeThumbnailClick = (recipeId) => {
+        setSelectedRecipeId(recipeId)
+        setView('recipe')
+    }
+
+    const handleToRecipeClick = (recipeId) => {
         setSelectedRecipeId(recipeId)
         setView('recipe')
     }
@@ -97,6 +107,7 @@ function Home({ onUserLoggedOut }) {
                 element={<Recipe
                     onUserLoggedOut={handleUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
+                    onEditRecipeClicked={handleRecipeEditClick}
                 />}
             />
 
@@ -104,6 +115,7 @@ function Home({ onUserLoggedOut }) {
                 path="/create-recipe/:id"
                 element={<CreateRecipe
                     view="create"
+                    onToRecipeClicked={handleToRecipeClick}
                 />}
             />
 

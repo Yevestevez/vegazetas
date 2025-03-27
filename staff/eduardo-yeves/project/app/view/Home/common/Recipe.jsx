@@ -11,7 +11,7 @@ import logic from '../../../logic'
 import formatDate from '../../helper/formatDate'
 import Header from '../common/Header'
 
-function Recipe({ onUserLoggedOut, onLogoClicked }) {
+function Recipe({ onUserLoggedOut, onLogoClicked, onEditRecipeClicked }) {
     const { id: recipeId } = useParams()
 
     const [recipe, setRecipe] = useState(null)
@@ -43,6 +43,11 @@ function Recipe({ onUserLoggedOut, onLogoClicked }) {
 
     const handleUserLoggedOut = () => onUserLoggedOut()
     const handleLogoLinkCLick = () => onLogoClicked()
+    const handleEditRecipeButton = (event) => {
+        event.preventDefault()
+
+        onEditRecipeClicked(recipe.id)
+    }
 
     console.log('Recipe -> render')
     console.log('Recipe ID:', recipeId)
@@ -71,21 +76,21 @@ function Recipe({ onUserLoggedOut, onLogoClicked }) {
         </div>
 
         <div className="p-5 mx-auto -mt-8 flex flex-col justify-center align-middle items-center text-center text-canary bg-sgbus-green h-auto w-80 drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]">
-            <h2 className="anybody-logo text-[6vw]">{recipe.title}</h2>
+            <h2 className="anybody-logo text-[6vw]/[120%]">{recipe.title}</h2>
             <h3 className=" mb-4 anybody text-[4vw] underline decoration-[0.5em]">@{author}</h3>
             <time className="anybody text-[3vw]">{formatDate(recipe.date)}</time>
         </div>
 
-        <p className="mt-6 anybody text-violet text-[4vw]/[120%] w-80 justify-center mx-auto text-center">{recipe.description}</p>
+        {recipe.description && <p className="mt-6 anybody text-violet text-[4vw]/[120%] w-80 justify-center mx-auto text-center">{recipe.description}</p>}
 
-        <div className="anybody-title text-violet text-[5vw] flex flex-row gap-2 justify-center mt-5">
+        {recipe.time && <div className="anybody-title text-violet text-[5vw] flex flex-row gap-2 justify-center mt-5">
             <h3>{recipe.time}</h3> · <h3>{recipe.difficulty}</h3>
-        </div>
+        </div>}
 
-        <div className=" text-spring-bud flex flex-wrap mt-5 mx-10 drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] gap-5 justify-center">{recipe.tags.map((tag, index) => (
+        {recipe.tags && <div className=" text-spring-bud flex flex-wrap mt-8 mx-10 drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] gap-5 justify-center">{recipe.tags.map((tag, index) => (
             <h3 className="bg-folly anybody-title py-0.5 px-2 text-[3vw]" key={index}>#{tag}</h3>
         ))}
-        </div>
+        </div>}
 
         <div className="flex flex-col justify-items-center items-center mt-10 py-5 bg-hot-magenta">
             <h2 className="mt-2 anybody-logo text-spring-bud text-[7vw] drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Ingredientes</h2>
@@ -133,6 +138,8 @@ function Recipe({ onUserLoggedOut, onLogoClicked }) {
                 </button>
             </div>
         </div>
+
+        <button type="button" onClick={handleEditRecipeButton}>Editar receta</button>
 
     </article >
 }
