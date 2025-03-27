@@ -33,13 +33,15 @@ const addIngredientToRecipe = (
         .then(res => {
             const { status } = res
 
-            if (status === 201) return;
+            if (status === 201)
+                return res.json()
+                    .then(ingredientId => ingredientId)
 
             return res.json()
                 .then(body => {
                     const { error, message } = body
 
-                    const constructor = errors[error];
+                    const constructor = errors[error]
 
                     throw new constructor(message)
                 })

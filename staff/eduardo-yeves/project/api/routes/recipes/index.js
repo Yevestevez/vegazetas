@@ -14,8 +14,10 @@ import {
     removeStepFromRecipeHandler,
 
     addImageToRecipeHandler,
+    removeImageFromRecipeHandler,
 
-    addTagToRecipeHandler
+    addTagToRecipeHandler,
+    removeTagFromRecipeHandler
 } from './handlers/index.js'
 
 import jsonBodyParser from '../../middlewares/jsonBodyParser.js'
@@ -35,7 +37,9 @@ router.post('/:recipeId/steps', jsonBodyParser, addStepToRecipeHandler)
 router.delete('/:recipeId/steps/:stepId', removeStepFromRecipeHandler)
 
 router.post('/:recipeId/images', jsonBodyParser, addImageToRecipeHandler)
+router.delete('/:recipeId/images/:index', removeImageFromRecipeHandler)
 
 router.post('/:recipeId/tags', jsonBodyParser, addTagToRecipeHandler)
+router.delete('/:recipeId/tags/:index', removeTagFromRecipeHandler)
 
 export default router

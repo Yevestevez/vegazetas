@@ -13,7 +13,7 @@ function App() {
     const location = useLocation()
 
     let viewInPath = location.pathname.slice(1)
-    if (viewInPath !== 'landing' && viewInPath !== 'register' && viewInPath !== 'login' && viewInPath !== 'my-recipes' && !viewInPath.startsWith('create-recipe') && !viewInPath.startsWith('recipe'))
+    if (viewInPath !== 'landing' && viewInPath !== 'register' && viewInPath !== 'login' && viewInPath !== 'my-recipes' && !viewInPath.startsWith('create-recipe') && !viewInPath.startsWith('update-recipe') && !viewInPath.startsWith('recipe'))
         viewInPath = 'landing'
     const [view, setView] = useState(viewInPath)
 

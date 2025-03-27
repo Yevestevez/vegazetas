@@ -8,7 +8,7 @@ import NotFoundError from 'com/errors/NotFoundError'
 import Menu from './Menu'
 import MyRecipes from './MyRecipes'
 import Recipe from './common/Recipe'
-import CreateRecipe from './CreateRecipe'
+import SaveRecipe from './SaveRecipe'
 
 function Home({ onUserLoggedOut }) {
     const navigate = useNavigate()
@@ -16,11 +16,21 @@ function Home({ onUserLoggedOut }) {
 
     let viewInPath = location.pathname.slice(1)
 
-    if (viewInPath !== 'my-recipes' && !viewInPath.startsWith('create-recipe') && !viewInPath.startsWith('recipe'))
+    if (viewInPath !== 'my-recipes' && !viewInPath.startsWith('create-recipe') && !viewInPath.startsWith('update-recipe') && !viewInPath.startsWith('recipe'))
         viewInPath = 'menu'
 
     const [view, setView] = useState(viewInPath)
     const [selectedRecipeId, setSelectedRecipeId] = useState(null)
+
+    // const pathSegments = location.pathname.split('/').filter(Boolean)
+    // let viewInPath = pathSegments[0] // Obtiene el primer segmento de la ruta
+
+    // if (!['my-recipes', 'create-recipe', 'update-recipe', 'recipe'].includes(viewInPath)) {
+    //     viewInPath = 'menu'
+    // }
+
+    // const [view, setView] = useState(viewInPath)
+    // const [selectedRecipeId, setSelectedRecipeId] = useState(pathSegments[1] || null) // Guarda el ID si está en la URL
 
     const handleMyRecipesLinkClick = () => setView('my-recipes')
 
@@ -44,7 +54,7 @@ function Home({ onUserLoggedOut }) {
 
     const handleRecipeEditClick = (recipeId) => {
         setSelectedRecipeId(recipeId)
-        setView('create-recipe')
+        setView('update-recipe')
     }
 
     const handleRecipeThumbnailClick = (recipeId) => {
@@ -75,6 +85,11 @@ function Home({ onUserLoggedOut }) {
             case 'create-recipe':
                 if (selectedRecipeId) {
                     navigate(`/create-recipe/${selectedRecipeId}`)
+                }
+                break
+            case 'update-recipe':
+                if (selectedRecipeId) {
+                    navigate(`/update-recipe/${selectedRecipeId}`)
                 }
                 break
             case 'recipe':
@@ -117,19 +132,23 @@ function Home({ onUserLoggedOut }) {
 
             <Route
                 path="/create-recipe/:id"
-                element={<CreateRecipe
+                element={<SaveRecipe
                     view="create"
                     onToRecipeClicked={handleToRecipeClick}
                     onRecipeDeleted={handleRecipeDeleted}
+                    onUserLoggedOut={handleUserLoggedOut}
+                    onLogoClicked={handleLogoLinkClick}
                 />}
             />
 
             <Route
                 path="/update-recipe/:id"
-                element={<CreateRecipe
+                element={<SaveRecipe
                     view="update"
                     onToRecipeClicked={handleToRecipeClick}
                     onRecipeDeleted={handleRecipeDeleted}
+                    onUserLoggedOut={handleUserLoggedOut}
+                    onLogoClicked={handleLogoLinkClick}
                 />}
             />
         </Routes>

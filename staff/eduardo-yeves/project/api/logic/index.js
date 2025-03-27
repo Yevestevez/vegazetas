@@ -16,8 +16,10 @@ import addStepToRecipe from './addStepToRecipe.js'
 import removeStepFromRecipe from './removeStepFromRecipe.js'
 
 import addImageToRecipe from './addImageToRecipe.js'
+import removeImageFromRecipe from './removeImageFromRecipe.js'
 
 import addTagToRecipe from './addTagToRecipe.js'
+import removeTagFromRecipe from './removeTagFromRecipe.js'
 
 const logic = {
     registerUser,
@@ -38,8 +40,10 @@ const logic = {
     removeStepFromRecipe,
 
     addImageToRecipe,
+    removeImageFromRecipe,
 
-    addTagToRecipe
+    addTagToRecipe,
+    removeTagFromRecipe
 }
 
 export default logic

@@ -30,7 +30,9 @@ const addIngredientToRecipe = (userId, recipeId, name, quantity, unit, annotatio
                         .catch(error => { throw new SystemError(error.message) })
                 })
         })
-        .then(recipe => { })
+        .then(recipe => {
+            return recipe.ingredients[recipe.ingredients.length - 1]._id.toString()
+        })
 }
 
 export default addIngredientToRecipe

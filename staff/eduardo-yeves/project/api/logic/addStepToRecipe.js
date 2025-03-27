@@ -28,7 +28,9 @@ const addStepToRecipe = (userId, recipeId, text, note, image) => {
                         .catch(error => { throw new SystemError(error.message) })
                 })
         })
-        .then(recipe => { })
+        .then(recipe => {
+            return recipe.steps[recipe.steps.length - 1]._id.toString()
+        })
 }
 
 export default addStepToRecipe

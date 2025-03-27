@@ -13,12 +13,17 @@ import updateRecipe from "./updateRecipe"
 import deleteRecipe from "./deleteRecipe"
 
 import addIngredientToRecipe from "./addIngredientToRecipe"
+import removeIngredientFromRecipe from "./removeIngredientFromRecipe"
 
 import addStepToRecipe from "./addStepToRecipe"
+import removeStepFromRecipe from "./removeStepFromRecipe"
 
 import addImageToRecipe from "./addImageToRecipe"
+import removeImageFromRecipe from "./removeImageFromRecipe"
 
 import addTagToRecipe from "./addTagToRecipe"
+import removeTagFromRecipe from "./removeTagFromRecipe"
+
 
 const logic = {
     registerUser,
@@ -36,12 +41,16 @@ const logic = {
     deleteRecipe,
 
     addIngredientToRecipe,
+    removeIngredientFromRecipe,
 
     addStepToRecipe,
+    removeStepFromRecipe,
 
     addImageToRecipe,
+    removeImageFromRecipe,
 
-    addTagToRecipe
+    addTagToRecipe,
+    removeTagFromRecipe
 }
 
 export default logic

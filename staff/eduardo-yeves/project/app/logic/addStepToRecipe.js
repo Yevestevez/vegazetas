@@ -27,7 +27,9 @@ const addStepToRecipe = (
         .then(res => {
             const { status } = res
 
-            if (status === 201) return
+            if (status === 201)
+                return res.json()
+                    .then(stepId => stepId)
 
             return res.json()
                 .then(body => {

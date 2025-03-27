@@ -9,18 +9,10 @@ export default (req, res, next) => {
 
         const { sub: userId } = payload
 
-        const { recipeId } = req.params
+        const { recipeId, index } = req.params
 
-        const { text, note, image } = req.body
-
-        logic.addStepToRecipe(
-            userId,
-            recipeId,
-            text,
-            note,
-            image
-        )
-            .then((stepId) => res.status(201).json(stepId))
+        logic.removeImageFromRecipe(userId, recipeId, Number(index))
+            .then(() => res.status(204).send())
             .catch(error => next(error))
     } catch (error) {
         next(error)

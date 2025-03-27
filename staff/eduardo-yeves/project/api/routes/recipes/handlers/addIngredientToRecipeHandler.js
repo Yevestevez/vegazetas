@@ -28,7 +28,7 @@ export default (req, res, next) => {
             annotation,
             main
         )
-            .then(() => res.status(201).send())
+            .then((ingredientId) => res.status(201).json(ingredientId))
             .catch(error => next(error))
     } catch (error) {
         next(error)

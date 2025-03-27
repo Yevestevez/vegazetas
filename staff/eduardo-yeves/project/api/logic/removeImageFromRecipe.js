@@ -3,10 +3,10 @@ import { User, Recipe } from '../data/models.js'
 import { validate, errors } from 'com'
 const { NotFoundError, SystemError, OwnershipError } = errors
 
-const removeIngredientFromRecipe = (userId, recipeId, ingredientId) => {
+const removeImageFromRecipe = (userId, recipeId, index) => {
     validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
-    validate.id(ingredientId, 'ingredientId')
+    // validate.index(index, 'index')
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -21,18 +21,14 @@ const removeIngredientFromRecipe = (userId, recipeId, ingredientId) => {
 
             if (recipe.author.toString() !== userId) throw new OwnershipError('user is not author of recipe')
 
-            const { ingredients } = recipe
+            if (index === -1) throw new NotFoundError('image not found')
 
-            const index = ingredients.findIndex(ingredient => ingredient._id.toString() === ingredientId)
-
-            if (index < 0) throw new NotFoundError('ingredient not found')
-
-            ingredients.splice(index, 1)
+            recipe.images.splice(index, 1)
 
             return recipe.save()
                 .catch(error => { throw new SystemError(error.message) })
         })
-        .then(recipe => { })
+        .then(() => { })
 }
 
-export default removeIngredientFromRecipe
+export default removeImageFromRecipe

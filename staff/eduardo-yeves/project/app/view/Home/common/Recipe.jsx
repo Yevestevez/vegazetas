@@ -46,7 +46,7 @@ function Recipe({ onUserLoggedOut, onLogoClicked, onEditRecipeClicked, onRecipeD
     const handleEditRecipeButton = (event) => {
         event.preventDefault()
 
-        onEditRecipeClicked(recipe.id)
+        onEditRecipeClicked(recipeId)
     }
 
     const handleDeleteButtonClick = () => {

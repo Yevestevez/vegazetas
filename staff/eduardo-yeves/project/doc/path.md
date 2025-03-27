@@ -199,28 +199,32 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Crear botón "editar receta" en Recipe para editar la receta que estás viendo
 
-*...commit*
-
 - Mejorar la recepción de datos en inputs para que no haya problemas al enviar campos no obligatorios (ahora validate los rechaza porque se envian '')
 
 - Implementar en Recipe y createRecipe la lógica deleteRecipe (ya la tengo en api)
 
-<!-- - Crear las lógicas removeImageFromRecipe y removeTagFromRecipe  -->
+- Renombrar el componente CreateRecipe por SaveRecipe (explica mejor para que sirve el componente ya que nos sirve tanto para crear como editar una receta) y cambiar las rutas y useEffect para dar dos opciones (create-recipe y update-recipe)
 
-<!-- - Conectar las lógicas removeIngredientFromRecipe, removeStepFromRecipe, removeImageFromRecipe y removeTagFromRecipe con app -->
+- Implementar el link del logo en la cabecera de saveRecipe (lleva a Menú)
 
-<!-- - Renombrar el componente CreateRecipe por SaveRecipe (explica mejor para que sirve el componente ya que nos sirve tanto para crear como editar una receta) -->
+- Cambiar las lógicas de addIngredientToRecipe y addStepToRecipe para que devuelvan el id del elemento creado y así poder eliminarlo directamente con deleteIngredientFromRecipe y deleteStepFromRecipe
 
-<!-- - Si el usuario no tiene recetas, en my-recipes mostrar un texto tipo (todavía no has creado ninguna receta) y un botón de Crear Receta -->
+- Crear las lógicas removeImageFromRecipe y removeTagFromRecipe 
 
-...
+- Conectar las lógicas removeIngredientFromRecipe, removeStepFromRecipe, removeImageFromRecipe y removeTagFromRecipe con app
+
+*...commit*
 
 <!-- - Implementar useContext para los alerts de toda la app -->
 
 <!-- - Repasar todos los test y specs de todas las lógicas -->
 
+<!-- - implementar estilos en los componentes que faltan -->
+
 <!-- Terminar el README.md comprobando que todo está actualizado (models, cases, coverage, etc...) -->
 
 ...
+
+<!-- - Si el usuario no tiene recetas, en my-recipes mostrar un texto tipo (todavía no has creado ninguna receta) y un botón de Crear Receta -->
 
 <!-- - Redirigir a Login cuando, después de desconectar la app se borra sessionStorage y sigue anclada en un componente interno -->
