@@ -215,6 +215,10 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 *...commit*
 
+- Implementar botón de volver atrás en Recipe (navega a MyRecipes)
+
+- Mejorar los estilos y las lógicas al pintar elementos en Recipe
+
 <!-- - Implementar useContext para los alerts de toda la app -->
 
 <!-- - Repasar todos los test y specs de todas las lógicas -->

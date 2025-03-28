@@ -22,16 +22,6 @@ function Home({ onUserLoggedOut }) {
     const [view, setView] = useState(viewInPath)
     const [selectedRecipeId, setSelectedRecipeId] = useState(null)
 
-    // const pathSegments = location.pathname.split('/').filter(Boolean)
-    // let viewInPath = pathSegments[0] // Obtiene el primer segmento de la ruta
-
-    // if (!['my-recipes', 'create-recipe', 'update-recipe', 'recipe'].includes(viewInPath)) {
-    //     viewInPath = 'menu'
-    // }
-
-    // const [view, setView] = useState(viewInPath)
-    // const [selectedRecipeId, setSelectedRecipeId] = useState(pathSegments[1] || null) // Guarda el ID si está en la URL
-
     const handleMyRecipesLinkClick = () => setView('my-recipes')
 
     const handleCreateRecipeClick = () => {
@@ -72,6 +62,9 @@ function Home({ onUserLoggedOut }) {
     const handleUserLoggedOut = () => onUserLoggedOut()
 
     const handleRecipeDeleted = () => setView('my-recipes')
+
+    const handleRecipeBackButton = () => setView("my-recipes")
+
 
 
     useEffect(() => {
@@ -127,6 +120,7 @@ function Home({ onUserLoggedOut }) {
                     onLogoClicked={handleLogoLinkClick}
                     onEditRecipeClicked={handleRecipeEditClick}
                     onRecipeDeleted={handleRecipeDeleted}
+                    onRecipeBackButtonClicked={handleRecipeBackButton}
                 />}
             />
 

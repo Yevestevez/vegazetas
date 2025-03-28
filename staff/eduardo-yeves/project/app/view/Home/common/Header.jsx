@@ -64,8 +64,6 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
             <button className="anybody text-sgbus-green text-[2.7vw]/[130%]" type="button" onClick={handleLogoutButtonClick}>Cerrar<br></br>sesión</button>
 
             <FaRegUserCircle className="text-sgbus-green text-[13vw] drop-shadow-[1.3vw_1.3vw_0_rgba(0,0,0,0.8)] bg-veronica rounded-full" />
-
-
         </div>
     </div>
 }

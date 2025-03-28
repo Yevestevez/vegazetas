@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { useParams } from 'react-router-dom'
 
+import { MdDelete } from "react-icons/md"
+
 import Header from '../common/Header'
 
 import logic from '../../../logic'
@@ -8,6 +10,7 @@ import logic from '../../../logic'
 // import { useAppContext } from '../../context'
 
 function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut, onLogoClicked }) {
+    console.log('view:', view)
     // const { alert } = useAppContext()
     const { id: recipeId } = useParams()
     console.log(recipeId)
@@ -240,7 +243,7 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
         event.preventDefault()
         console.log('stepId:', stepId)
 
-        if (window.confirm('¿Eliminar ingrediente?')) {
+        if (window.confirm('¿Eliminar paso?')) {
             logic.removeStepFromRecipe(recipe.id, stepId)
                 .then(() => {
                     setRecipe(prevRecipe => ({
@@ -276,16 +279,19 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
 
     console.log('CreateRecipe -> render')
 
-    return <section className="flex flex-col pt-23 gap-10">
+    return <section className="pt-23 bg-folly h-full w-screen">
         <Header
             onUserLoggedOut={handleUserLoggedOut}
             onLogoClicked={handleLogoLinkCLick}
         />
 
-        <main className="flex flex-col items-center">
-            <h1 className="m-5">Crea tu nueva receta</h1>
+        <h1 className="flex justify-center text-center py-5 anybody-logo text-spring-bud text-[6vw] drop-shadow-[0.15em_0.15em_0_rgba(0,0,0,0.8)]">
+            {view === "update" ? "Edita tu receta" : "Crea tu nueva receta"}
+        </h1>
 
-            <form className="flex flex-col w-80 gap-3 mb-5" onSubmit={handleRecipeFormSubmit}>
+        <main className="flex flex-col items-center w-80 mx-auto">
+            {/* recipe */}
+            <form className="flex flex-col w-full gap-5 mb-5" onSubmit={handleRecipeFormSubmit}>
                 <input
                     className="border-2"
                     type="text"
@@ -330,11 +336,11 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
                     {(recipe.images ?? []).map((image, index) => (
                         <li key={index}>
                             <img src={image} alt={`Image ${index}`} className="h-30 w-auto" />
-                            <button type="button" onClick={(event) => handleDeleteImageButton(event, index)}>❌</button>
+                            <button type="button" onClick={(event) => handleDeleteImageButton(event, index)}><MdDelete /></button>
                         </li>
                     ))}
                 </ul>
-            </form>
+            </form >
 
             <form className="flex flex-col w-80 gap-3 mb-5" onSubmit={handleTagFormSubmit}>
                 <input
@@ -349,7 +355,7 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
                     {(recipe.tags ?? []).map((tag, index) => (
                         <li key={index}>
                             #{tag}
-                            <button type="button" onClick={(event) => handleDeleteTagButton(event, index)}>❌</button>
+                            <button type="button" onClick={(event) => handleDeleteTagButton(event, index)}><MdDelete /></button>
                         </li>
 
                     ))}
@@ -400,7 +406,7 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
                             <div>Unidad: {ingredient.unit}</div>
                             <div>Nota: {ingredient.annotation}</div>
                             <div>Principal: {ingredient.main ? 'Sí' : 'No'}</div>
-                            <button type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>❌</button>
+                            <button type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}><MdDelete /></button>
                         </li>
                     ))}
                 </ul>
@@ -433,15 +439,15 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
                             <div><strong>{step.text}</strong></div>
                             <div>nota: {step.note}</div>
                             {step.image && <img src={step.image} alt={`Image ${index}`} className="h-30 w-auto" />}
-                            <button type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>❌</button>
+                            <button type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}><MdDelete /></button>
                         </li>
                     ))}
                 </ul>
             </form>
 
             <a href="" onClick={handleToRecipeClick}>Ir a la receta </a>
-            <button type="button" onClick={handleDeleteButtonClick}>Eliminar receta ❌</button>
-        </main>
+            <button type="button" onClick={handleDeleteButtonClick}>Eliminar receta <MdDelete /></button>
+        </main >
 
     </section >
 }
