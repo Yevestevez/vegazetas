@@ -136,15 +136,42 @@ function Recipe({
         {recipe.ingredients && recipe.ingredients.length > 0 && (
             <div className="flex flex-col justify-items-center items-center py-5 bg-hot-magenta">
                 <h2 className="mt-2 anybody-logo text-spring-bud text-[7vw] drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Ingredientes</h2>
-                <div className="text-spring-bud text-center mt-5 px-5">
-                    {recipe.ingredients.map((ingredient) => (
-                        <div className="anybody text-[5vw]/[120%] my-4" key={ingredient.id}>
-                            <p>
-                                <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
-                                {ingredient.annotation && <span className="italic">({ingredient.annotation})</span>}
-                            </p>
-                        </div>
-                    ))}
+
+                {/* Separación de ingredientes */}
+                <div className="flex flex-col text-center px-5 gap-4">
+                    {/* Ingredientes principales */}
+                    {recipe.ingredients.some(ingredient => ingredient.main) && (
+                        <>
+                            <h3 className="text-[5vw] text-center anybody-title bg-spring-bud text-hot-magenta mt-5 mb-2 w-30 mx-auto drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Principales</h3>
+                            {recipe.ingredients
+                                .filter(ingredient => ingredient.main)
+                                .map((ingredient) => (
+                                    <div className="text-spring-bud anybody text-[5vw]/[120%]" key={ingredient.id}>
+                                        <p>
+                                            <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
+                                            {ingredient.annotation && <span className="italic"> ({ingredient.annotation})</span>}
+                                        </p>
+                                    </div>
+                                ))}
+                        </>
+                    )}
+
+                    {/* Ingredientes de despensa */}
+                    {recipe.ingredients.some(ingredient => !ingredient.main) && (
+                        <>
+                            <h3 className="text-[5vw] text-center anybody-title bg-spring-bud text-hot-magenta mt-5 mb-2 w-30 mx-auto drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Despensa</h3>
+                            {recipe.ingredients
+                                .filter(ingredient => !ingredient.main)
+                                .map((ingredient) => (
+                                    <div className="text-spring-bud anybody text-[5vw]/[120%]" key={ingredient.id}>
+                                        <p>
+                                            <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
+                                            {ingredient.annotation && <span className="italic"> ({ingredient.annotation})</span>}
+                                        </p>
+                                    </div>
+                                ))}
+                        </>
+                    )}
                 </div>
             </div>
         )}
@@ -155,9 +182,8 @@ function Recipe({
                 <h2 className="anybody-logo text-spring-bud text-[7vw] drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Preparación</h2>
 
                 <div className="text-hot-magenta mt-5 text-center w-90 flex flex-col gap-8">
-                    {console.log('Pasos disponibles', recipe.steps)}  {/* Añade este log */}
                     {recipe.steps.map((step, index) => (
-                        <div className="flex flex-col gap-5 p-5 bg-spring-bud drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)]" key={index}>
+                        <div className="flex flex-col gap-3 px-5 py-8 bg-spring-bud drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)]" key={index}>
                             <h3 className="anybody-logo text-[6vw]/[120%]">{index + 1}</h3>
                             <p className="anybody text-[5vw]/[120%]">{step.text}</p>
                             {step.note && <p className="anybody text-[4vw]/[120%] italic">({step.note})</p>}
@@ -165,7 +191,7 @@ function Recipe({
                                 <img
                                     src={step.image}
                                     alt={`Paso ${index + 1} image`}
-                                    className="w-full"
+                                    className="w-full mt-3"
                                 />
                             )}
                         </div>

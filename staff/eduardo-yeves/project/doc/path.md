@@ -219,11 +219,13 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Mejorar los estilos y las lógicas al pintar elementos en Recipe
 
+- implementar estilos en SaveRecipe
+
 <!-- - Implementar useContext para los alerts de toda la app -->
 
 <!-- - Repasar todos los test y specs de todas las lógicas -->
 
-<!-- - implementar estilos en los componentes que faltan -->
+
 
 <!-- Terminar el README.md comprobando que todo está actualizado (models, cases, coverage, etc...) -->
 

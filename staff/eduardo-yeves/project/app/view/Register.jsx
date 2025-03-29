@@ -91,7 +91,7 @@ function Register({ onLoginClicked, onUserRegistered }) {
 
         /* Texto */
         anybody text-canary text-center text-[4.5vw]
-        min-w-0 truncate
+        min-w-0 truncate placeholder:italic
     `
 
     const btnClasses = `

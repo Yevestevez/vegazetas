@@ -2,6 +2,10 @@ import { useState, useEffect } from "react"
 import { useParams } from 'react-router-dom'
 
 import { MdDelete } from "react-icons/md"
+import { MdSave } from "react-icons/md"
+import { MdRemoveRedEye } from "react-icons/md"
+import { FaChevronCircleUp } from "react-icons/fa"
+import { FaChevronCircleLeft } from "react-icons/fa"
 
 import Header from '../common/Header'
 
@@ -277,6 +281,40 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
 
     if (!recipe) return <p>Cargando receta...</p>
 
+    const mainIngredients = (recipe.ingredients ?? []).filter(ingredient => ingredient.main)
+    const pantryIngredients = (recipe.ingredients ?? []).filter(ingredient => !ingredient.main)
+
+    // Estilos comunes (TailwindCSS)
+    const inputClasses = `
+        flex items-center justify-center
+
+        p-5
+
+        rounded-full
+        drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] focus:outline-5 
+
+        anybody text-center text-[4vw]
+        min-w-0 truncate placeholder:italic
+    `
+    const labelClasses = `
+        flex items-center justify-center -mb-3
+        anybody text-center text-[5vw] font-bold
+    `
+
+    const btnClasses = `
+    rounded-full 
+
+    h-[15vw] w-[15vw]
+    justify-items-center
+   
+    drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+
+    anybody-logo
+
+    transition-transform duration-150 ease-out
+    hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
+    hover:-translate-y-2 hover:scale-105
+`
     console.log('CreateRecipe -> render')
 
     return <section className="pt-23 bg-folly h-full w-screen">
@@ -285,170 +323,282 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
             onLogoClicked={handleLogoLinkCLick}
         />
 
-        <h1 className="flex justify-center text-center py-5 anybody-logo text-spring-bud text-[6vw] drop-shadow-[0.15em_0.15em_0_rgba(0,0,0,0.8)]">
+        <h1 className="flex justify-center text-center py-5 mt-5 anybody-logo text-spring-bud text-[7vw] drop-shadow-[0.15em_0.15em_0_rgba(0,0,0,0.8)]">
             {view === "update" ? "Edita tu receta" : "Crea tu nueva receta"}
         </h1>
 
-        <main className="flex flex-col items-center w-80 mx-auto">
+        <main className="flex flex-col items-center w-90 mx-auto">
             {/* recipe */}
             <form className="flex flex-col w-full gap-5 mb-5" onSubmit={handleRecipeFormSubmit}>
+                <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Título*</label>
                 <input
-                    className="border-2"
+                    className={`${inputClasses} h-10 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                     type="text"
                     name="title"
-                    placeholder="Pon un nombre a tu receta"
+                    placeholder="Pon un título a tu receta"
                     defaultValue={recipe.title}
                 />
+
+                <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Descripción</label>
                 <textarea
-                    className="border-2"
-                    type="text"
+                    className="w-full bg-spring-bud text-folly flex items-center justify-center p-5 rounded-2xl drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] focus:outline-5 anybody placeholder:italic text-center text-[4vw]/[120%] focus:bg-folly focus:text-spring-bud focus:outline-spring-bud"
                     name="description"
-                    placeholder="describe brevemente tu receta"
+                    placeholder="Describe brevemente tu receta"
                     defaultValue={recipe.description}
+                    wrap="soft"
                 />
-                <input
-                    className="border-2"
-                    type="number"
-                    name="time"
-                    placeholder="¿cuánto se tarda? en minutos"
-                    defaultValue={recipe.time}
-                />
-                <input
-                    className="border-2"
-                    type="text"
-                    name="difficulty"
-                    placeholder="easy, medium o difficult"
-                    defaultValue={recipe.difficulty}
-                />
-                <button type="submit">Actualizar receta</button>
+
+                <div className="flex flex-row w-full justify-between">
+                    <div className="flex flex-col gap-5">
+                        <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Tiempo</label>
+                        <input
+                            className={`${inputClasses} h-10 w-37 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                            type="number"
+                            name="time"
+                            placeholder="En minutos"
+                            defaultValue={recipe.time}
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-5">
+                        <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Dificultad</label>
+                        <input
+                            className={`${inputClasses} h-10 w-37 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                            type="text"
+                            name="difficulty"
+                            placeholder="easy, medium o difficult"
+                            defaultValue={recipe.difficulty}
+                        />
+                    </div>
+                </div>
+                <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
             </form>
 
-            <form className="flex flex-col w-80 gap-3 mb-5" onSubmit={handleImageFormSubmit}>
-                <input
-                    className="border-2"
-                    type="url"
-                    name="image"
-                    placeholder="Añadir imagen"
-                />
-                <button type="submit">Agregar imagen</button>
+            <form className="flex flex-col items-center w-90 gap-5 my-5 py-5 bg-spring-bud drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]" onSubmit={handleImageFormSubmit}>
+                <label className={`${labelClasses} pb-3 text-folly`} htmlFor="image">Imágenes</label>
 
-                <ul className="flex flex-wrap">
+                <ul className="flex flex-wrap gap-2 justify-center">
                     {(recipe.images ?? []).map((image, index) => (
-                        <li key={index}>
-                            <img src={image} alt={`Image ${index}`} className="h-30 w-auto" />
-                            <button type="button" onClick={(event) => handleDeleteImageButton(event, index)}><MdDelete /></button>
+                        <li className="relative" key={index}>
+                            <button className="absolute top-2 right-2 bg-folly text-spring-bud text-[5vw] rounded-full p-1 drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]" type="button" onClick={(event) => handleDeleteImageButton(event, index)}><MdDelete /></button>
+                            <img src={image} alt={`Image ${index}`} className="h-30 w-40 object-cover" />
+
                         </li>
                     ))}
                 </ul>
+
+                <input
+                    className={`${inputClasses} h-10 w-80 bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
+                    type="url"
+                    name="image"
+                    placeholder="Copia aquí la url de la imagen"
+                />
+
+                <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
             </form >
 
-            <form className="flex flex-col w-80 gap-3 mb-5" onSubmit={handleTagFormSubmit}>
+            <form className="flex flex-col items-center w-90 gap-5 my-5 py-5 bg-spring-bud drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]" onSubmit={handleTagFormSubmit}>
+                <label className={`${labelClasses} pb-3 text-folly`} htmlFor="tag">Etiquetas</label>
+
+                <ul className="flex flex-wrap mx-auto w-full px-5">
+                    {(recipe.tags ?? []).map((tag, index) => (
+                        <li className="flex flex-row text-spring-bud gap-2 mx-3 my-2" key={index}>
+                            <h3 className="bg-folly anybody-title py-1 h-7 px-2 text-[3.5vw] drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">#{tag}</h3>
+                            <button className="text-folly text-[6vw] p-0.5 rounded-full" type="button" onClick={(event) => handleDeleteTagButton(event, index)}><MdDelete /></button>
+                        </li>
+
+                    ))}
+                </ul>
+
                 <input
-                    className="border-2"
+                    className={`${inputClasses} h-10 w-80 bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
                     type="text"
                     name="tag"
-                    placeholder="Añadir etiqueta"
+                    placeholder="#añade-etiquetas-a-tu-receta"
                 />
-                <button type="submit">Añadir etiqueta</button>
-
-                <ul>
-                    {(recipe.tags ?? []).map((tag, index) => (
-                        <li key={index}>
-                            #{tag}
-                            <button type="button" onClick={(event) => handleDeleteTagButton(event, index)}><MdDelete /></button>
-                        </li>
-
-                    ))}
-                </ul>
+                <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
             </form>
 
-            <form className="flex flex-col w-80 gap-3 mb-5" onSubmit={handleIngredientFormSubmit}>
-                <input
-                    className="border-2"
-                    type="text"
-                    name="name"
-                    placeholder="Añadir nombre"
-                />
-                <input
-                    className="border-2"
-                    type="number"
-                    name="quantity"
-                    placeholder="Añadir cantidad"
-                />
-                <input
-                    className="border-2"
-                    type="text"
-                    name="unit"
-                    placeholder="Añadir unidad"
-                />
-                <input
-                    className="border-2"
-                    type="text"
-                    name="annotation"
-                    placeholder="Añadir anotación"
-                />
-                <label htmlFor="main">
-                    <input
-                        className="border-2"
-                        type="checkbox"
-                        defaultChecked="true"
-                        name="main"
-                    />
-                    ¿Ingrediente principal?</label>
+            {/* Ingredients */}
+            <form className="flex flex-col gap-5 items-center w-full my-5 py-8 bg-spring-bud drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]" onSubmit={handleIngredientFormSubmit}>
+                <h2 className="anybody-title text-folly text-[6vw]">Ingredientes</h2>
 
-                <button type="submit">Agregar ingrediente</button>
+                <div> {/* Lista de ingredientes */}
+                    <div>
+                        {/* Ingredientes principales */}
+                        <h3 className="w-30 mb-5 mx-auto anybody-title bg-folly text-spring-bud font-bold text-center drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Principales</h3>
+                        <ul className="flex flex-col items-center gap-2">
+                            {mainIngredients.map((ingredient, index) => (
+                                <li key={index} className="flex flex-row gap-2 items-start justify-center text-folly text-center px-5">
+                                    <button className="text-[6vw]" type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
+                                        <MdDelete />
+                                    </button>
+                                    <p className=" text-[4vw]/[120%]">
+                                        <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
+                                        {ingredient.annotation && <span className="italic"> ({ingredient.annotation})</span>}
+                                    </p>
 
-                <ul className="flex flex-wrap">
-                    {(recipe.ingredients ?? []).map((ingredient, index) => (
-                        <li key={index} className="border p-2 m-2">
-                            <div><strong>{ingredient.name}</strong></div>
-                            <div>Cantidad: {ingredient.quantity}</div>
-                            <div>Unidad: {ingredient.unit}</div>
-                            <div>Nota: {ingredient.annotation}</div>
-                            <div>Principal: {ingredient.main ? 'Sí' : 'No'}</div>
-                            <button type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}><MdDelete /></button>
-                        </li>
-                    ))}
-                </ul>
+                                </li>
+                            ))}
+                        </ul>
+
+                        {/* Ingredientes de despensa */}
+                        <h3 className="w-30 mt-7 mb-5 mx-auto anybody-title bg-folly text-spring-bud font-bold text-center drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Despensa</h3>
+                        <ul className="flex flex-col items-center gap-2">
+                            {pantryIngredients.map((ingredient, index) => (
+                                <li key={index} className="flex flex-row gap-2 items-start justify-center text-folly text-center px-5">
+                                    <button className="text-[6vw]" type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
+                                        <MdDelete />
+                                    </button>
+                                    <p className=" text-[4vw]/[120%]">
+                                        <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
+                                        {ingredient.annotation && <span className="italic"> ({ingredient.annotation})</span>}
+                                    </p>
+
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Nuevo ingrediente */}
+                <div className="flex flex-col py-5 gap-5 bg-folly w-80 drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]">
+                    <h3 className="flex justify-center anybody-title text-spring-bud text-[6vw]">Nuevo ingrediente</h3>
+
+                    {/* inputs de nuevo ingrediente */}
+                    <div className="flex flex-col w-full items-center gap-5">
+                        <label className={`${labelClasses} text-spring-bud`} htmlFor="name">Nombre*</label>
+                        <input
+                            className={`${inputClasses} h-10 w-70 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                            type="text"
+                            name="name"
+                            placeholder="Añade un nombre al ingrediente"
+                        />
+                        <div className="flex flex-row justify-between w-70">
+                            <div className="flex flex-col gap-5">
+                                <label className={`${labelClasses} text-spring-bud`} htmlFor="quantity">Cantidad*</label>
+                                <input
+                                    className={`${inputClasses} h-10 w-32 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                    type="number"
+                                    name="quantity"
+                                    placeholder="Un número"
+                                />
+                            </div>
+
+                            <div className="flex flex-col gap-5">
+                                <label className={`${labelClasses} text-spring-bud`} htmlFor="unit">Unidad*</label>
+                                <input
+                                    className={`${inputClasses} h-10 w-32 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                    type="text"
+                                    name="unit"
+                                    placeholder="g, uds, ml..."
+                                />
+                            </div>
+                        </div>
+
+                        <label className={`${labelClasses} text-spring-bud`} htmlFor="annotation">Anotación</label>
+                        <input
+                            className={`${inputClasses} h-10 w-70 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                            type="text"
+                            name="annotation"
+                            placeholder="¿Necesitas alguna aclaración?"
+                        />
+
+                        <div className="flex flex-row justify-between w-70 items-center">
+                            <label className={`flex items-center justify-center anybody text-center text-[5vw] font-bold text-spring-bud`} htmlFor="main">¿Ingrediente principal?</label>
+                            <input
+                                className="w-6 h-6 accent-spring-bud p"
+                                type="checkbox"
+                                defaultChecked="true"
+                                name="main"
+                            />
+                        </div>
+                    </div>
+
+                    <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
+                </div>
             </form>
 
-            <form className="flex flex-col w-80 gap-3 mb-5" onSubmit={handleStepFormSubmit}>
-                <textarea
-                    className="border-2"
-                    type="text"
-                    name="text"
-                    placeholder="Añadir paso"
-                />
-                <input
-                    className="border-2"
-                    type="text"
-                    name="note"
-                    placeholder="Añadir nota"
-                />
-                <input
-                    className="border-2"
-                    type="url"
-                    name="image"
-                    placeholder="Añadir imagen"
-                />
-                <button type="submit">Agregar paso</button>
+            {/* Steps*/}
+            <form className="flex flex-col gap-5 items-center w-full my-5 py-8 bg-spring-bud drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]" onSubmit={handleStepFormSubmit}>
+                <h2 className="anybody-title text-folly text-[6vw]">Pasos</h2>
 
-                <ul className="flex flex-wrap">
+                <ul className="flex flex-col items-center gap-5 text-folly w-80 justify-center text-center">
                     {(recipe.steps ?? []).map((step, index) => (
-                        <li key={index} className="border p-2 m-2">
+                        <li className="flex flex-col gap-3 items-center" key={index}>
+                            <h3 className="anybody-logo text-[5vw]">{index + 1}</h3>
                             <div><strong>{step.text}</strong></div>
-                            <div>nota: {step.note}</div>
-                            {step.image && <img src={step.image} alt={`Image ${index}`} className="h-30 w-auto" />}
-                            <button type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}><MdDelete /></button>
+                            {step.note && <div className="italic">{step.note}</div>}
+                            {step.image && <img src={step.image} alt={`Image ${index + 1}`} className="" />}
+                            <button className="text-[6vw]" type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
+                                <MdDelete />
+                            </button>
+                            <div className="bg-folly h-1 my-3 w-80"></div>
                         </li>
                     ))}
                 </ul>
+
+                {/* Nuevo paso */}
+                <div className="flex flex-col py-5 gap-5 bg-folly w-80 drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]">
+                    <h3 className="flex justify-center anybody-title text-spring-bud text-[6vw]">Nuevo Paso</h3>
+
+                    <div className="flex flex-col w-full items-center gap-5">
+                        <div className="flex flex-col w-full items-center gap-5">
+                            <label className={`${labelClasses} text-spring-bud`} htmlFor="text">Instrucciones*</label>
+                            <textarea
+                                className="w-70 bg-spring-bud text-folly flex items-center justify-center p-5 rounded-2xl drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] focus:outline-5 anybody placeholder:italic text-center text-[4vw]/[120%] focus:bg-folly focus:text-spring-bud focus:outline-spring-bud"
+                                name="text"
+                                placeholder="Añade las instrucciones del paso"
+                            />
+                        </div>
+
+                        <div className="flex flex-col w-full items-center gap-5">
+                            <label className={`${labelClasses} text-spring-bud`} htmlFor="note">Nota</label>
+                            <textarea
+                                className="w-70 bg-spring-bud text-folly flex items-center justify-center p-5 rounded-2xl drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] focus:outline-5 anybody placeholder:italic text-center text-[4vw]/[120%] focus:bg-folly focus:text-spring-bud focus:outline-spring-bud"
+                                name="note"
+                                placeholder="¿Necesitas aclarar algo?"
+                            />
+                        </div>
+
+                        <div className="flex flex-col w-full items-center gap-5">
+                            <label className={`${labelClasses} text-spring-bud`} htmlFor="image">Imagen</label>
+                            <input
+                                className={`${inputClasses} h-10 w-70 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                type="url"
+                                name="image"
+                                placeholder="Copia aquí la url de la imagen"
+                            />
+                        </div>
+                    </div>
+                    <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
+                </div>
             </form>
 
-            <a href="" onClick={handleToRecipeClick}>Ir a la receta </a>
-            <button type="button" onClick={handleDeleteButtonClick}>Eliminar receta <MdDelete /></button>
-        </main >
+            {/* Botones */}
+            <div className="flex flex-row gap-8 pt-5 pb-10 px-5 -mt-1 w-full justify-between">
+                <div className="flex flex-row gap-5">
+                    <button
+                        className="bg-folly text-spring-bud text-[12vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12"
 
+                    >
+                        <FaChevronCircleLeft />
+                    </button>
+
+                    <button
+                        className="bg-folly text-spring-bud text-[12vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12"
+                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    >
+                        <FaChevronCircleUp />
+                    </button>
+                </div>
+                <div className="flex flex-row gap-5">
+                    <button className="bg-spring-bud text-folly text-[8vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12 flex items-center justify-center" type="button" onClick={handleToRecipeClick}><MdRemoveRedEye /></button>
+
+                    <button className="bg-spring-bud text-folly text-[8vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12 flex items-center justify-center" type="button" onClick={handleDeleteButtonClick}><MdDelete /></button>
+                </div>
+            </div>
+        </main >
     </section >
 }
 

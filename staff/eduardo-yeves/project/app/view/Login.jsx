@@ -89,7 +89,7 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
 
         /* Texto */
         anybody text-violet text-center text-[4.5vw]
-        min-w-0 truncate
+        min-w-0 truncate placeholder:italic
     `
 
     const btnClasses = `
