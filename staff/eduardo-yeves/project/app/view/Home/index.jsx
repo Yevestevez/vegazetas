@@ -10,7 +10,11 @@ import MyRecipes from './MyRecipes'
 import Recipe from './common/Recipe'
 import SaveRecipe from './SaveRecipe'
 
+import { useAppContext } from '../../context'
+
 function Home({ onUserLoggedOut }) {
+    const { alert } = useAppContext()
+
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -65,7 +69,7 @@ function Home({ onUserLoggedOut }) {
 
     const handleRecipeBackButton = () => setView("my-recipes")
 
-
+    const handleSaveRecipeBackButton = () => setView("my-recipes")
 
     useEffect(() => {
         switch (view) {
@@ -110,6 +114,7 @@ function Home({ onUserLoggedOut }) {
                     onRecipeThumbnailClick={handleRecipeThumbnailClick}
                     onUserLoggedOut={handleUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
+                    onCreateRecipeClicked={handleCreateRecipeClick}
                 />}
             />
 
@@ -132,6 +137,7 @@ function Home({ onUserLoggedOut }) {
                     onRecipeDeleted={handleRecipeDeleted}
                     onUserLoggedOut={handleUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
+                    onSaveRecipeBackButtonClicked={handleSaveRecipeBackButton}
                 />}
             />
 

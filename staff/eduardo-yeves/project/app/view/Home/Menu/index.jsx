@@ -1,6 +1,10 @@
+import { useAppContext } from '../../../context'
+
 import Header from './Header'
 
 function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
+    const { alert, confirm } = useAppContext()
+
     const handleMyRecipesLinkClick = event => {
         event.preventDefault()
 
@@ -61,7 +65,7 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
 
         /* Hover y animaciones */
         transition-transform duration-150 ease-out
-        hover:bg-folly hover:text-aquamarine
+        hover:bg-aquamarine hover:text-folly
         hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
         hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
         hover:-translate-y-2 hover:scale-105
@@ -72,14 +76,38 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
         <main className="flex flex-col items-center">
             <div className="mt-5">
                 <a className={`${linkClasses} bg-veronica mt-[6vw] text-canary rotate-1 hover:-rotate-2`} href="" onClick={handleMyRecipesLinkClick} >Mis recetas</a>
-                <a className={`${linkClasses} bg-coquelicot mt-[6vw] text-aquamarine -rotate-1 hover:rotate-2`} href="" >Las favoritas</a>
-                <a className={`${linkClasses} bg-folly mt-[6vw] text-spring-bud rotate-1 hover:-rotate-2`} href="" >¡Listas y más listas!</a>
-                <a className={`${linkClasses} bg-canary mt-[6vw] text-coquelicot -rotate-1 hover:rotate-2`} href="" >Menús</a>
-                <a className={`${linkClasses} bg-hot-magenta mt-[6vw] text-violet rotate-1 hover:-rotate-2`} href="" >Lista de la compra</a>
-                <a className={`${linkClasses} bg-aquamarine mt-[6vw] text-dark-orange -rotate-1 hover:rotate-2`} href="" >Descubre</a>
-                <a className={`${linkClasses} bg-dark-orange mt-[6vw] text-veronica rotate-1 hover:-rotate-2`} href="" >Enlaces</a>
+                <a className={`${linkClasses} opacity-50 bg-coquelicot mt-[6vw] text-aquamarine -rotate-1 hover:rotate-2`} href="" onClick={(event) => {
+                    event.preventDefault()
+
+                    alert('Funcionalidad cociendose a fuego lento')
+                }}>Las favoritas</a>
+                <a className={`${linkClasses} opacity-50 bg-folly mt-[6vw] text-spring-bud rotate-1 hover:-rotate-2`} href="" onClick={(event) => {
+                    event.preventDefault()
+
+                    alert('Funcionalidad en el horno')
+                }}>¡Listas y más listas!</a>
+                <a className={`${linkClasses} opacity-50 bg-canary mt-[6vw] text-coquelicot -rotate-1 hover:rotate-2`} href="" onClick={(event) => {
+                    event.preventDefault()
+
+                    alert('Funcionalidad salteándose con un chorro de aceite')
+                }}>Menús</a>
+                <a className={`${linkClasses} opacity-50 bg-hot-magenta mt-[6vw] text-violet rotate-1 hover:-rotate-2`} href="" onClick={(event) => {
+                    event.preventDefault()
+
+                    alert('Funcionalidad burbujeando en la olla')
+                }}>Lista de la compra</a>
+                <a className={`${linkClasses} opacity-50 bg-aquamarine mt-[6vw] text-dark-orange -rotate-1 hover:rotate-2`} href="" onClick={(event) => {
+                    event.preventDefault()
+
+                    alert('Funcionalidad cociendose a fuego lento')
+                }}>Descubre</a>
+                <a className={`${linkClasses} opacity-50 bg-dark-orange mt-[6vw] text-veronica rotate-1 hover:-rotate-2`} href="" onClick={(event) => {
+                    event.preventDefault()
+
+                    alert('Funcionalidad cociendose en el horno')
+                }} >Enlaces</a>
             </div>
-            <a className={`${btnClasses}flex items-center justify-center text-center bg-folly mt-[8vw] text-spring-bud`} href="" onClick={handleCreateRecipeClick}>Nueva<br></br>receta</a>
+            <button type='button' className={`${btnClasses}flex items-center justify-center text-center bg-folly mt-[8vw] text-spring-bud`} onClick={handleCreateRecipeClick}>Nueva<br></br>receta</button>
         </main>
     </div>
 }

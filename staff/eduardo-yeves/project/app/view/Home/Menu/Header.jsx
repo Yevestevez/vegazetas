@@ -4,9 +4,13 @@ import logic from '../../../logic'
 import { errors } from 'com'
 const { NotFoundError, SystemError } = errors
 
+import { useAppContext } from '../../../context'
+
 import { FaRegUserCircle } from "react-icons/fa"
 
 function Header({ onUserLoggedOut }) {
+    const { alert, confirm } = useAppContext()
+
     const [name, setName] = useState(null)
 
     useEffect(() => {
@@ -29,15 +33,19 @@ function Header({ onUserLoggedOut }) {
     }, [])
 
     const handleLogoutButtonClick = () => {
-        try {
-            logic.logoutUser()
+        confirm('¿Quieres cerrar sesión?', accepted => {
+            if (accepted) {
+                try {
+                    logic.logoutUser()
 
-            onUserLoggedOut()
-        } catch (error) {
-            alert(error.message)
+                    onUserLoggedOut()
+                } catch (error) {
+                    alert(error.message)
 
-            console.error(error)
-        }
+                    console.error(error)
+                }
+            }
+        })
     }
 
     console.log('Header -> render')

@@ -3,7 +3,11 @@ import logic from '../logic'
 import { errors } from 'com'
 const { CredentialsError, SystemError } = errors
 
+import { useAppContext } from '../context'
+
 function Login({ onRegisterClicked, onUserLoggedIn }) {
+    const { alert } = useAppContext()
+
     const handleRegisterLinkClick = event => {
         event.preventDefault()
 

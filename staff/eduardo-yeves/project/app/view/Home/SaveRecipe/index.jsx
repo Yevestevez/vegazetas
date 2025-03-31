@@ -11,11 +11,17 @@ import Header from '../common/Header'
 
 import logic from '../../../logic'
 
-// import { useAppContext } from '../../context'
+import { useAppContext } from '../../../context'
 
-function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut, onLogoClicked }) {
-    console.log('view:', view)
-    // const { alert } = useAppContext()
+function SaveRecipe({
+    view,
+    onToRecipeClicked,
+    onRecipeDeleted,
+    onUserLoggedOut,
+    onLogoClicked,
+    onSaveRecipeBackButtonClicked
+}) {
+    const { alert, confirm } = useAppContext()
     const { id: recipeId } = useParams()
     console.log(recipeId)
 
@@ -60,7 +66,11 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
         const time = parseFloat(form.time.value.trim()) || undefined
         const difficulty = form.difficulty.value.trim() || undefined
 
-        if (!title) return
+        if (!title) {
+            alert('Añade un título a tu receta')
+
+            return
+        }
 
         logic.updateRecipe(recipe.id, title, description, time, difficulty)
             .then(() => {
@@ -87,7 +97,11 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
 
         const image = form.image.value.trim()
 
-        if (!image) return
+        if (!image) {
+            alert('Añade la url de la imagen')
+
+            return
+        }
 
         logic.addImageToRecipe(recipe.id, image)
             .then(() => {
@@ -107,19 +121,29 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
     const handleDeleteImageButton = (event, index) => {
         event.preventDefault()
         console.log('index:', index)
-        if (window.confirm('¿Eliminar esta imagen?')) {
-            logic.removeImageFromRecipe(recipe.id, index)
-                .then(() => {
-                    setRecipe(prevRecipe => ({
-                        ...prevRecipe,
-                        images: prevRecipe.images.filter((image, index2) => index2 !== index)
-                    }))
-                })
-                .catch(error => {
+
+        confirm('¿Quieres eliminar esta imagen?', accepted => {
+
+            if (accepted) {
+                try {
+                    logic.removeImageFromRecipe(recipe.id, index)
+                        .then(() => {
+                            setRecipe(prevRecipe => ({
+                                ...prevRecipe,
+                                images: prevRecipe.images.filter((image, index2) => index2 !== index)
+                            }))
+                        })
+                        .catch(error => {
+                            alert(error.message)
+                            console.error(error)
+                        })
+                } catch (error) {
                     alert(error.message)
+
                     console.error(error)
-                })
-        }
+                }
+            }
+        })
     }
 
     const handleTagFormSubmit = (event) => {
@@ -129,7 +153,11 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
 
         const tag = form.tag.value.trim()
 
-        if (!tag) return
+        if (!tag) {
+            alert('Añade una etiqueta')
+
+            return
+        }
 
         logic.addTagToRecipe(recipe.id, tag)
             .then(() => {
@@ -148,20 +176,28 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
 
     const handleDeleteTagButton = (event, index) => {
         event.preventDefault()
-        console.log('index:', index)
-        if (window.confirm('¿Eliminar esta etiqueta?')) {
-            logic.removeTagFromRecipe(recipe.id, index)
-                .then(() => {
-                    setRecipe(prevRecipe => ({
-                        ...prevRecipe,
-                        tags: prevRecipe.tags.filter((tag, index2) => index2 !== index)
-                    }))
-                })
-                .catch(error => {
+
+        confirm('¿Quieres eliminar esta etiqueta?', accepted => {
+            if (accepted) {
+                try {
+                    logic.removeTagFromRecipe(recipe.id, index)
+                        .then(() => {
+                            setRecipe(prevRecipe => ({
+                                ...prevRecipe,
+                                tags: prevRecipe.tags.filter((tag, index2) => index2 !== index)
+                            }))
+                        })
+                        .catch(error => {
+                            alert(error.message)
+                            console.error(error)
+                        })
+                } catch (error) {
                     alert(error.message)
+
                     console.error(error)
-                })
-        }
+                }
+            }
+        })
     }
 
     const handleIngredientFormSubmit = (event) => {
@@ -175,9 +211,23 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
         const annotation = event.target.annotation.value.trim() || undefined
         const main = form.main.checked
 
-        if (!name) return
-        if (!quantity) return
-        if (!unit) return
+        if (!name) {
+            alert('El ingrediente debe tener un nombre')
+
+            return
+        }
+
+        if (!quantity) {
+            alert('El ingrediente debe tener una cantidad (número)')
+
+            return
+        }
+
+        if (!unit) {
+            alert('El ingrediente debe tener una unidad (g, kg, ml, uds...)')
+
+            return
+        }
 
         logic.addIngredientToRecipe(recipe.id, name, quantity, unit, annotation, main)
             .then((ingredientId) => {
@@ -198,21 +248,28 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
 
     const handleDeleteIngredientButton = (event, ingredientId) => {
         event.preventDefault()
-        console.log('ingredientId:', ingredientId)
 
-        if (window.confirm('¿Eliminar ingrediente?')) {
-            logic.removeIngredientFromRecipe(recipe.id, ingredientId)
-                .then(() => {
-                    setRecipe(prevRecipe => ({
-                        ...prevRecipe,
-                        ingredients: prevRecipe.ingredients.filter(ingredient => ingredient.id !== ingredientId)
-                    }))
-                })
-                .catch(error => {
+        confirm('¿Quieres eliminar este ingrediente?', accepted => {
+            if (accepted) {
+                try {
+                    logic.removeIngredientFromRecipe(recipe.id, ingredientId)
+                        .then(() => {
+                            setRecipe(prevRecipe => ({
+                                ...prevRecipe,
+                                ingredients: prevRecipe.ingredients.filter(ingredient => ingredient.id !== ingredientId)
+                            }))
+                        })
+                        .catch(error => {
+                            alert(error.message)
+                            console.error(error)
+                        })
+                } catch (error) {
                     alert(error.message)
+
                     console.error(error)
-                })
-        }
+                }
+            }
+        })
     }
 
     const handleStepFormSubmit = (event) => {
@@ -224,7 +281,11 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
         const note = form.note.value.trim() || undefined
         const image = form.image.value.trim() || undefined
 
-        if (!text) return
+        if (!text) {
+            alert('El nuevo paso debe tener instrucciones')
+
+            return
+        }
 
         logic.addStepToRecipe(recipe.id, text, note, image)
             .then((stepId) => {
@@ -245,21 +306,34 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
 
     const handleDeleteStepButton = (event, stepId) => {
         event.preventDefault()
-        console.log('stepId:', stepId)
 
-        if (window.confirm('¿Eliminar paso?')) {
-            logic.removeStepFromRecipe(recipe.id, stepId)
-                .then(() => {
-                    setRecipe(prevRecipe => ({
-                        ...prevRecipe,
-                        steps: prevRecipe.steps.filter(step => step.id !== stepId)
-                    }))
-                })
-                .catch(error => {
+        confirm('¿Quieres eliminar este paso?', accepted => {
+            if (accepted) {
+                try {
+                    logic.removeStepFromRecipe(recipe.id, stepId)
+                        .then(() => {
+                            setRecipe(prevRecipe => ({
+                                ...prevRecipe,
+                                steps: prevRecipe.steps.filter(step => step.id !== stepId)
+                            }))
+                        })
+                        .catch(error => {
+                            alert(error.message)
+                            console.error(error)
+                        })
+                } catch (error) {
                     alert(error.message)
+
                     console.error(error)
-                })
-        }
+                }
+            }
+        })
+    }
+
+    const handleSaveRecipeBackButton = (event) => {
+        event.preventDefault()
+
+        onSaveRecipeBackButtonClicked()
     }
 
     const handleToRecipeClick = (event) => {
@@ -269,14 +343,22 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
     }
 
     const handleDeleteButtonClick = () => {
-        if (window.confirm('Delete recipe?')) {
-            logic.deleteRecipe(recipe.id)
-                .then(() => onRecipeDeleted())
-                .catch(error => {
+        confirm('¿Quieres borrar esta receta?', accepted => {
+            if (accepted) {
+                try {
+                    logic.deleteRecipe(recipe.id)
+                        .then(() => onRecipeDeleted())
+                        .catch(error => {
+                            alert(error.message)
+                            console.error(error)
+                        })
+                } catch (error) {
                     alert(error.message)
+
                     console.error(error)
-                })
-        }
+                }
+            }
+        })
     }
 
     if (!recipe) return <p>Cargando receta...</p>
@@ -426,38 +508,48 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
                 <div> {/* Lista de ingredientes */}
                     <div>
                         {/* Ingredientes principales */}
-                        <h3 className="w-30 mb-5 mx-auto anybody-title bg-folly text-spring-bud font-bold text-center drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Principales</h3>
-                        <ul className="flex flex-col items-center gap-2">
-                            {mainIngredients.map((ingredient, index) => (
-                                <li key={index} className="flex flex-row gap-2 items-start justify-center text-folly text-center px-5">
-                                    <button className="text-[6vw]" type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
-                                        <MdDelete />
-                                    </button>
-                                    <p className=" text-[4vw]/[120%]">
-                                        <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
-                                        {ingredient.annotation && <span className="italic"> ({ingredient.annotation})</span>}
-                                    </p>
-
-                                </li>
-                            ))}
-                        </ul>
+                        {mainIngredients.length > 0 && (
+                            <>
+                                <h3 className="w-30 mb-5 mx-auto anybody-title bg-folly text-spring-bud font-bold text-center drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">
+                                    Principales
+                                </h3>
+                                <ul className="flex flex-col items-center gap-2">
+                                    {mainIngredients.map((ingredient, index) => (
+                                        <li key={index} className="flex flex-row gap-2 items-start justify-center text-folly text-center px-5">
+                                            <button className="text-[6vw]" type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
+                                                <MdDelete />
+                                            </button>
+                                            <p className=" text-[4vw]/[120%]">
+                                                <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
+                                                {ingredient.annotation && <span className="italic"> ({ingredient.annotation})</span>}
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
 
                         {/* Ingredientes de despensa */}
-                        <h3 className="w-30 mt-7 mb-5 mx-auto anybody-title bg-folly text-spring-bud font-bold text-center drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Despensa</h3>
-                        <ul className="flex flex-col items-center gap-2">
-                            {pantryIngredients.map((ingredient, index) => (
-                                <li key={index} className="flex flex-row gap-2 items-start justify-center text-folly text-center px-5">
-                                    <button className="text-[6vw]" type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
-                                        <MdDelete />
-                                    </button>
-                                    <p className=" text-[4vw]/[120%]">
-                                        <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
-                                        {ingredient.annotation && <span className="italic"> ({ingredient.annotation})</span>}
-                                    </p>
-
-                                </li>
-                            ))}
-                        </ul>
+                        {pantryIngredients.length > 0 && (
+                            <>
+                                <h3 className="w-30 mt-7 mb-5 mx-auto anybody-title bg-folly text-spring-bud font-bold text-center drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">
+                                    Despensa
+                                </h3>
+                                <ul className="flex flex-col items-center gap-2">
+                                    {pantryIngredients.map((ingredient, index) => (
+                                        <li key={index} className="flex flex-row gap-2 items-start justify-center text-folly text-center px-5">
+                                            <button className="text-[6vw]" type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
+                                                <MdDelete />
+                                            </button>
+                                            <p className=" text-[4vw]/[120%]">
+                                                <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
+                                                {ingredient.annotation && <span className="italic"> ({ingredient.annotation})</span>}
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
                     </div>
                 </div>
 
@@ -530,7 +622,7 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
                             <div><strong>{step.text}</strong></div>
                             {step.note && <div className="italic">{step.note}</div>}
                             {step.image && <img src={step.image} alt={`Image ${index + 1}`} className="" />}
-                            <button className="text-[6vw]" type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
+                            <button className="text-[6vw]" type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>
                                 <MdDelete />
                             </button>
                             <div className="bg-folly h-1 my-3 w-80"></div>
@@ -580,7 +672,7 @@ function SaveRecipe({ view, onToRecipeClicked, onRecipeDeleted, onUserLoggedOut,
                 <div className="flex flex-row gap-5">
                     <button
                         className="bg-folly text-spring-bud text-[12vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12"
-
+                        onClick={handleSaveRecipeBackButton}
                     >
                         <FaChevronCircleLeft />
                     </button>

@@ -11,6 +11,8 @@ import logic from '../../../logic'
 import formatDate from '../../helper/formatDate'
 import Header from '../common/Header'
 
+import { useAppContext } from '../../../context'
+
 function Recipe({
     onUserLoggedOut,
     onLogoClicked,
@@ -18,6 +20,8 @@ function Recipe({
     onRecipeDeleted,
     onRecipeBackButtonClicked
 }) {
+    const { alert, confirm } = useAppContext()
+
     const { id: recipeId } = useParams()
 
     const [recipe, setRecipe] = useState(null)
@@ -48,6 +52,7 @@ function Recipe({
     }, [recipeId])
 
     const handleUserLoggedOut = () => onUserLoggedOut()
+
     const handleLogoLinkCLick = () => onLogoClicked()
 
     const handleRecipeBackButton = (event) => {
@@ -63,14 +68,22 @@ function Recipe({
     }
 
     const handleDeleteButtonClick = () => {
-        if (window.confirm('Delete recipe?')) {
-            logic.deleteRecipe(recipe.id)
-                .then(() => onRecipeDeleted())
-                .catch(error => {
+        confirm('¿Quieres borrar esta receta?', accepted => {
+            if (accepted) {
+                try {
+                    logic.deleteRecipe(recipe.id)
+                        .then(() => onRecipeDeleted())
+                        .catch(error => {
+                            alert(error.message)
+                            console.error(error)
+                        })
+                } catch (error) {
                     alert(error.message)
+
                     console.error(error)
-                })
-        }
+                }
+            }
+        })
     }
 
     const difficultyMap = {
@@ -204,23 +217,23 @@ function Recipe({
         <div className="flex flex-row gap-8 pt-5 pb-10 -mt-1 w-full px-10 justify-between bg-hot-magenta">
             <div className="flex flex-row gap-5">
                 <button
-                    className="bg-hot-magenta text-aquamarine text-[12vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12"
+                    className="bg-hot-magenta text-spring-bud text-[12vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12"
                     onClick={handleRecipeBackButton}
                 >
                     <FaChevronCircleLeft />
                 </button>
 
                 <button
-                    className="bg-hot-magenta text-aquamarine text-[12vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12"
+                    className="bg-hot-magenta text-spring-bud text-[12vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12"
                     onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 >
                     <FaChevronCircleUp />
                 </button>
             </div>
             <div className="flex flex-row gap-5">
-                <button className="bg-aquamarine text-hot-magenta text-[8vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12 flex items-center justify-center" type="button" onClick={handleEditRecipeButton}><MdEdit /></button>
+                <button className="bg-spring-bud text-hot-magenta text-[8vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12 flex items-center justify-center" type="button" onClick={handleEditRecipeButton}><MdEdit /></button>
 
-                <button className="bg-aquamarine text-hot-magenta text-[8vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12 flex items-center justify-center" type="button" onClick={handleDeleteButtonClick}><MdDelete /></button>
+                <button className="bg-spring-bud text-hot-magenta text-[8vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12 flex items-center justify-center" type="button" onClick={handleDeleteButtonClick}><MdDelete /></button>
             </div>
         </div>
 
