@@ -38,10 +38,10 @@ function Landing({ onLoginClicked, onRegisterClicked }) {
         text-spring-bud anybody-title text-center
     
         /* Espaciado */
-        mt-[5vw] lg:mt-[3vw]
+        mt-[6vw] lg:mt-[3vw]
     
         /* Tamaño de texto con responsive */
-        text-[4vw]/[120%] 
+        text-[6vw]/[120%] 
         sm:text-[3vw]/[120%] 
         lg:text-[2vw]/[120%] 
     
@@ -84,7 +84,7 @@ function Landing({ onLoginClicked, onRegisterClicked }) {
     return <div className="flex flex-col min-h-screen min-w-screen bg-folly items-center">
         <h1 className={logoClasses}>Vega<br></br>zetas</h1>
 
-        <p className={titleClasses}>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+        <p className={titleClasses}>Cook & Cool</p>
 
         <main className="flex flex-col sm:flex-row lg:flex-row md:flex-row items-center mt-[10vw] sm:mt-[5vw] lg:mt-[3vw] gap-[5vw]">
             <a className={`

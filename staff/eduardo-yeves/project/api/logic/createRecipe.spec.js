@@ -28,8 +28,8 @@ describe('createRecipe', () => {
                     'easy', // difficulty (easy | medium | difficult)
                     ['tofu', 'coreano', 'arroz', 'picante'], // tags
                 )
-                    .then(result => {
-                        expect(result).to.be.undefined
+                    .then(() => {
+                        // Esperamos que devuelva recipe_id.toString()
 
                         return Recipe.findOne()
                     })

@@ -15,7 +15,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
 
     console.log('RecipeThumbnail -> render')
 
-    return <article className="flex flex-col mb-10">
+    return <article className="flex flex-col pb-10 bg-canary">
         <button className="relative flex items-center justify-center" type="button" onClick={handleRecipeThumbnailClick}>
             <h2 className="flex absolute z-2 px-10 anybody-logo text-spring-bud text-[13vw]/[90%] drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)] ">{recipe.title}</h2>
 

@@ -219,8 +219,6 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - implementar estilos en *SaveRecipe*
 
-*...commit*
-
 - Añadir **confirmación al botón cerrar sesión** de las cabeceras
 
 - Implementar ***useContext*** para los *alerts y confirm*s de toda la *app*
@@ -231,9 +229,11 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Si el **usuario no tiene recetas**, en my-recipes mostrar un texto tipo (todavía no has creado ninguna receta) y un botón de *Crear receta*
 
-<!-- - Repasar todos los test y specs de todas las lógicas -->
+*...commit*
 
-<!-- Terminar el README.md comprobando que todo está actualizado (models, cases, coverage, etc...) -->
+- Actualizar README a falta del coverage de los test
+
+<!-- - Repasar todos los test y specs de todas las lógicas -->
 
 ...
 

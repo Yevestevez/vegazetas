@@ -16,7 +16,7 @@ describe('getMyRecipes', () => {
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it.only('succeeds on existing user and recipes', () => {
+    it('succeeds on existing user and recipes', () => {
         const frodo = new User({ name: 'Frodo Baggins', email: 'frodo@baggins.com', username: 'FrodoBaggins', password: '123123123' })
         const sam = new User({ name: 'Sam Gamgee', email: 'sam@gamgee.com', username: 'SamGamgee', password: '123123123' })
 
@@ -40,7 +40,7 @@ describe('getMyRecipes', () => {
                         expect(tartaChocolateB.author.id).to.equal(frodo.id)
                         expect(tartaChocolateB.author.username).to.equal(frodo.username)
                         expect(tartaChocolateB.title).to.equal(tartaChocolate.title)
-                        expect(tartaChocolateB.image).to.equal(tartaChocolate.images[0])
+                        expect(tartaChocolateB.images).to.deep.equal(tartaChocolate.images)
                         expect(tartaChocolateB.description).to.be.undefined
                         expect(tartaChocolateB.time).to.be.undefined
                         expect(tartaChocolateB.difficulty).to.be.undefined

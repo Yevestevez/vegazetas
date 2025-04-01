@@ -1,10 +1,34 @@
+<img src="./images/vegazeta-logo.png" height="100">
+
+<br>
+
 # Vegazetas
 
 ## Intro
 
-**Vegazetas** es una aplicación web que permite **crear, ordenar, compartir y descubrir recetas** veganas. Cuenta con un buscador de recetas filtrando por etiquetas e ingredientes.
+**Vegazetas** es una aplicación web que permite **crear, visualizar, editar y eliminar recetas**. Tiene una interfaz muy colorida, llamativa y simple; y una experiencia de usuario cómoda y sencilla, tanto para crear las recetas como para visualizarlas mientas las preparas en la cocina.
 
-En futuras versiones contará con una **lista de la compra** automática que añade los ingredientes desde cada receta con solo pulsar un botón, además de un **planificador de menús** mediante un calendario.
+Para ello cuenta con varias secciones y funcionalidades. A nivel de acceso tiene una sección de **registro** e **inicio de sesión**. Una vez iniciada la sesión encontramos un **menú** de navegación entre las distintas secciones y el botón para **crear receta**.
+
+Dispone de la sección **Mis recetas**, una lista de vistas en miniaturas de las recetas del usuario y navegación directa a la **visualización de una receta** al seleccionarla. Dentro de la receta podemos eliminarla o navegar hacia la sección de edición de receta.
+
+En esta sección de **edición** podemos modificar los campos de la receta, además de elmiminar y añadir nuevas imágenes, etiquetas, ingredientes y pasos. Describiremos los campos de la receta de manera más detallada en [Data Model](#data-model).
+
+En **futuras versiones** se implementarán nuevas funcionalidades como:
+- Filtro de recetas por ingredientes, etiquetas y títulos
+- Visualización de recetas de otros usuarios y botón me gusta para guardar estas recetas en una nueva sección de Mis favoritas
+- Compartir recetas mediante enlace
+- Sección de listas de recetas
+- Enlaces a recetas externas a Vegazetas
+- Creación de recetas en modo "borrador/privado" para luego publicarlas en el momento deseado
+- Modificación del perfil de usuario y eliminación de cuenta
+- Generación automática de una lista de la compra editable en función de los ingredientes de la receta
+- Calendario de planificación de menús
+- Modo cocina: botón para evitar que se apague la pantalla del móvil o tablet mientas cocinas
+- Cambio del tamaño de letra en las recetas
+- ¡Y mucho más!
+
+<br>
 
 ![The Office Gif](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjd0ZGh0czA0MHJ3aTFlaDhmcjBtMmtsMjM4eWh6dHNsdTBwN296ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hKyroc5P7axuU/giphy.webp)
 
@@ -15,31 +39,18 @@ En futuras versiones contará con una **lista de la compra** automática que añ
 
 User
 
-- Registrarse como usuario nuevo
-- Iniciar sesión
-- Editar perfil (nombre, contraseña, foto...)
-- Eliminar usuario
+- Registro
+- Inicio de sesión
+- Cierre de sesión
+- Creación de receta
+- Edición de receta
+- Visualización de receta seleccionada
+- Visualización de "mis recetas"
 
-- Descubrir nuevas recetas de otros usuarios (sección ***Descubre***)
-- Buscar recetas filtrando por ingredientes o etiquetas
-- Crear una nueva receta (➕)
-- Guardar una nueva receta en ***borrador***
-- Editar una receta previamente creada
-- Eliminar una receta previamente creada
-- Visualizar recetas propias (sección ***Mis recetas***)
-- Generar listas personalizadas de recetas (sección ***Listas***)
-- Generar listas de recetas favoritas desde las recetas (🩷)
-- Generar listas de enlaces para guardar recetas externas a la apliación (sección ***Enlaces***)
-
----
-
-- Generar una lista de la compra desde cada receta mediante un botón
-- Editar la manualmente la lista de la compra (añadir, eliminar y ordenar ingredientes)
-- Planificar los menús mediante un calendario
 
 ### UXUI Design
 
-[Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=15-54&p=f&t=RmO05IfsXMPjmZim-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=15%3A54)
+[Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214)
 
 
 ## Technical
@@ -62,7 +73,6 @@ User
 - HTML/CSS/JS
 - React
 - Node/Express
-- ...
 
 ### Data Model
 
@@ -89,16 +99,16 @@ User
 
 **Recipe**
 - id *(ObjectId)*
-- author *(ObjectId - User)*
-- images *(strings array)*
+- author *(ObjectId - **User**)*
+- [images] *(strings array)*
 - title *(string)*
 - date *(Date (default: Date.now))*
 - description *(string)*
 - time *(number)*
 - difficulty *(string)*
-- tags *(strings array)*
-- ingredients *(ingredients array)*
-- steps *(steps array)*
+- [tags] *(strings array)*
+- [ingredients] *(**ingredients** array)*
+- [steps] *(**steps** array)*
 
 ### UI Components
 
@@ -108,24 +118,22 @@ App
  |- Register
  |- Login
  |- Home
-    # |- Profile (edit, delete...)
     |- Menu
+        |- Header (Menu)
     |- MyRecipes
+        |- Header (common)
         |- [RecipeThumbnail]
-    |- Recipe
-        |- DeleteRecipe
-        |- UpdateRecipe
-            |- AddIngredientToRecipe
-            |- RemoveIngredientToRecipe
-            |- AddStepToRecipe
-            |- RemoveStepToRecipe
+    |- Recipe:id
+        |- Header (common)
+    |- SaveRecipe:id (create/update recipe)
+        |- Header (common)
     # |- Favorites
     # |- Lists
     # |- Menus
     # |- Shopping list
     # |- Discover
     # |- Links
-    |- CreateRecipe
+    # |- Profile (edit, delete...)
  ```
 
 ### Coverage
