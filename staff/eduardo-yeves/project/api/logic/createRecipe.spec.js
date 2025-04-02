@@ -17,6 +17,8 @@ describe('createRecipe', () => {
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
     it('succeeds on existing user', () => {
+        let newRecipeId
+
         return User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: '123123123' })
             .then(user => {
                 return createRecipe(
@@ -28,8 +30,9 @@ describe('createRecipe', () => {
                     'easy', // difficulty (easy | medium | difficult)
                     ['tofu', 'coreano', 'arroz', 'picante'], // tags
                 )
-                    .then(() => {
-                        // Esperamos que devuelva recipe_id.toString()
+                    .then(recipeId => {
+                        newRecipeId = recipeId
+                        expect(recipeId).to.be.a('string').with.lengthOf(24)
 
                         return Recipe.findOne()
                     })
@@ -41,6 +44,9 @@ describe('createRecipe', () => {
                         expect(recipe.time).to.equal(35)
                         expect(recipe.difficulty).to.equal('easy')
                         expect(recipe.tags).to.deep.equal(['tofu', 'coreano', 'arroz', 'picante'])
+
+                        expect(recipe).to.have.property('_id').that.is.an.instanceOf(ObjectId)
+                        expect(recipe._id.toString()).to.equal(newRecipeId)
                     })
             })
     })

@@ -17,6 +17,8 @@ describe('addStepToRecipe', () => {
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]));
 
     it('succeeds on existing user and recipe', () => {
+        let addedStepId
+
         return User.create({ name: 'Draco Malfoy', email: 'draco@malfoy.com', username: 'dracomalfoy', password: '123123123' })
             .then(user => {
                 return Recipe.create({
@@ -31,7 +33,10 @@ describe('addStepToRecipe', () => {
                     .then(recipe => {
                         return addStepToRecipe(user._id.toString(), recipe._id.toString(), 'Mezclamos la harina con el cacao en polvo', 'que quede todo bien mezclado y sin grumos', 'https://www.elplural.com/uploads/s1/16/98/12/6/receta-tarta-chocolate_4_800x450.jpeg')
                     })
-                    .then(() => {
+                    .then((stepId) => {
+                        addedStepId = stepId
+                        expect(stepId).to.be.a('string').with.lengthOf(24)
+
                         return Recipe.findOne()
                     })
                     .then(recipe => {
@@ -46,6 +51,8 @@ describe('addStepToRecipe', () => {
                         });
 
                         expect(step).to.have.property('_id').that.is.an.instanceOf(ObjectId)
+
+                        expect(step._id.toString()).to.equal(addedStepId)
                     })
             })
     })

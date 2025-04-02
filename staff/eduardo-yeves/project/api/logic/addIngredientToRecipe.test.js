@@ -5,9 +5,9 @@ mongoose.connect('mongodb://localhost:27017/vegazetas')
     .then(() => {
         try {
             addIngredientToRecipe(
-                '67d1cf5801353466dc7e899a', // userId
-                '67dc62da801658ed71cff7d9', // recipeId
-                'Tofu', // name
+                '67ea59a5ecbab7201125cbc8', // userId
+                '67ea945619ca1fadc87e88d3', // recipeId
+                'Orégano', // name
                 200, // quantity
                 'g', // unit
                 'nota', // annotation

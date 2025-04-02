@@ -9,52 +9,36 @@ const { Types: { ObjectId } } = mongoose
 import { errors } from 'com'
 const { NotFoundError } = errors
 
-import addIngredientToRecipe from './addIngredientToRecipe.js'
+import addImageToRecipe from './addImageToRecipe.js'
 
-describe('addIngredientToRecipe', () => {
+describe('addImageToRecipe', () => {
     before(() => mongoose.connect(process.env.TEST_MONGO_URL));
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]));
 
     it('succeeds on existing user and recipe', () => {
-        let addedIngredientId
-
         return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
             .then(user => {
                 return Recipe.create({
                     author: user.id,
                     title: 'Cerveza de Mantequilla',
-                    images: ['https://www.forbeerslovers.com/images/posts/-d14beb495479cf5c27c523a9130a4229.jpg'],
+                    images: ['https://th.bing.com/th/id/R.ccbc36ab98f04c4f1ab1a8efa533c491?rik=%2fr7GA%2bNlPPDoiA&riu=http%3a%2f%2fwizardingworldpark.com%2fwp-content%2fuploads%2f2011%2f11%2fIMG_0956.jpg&ehk=3GKgUMHg6d9gqP7Yvx%2bzpSczZbHULFar6dror4luiR4%3d&risl=&pid=ImgRaw&r=0'],
                     description: 'Una refrescante cerveza de mantequilla en Las Tres Escobas',
                     time: 45,
                     difficulty: 'difficult',
                     tags: ['cerveza', 'mantequilla', 'las-tres-escobas', 'hogsmeade']
                 })
                     .then(recipe => {
-                        return addIngredientToRecipe(user._id.toString(), recipe._id.toString(), 'plantequilla', 50, 'g', 'mantequilla vegana', true)
+                        return addImageToRecipe(user._id.toString(), recipe._id.toString(), 'https://www.forbeerslovers.com/images/posts/-d14beb495479cf5c27c523a9130a4229.jpg')
                     })
-                    .then((ingredientId) => {
-                        addedIngredientId = ingredientId
-                        expect(ingredientId).to.be.a('string').with.lengthOf(24)
+                    .then((result) => {
+                        expect(result).to.be.undefined
 
                         return Recipe.findOne()
                     })
                     .then(recipe => {
-                        expect(recipe.ingredients)
-                        expect(recipe.ingredients).to.be.an('array').with.lengthOf(1)
-
-                        const ingredient = recipe.ingredients[0]
-
-                        expect(ingredient).to.include({
-                            name: 'plantequilla',
-                            quantity: 50,
-                            unit: 'g',
-                            annotation: 'mantequilla vegana',
-                            main: true
-                        });
-
-                        expect(ingredient).to.have.property('_id').that.is.an.instanceOf(ObjectId)
-                        expect(ingredient._id.toString()).to.equal(addedIngredientId)
+                        expect(recipe.images).to.be.an('array').with.lengthOf(2)
+                        expect(recipe.images[1]).to.equal('https://www.forbeerslovers.com/images/posts/-d14beb495479cf5c27c523a9130a4229.jpg')
                     })
             })
     })
@@ -74,7 +58,7 @@ describe('addIngredientToRecipe', () => {
                     tags: ['cerveza', 'mantequilla', 'las-tres-escobas', 'hogsmeade']
                 })
                     .then(recipe => {
-                        return addIngredientToRecipe(new ObjectId().toString(), recipe._id.toString(), 'plantequilla', 50, 'g', 'mantequilla vegana', true)
+                        return addImageToRecipe(new ObjectId().toString(), recipe._id.toString(), 'https://www.forbeerslovers.com/images/posts/-d14beb495479cf5c27c523a9130a4229.jpg')
                     })
                     .catch(error => catchedError = error)
                     .finally(() => {
@@ -99,7 +83,7 @@ describe('addIngredientToRecipe', () => {
                     tags: ['cerveza', 'mantequilla', 'las-tres-escobas', 'hogsmeade']
                 })
                     .then(recipe => {
-                        return addIngredientToRecipe(user._id.toString(), new ObjectId().toString(), 'plantequilla', 50, 'g', 'mantequilla vegana', true)
+                        return addImageToRecipe(user._id.toString(), new ObjectId().toString(), 'https://www.forbeerslovers.com/images/posts/-d14beb495479cf5c27c523a9130a4229.jpg')
                     })
                     .catch(error => catchedError = error)
                     .finally(() => {

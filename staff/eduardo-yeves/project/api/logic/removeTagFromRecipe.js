@@ -6,7 +6,7 @@ const { NotFoundError, SystemError, OwnershipError } = errors
 const removeTagFromRecipe = (userId, recipeId, index) => {
     validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
-    // validate.index(index, 'index')
+    validate.index(index, 'tagIndex')
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -21,7 +21,7 @@ const removeTagFromRecipe = (userId, recipeId, index) => {
 
             if (recipe.author.toString() !== userId) throw new OwnershipError('user is not author of recipe')
 
-            if (index === -1) throw new NotFoundError('tag not found')
+            if (index >= recipe.tags.length) throw new NotFoundError('tag not found')
 
             recipe.tags.splice(index, 1)
 

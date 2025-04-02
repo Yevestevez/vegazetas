@@ -5,8 +5,8 @@ mongoose.connect('mongodb://localhost:27017/vegazetas')
     .then(() => {
         try {
             addStepToRecipe(
-                '67d1cf5801353466dc7e899a', // userId
-                '67dc62da801658ed71cff7d9', // recipeId
+                '67ea59a5ecbab7201125cbc8', // userId
+                '67ea945619ca1fadc87e88d3', // recipeId
                 'Este es un paso para elaborar la recera', // text
                 'Una aclaración o anotación al paso', // note
                 'https://danzadefogones.com/wp-content/uploads/2018/01/Tofu-picante-estilo-coreano.jpg' // image

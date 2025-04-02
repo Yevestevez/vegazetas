@@ -233,6 +233,48 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Actualizar README a falta del coverage de los test
 
+- Test y specs revisados y actualizados:
+    REVISADOS
+
+    - addImageToRecipe
+    - addIngredientToRecipe
+    - addStepToRecipe
+    - addTagToRecipe
+    - authenticateUser
+    - createRecipe
+    - deleteRecipe
+    - getMyRecipes
+    - getRecipeById (%coverage!)
+    - getUserName
+    - registerUser
+    - removeImageFromRecipe
+    - removeIngredientFromRecipe
+    - removeStepFromRecipe
+    - removeTagFronRecipe
+    - updateRecipe
+
+- Test de api (js y sh) revisados y actualizados:
+    REVISADOS
+
+    A REVISAR
+
+    - addImageToRecipe
+    - addIngredientToRecipe
+    - addStepToRecipe
+    - addTagToRecipe
+    - authenticateUser
+    - createRecipe
+    - deleteRecipe
+    - getMyRecipes
+    - getRecipeById
+    - getUserName
+    - registerUser
+    - removeImageFromRecipe
+    - removeIngredientFromRecipe
+    - removeStepFromRecipe
+    - removeTagFronRecipe
+    - updateRecipe
+
 <!-- - Repasar todos los test y specs de todas las lógicas -->
 
 ...

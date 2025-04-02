@@ -13,6 +13,11 @@ const validate = {
         if (id.length < 10) throw new ValidationError(`invalid ${explain} length`)
     },
 
+    index(index, explain = 'index') {
+        if (!Number.isInteger(index)) throw new ValidationError(`${explain} must be an integer`)
+        if (index < 0) throw new ValidationError(`${explain} must be greater than or equal to 0`)
+    },
+
     // User
     name(name) {
         if (typeof name !== 'string') throw new ValidationError('invalid name type')

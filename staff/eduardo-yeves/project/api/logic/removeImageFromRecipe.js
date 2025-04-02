@@ -6,7 +6,7 @@ const { NotFoundError, SystemError, OwnershipError } = errors
 const removeImageFromRecipe = (userId, recipeId, index) => {
     validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
-    // validate.index(index, 'index')
+    validate.index(index, 'imageIndex')
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -21,14 +21,14 @@ const removeImageFromRecipe = (userId, recipeId, index) => {
 
             if (recipe.author.toString() !== userId) throw new OwnershipError('user is not author of recipe')
 
-            if (index === -1) throw new NotFoundError('image not found')
+            if (index >= recipe.images.length) throw new NotFoundError('image not found')
 
             recipe.images.splice(index, 1)
 
             return recipe.save()
                 .catch(error => { throw new SystemError(error.message) })
         })
-        .then(() => { })
+        .then((recipe) => { })
 }
 
 export default removeImageFromRecipe

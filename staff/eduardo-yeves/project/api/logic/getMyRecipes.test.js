@@ -4,7 +4,7 @@ import getMyRecipes from './getMyRecipes.js'
 mongoose.connect('mongodb://localhost:27017/vegazetas')
     .then(() => {
         try {
-            getMyRecipes('67e2f0919864354a0e646e7e')
+            getMyRecipes('67ea59a5ecbab7201125cbc7')
                 .then(recipes => console.log('my recipes gotten', recipes))
                 .catch(error => console.error(error))
         } catch (error) {

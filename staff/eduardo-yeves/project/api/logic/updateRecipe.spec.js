@@ -38,27 +38,26 @@ describe('updateRecipe', () => {
                         expect(recipe.tags).to.deep.equal(['tarta', 'postre', 'slytherin'])
 
                         return updateRecipe(
-                            user._id.toString(),
-                            recipe._id.toString(),
-                            recipe.title = 'Tarta de manzana',
-                            recipe.images = ['https://imgs.search.brave.com/RFBYqwTGI-evdT-bU-WYmtV9d2Bkt5qNB7sD9xElgUQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aG9nYXJtYW5pYS5j/b20vYXJjaGl2b3Mv/MjAxNjA5L2FtZXJp/Y2FuLWFwcGxlLXBp/ZS10YXJ0YS1tYW56/YW5hLWFtZXJpY2Fu/YS1yZWNldGEtMS5q/cGc'],
-                            recipe.description = 'Una tarta de manzana',
-                            recipe.time = 90,
-                            recipe.difficulty = 'easy',
-                            recipe.tags = ['manzana']
+                            user._id.toString(), //userId
+                            recipe._id.toString(), // recipeId
+                            'Tarta de manzana', // title
+                            'Una tarta de manzana', // description
+                            90, // time
+                            'easy', // difficulty
                         )
                             .then(result => {
                                 expect(result).to.be.undefined
+
                                 return Recipe.findOne()
                             })
                             .then(recipe => {
                                 expect(recipe.author.toString()).to.equal(user._id.toString())
                                 expect(recipe.title).to.equal('Tarta de manzana')
-                                expect(recipe.images).to.deep.equal(['https://imgs.search.brave.com/RFBYqwTGI-evdT-bU-WYmtV9d2Bkt5qNB7sD9xElgUQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aG9nYXJtYW5pYS5j/b20vYXJjaGl2b3Mv/MjAxNjA5L2FtZXJp/Y2FuLWFwcGxlLXBp/ZS10YXJ0YS1tYW56/YW5hLWFtZXJpY2Fu/YS1yZWNldGEtMS5q/cGc'])
+                                expect(recipe.images).to.deep.equal(['https://www.elplural.com/uploads/s1/16/98/12/6/receta-tarta-chocolate_4_800x450.jpeg'])
                                 expect(recipe.description).to.equal('Una tarta de manzana')
                                 expect(recipe.time).to.equal(90)
                                 expect(recipe.difficulty).to.equal('easy')
-                                expect(recipe.tags).to.deep.equal(['manzana'])
+                                expect(recipe.tags).to.deep.equal(['tarta', 'postre', 'slytherin'])
                             })
                     })
             })
@@ -89,22 +88,18 @@ describe('updateRecipe', () => {
 
                         return updateRecipe(
                             new ObjectId().toString(),
-                            recipe._id.toString(),
-                            recipe.title = 'Tarta de manzana',
-                            recipe.images = ['https://imgs.search.brave.com/RFBYqwTGI-evdT-bU-WYmtV9d2Bkt5qNB7sD9xElgUQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aG9nYXJtYW5pYS5j/b20vYXJjaGl2b3Mv/MjAxNjA5L2FtZXJp/Y2FuLWFwcGxlLXBp/ZS10YXJ0YS1tYW56/YW5hLWFtZXJpY2Fu/YS1yZWNldGEtMS5q/cGc'],
-                            recipe.description = 'Una tarta de manzana',
-                            recipe.time = 90,
-                            recipe.difficulty = 'easy',
-                            recipe.tags = ['manzana']
+                            recipe._id.toString(), // recipeId
+                            'Tarta de manzana', // title
+                            'Una tarta de manzana', // description
+                            90, // time
+                            'easy', // difficulty
                         )
                             .catch(error => catchedError = error)
                             .finally(() => {
                                 expect(catchedError).to.be.instanceOf(NotFoundError)
                                 expect(catchedError.message).to.equal('user not found')
                             })
-
                     })
-
             })
     })
 
@@ -132,23 +127,19 @@ describe('updateRecipe', () => {
                         expect(recipe.tags).to.deep.equal(['tarta', 'postre', 'slytherin'])
 
                         return updateRecipe(
-                            user._id.toString(),
+                            user._id.toString(), //userId
                             new ObjectId().toString(),
-                            recipe.title = 'Tarta de manzana',
-                            recipe.images = ['https://imgs.search.brave.com/RFBYqwTGI-evdT-bU-WYmtV9d2Bkt5qNB7sD9xElgUQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aG9nYXJtYW5pYS5j/b20vYXJjaGl2b3Mv/MjAxNjA5L2FtZXJp/Y2FuLWFwcGxlLXBp/ZS10YXJ0YS1tYW56/YW5hLWFtZXJpY2Fu/YS1yZWNldGEtMS5q/cGc'],
-                            recipe.description = 'Una tarta de manzana',
-                            recipe.time = 90,
-                            recipe.difficulty = 'easy',
-                            recipe.tags = ['manzana']
+                            'Tarta de manzana', // title
+                            'Una tarta de manzana', // description
+                            90, // time
+                            'easy', // difficulty
                         )
                             .catch(error => catchedError = error)
                             .finally(() => {
                                 expect(catchedError).to.be.instanceOf(NotFoundError)
                                 expect(catchedError.message).to.equal('recipe not found')
                             })
-
                     })
-
             })
     })
 
@@ -176,13 +167,11 @@ describe('updateRecipe', () => {
                     .then(recipe => {
                         return updateRecipe(
                             frodo._id.toString(),
-                            recipe._id.toString(),
-                            recipe.title = 'Tarta de manzana',
-                            recipe.images = ['https://imgs.search.brave.com/RFBYqwTGI-evdT-bU-WYmtV9d2Bkt5qNB7sD9xElgUQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aG9nYXJtYW5pYS5j/b20vYXJjaGl2b3Mv/MjAxNjA5L2FtZXJp/Y2FuLWFwcGxlLXBp/ZS10YXJ0YS1tYW56/YW5hLWFtZXJpY2Fu/YS1yZWNldGEtMS5q/cGc'],
-                            recipe.description = 'Una tarta de manzana',
-                            recipe.time = 90,
-                            recipe.difficulty = 'easy',
-                            recipe.tags = ['manzana']
+                            recipe._id.toString(), // recipeId
+                            'Tarta de manzana', // title
+                            'Una tarta de manzana', // description
+                            90, // time
+                            'easy', // difficulty
                         )
                     })
                     .catch(error => catchedError = error)

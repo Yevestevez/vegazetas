@@ -17,7 +17,8 @@ describe('removeStepFromRecipe', () => {
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
     it('succeeds on existing user, recipe and step', () => {
-        let step
+        let step0
+        let step1
 
         return User.create({ name: 'Draco Malfoy', email: 'draco@malfoy.com', username: 'dracomalfoy', password: '123123123' })
             .then(user => {
@@ -29,19 +30,40 @@ describe('removeStepFromRecipe', () => {
                     time: 120,
                     difficulty: 'difficult',
                     tags: ['tarta', 'postre', 'slytherin'],
-                    steps: [{ text: 'Mezclamos la harina con el cacao en polvo', note: 'que quede todo bien mezclado y sin grumos', image: 'https://www.elplural.com/uploads/s1/16/98/12/6/receta-tarta-chocolate_4_800x450.jpeg' }]
+                    steps: [
+                        { text: 'Mezclamos la harina con el cacao en polvo', note: 'que quede todo bien mezclado y sin grumos', image: 'https://www.elplural.com/uploads/s1/16/98/12/6/receta-tarta-chocolate_4_800x450.jpeg' },
+                        { text: 'Añadimos el azúcar', note: 'cuidado con no pasarse', image: 'https://th.bing.com/th/id/OIP.mBDNIyr9bjqBw5aYxlmTswHaE8?rs=1&pid=ImgDetMain' }
+                    ]
                 })
                     .then(recipe => {
-                        step = recipe.steps[0]
-                        expect(recipe.steps).to.be.an('array').with.lengthOf(1)
+                        step0 = recipe.steps[0]
+                        step1 = recipe.steps[1]
 
-                        return removeStepFromRecipe(user._id.toString(), recipe._id.toString(), step._id.toString())
+                        expect(recipe.steps).to.be.an('array').with.lengthOf(2)
+
+                        expect(recipe.steps[0].text).to.equal('Mezclamos la harina con el cacao en polvo')
+                        expect(recipe.steps[0].note).to.equal('que quede todo bien mezclado y sin grumos')
+                        expect(recipe.steps[0].image).to.equal('https://www.elplural.com/uploads/s1/16/98/12/6/receta-tarta-chocolate_4_800x450.jpeg')
+
+                        expect(recipe.steps[1].text).to.equal('Añadimos el azúcar')
+                        expect(recipe.steps[1].note).to.equal('cuidado con no pasarse')
+                        expect(recipe.steps[1].image).to.equal('https://th.bing.com/th/id/OIP.mBDNIyr9bjqBw5aYxlmTswHaE8?rs=1&pid=ImgDetMain')
+
+                        return removeStepFromRecipe(user._id.toString(), recipe._id.toString(), step0._id.toString())
                     })
-                    .then(() => {
+                    .then(result => {
+                        expect(result).to.be.undefined
+
                         return Recipe.findOne()
                     })
                     .then(recipe => {
-                        expect(recipe.steps).to.be.an('array').with.lengthOf(0)
+                        expect(recipe.steps).to.be.an('array').with.lengthOf(1)
+
+                        expect(recipe.steps[0].text).to.equal('Añadimos el azúcar')
+                        expect(recipe.steps[0].note).to.equal('cuidado con no pasarse')
+                        expect(recipe.steps[0].image).to.equal('https://th.bing.com/th/id/OIP.mBDNIyr9bjqBw5aYxlmTswHaE8?rs=1&pid=ImgDetMain')
+
+                        expect(recipe.steps[1]).not.to.exist
                     })
             })
     })

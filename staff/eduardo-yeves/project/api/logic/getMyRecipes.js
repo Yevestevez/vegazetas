@@ -16,36 +16,12 @@ const getMyRecipes = userId => {
                 .select('-__v')
                 .populate('author', 'username')
                 .lean()
-                // .aggregate([
-                //     { $match: { author: user._id } },
-                //     {
-                //         $project: {
-                //             image: { $arrayElemAt: ['$images', 0] }
-                //         }
-                //     },
-                //     {
-                //         $lookup: {
-                //             from: 'users',
-                //             localField: 'author',
-                //             foreignField: '_id',
-                //             as: 'author'
-                //         }
-                //     },
-                //     {
-                //         $unwind: {
-                //             path: '$author',
-                //             preserveNullAndEmptyArrays: true
-                //         }
-                //     }
-                // ])
                 .sort('-date')
                 .catch(error => { throw new SystemError(error.message) })
                 .then(recipes => {
                     recipes.forEach(recipe => {
                         recipe.id = recipe._id.toString()
                         delete recipe._id
-
-                        // delete recipe.__v
 
                         if (recipe.author._id) {
                             recipe.author.id = recipe.author._id.toString()

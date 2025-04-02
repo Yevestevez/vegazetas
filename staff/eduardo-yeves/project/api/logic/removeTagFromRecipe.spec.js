@@ -9,16 +9,15 @@ const { Types: { ObjectId } } = mongoose
 import { errors } from 'com'
 const { NotFoundError, OwnershipError } = errors
 
-import removeIngredientFromRecipe from './removeIngredientFromRecipe.js'
+import removeTagFromRecipe from './removeTagFromRecipe.js'
 
-describe('removeIngredientFromRecipe', () => {
+describe('removeTagFromRecipe', () => {
     before(() => mongoose.connect(process.env.TEST_MONGO_URL))
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it('succeeds on existing user, recipe and ingredient', () => {
-        let ingredient0
-        let ingredient1
+    it('succeeds on existing user, recipe and tag', () => {
+        const index = 0
 
         return User.create({ name: 'Draco Malfoy', email: 'draco@malfoy.com', username: 'dracomalfoy', password: '123123123' })
             .then(user => {
@@ -30,53 +29,34 @@ describe('removeIngredientFromRecipe', () => {
                     time: 120,
                     difficulty: 'difficult',
                     tags: ['tarta', 'postre', 'slytherin'],
-                    ingredients: [
-                        { name: 'Harina', quantity: '300', unit: 'g', annotation: 'integral', main: true },
-                        { name: 'Cacao', quantity: '200', unit: 'g', annotation: 'puro', main: false }
-                    ]
+                    ingredients: [{ name: 'Harina', quantity: '300', unit: 'g', annotation: 'integral', main: true }]
                 })
                     .then(recipe => {
-                        ingredient0 = recipe.ingredients[0]
-                        ingredient1 = recipe.ingredients[1]
+                        expect(recipe.tags).to.be.an('array').with.lengthOf(3)
+                        expect(recipe.tags[0]).to.be.deep.equal('tarta')
+                        expect(recipe.tags[1]).to.be.deep.equal('postre')
+                        expect(recipe.tags[2]).to.be.deep.equal('slytherin')
 
-                        expect(recipe.ingredients).to.be.an('array').with.lengthOf(2)
-
-                        expect(recipe.ingredients[0].name).to.equal('Harina')
-                        expect(recipe.ingredients[0].quantity).to.equal(300)
-                        expect(recipe.ingredients[0].unit).to.equal('g')
-                        expect(recipe.ingredients[0].annotation).to.equal('integral')
-                        expect(recipe.ingredients[0].main).to.equal(true)
-
-                        expect(recipe.ingredients[1].name).to.equal('Cacao')
-                        expect(recipe.ingredients[1].quantity).to.equal(200)
-                        expect(recipe.ingredients[1].unit).to.equal('g')
-                        expect(recipe.ingredients[1].annotation).to.equal('puro')
-                        expect(recipe.ingredients[1].main).to.equal(false)
-
-                        return removeIngredientFromRecipe(user._id.toString(), recipe._id.toString(), ingredient0._id.toString())
+                        return removeTagFromRecipe(user._id.toString(), recipe._id.toString(), index)
                     })
-                    .then((result) => {
+                    .then(result => {
                         expect(result).to.be.undefined
-
+                    })
+                    .then(() => {
                         return Recipe.findOne()
                     })
                     .then(recipe => {
-                        expect(recipe.ingredients).to.be.an('array').with.lengthOf(1)
+                        expect(recipe.tags).to.be.an('array').with.lengthOf(2)
 
-                        expect(recipe.ingredients[0].name).to.equal('Cacao')
-                        expect(recipe.ingredients[0].quantity).to.equal(200)
-                        expect(recipe.ingredients[0].unit).to.equal('g')
-                        expect(recipe.ingredients[0].annotation).to.equal('puro')
-                        expect(recipe.ingredients[0].main).to.equal(false)
-
-                        expect(recipe.ingredients[1]).not.to.exist
+                        expect(recipe.tags[0]).to.be.deep.equal('postre')
+                        expect(recipe.tags[1]).to.be.deep.equal('slytherin')
                     })
             })
     })
 
     it('fails on wrong user', () => {
         let catchedError
-        let ingredient
+        const index = 0
 
         return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
             .then(user => {
@@ -91,10 +71,9 @@ describe('removeIngredientFromRecipe', () => {
                     ingredients: [{ name: 'Harina', quantity: '300', unit: 'g', annotation: 'integral', main: true }]
                 })
                     .then(recipe => {
-                        ingredient = recipe.ingredients[0]
-                        expect(recipe.ingredients).to.be.an('array').with.lengthOf(1)
+                        expect(recipe.tags).to.be.an('array').with.lengthOf(3)
 
-                        return removeIngredientFromRecipe(new ObjectId().toString(), recipe._id.toString(), ingredient._id.toString())
+                        return removeTagFromRecipe(new ObjectId().toString(), recipe._id.toString(), index)
                     })
                     .catch(error => catchedError = error)
                     .finally(() => {
@@ -106,7 +85,7 @@ describe('removeIngredientFromRecipe', () => {
 
     it('fails on wrong recipe', () => {
         let catchedError
-        let ingredient
+        const index = 0
 
         return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
             .then(user => {
@@ -121,10 +100,9 @@ describe('removeIngredientFromRecipe', () => {
                     ingredients: [{ name: 'Harina', quantity: '300', unit: 'g', annotation: 'integral', main: true }]
                 })
                     .then(recipe => {
-                        ingredient = recipe.ingredients[0]
-                        expect(recipe.ingredients).to.be.an('array').with.lengthOf(1)
+                        expect(recipe.tags).to.be.an('array').with.lengthOf(3)
 
-                        return removeIngredientFromRecipe(user._id.toString(), new ObjectId().toString(), ingredient._id.toString())
+                        return removeTagFromRecipe(user._id.toString(), new ObjectId().toString(), index)
                     })
                     .catch(error => catchedError = error)
                     .finally(() => {
@@ -134,9 +112,9 @@ describe('removeIngredientFromRecipe', () => {
             })
     })
 
-    it('fails on wrong ingredient', () => {
+    it('fails on not found tag', () => {
         let catchedError
-        let ingredient
+        const index = 3
 
         return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
             .then(user => {
@@ -151,22 +129,21 @@ describe('removeIngredientFromRecipe', () => {
                     ingredients: [{ name: 'Harina', quantity: '300', unit: 'g', annotation: 'integral', main: true }]
                 })
                     .then(recipe => {
-                        ingredient = recipe.ingredients[0]
-                        expect(recipe.ingredients).to.be.an('array').with.lengthOf(1)
+                        expect(recipe.tags).to.be.an('array').with.lengthOf(3)
 
-                        return removeIngredientFromRecipe(user._id.toString(), recipe._id.toString(), new ObjectId().toString())
+                        return removeTagFromRecipe(user._id.toString(), recipe._id.toString(), index)
                     })
                     .catch(error => catchedError = error)
                     .finally(() => {
                         expect(catchedError).to.be.instanceOf(NotFoundError)
-                        expect(catchedError.message).to.equal('ingredient not found')
+                        expect(catchedError.message).to.equal('tag not found')
                     })
             })
     })
 
     it('fails on wrong recipe author', () => {
         let catchedError
-        let ingredient
+        const index = 0
 
         const draco = new User({ name: 'Draco Malfoy', email: 'draco@malfoy.com', username: 'dracomalfoy', password: '123123123' })
         const ron = new User({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
@@ -200,9 +177,7 @@ describe('removeIngredientFromRecipe', () => {
             calabaza.save()
         ])
             .then(([draco, ron, tarta, calabaza]) => {
-                ingredient = calabaza.ingredients[0]
-
-                return removeIngredientFromRecipe(draco._id.toString(), calabaza._id.toString(), ingredient._id.toString())
+                return removeTagFromRecipe(draco._id.toString(), calabaza._id.toString(), index)
             })
             .catch(error => catchedError = error)
             .finally(() => {

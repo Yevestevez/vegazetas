@@ -21,7 +21,7 @@ describe('authenticateUser', () => {
             .then(hash => User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: hash }))
             .then(() => authenticateUser('ana@perez.com', '123123123'))
             .then(userId => {
-                expect(userId).to.be.a.string
+                expect(userId).to.be.a('string').with.lengthOf(24)
 
                 return User.findById(userId)
             })
