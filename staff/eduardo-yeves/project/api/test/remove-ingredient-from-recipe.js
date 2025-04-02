@@ -1,7 +1,7 @@
-fetch('http://localhost:8080/recipes/67d1cf5801353466dc7e899e/ingredients/67d1d216ba3e589ce6237030', {
+fetch('http://localhost:8080/recipes/67ea59a5ecbab7201125cbde/ingredients/67ea59a5ecbab7201125cbc9', {
     method: 'DELETE',
     headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2QxY2Y1ODAxMzUzNDY2ZGM3ZTg5OWEiLCJpYXQiOjE3NDE4MDQxNjN9.NZfpEdsjG_GyyhzrBg07s9mIY4RMLs59qLMAKuHPup4',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2VhNTlhNWVjYmFiNzIwMTEyNWNiYzciLCJpYXQiOjE3NDM2MTE0ODh9.Mh6Ced7GwQABgzLRvYy1NmLZT-bcjKyZ-KCVRy5lgMk',
         'Content-Type': 'application/json'
     }
 })

@@ -1,7 +1,7 @@
-fetch('http://localhost:8080/recipes/67e2f400835b20c641d56c5e/tags', {
+fetch('http://localhost:8080/recipes/67ea945619ca1fadc87e88d3/tags', {
     method: 'POST',
     headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2UyZjA5MTk4NjQzNTRhMGU2NDZlN2UiLCJpYXQiOjE3NDI5ODQzNzF9.HtiJbGIW45IxfGmy4g0vZdIBzgBLY9Me_0QVeNyvmxM',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2VhNTlhNWVjYmFiNzIwMTEyNWNiYzciLCJpYXQiOjE3NDM2MDg4NzZ9.oPmfXPlILgeIHpSFvfcplOUVrFjbZa4jZinDa_qgjNg',
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({

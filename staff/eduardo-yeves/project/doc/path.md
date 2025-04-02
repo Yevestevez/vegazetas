@@ -229,8 +229,6 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
 
 - Si el **usuario no tiene recetas**, en my-recipes mostrar un texto tipo (todavía no has creado ninguna receta) y un botón de *Crear receta*
 
-*...commit*
-
 - Actualizar README a falta del coverage de los test
 
 - Test y specs revisados y actualizados:
@@ -246,6 +244,7 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
     - getMyRecipes
     - getRecipeById (%coverage!)
     - getUserName
+    - getUserUsername
     - registerUser
     - removeImageFromRecipe
     - removeIngredientFromRecipe
@@ -253,10 +252,12 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
     - removeTagFronRecipe
     - updateRecipe
 
+
+
+- Añadir 🍕 como favicon de la web
+
 - Test de api (js y sh) revisados y actualizados:
     REVISADOS
-
-    A REVISAR
 
     - addImageToRecipe
     - addIngredientToRecipe
@@ -268,15 +269,15 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
     - getMyRecipes
     - getRecipeById
     - getUserName
+    - getUserUsername
     - registerUser
     - removeImageFromRecipe
     - removeIngredientFromRecipe
     - removeStepFromRecipe
-    - removeTagFronRecipe
+    - removeTagFronmRecipe
     - updateRecipe
 
-<!-- - Repasar todos los test y specs de todas las lógicas -->
-
+*...commit*
 ...
 
 <!-- - Redirigir a Login cuando, después de desconectar la app se borra sessionStorage y sigue anclada en un componente interno -->

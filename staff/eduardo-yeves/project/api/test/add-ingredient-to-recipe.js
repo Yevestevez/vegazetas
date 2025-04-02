@@ -1,7 +1,7 @@
-fetch('http://localhost:8080/recipes/67e1972d9c44bea5604aa6e6/ingredients', {
+fetch('http://localhost:8080/recipes/67ea945619ca1fadc87e88d3/ingredients', {
     method: 'POST',
     headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2UwM2JmOTY3NTA0MWUzN2QxZGUzMGEiLCJpYXQiOjE3NDI5MDU2NjJ9.thH8d-l2ZYf4wlsh0hDDNvHRKc1WS1yw-LO8UAI4zfU',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2VhNTlhNWVjYmFiNzIwMTEyNWNiYzciLCJpYXQiOjE3NDM2MDg4NzZ9.oPmfXPlILgeIHpSFvfcplOUVrFjbZa4jZinDa_qgjNg',
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({

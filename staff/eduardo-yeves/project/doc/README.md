@@ -26,6 +26,7 @@ En **futuras versiones** se implementarán nuevas funcionalidades como:
 - Calendario de planificación de menús
 - Modo cocina: botón para evitar que se apague la pantalla del móvil o tablet mientas cocinas
 - Cambio del tamaño de letra en las recetas
+- App responsive
 - ¡Y mucho más!
 
 <br>

@@ -1,12 +1,8 @@
 import 'dotenv/config'
-// import jwt from 'jsonwebtoken'
 
 import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
-
-// import logic from './logic/index.js'
-// import jsonBodyParser from './middlewares/jsonBodyParser.js'
 
 import { usersRouter, recipesRouter } from './routes/index.js'
 import errorHandler from './middlewares/errorHandler.js'

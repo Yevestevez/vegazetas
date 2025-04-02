@@ -1,7 +1,7 @@
-fetch('http://localhost:8080/recipes/67e03bf9675041e37d1de321', {
+fetch('http://localhost:8080/recipes/67ed668643f78566e72b4876', {
     method: 'GET',
     headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2UwM2JmOTY3NTA0MWUzN2QxZGUzMGEiLCJpYXQiOjE3NDI4ODg2NTB9.VOcWhIHatzQZGjwenEAn6qzNYn9C_dtCRhOQRJoHF_w'
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2VhNTlhNWVjYmFiNzIwMTEyNWNiYzciLCJpYXQiOjE3NDM2MTE0ODh9.Mh6Ced7GwQABgzLRvYy1NmLZT-bcjKyZ-KCVRy5lgMk'
     }
 })
     .then(res => {

@@ -1,15 +1,9 @@
-fetch('http://localhost:8080/recipes/67ea59a5ecbab7201125cbde', {
-    method: 'PATCH',
+fetch('http://localhost:8080/recipes/67ea59a5ecbab7201125cbde/tags/1', {
+    method: 'DELETE',
     headers: {
         Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2VhNTlhNWVjYmFiNzIwMTEyNWNiYzciLCJpYXQiOjE3NDM2MTE0ODh9.Mh6Ced7GwQABgzLRvYy1NmLZT-bcjKyZ-KCVRy5lgMk',
         'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        title: 'Tofu japonés',
-        description: 'Otra descripción',
-        time: 50,
-        difficulty: 'medium',
-    })
+    }
 })
     .then(res => {
         const { status } = res

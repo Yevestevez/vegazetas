@@ -1,7 +1,7 @@
-fetch('http://localhost:8080/recipes/67e3f94465ad62473d8b3a99/images/https://imgs.search.brave.com/kNSwGkCuQCSYBLKzKmOSawR09HI1rdTXasdFk_XVmRA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by9m/cmllZC10b2Z1XzEz/MzktMzI2NC5qcGc_/c2VtdD1haXNfaHli/cmlk', {
+fetch('http://localhost:8080/recipes/67ed668643f78566e72b4876/images/0', {
     method: 'DELETE',
     headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2UyZjA5MTk4NjQzNTRhMGU2NDZlN2UiLCJpYXQiOjE3NDMxMDIwMjB9.EnaiXbcd3ajYximMoaSkzBrOhJ8UZa2FWtTk0zmUOtA',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2VhNTlhNWVjYmFiNzIwMTEyNWNiYzciLCJpYXQiOjE3NDM2MTE0ODh9.Mh6Ced7GwQABgzLRvYy1NmLZT-bcjKyZ-KCVRy5lgMk',
         'Content-Type': 'application/json'
     }
 })

@@ -1,4 +1,4 @@
-curl -X POST -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2QwMzJiNTkxNmJkNTY1OTdjYjZlYWQiLCJpYXQiOjE3NDE2OTc3NDJ9.e-EMt2OuT7PUHvGH1xj5abKUbxHXYa6C0G6QNrnZoiE" \
+curl -X POST -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2VhNTlhNWVjYmFiNzIwMTEyNWNiYzciLCJpYXQiOjE3NDM2MTA3NjZ9.7wYKLfmptukNmTDNI8A0PGIqmR9DDqHlaMAP9h8C8LQ" \
 -H "Content-Type: application/json" \
 -d '{
   "title": "Tofu coreano8",
