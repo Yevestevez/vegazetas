@@ -23,7 +23,6 @@ function SaveRecipe({
 }) {
     const { alert, confirm } = useAppContext()
     const { id: recipeId } = useParams()
-    console.log(recipeId)
 
     const [recipe, setRecipe] = useState(null)
 
@@ -120,7 +119,6 @@ function SaveRecipe({
 
     const handleDeleteImageButton = (event, index) => {
         event.preventDefault()
-        console.log('index:', index)
 
         confirm('¿Quieres eliminar esta imagen?', accepted => {
 

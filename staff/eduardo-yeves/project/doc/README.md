@@ -6,28 +6,31 @@
 
 ## Intro
 
-**Vegazetas** es una aplicación web que permite **crear, visualizar, editar y eliminar recetas**. Tiene una interfaz muy colorida, llamativa y simple; y una experiencia de usuario cómoda y sencilla, tanto para crear las recetas como para visualizarlas mientas las preparas en la cocina.
+## Intro
 
-Para ello cuenta con varias secciones y funcionalidades. A nivel de acceso tiene una sección de **registro** e **inicio de sesión**. Una vez iniciada la sesión encontramos un **menú** de navegación entre las distintas secciones y el botón para **crear receta**.
+**Vegazetas** is a web application that allows you to **create, view, edit, and delete recipes**. It features a **colorful**, **eye-catching**, and **simple** interface, offering a **comfortable** and **intuitive** user experience—both for creating recipes and for viewing them while cooking in the kitchen.
 
-Dispone de la sección **Mis recetas**, una lista de vistas en miniaturas de las recetas del usuario y navegación directa a la **visualización de una receta** al seleccionarla. Dentro de la receta podemos eliminarla o navegar hacia la sección de edición de receta.
+The app includes several **sections** and **features**. In terms of access, there is a section for **sign-up** and **login**. Once logged in, users will find a **navigation menu** to move between the different sections and a button to **create a recipe**.
 
-En esta sección de **edición** podemos modificar los campos de la receta, además de elmiminar y añadir nuevas imágenes, etiquetas, ingredientes y pasos. Describiremos los campos de la receta de manera más detallada en [Data Model](#data-model).
+It includes the **My Recipes** section, a list of recipe thumbnails created by the user with direct navigation to the **recipe view** when selected. Inside a recipe, users can delete it or navigate to the **edit recipe** section.
 
-En **futuras versiones** se implementarán nuevas funcionalidades como:
-- Filtro de recetas por ingredientes, etiquetas y títulos
-- Visualización de recetas de otros usuarios y botón me gusta para guardar estas recetas en una nueva sección de Mis favoritas
-- Compartir recetas mediante enlace
-- Sección de listas de recetas
-- Enlaces a recetas externas a Vegazetas
-- Creación de recetas en modo "borrador/privado" para luego publicarlas en el momento deseado
-- Modificación del perfil de usuario y eliminación de cuenta
-- Generación automática de una lista de la compra editable en función de los ingredientes de la receta
-- Calendario de planificación de menús
-- Modo cocina: botón para evitar que se apague la pantalla del móvil o tablet mientas cocinas
-- Cambio del tamaño de letra en las recetas
-- App responsive
-- ¡Y mucho más!
+In the **edit** section, users can modify any recipe field, as well as remove or add new **images**, **tags**, **ingredients**, and **steps**. The recipe fields will be described in more detail in the [**Data Model**](#data-model) section.
+
+In **future versions**, new features will be implemented, such as:
+
+- Filtering recipes by *ingredients*, *tags*, and *titles*
+- Viewing recipes from other users and a **like** button to save them in a new **My Favorites** section
+- Sharing recipes via *link*
+- A section for *recipe lists*
+- External *links to recipes* outside of Vegazetas
+- Creating recipes in *draft/private* mode to publish them later
+- Modifying the *user profile* and deleting the account
+- Automatically generating an *editable shopping list* based on recipe ingredients
+- *Menu planning calendar*
+- *Cooking mode*: a button to prevent the mobile or tablet screen from turning off while cooking
+- Changing the *font size* in recipe view
+- *Responsive app design*
+- *And much more!*
 
 <br>
 
@@ -40,13 +43,13 @@ En **futuras versiones** se implementarán nuevas funcionalidades como:
 
 User
 
-- Registro
-- Inicio de sesión
-- Cierre de sesión
-- Creación de receta
-- Edición de receta
-- Visualización de receta seleccionada
-- Visualización de "mis recetas"
+- Sign up
+- Log in
+- Log out
+- Create recipe
+- Edit recipe
+- View selected recipe
+- View "My Recipes"
 
 
 ### UXUI Design

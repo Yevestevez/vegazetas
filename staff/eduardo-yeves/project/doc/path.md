@@ -277,7 +277,12 @@ Un listado muy resumido de los pasos para crear la aplicación ***Vegazetas***
     - removeTagFronmRecipe
     - updateRecipe
 
+- Hacer 2 versiones de README (SPA & ENG)
+
 *...commit*
+
+<!-- - Responsive (Mobile, Tablet, HD, 2K) -->
+
 ...
 
 <!-- - Redirigir a Login cuando, después de desconectar la app se borra sessionStorage y sigue anclada en un componente interno -->
