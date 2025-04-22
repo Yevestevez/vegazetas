@@ -1,3 +1,3 @@
-# isdi-parttime-202410
+# vegazetas
 
 Hello, World!
