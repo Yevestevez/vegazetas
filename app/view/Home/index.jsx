@@ -149,6 +149,7 @@ function Home({ onUserLoggedOut }) {
                     onRecipeDeleted={handleRecipeDeleted}
                     onUserLoggedOut={handleUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
+                    onSaveRecipeBackButtonClicked={handleSaveRecipeBackButton}
                 />}
             />
         </Routes>
