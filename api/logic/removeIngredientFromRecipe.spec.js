@@ -12,7 +12,7 @@ const { NotFoundError, OwnershipError } = errors
 import removeIngredientFromRecipe from './removeIngredientFromRecipe.js'
 
 describe('removeIngredientFromRecipe', () => {
-    before(() => mongoose.connect(process.env.TEST_MONGO_URL))
+    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 

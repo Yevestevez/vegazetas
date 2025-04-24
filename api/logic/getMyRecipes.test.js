@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import getMyRecipes from './getMyRecipes.js'
 
-mongoose.connect('mongodb://localhost:27017/vegazetas')
+mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {
         try {
             getMyRecipes('67ea59a5ecbab7201125cbc7')

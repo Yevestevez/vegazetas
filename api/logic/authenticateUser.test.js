@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import authenticateUser from './authenticateUser.js'
 
-mongoose.connect('mongodb://localhost:27017/vegazetas')
+mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {
         try {
             authenticateUser('ana@perez.com', '123123123')
