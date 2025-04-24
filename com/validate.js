@@ -2,8 +2,8 @@ import errors from './errors/index.js'
 const { ValidationError } = errors
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-const USERNAME_REGEX = /^[a-z0-9_-]{1,30}$/
-const PASSWORD_REGEX = /^((?!.*[\s])(?=.*[a-zA-Z0-9])(?=.*\d).{8,15})/
+const USERNAME_REGEX = /^[a-z0-9._-]{1,25}$/
+const PASSWORD_REGEX = /^(?!.*[\s])(?=.*\d)(?=.*[a-zA-Z@$-_]).{8,15}$/
 const URL_REGEX = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
 
 const validate = {
@@ -21,7 +21,7 @@ const validate = {
     // User
     name(name) {
         if (typeof name !== 'string') throw new ValidationError('invalid name type')
-        if (name.length < 1 || name.length > 30) throw new ValidationError('invalid name length')
+        if (name.length < 1 || name.length > 50) throw new ValidationError('invalid name length')
     },
 
     email(email) {
@@ -31,12 +31,13 @@ const validate = {
 
     username(username) {
         if (typeof username !== 'string') throw new ValidationError('invalid username type')
-        if (!USERNAME_REGEX.test(username)) throw new ValidationError('invalid username syntax')
         if (username.length < 1 || username.length > 25) throw new ValidationError('invalid username length')
+        if (!USERNAME_REGEX.test(username)) throw new ValidationError('invalid username syntax')
     },
 
     password(password) {
         if (typeof password !== 'string') throw new ValidationError('invalid password type')
+        if (password.length < 8 || password.length > 15) throw new ValidationError('invalid password length')
         if (!PASSWORD_REGEX.test(password)) throw new ValidationError('invalid password syntax')
     },
 
