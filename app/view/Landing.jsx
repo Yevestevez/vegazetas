@@ -81,7 +81,7 @@ function Landing({ onLoginClicked, onRegisterClicked }) {
         hover:-translate-y-2 hover:scale-105
     `
 
-    return <div className="flex flex-col min-h-screen min-w-screen bg-violet items-center">
+    return <div className="flex flex-col min-h-screen min-w-screen bg-folly items-center">
         <h1 className={logoClasses}>Vega<br></br>zetas</h1>
 
         <p className={titleClasses}>Cook & Cool</p>
