@@ -63,13 +63,29 @@ function SaveRecipe({
         const title = form.title.value.trim()
         const description = form.description.value.trim() || undefined
         const time = parseFloat(form.time.value.trim()) || undefined
-        const difficulty = form.difficulty.value.trim() || undefined
+        let difficulty = form.difficulty.value.trim().toLowerCase() || undefined
 
         if (!title) {
             alert('Añade un título a tu receta')
 
             return
         }
+
+        const difficultyMap = {
+            'fácil': 'easy',
+            'media': 'medium',
+            'difícil': 'difficult',
+
+
+            'facil': 'easy',
+            'dificil': 'difficult',
+
+            'easy': 'easy',
+            'medium': 'medium',
+            'difficult': 'difficult'
+        }
+
+        difficulty = difficultyMap[difficulty] || undefined
 
         logic.updateRecipe(recipe.id, title, description, time, difficulty)
             .then(() => {
@@ -364,6 +380,12 @@ function SaveRecipe({
     const mainIngredients = (recipe.ingredients ?? []).filter(ingredient => ingredient.main)
     const pantryIngredients = (recipe.ingredients ?? []).filter(ingredient => !ingredient.main)
 
+    const difficultyTranslations = {
+        easy: 'Fácil',
+        medium: 'Media',
+        difficult: 'Difícil'
+    }
+
     // Estilos comunes (TailwindCSS)
     const inputClasses = `
         flex items-center justify-center
@@ -382,19 +404,19 @@ function SaveRecipe({
     `
 
     const btnClasses = `
-    rounded-full 
+        rounded-full 
 
-    h-[15vw] w-[15vw]
-    justify-items-center
-   
-    drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+        h-[15vw] w-[15vw]
+        justify-items-center
+    
+        drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
 
-    anybody-logo
+        anybody-logo
 
-    transition-transform duration-150 ease-out
-    hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
-    hover:-translate-y-2 hover:scale-105
-`
+        transition-transform duration-150 ease-out
+        hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
+        hover:-translate-y-2 hover:scale-105
+    `
     console.log('CreateRecipe -> render')
 
     return <section className="pt-23 bg-folly h-full w-screen">
@@ -417,14 +439,23 @@ function SaveRecipe({
                     name="title"
                     placeholder="Pon un título a tu receta"
                     defaultValue={recipe.title}
+                    maxLength={100}
+                    required
+                    title="Campo obligatorio. Máximo 100 caracteres"
                 />
 
                 <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Descripción</label>
                 <textarea
                     className="w-full bg-spring-bud text-folly flex items-center justify-center p-5 rounded-2xl drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] focus:outline-5 anybody placeholder:italic text-center text-[4vw]/[120%] focus:bg-folly focus:text-spring-bud focus:outline-spring-bud"
                     name="description"
-                    placeholder="Describe brevemente tu receta"
+                    placeholder="Describe tu receta ¡cuéntanos más!"
                     defaultValue={recipe.description}
+                    maxLength={500}
+                    title="Máximo 500 caracteres"
+                    onInput={(e) => {
+                        e.target.style.height = 'auto';
+                        e.target.style.height = e.target.scrollHeight + 'px';
+                    }}
                     wrap="soft"
                 />
 
@@ -436,20 +467,39 @@ function SaveRecipe({
                             type="number"
                             name="time"
                             placeholder="En minutos"
-                            defaultValue={recipe.time}
+                            defaultValue={recipe.time || 5}
+                            min={5}
+                            max={9999}
+                            step={5}
+                            title="Tiempo en minutos. Múltiplos de 5"
                         />
                     </div>
 
+                    {/* <div className="flex flex-col gap-5">
+                        <label className={`${labelClasses} text-spring-bud`} htmlFor="difficulty">Dificultad</label>
+                        <select
+                            className={`${inputClasses} h-10 w-37 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                            name="difficulty"
+                            defaultValue={recipe.difficulty}
+                        >
+                            <option value="easy">Fácil</option>
+                            <option value="medium">Media</option>
+                            <option value="difficult">Difícil</option>
+                        </select>
+                    </div> */}
                     <div className="flex flex-col gap-5">
                         <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Dificultad</label>
                         <input
                             className={`${inputClasses} h-10 w-37 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                             type="text"
                             name="difficulty"
-                            placeholder="easy, medium o difficult"
-                            defaultValue={recipe.difficulty}
+                            placeholder="Fácil, media o dificil"
+                            defaultValue={difficultyTranslations[recipe.difficulty] || ''}
+                            pattern="^([Ff][AaÁá]cil|[Mm]edia|[Dd][IiÍí][Ff][IiÍí]cil|[Ee]asy|[Mm]edium|[Dd]ifficult)$"
+                            title="Fácil, media o difícil"
                         />
                     </div>
+
                 </div>
                 <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
             </form>
