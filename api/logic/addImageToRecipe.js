@@ -18,6 +18,9 @@ const addImageToRecipe = (userId, recipeId, image) => {
                 .then(recipe => {
                     if (!recipe) throw new NotFoundError('recipe not found')
 
+                    if (recipe.images.length >= 2)
+                        throw new Error('Máximo 2 imágenes')
+
                     recipe.images.push(image)
 
                     return recipe.save()

@@ -87,9 +87,9 @@ function Recipe({
     }
 
     const difficultyMap = {
-        easy: "Fácil",
-        medium: "Media",
-        difficult: "Difícil"
+        easy: "fácil",
+        medium: "media",
+        difficult: "difícil"
     }
 
     if (!recipe) return <p>Cargando receta...</p>
@@ -131,7 +131,7 @@ function Recipe({
                     {recipe.difficulty && (
                         <>
                             {recipe.time && " · "}
-                            <h3>{difficultyMap[recipe.difficulty]}</h3>
+                            <h3>Dificultad: {difficultyMap[recipe.difficulty]}</h3>
                         </>
                     )}
                 </div>

@@ -165,7 +165,7 @@ function SaveRecipe({
 
         const form = event.target
 
-        const tag = form.tag.value.trim()
+        const tag = form.tag.value.trim().toLowerCase()
 
         if (!tag) {
             alert('Añade una etiqueta')
@@ -521,7 +521,8 @@ function SaveRecipe({
                     className={`${inputClasses} h-10 w-80 bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
                     type="url"
                     name="image"
-                    placeholder="Copia aquí la url de la imagen"
+                    placeholder="Pega aquí la URL de la imagen"
+                    title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
                 />
 
                 <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
@@ -544,7 +545,11 @@ function SaveRecipe({
                     className={`${inputClasses} h-10 w-80 bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
                     type="text"
                     name="tag"
-                    placeholder="#añade-etiquetas-a-tu-receta"
+                    placeholder="Añade etiquetas a tu receta"
+                    title="Solo letras minúsculas, números, guiones y guiones bajos. Sin espacios y máximo 30 caracteres"
+                    pattern="^[a-z0-9\-_]+$"
+                    style={{ textTransform: 'lowercase' }}
+                    maxLength={30}
                 />
                 <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
             </form>
