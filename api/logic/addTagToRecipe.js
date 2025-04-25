@@ -1,7 +1,7 @@
 import { User, Recipe } from '../data/models.js'
 
 import { validate, errors } from 'com'
-const { NotFoundError, SystemError } = errors
+const { NotFoundError, SystemError, ValidationError } = errors
 
 const addTagToRecipe = (userId, recipeId, tag) => {
     validate.id(userId, 'userId')
@@ -17,6 +17,9 @@ const addTagToRecipe = (userId, recipeId, tag) => {
                 .catch(error => { throw new SystemError(error.message) })
                 .then(recipe => {
                     if (!recipe) throw new NotFoundError('recipe not found')
+
+                    if (recipe.tags.length >= 15)
+                        throw new ValidationError('too many tags, max 15 allowed')
 
                     recipe.tags.push(tag)
 

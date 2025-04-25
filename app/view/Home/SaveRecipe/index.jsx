@@ -127,7 +127,11 @@ function SaveRecipe({
                 form.reset()
             })
             .catch(error => {
-                alert(error.message)
+                if (error.message === 'too many images, max 2 allowed') {
+                    alert('Solo puedes añadir un máximo de 2 imágenes a tu receta')
+                } else {
+                    alert(error.message)
+                }
 
                 console.error(error)
             })
@@ -182,7 +186,11 @@ function SaveRecipe({
                 form.reset()
             })
             .catch(error => {
-                alert(error.message)
+                if (error.message === 'too many tags, max 15 allowed') {
+                    alert('Solo puedes añadir un máximo de 15 etiquetas a tu receta')
+                } else {
+                    alert(error.message)
+                }
 
                 console.error(error)
             })
@@ -542,7 +550,7 @@ function SaveRecipe({
                 </ul>
 
                 <input
-                    className={`${inputClasses} h-10 w-80 bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
+                    className={`${inputClasses} h-10 w-80 bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly placeholder:normal-case`}
                     type="text"
                     name="tag"
                     placeholder="Añade etiquetas a tu receta"
@@ -618,6 +626,10 @@ function SaveRecipe({
                             type="text"
                             name="name"
                             placeholder="Añade un nombre al ingrediente"
+                            required
+                            maxLength={50}
+                            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$"
+                            title="Solo letras y espacios, hasta 50 caracteres"
                         />
                         <div className="flex flex-row justify-between w-70">
                             <div className="flex flex-col gap-5">
@@ -626,7 +638,12 @@ function SaveRecipe({
                                     className={`${inputClasses} h-10 w-32 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                                     type="number"
                                     name="quantity"
-                                    placeholder="Un número"
+                                    placeholder="Número"
+                                    min={0}
+                                    max={9999}
+                                    step={0.01}
+                                    inputMode="decimal"
+                                    title="Introduce una cantidad entre 0 y 9999, hasta 2 decimales con punto (ej. 1.55)"
                                 />
                             </div>
 
@@ -637,6 +654,9 @@ function SaveRecipe({
                                     type="text"
                                     name="unit"
                                     placeholder="g, uds, ml..."
+                                    pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
+                                    maxlength={20}
+                                    title="Solo letras, espacios y tildes. Máximo 20 caracteres"
                                 />
                             </div>
                         </div>
@@ -647,6 +667,8 @@ function SaveRecipe({
                             type="text"
                             name="annotation"
                             placeholder="¿Necesitas alguna aclaración?"
+                            maxlength={50}
+                            title="Máximo 50 caracteres"
                         />
 
                         <div className="flex flex-row justify-between w-70 items-center">

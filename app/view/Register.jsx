@@ -142,7 +142,7 @@ function Register({ onLoginClicked, onUserRegistered }) {
         <main>
             <form className="flex flex-col gap-[1.5vw] mt-[10vw] items-center justify-center" onSubmit={handleFormSubmit}>
                 <label className="text-sgbus-green anybody font-bold text-[4.5vw]" htmlFor="name">Nombre</label>
-                <input className={`${inputClasses}`} type="text" id="name" placeholder="¿Quién eres?" maxLength={50} title="Nombre: máximo 50 caracteres" />
+                <input className={`${inputClasses}`} type="text" id="name" placeholder="¿Quién eres?" maxLength={50} pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$" title="Nombre: Solo letras y espacios, hasta 50 caracteres" />
 
                 <label className="text-sgbus-green anybody font-bold text-[4.5vw]" htmlFor="email">Email</label>
                 <input className={`${inputClasses}`} type="email" id="email" placeholder="¿Cuál es tu email?" title="Email con el que accederás a Vegazetas" />

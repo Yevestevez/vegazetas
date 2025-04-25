@@ -3,8 +3,10 @@ const { ValidationError } = errors
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const USERNAME_REGEX = /^[a-z0-9._-]{1,25}$/
+const NAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/
 const PASSWORD_REGEX = /^(?!.*[\s])(?=.*\d)(?=.*[a-zA-Z@$-_]).{8,15}$/
 const URL_REGEX = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
+const UNIT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/
 
 const validate = {
 
@@ -18,12 +20,13 @@ const validate = {
         if (index < 0) throw new ValidationError(`${explain} must be greater than or equal to 0`)
     },
 
-    // User
     name(name) {
         if (typeof name !== 'string') throw new ValidationError('invalid name type, must be a string')
         if (name.length < 1 || name.length > 50) throw new ValidationError('invalid name length, must be between 1 and 50 characters')
+        if (!NAME_REGEX.test(name)) throw new ValidationError('invalid name syntax')
     },
 
+    // User
     email(email) {
         if (typeof email !== 'string') throw new ValidationError('invalid email type, must be a string')
         if (!EMAIL_REGEX.test(email)) new ValidationError('invalid email syntax')
@@ -110,21 +113,20 @@ const validate = {
         if (!URL_REGEX.test(image)) throw new ValidationError('invalid image syntax, must be a valid URL')
     },
 
-    // Ingredient
-    ingredientName(ingredientName) {
-        if (typeof ingredientName !== 'string') throw new ValidationError('invalid ingredientName type, must be a string')
-        if (ingredientName.length < 1 || ingredientName.length > 30) throw new ValidationError('invalid ingredientName length, must be between 1 and 30 characters')
-    },
-
     quantity(quantity) {
-        if (typeof quantity !== 'number' || !Number.isInteger(quantity)) throw new ValidationError('invalid quantity type, must be a number')
-        if (quantity.length < 1 || quantity.length > 6) throw new ValidationError('invalid quantity length, must be between 1 and 6 characters')
-        if (quantity <= 0) throw new ValidationError('invalid quantity, must be greater than 0')
+        if (typeof quantity !== 'number' || isNaN(quantity)) throw new ValidationError('invalid quantity type, must be a number')
+        if (quantity <= 0 || quantity > 9999) throw new ValidationError('invalid quantity, must be between 0 and 9999')
+
+        const parts = quantity.toString().split('.')
+        if (parts[1]?.length > 2) {
+            throw new ValidationError('invalid quantity, maximum 2 decimal places allowed')
+        }
     },
 
     unit(unit) {
         if (unit && typeof unit !== 'string') throw new ValidationError('invalid unit type, must be a string')
         if (unit && (unit.length < 1 || unit.length > 20)) throw new ValidationError('invalid unit length, must be between 1 and 20 characters')
+        if (!UNIT_REGEX.test(unit)) throw new ValidationError('invalid unit syntax')
     },
 
     annotation(annotation) {

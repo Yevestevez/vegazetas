@@ -1,7 +1,7 @@
 import { User, Recipe } from '../data/models.js'
 
 import { validate, errors } from 'com'
-const { NotFoundError, SystemError } = errors
+const { NotFoundError, SystemError, ValidationError } = errors
 
 const addImageToRecipe = (userId, recipeId, image) => {
     validate.id(userId, 'userId')
@@ -19,7 +19,7 @@ const addImageToRecipe = (userId, recipeId, image) => {
                     if (!recipe) throw new NotFoundError('recipe not found')
 
                     if (recipe.images.length >= 2)
-                        throw new Error('Máximo 2 imágenes')
+                        throw new ValidationError('too many images, max 2 allowed')
 
                     recipe.images.push(image)
 
