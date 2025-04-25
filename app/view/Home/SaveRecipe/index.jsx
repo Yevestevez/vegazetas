@@ -716,6 +716,14 @@ function SaveRecipe({
                                 className="w-70 bg-spring-bud text-folly flex items-center justify-center p-5 rounded-2xl drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] focus:outline-5 anybody placeholder:italic text-center text-[4vw]/[120%] focus:bg-folly focus:text-spring-bud focus:outline-spring-bud"
                                 name="text"
                                 placeholder="Añade las instrucciones del paso"
+                                maxLength={800}
+                                title="Máximo 800 caracteres"
+                                onInput={(e) => {
+                                    e.target.style.height = 'auto';
+                                    e.target.style.height = e.target.scrollHeight + 'px';
+                                }}
+                                wrap="soft"
+                                required
                             />
                         </div>
 
@@ -725,6 +733,13 @@ function SaveRecipe({
                                 className="w-70 bg-spring-bud text-folly flex items-center justify-center p-5 rounded-2xl drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] focus:outline-5 anybody placeholder:italic text-center text-[4vw]/[120%] focus:bg-folly focus:text-spring-bud focus:outline-spring-bud"
                                 name="note"
                                 placeholder="¿Necesitas aclarar algo?"
+                                maxLength={500}
+                                title="Máximo 500 caracteres"
+                                onInput={(e) => {
+                                    e.target.style.height = 'auto';
+                                    e.target.style.height = e.target.scrollHeight + 'px';
+                                }}
+                                wrap="soft"
                             />
                         </div>
 
@@ -734,7 +749,8 @@ function SaveRecipe({
                                 className={`${inputClasses} h-10 w-70 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                                 type="url"
                                 name="image"
-                                placeholder="Copia aquí la url de la imagen"
+                                placeholder="Pega aquí la url de la imagen"
+                                title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
                             />
                         </div>
                     </div>

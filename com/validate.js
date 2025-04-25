@@ -100,12 +100,12 @@ const validate = {
     // Step
     text(text) {
         if (typeof text !== 'string') throw new ValidationError('invalid text type, must be a string')
-        if (text.length < 1 || text.length > 300) throw new ValidationError('invalid text length, must be between 1 and 300 characters')
+        if (text.length < 1 || text.length > 800) throw new ValidationError('invalid text length, must be between 1 and 800 characters')
     },
 
     note(note) {
         if (typeof note !== 'string') throw new ValidationError('invalid note type, must be a string')
-        if (note.length < 1 || note.length > 300) throw new ValidationError('invalid note length, must be between 1 and 300 characters')
+        if (note.length < 1 || note.length > 500) throw new ValidationError('invalid note length, must be between 1 and 500 characters')
     },
 
     image(image) {
@@ -113,6 +113,7 @@ const validate = {
         if (!URL_REGEX.test(image)) throw new ValidationError('invalid image syntax, must be a valid URL')
     },
 
+    // Ingredient
     quantity(quantity) {
         if (typeof quantity !== 'number' || isNaN(quantity)) throw new ValidationError('invalid quantity type, must be a number')
         if (quantity <= 0 || quantity > 9999) throw new ValidationError('invalid quantity, must be between 0 and 9999')
@@ -131,7 +132,7 @@ const validate = {
 
     annotation(annotation) {
         if (annotation && typeof annotation !== 'string') throw new ValidationError('invalid annotation type, must be a string')
-        if (annotation && annotation.length > 20) throw new ValidationError('invalid annotation length, max 20 characters')
+        if (annotation && annotation.length > 300) throw new ValidationError('invalid annotation length, max 300 characters')
     },
 
     main(main) {
