@@ -1,7 +1,7 @@
 import logic from '../logic'
 
 import { errors } from 'com'
-const { DuplicityError, SystemError } = errors
+const { DuplicityError, SystemError, ValidationError } = errors
 
 import { useAppContext } from '../context'
 
@@ -142,16 +142,21 @@ function Register({ onLoginClicked, onUserRegistered }) {
         <main>
             <form className="flex flex-col gap-[1.5vw] mt-[10vw] items-center justify-center" onSubmit={handleFormSubmit}>
                 <label className="text-sgbus-green anybody font-bold text-[4.5vw]" htmlFor="name">Nombre</label>
-                <input className={`${inputClasses}`} type="text" id="name" placeholder="¿Quién eres?" maxLength={50} pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$" title="Nombre: Solo letras y espacios, hasta 50 caracteres" />
+                <input className={`${inputClasses}`} type="text" id="name" placeholder="¿Quién eres?" maxLength={50} pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$" title="Solo letras y espacios, hasta 50 caracteres" required />
 
                 <label className="text-sgbus-green anybody font-bold text-[4.5vw]" htmlFor="email">Email</label>
-                <input className={`${inputClasses}`} type="email" id="email" placeholder="¿Cuál es tu email?" title="Email con el que accederás a Vegazetas" />
+                <input className={`${inputClasses}`} type="email" id="email" placeholder="¿Cuál es tu email?" title="Email con el que accederás a Vegazetas" required />
 
                 <label className="text-sgbus-green anybody font-bold text-[4.5vw]" htmlFor="username">Usuario</label>
-                <input className={`${inputClasses}`} type="text" id="username" placeholder="Tu nombre en Vegazetas" maxLength={25} pattern="^[a-z0-9._-]{1,25}$" title="Solo minúsculas, números, guiones, guiones bajos o puntos, sin espacios. Máx. 25 caracteres" />
+                <input className={`${inputClasses}`} type="text" id="username"
+                    placeholder="Tu nombre en Vegazetas"
+                    maxLength={25}
+                    pattern="^[a-z0-9._-]{1,25}$"
+                    title="Solo minúsculas, números, guiones, guiones bajos o puntos, sin espacios. Máx. 25 caracteres"
+                    required />
 
                 <label className="text-sgbus-green anybody font-bold text-[4.5vw]" htmlFor="password">Contraseña</label>
-                <input className={`${inputClasses}`} type="password" id="password" placeholder="Contraseña de acceso" pattern="^(?!.*[\s])(?=.*\d)(?=.*[a-zA-Z@$-_]).{8,15}$" title="La contraseña debe tener entre 8 y 15 caracteres, incluir al menos un número y no contener espacios" />
+                <input className={`${inputClasses}`} type="password" id="password" placeholder="Contraseña de acceso" pattern="^(?!.*[\s])(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&-_+]{8,25}$" title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número y no contener espacios" required />
 
                 <button className={`${btnClasses}} flex items-center justify-center self-end bg-sgbus-green mt-[6vw] text-canary`} type="submit">Registro</button>
             </form>
