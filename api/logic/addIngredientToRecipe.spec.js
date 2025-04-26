@@ -12,7 +12,7 @@ const { NotFoundError } = errors
 import addIngredientToRecipe from './addIngredientToRecipe.js'
 
 describe('addIngredientToRecipe', () => {
-    before(() => mongoose.connect(process.env.TEST_MONGO_URL));
+    before(() => mongoose.connect(process.env.SPEC_MONGO_URL));
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]));
 

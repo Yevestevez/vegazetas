@@ -12,7 +12,7 @@ const { NotFoundError } = errors
 import addImageToRecipe from './addImageToRecipe.js'
 
 describe('addImageToRecipe', () => {
-    before(() => mongoose.connect(process.env.TEST_MONGO_URL));
+    before(() => mongoose.connect(process.env.SPEC_MONGO_URL));
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]));
 

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import registerUser from './registerUser.js'
 
-mongoose.connect('mongodb://localhost:27017/vegazetas')
+mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {
         try {
             registerUser('Eduardo Yeves', 'edu@yeves.com', 'eduyeves', '123123123')

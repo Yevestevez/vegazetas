@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import getRecipeById from './getRecipeById.js'
 
-mongoose.connect('mongodb://localhost:27017/vegazetas')
+mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {
         try {
             getRecipeById('67ea59a5ecbab7201125cbc7', '67ea59a5ecbab7201125cbde')

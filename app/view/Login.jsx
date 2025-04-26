@@ -140,10 +140,10 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
         <main>
             <form className="flex flex-col gap-[1.5vw] mt-[10vw] items-center justify-center" onSubmit={handleFormSubmit}>
                 <label className="text-aquamarine anybody font-bold text-[4.5vw]" htmlFor="email">Email</label>
-                <input className={inputClasses} type="text" id="email" placeholder="email@email.com" />
+                <input className={inputClasses} type="text" id="email" placeholder="¿Cuál es tu email?" title="Email con el que te registraste en Vegazetas" />
 
                 <label className="text-aquamarine anybody font-bold text-[4.5vw] mt-[3vw]" htmlFor="password">Contraseña</label>
-                <input className={inputClasses} type="password" id="password" placeholder="contraseña123" />
+                <input className={inputClasses} type="password" id="password" placeholder="Contraseña de acceso" title="Contraseña con la que te registraste en Vegazetas" />
 
                 <button className={`${btnClasses} flex items-center justify-center self-end bg-aquamarine mt-[6vw] text-violet`} type="submit">Inicio</button>
             </form>

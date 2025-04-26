@@ -63,13 +63,29 @@ function SaveRecipe({
         const title = form.title.value.trim()
         const description = form.description.value.trim() || undefined
         const time = parseFloat(form.time.value.trim()) || undefined
-        const difficulty = form.difficulty.value.trim() || undefined
+        let difficulty = form.difficulty.value.trim().toLowerCase() || undefined
 
         if (!title) {
             alert('Añade un título a tu receta')
 
             return
         }
+
+        const difficultyMap = {
+            'fácil': 'easy',
+            'media': 'medium',
+            'difícil': 'difficult',
+
+
+            'facil': 'easy',
+            'dificil': 'difficult',
+
+            'easy': 'easy',
+            'medium': 'medium',
+            'difficult': 'difficult'
+        }
+
+        difficulty = difficultyMap[difficulty] || undefined
 
         logic.updateRecipe(recipe.id, title, description, time, difficulty)
             .then(() => {
@@ -111,7 +127,11 @@ function SaveRecipe({
                 form.reset()
             })
             .catch(error => {
-                alert(error.message)
+                if (error.message === 'too many images, max 2 allowed') {
+                    alert('Solo puedes añadir un máximo de 2 imágenes a tu receta')
+                } else {
+                    alert(error.message)
+                }
 
                 console.error(error)
             })
@@ -149,7 +169,7 @@ function SaveRecipe({
 
         const form = event.target
 
-        const tag = form.tag.value.trim()
+        const tag = form.tag.value.trim().toLowerCase()
 
         if (!tag) {
             alert('Añade una etiqueta')
@@ -166,7 +186,11 @@ function SaveRecipe({
                 form.reset()
             })
             .catch(error => {
-                alert(error.message)
+                if (error.message === 'too many tags, max 15 allowed') {
+                    alert('Solo puedes añadir un máximo de 15 etiquetas a tu receta')
+                } else {
+                    alert(error.message)
+                }
 
                 console.error(error)
             })
@@ -364,6 +388,12 @@ function SaveRecipe({
     const mainIngredients = (recipe.ingredients ?? []).filter(ingredient => ingredient.main)
     const pantryIngredients = (recipe.ingredients ?? []).filter(ingredient => !ingredient.main)
 
+    const difficultyTranslations = {
+        easy: 'Fácil',
+        medium: 'Media',
+        difficult: 'Difícil'
+    }
+
     // Estilos comunes (TailwindCSS)
     const inputClasses = `
         flex items-center justify-center
@@ -382,19 +412,19 @@ function SaveRecipe({
     `
 
     const btnClasses = `
-    rounded-full 
+        rounded-full 
 
-    h-[15vw] w-[15vw]
-    justify-items-center
-   
-    drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+        h-[15vw] w-[15vw]
+        justify-items-center
+    
+        drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
 
-    anybody-logo
+        anybody-logo
 
-    transition-transform duration-150 ease-out
-    hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
-    hover:-translate-y-2 hover:scale-105
-`
+        transition-transform duration-150 ease-out
+        hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
+        hover:-translate-y-2 hover:scale-105
+    `
     console.log('CreateRecipe -> render')
 
     return <section className="pt-23 bg-folly h-full w-screen">
@@ -417,14 +447,23 @@ function SaveRecipe({
                     name="title"
                     placeholder="Pon un título a tu receta"
                     defaultValue={recipe.title}
+                    maxLength={100}
+                    required
+                    title="Campo obligatorio. Máximo 100 caracteres"
                 />
 
                 <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Descripción</label>
                 <textarea
                     className="w-full bg-spring-bud text-folly flex items-center justify-center p-5 rounded-2xl drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] focus:outline-5 anybody placeholder:italic text-center text-[4vw]/[120%] focus:bg-folly focus:text-spring-bud focus:outline-spring-bud"
                     name="description"
-                    placeholder="Describe brevemente tu receta"
+                    placeholder="Describe tu receta ¡cuéntanos más!"
                     defaultValue={recipe.description}
+                    maxLength={500}
+                    title="Máximo 500 caracteres"
+                    onInput={(e) => {
+                        e.target.style.height = 'auto';
+                        e.target.style.height = e.target.scrollHeight + 'px';
+                    }}
                     wrap="soft"
                 />
 
@@ -436,20 +475,39 @@ function SaveRecipe({
                             type="number"
                             name="time"
                             placeholder="En minutos"
-                            defaultValue={recipe.time}
+                            defaultValue={recipe.time || 5}
+                            min={5}
+                            max={9999}
+                            step={5}
+                            title="Tiempo en minutos. Múltiplos de 5"
                         />
                     </div>
 
+                    {/* <div className="flex flex-col gap-5">
+                        <label className={`${labelClasses} text-spring-bud`} htmlFor="difficulty">Dificultad</label>
+                        <select
+                            className={`${inputClasses} h-10 w-37 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                            name="difficulty"
+                            defaultValue={recipe.difficulty}
+                        >
+                            <option value="easy">Fácil</option>
+                            <option value="medium">Media</option>
+                            <option value="difficult">Difícil</option>
+                        </select>
+                    </div> */}
                     <div className="flex flex-col gap-5">
                         <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Dificultad</label>
                         <input
                             className={`${inputClasses} h-10 w-37 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                             type="text"
                             name="difficulty"
-                            placeholder="easy, medium o difficult"
-                            defaultValue={recipe.difficulty}
+                            placeholder="Fácil, media o dificil"
+                            defaultValue={difficultyTranslations[recipe.difficulty] || ''}
+                            pattern="^([Ff][AaÁá]cil|[Mm]edia|[Dd][IiÍí][Ff][IiÍí]cil|[Ee]asy|[Mm]edium|[Dd]ifficult)$"
+                            title="Fácil, media o difícil"
                         />
                     </div>
+
                 </div>
                 <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
             </form>
@@ -471,7 +529,8 @@ function SaveRecipe({
                     className={`${inputClasses} h-10 w-80 bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
                     type="url"
                     name="image"
-                    placeholder="Copia aquí la url de la imagen"
+                    placeholder="Pega aquí la URL de la imagen"
+                    title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
                 />
 
                 <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
@@ -491,10 +550,14 @@ function SaveRecipe({
                 </ul>
 
                 <input
-                    className={`${inputClasses} h-10 w-80 bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
+                    className={`${inputClasses} h-10 w-80 bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly placeholder:normal-case`}
                     type="text"
                     name="tag"
-                    placeholder="#añade-etiquetas-a-tu-receta"
+                    placeholder="Añade etiquetas a tu receta"
+                    title="Solo letras minúsculas, números, guiones y guiones bajos. Sin espacios y máximo 30 caracteres"
+                    pattern="^[a-z0-9\-_]+$"
+                    style={{ textTransform: 'lowercase' }}
+                    maxLength={30}
                 />
                 <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
             </form>
@@ -563,6 +626,10 @@ function SaveRecipe({
                             type="text"
                             name="name"
                             placeholder="Añade un nombre al ingrediente"
+                            required
+                            maxLength={50}
+                            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$"
+                            title="Solo letras y espacios, hasta 50 caracteres"
                         />
                         <div className="flex flex-row justify-between w-70">
                             <div className="flex flex-col gap-5">
@@ -571,7 +638,12 @@ function SaveRecipe({
                                     className={`${inputClasses} h-10 w-32 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                                     type="number"
                                     name="quantity"
-                                    placeholder="Un número"
+                                    placeholder="Número"
+                                    min={0}
+                                    max={9999}
+                                    step={0.01}
+                                    inputMode="decimal"
+                                    title="Introduce una cantidad entre 0 y 9999, hasta 2 decimales con punto (ej. 1.55)"
                                 />
                             </div>
 
@@ -582,6 +654,9 @@ function SaveRecipe({
                                     type="text"
                                     name="unit"
                                     placeholder="g, uds, ml..."
+                                    pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
+                                    maxlength={20}
+                                    title="Solo letras, espacios y tildes. Máximo 20 caracteres"
                                 />
                             </div>
                         </div>
@@ -592,6 +667,8 @@ function SaveRecipe({
                             type="text"
                             name="annotation"
                             placeholder="¿Necesitas alguna aclaración?"
+                            maxlength={50}
+                            title="Máximo 50 caracteres"
                         />
 
                         <div className="flex flex-row justify-between w-70 items-center">
@@ -639,6 +716,14 @@ function SaveRecipe({
                                 className="w-70 bg-spring-bud text-folly flex items-center justify-center p-5 rounded-2xl drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] focus:outline-5 anybody placeholder:italic text-center text-[4vw]/[120%] focus:bg-folly focus:text-spring-bud focus:outline-spring-bud"
                                 name="text"
                                 placeholder="Añade las instrucciones del paso"
+                                maxLength={800}
+                                title="Máximo 800 caracteres"
+                                onInput={(e) => {
+                                    e.target.style.height = 'auto';
+                                    e.target.style.height = e.target.scrollHeight + 'px';
+                                }}
+                                wrap="soft"
+                                required
                             />
                         </div>
 
@@ -648,6 +733,13 @@ function SaveRecipe({
                                 className="w-70 bg-spring-bud text-folly flex items-center justify-center p-5 rounded-2xl drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] focus:outline-5 anybody placeholder:italic text-center text-[4vw]/[120%] focus:bg-folly focus:text-spring-bud focus:outline-spring-bud"
                                 name="note"
                                 placeholder="¿Necesitas aclarar algo?"
+                                maxLength={500}
+                                title="Máximo 500 caracteres"
+                                onInput={(e) => {
+                                    e.target.style.height = 'auto';
+                                    e.target.style.height = e.target.scrollHeight + 'px';
+                                }}
+                                wrap="soft"
                             />
                         </div>
 
@@ -657,7 +749,8 @@ function SaveRecipe({
                                 className={`${inputClasses} h-10 w-70 bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                                 type="url"
                                 name="image"
-                                placeholder="Copia aquí la url de la imagen"
+                                placeholder="Pega aquí la url de la imagen"
+                                title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
                             />
                         </div>
                     </div>

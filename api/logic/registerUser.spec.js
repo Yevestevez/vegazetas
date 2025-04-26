@@ -12,7 +12,7 @@ import bcrypt from 'bcryptjs'
 import registerUser from './registerUser.js'
 
 describe('registerUser', () => {
-    before(() => mongoose.connect(process.env.TEST_MONGO_URL))
+    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
 
     beforeEach(() => User.deleteMany())
 
