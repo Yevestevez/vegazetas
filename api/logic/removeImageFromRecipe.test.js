@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import removeImageFromRecipe from './removeImageFromRecipe.js'
 
-mongoose.connect('mongodb://localhost:27017/vegazetas')
+mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {
         try {
             removeImageFromRecipe(

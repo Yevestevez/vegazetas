@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import deleteRecipe from './deleteRecipe.js'
 
-mongoose.connect('mongodb://localhost:27017/vegazetas')
+mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {
         try {
             deleteRecipe(

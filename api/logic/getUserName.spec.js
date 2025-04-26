@@ -11,7 +11,7 @@ const { NotFoundError } = errors
 import getUserName from './getUserName.js'
 
 describe('getUserName', () => {
-    before(() => mongoose.connect(process.env.TEST_MONGO_URL))
+    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
 
     beforeEach(() => User.deleteMany())
 

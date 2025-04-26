@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import getUserName from './getUserName.js'
 
-mongoose.connect('mongodb://localhost:27017/vegazetas')
+mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {
         try {
             getUserName('67d085c48f8bef38f0adc8db')
