@@ -555,7 +555,7 @@ function SaveRecipe({
                     name="tag"
                     placeholder="Añade etiquetas a tu receta"
                     title="Solo letras minúsculas, números, guiones y guiones bajos. Sin espacios y máximo 30 caracteres"
-                    pattern="^[a-z0-9\-_]+$"
+                    pattern="^[a-zA-Z0-9\-_]+$"
                     style={{ textTransform: 'lowercase' }}
                     maxLength={30}
                 />
