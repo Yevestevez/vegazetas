@@ -47,7 +47,7 @@ const validate = {
     // Recipe
     title(title) {
         if (typeof title !== 'string') throw new ValidationError('invalid title type, must be a string')
-        if (title.length < 1 || title.length > 100) throw new ValidationError('invalid title length, must be between 1 and 100 characters')
+        if (title.length < 1 || title.length > 50) throw new ValidationError('invalid title length, must be between 1 and 50 characters')
     },
 
     // images(images) {

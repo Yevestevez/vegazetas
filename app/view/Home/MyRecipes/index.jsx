@@ -47,7 +47,8 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
     }
 
     const btnClasses = `
-        rounded-full 
+        /* Layout */
+        flex items-center justify-center rounded-full
 
         /* Tamaño */
         h-[20vw] w-[20vw]
@@ -57,19 +58,21 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
         xl:h-[10vw] xl:w-[10vw]
         2xl:h-[8vw] 2xl:w-[8vw]
 
-        /* Sombra */
-        drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
-        lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-
-        /* Estilo de texto */
+        /* Tipografía */
         anybody-logo
         text-[clamp(min(4vw,10rem),4vw,10rem)]/[100%]
         md:text-[clamp(min(2vw,10rem),4vw,10rem)]
         lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
         xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
 
-        /* Hover y animaciones */
+        /* Sombra */
+        drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+        lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+
+        /* Animaciones */
         transition-transform duration-150 ease-out
+
+        /* Hover */
         hover:bg-aquamarine hover:text-folly
         hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
         hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
@@ -78,13 +81,29 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
 
     console.log('MyRecipes -> render')
 
-    return <div className="flex flex-col items-center text-center bg-canary h-screen w-screen pt-25">
+    return <div className="
+        /* Layout */
+        flex flex-col items-center text-center
+        h-screen w-screen pt-25 sm:pt-32
+
+        /* Colores */
+        bg-canary
+    ">
         <Header
             onUserLoggedOut={handleUserLoggedOut}
             onLogoClicked={handleLogoLinkCLick}
         />
 
-        <h1 className="py-3 anybody-logo text-folly text-[6vw] drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]">Tus recetas</h1>
+        <h1 className="
+            /* Layout */
+            py-3 text-center
+
+            /* Tipografía */
+            anybody-logo text-folly text-[6vw]
+
+            /* Sombra */
+            drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
+        ">Tus recetas</h1>
 
         <main className="w-full">
             {myRecipes.length > 0 ? (
@@ -99,8 +118,21 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
                 ))
             ) : (
                 <>
-                    <p className="text-center anybody font-bold text-folly">No tienes recetas aún. ¡Añade una nueva!</p>
-                    <button type='button' className={`${btnClasses}flex items-center mx-auto justify-center text-center bg-folly mt-[8vw] text-spring-bud`} onClick={handleCreateRecipeClick}>Nueva<br></br>receta</button>
+                    <p className="
+                        /* Layout */
+                        text-center mt-[2vw]
+
+                        /* Tipografía */
+                        anybody font-bold text-folly text-[4vw]/[120%]
+                    ">Todavía no tienes ninguna receta<br />¡Añade una nueva!</p>
+                    <button type='button' className={`
+                        ${btnClasses}
+                        /* Layout */
+                        flex items-center mx-auto justify-center text-center
+
+                        /* Colores */
+                        bg-folly mt-[8vw] text-spring-bud
+                    `} onClick={handleCreateRecipeClick}>Nueva<br></br>receta</button>
                 </>
             )}
         </main>

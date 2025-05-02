@@ -56,22 +56,54 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
 
     console.log('Header -> render')
 
-    // Estilos comunes (TailwindCSS)
-    const logoClasses = `
-    text-[8vw]/[80%]
-    anybody-logo text-center
-    text-sgbus-green
-    drop-shadow-[0.1em_0.1em_0_rgba(0,0,0,0.8)]
-`
-    return <div className="fixed top-0 flex flex-row items-center justify-between py-5 px-10 w-full bg-veronica z-10">
+    return <div className="
+        /* Layout */
+        fixed top-0 left-0 right-0
+        flex flex-row items-center justify-between
+        py-5 px-10 w-full
+        z-10
+
+        /* Colores */
+        bg-veronica
+    ">
         <a href="" onClick={handleLogoLinkClick}>
-            <h1 className={logoClasses}>Vega<br></br>zetas</h1>
+            <h1 className="  
+                /* Layout */
+                text-center
+
+                /* Tipografía */
+                anybody-logo text-[8vw]/[80%]
+                text-sgbus-green
+
+                /* Sombra */
+                drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
+            ">Vega<br></br>zetas</h1>
         </a>
 
-        <div className="flex flex-row gap-3 items-center align-middle justify-center">
-            <button className="anybody text-sgbus-green text-[2.7vw]/[130%]" type="button" onClick={handleLogoutButtonClick}>Cerrar<br></br>sesión</button>
+        <div className="
+            /* Layout */
+            flex flex-row gap-3 items-center align-middle justify-center
+        ">
+            <button className="
+                /* Tipografía */
+                anybody text-[2.7vw]/[120%]
+                text-sgbus-green
+            " type="button" onClick={handleLogoutButtonClick}>Cerrar<br></br>sesión</button>
 
-            <FaRegUserCircle className="text-sgbus-green text-[13vw] drop-shadow-[1.3vw_1.3vw_0_rgba(0,0,0,0.8)] bg-veronica rounded-full" />
+            <FaRegUserCircle className="
+                /* Layout */
+                rounded-full mr-[3vw]
+
+                /* Tamaño */
+                text-[14vw] sm:text-[12vw]
+
+                /* Colores */
+                text-sgbus-green bg-veronica
+
+                /* Sombra */
+                drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                sm:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.8)]
+            " />
         </div>
     </div>
 }

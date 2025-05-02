@@ -447,9 +447,9 @@ function SaveRecipe({
                     name="title"
                     placeholder="Pon un título a tu receta"
                     defaultValue={recipe.title}
-                    maxLength={100}
+                    maxLength={50}
                     required
-                    title="Campo obligatorio. Máximo 100 caracteres"
+                    title="Campo obligatorio. Máximo 50 caracteres"
                 />
 
                 <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Descripción</label>
