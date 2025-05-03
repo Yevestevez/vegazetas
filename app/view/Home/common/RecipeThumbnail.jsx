@@ -74,7 +74,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
 
         <time className="
             /* Layout */
-            mx-auto py-1.5 px-5 -mt-6 w-auto flex justify-center items-center z-1
+            mx-auto py-[1.5vw] px-[4vw] -mt-[5vw] w-auto flex justify-center items-center z-1
 
             /* Tipografía */
             anybody-title text-folly text-[4vw]
@@ -89,15 +89,16 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
 
         <div className="
             /* Layout */
-            absolute flex flex-row justify-end w-full gap-3 p-4 opacity-50
+            absolute flex flex-row justify-end w-full gap-3 sm:gap-4 p-[4vw] opacity-50
         ">
             <button className="
                 /* Layout */
                 flex items-center justify-center w-9 h-9 rounded-full pr-[0.7vw]
+                sm:w-12 sm:h-12
 
                 /* Tipografía */
                 text-[5vw]
-                sm:text-[3.5vw]
+                sm:text-[4vw]
 
                 /* Colores */
                 text-spring-bud bg-folly
@@ -109,10 +110,11 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
             <button className="
                 /* Layout */
                 flex items-center justify-center w-9 h-9 rounded-full
+                sm:w-12 sm:h-12
 
                 /* Tipografía */
                 text-[5vw]
-                sm:text-[3.5vw]
+                sm:text-[4vw]
 
                 /* Colores */
                 text-spring-bud bg-folly
