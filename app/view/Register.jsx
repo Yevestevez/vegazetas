@@ -21,7 +21,7 @@ function Register({ onLoginClicked, onUserRegistered }) {
 
         const name = form.name.value
         const email = form.email.value
-        const username = form.username.value
+        const username = form.username.value.toLowerCase()
         const password = form.password.value
 
         try {
@@ -144,10 +144,13 @@ function Register({ onLoginClicked, onUserRegistered }) {
                     /* Colores */
                     text-sgbus-green
                 " htmlFor="username">Usuario</label>
-                <input className={inputClasses} type="text" id="username"
+                <input
+                    className={`${inputClasses} lowercase`}
+                    type="text"
+                    id="username"
                     placeholder="Tu nombre en Vegazetas"
                     maxLength={25}
-                    pattern="^[a-z0-9._-]{1,25}$"
+                    pattern="^[a-zA-Z0-9._-]{1,25}$"
                     title="Solo minúsculas, números, guiones, guiones bajos o puntos, sin espacios. Máx. 25 caracteres"
                     required />
 
@@ -158,7 +161,14 @@ function Register({ onLoginClicked, onUserRegistered }) {
                     /* Colores */
                     text-sgbus-green
                 " htmlFor="password">Contraseña</label>
-                <input className={inputClasses} type="password" id="password" placeholder="Contraseña de acceso" pattern="^(?!.*[\s])(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&-_+]{8,25}$" title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número y no contener espacios" required />
+                <input
+                    className={inputClasses}
+                    type="password"
+                    id="password"
+                    placeholder="Contraseña de acceso"
+                    pattern="^(?!.*[\s])(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&-_+]{8,25}$"
+                    title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número y no contener espacios"
+                    required />
 
                 <button
                     className="
