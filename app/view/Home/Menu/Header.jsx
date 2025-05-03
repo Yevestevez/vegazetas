@@ -55,8 +55,8 @@ function Header({ onUserLoggedOut }) {
             /* Layout */
             flex flex-col sm:flex-row items-center sm:items-center
             sm:justify-center 
-            gap-3 sm:gap-12
-            py-6 w-full 
+            gap-2 sm:gap-12
+            py-[3vw] w-full 
             sm:px-12
 
             /* Colores */
@@ -83,7 +83,7 @@ function Header({ onUserLoggedOut }) {
 
             <div className="
                 /* Layout */
-                flex flex-row gap-6 items-center
+                flex flex-row gap-6 items-center mb-[2vw] sm:mb-0
             ">
                 <FaRegUserCircle className="
                     /* Layout */

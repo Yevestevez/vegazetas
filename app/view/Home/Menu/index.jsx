@@ -53,7 +53,7 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
         ">
             <div className="
                 /* Layout */
-                mt-5 sm:mt-2
+                mt-[1.5vw] sm:mt-[1vw]
             ">
                 <a className={`
                     ${linkClasses}
@@ -140,7 +140,7 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
             <button type='button' className="
                 /* Layout */
                 flex items-center justify-center text-center
-                rounded-full mt-[8vw] sm:mt-[4vw]
+                rounded-full mt-[6vw] sm:mt-[5vw]
 
                 /* Tamaño */
                 h-[20vw] w-[20vw]
