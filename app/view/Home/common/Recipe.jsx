@@ -1,9 +1,8 @@
-// import { useAppContext } from '../../context'
 import { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom"
 
-import { FaChevronCircleUp } from "react-icons/fa"
-import { FaChevronCircleLeft } from "react-icons/fa"
+import { FaChevronUp } from "react-icons/fa"
+import { FaChevronLeft } from "react-icons/fa"
 import { MdDelete } from "react-icons/md"
 import { MdEdit } from "react-icons/md"
 
@@ -96,37 +95,97 @@ function Recipe({
 
     console.log('Recipe -> render')
 
-    return <article className="pt-23 bg-aquamarine h-full w-screen">
+    return <article className="
+        /* Layout */
+        flex flex-col min-h-screen min-w-screen items-center
+        pt-23
+
+        /* Colores */
+        bg-aquamarine
+    ">
         <Header
             onUserLoggedOut={handleUserLoggedOut}
             onLogoClicked={handleLogoLinkCLick}
         />
 
         {/* images */}
-        <div className={`h-75 w-full flex flex-row items-center justify-center ${recipe.images.length === 0 ? 'bg-violet' : ''}`}>
+        <div className="
+            /* Layout */
+            h-[60vw] sm:h-[70vw] w-full flex flex-row items-center justify-center
+
+            /* Colores */
+            bg-violet
+        ">
             {recipe.images.length > 0 ? (
                 recipe.images.map((image, index) => (
-                    <img key={index} src={image} alt={`Recipe image ${index + 1}`} className="w-full h-full object-cover border-transparent -m-1" />
+                    <img key={index} src={image} alt={`Recipe image ${index + 1}`} className="
+                        /* Layout */
+                        w-full h-full object-cover -m-1
+
+                        /* Bordes */
+                        border-transparent
+                    " />
                 ))
             ) : (
-                <div className="anybody-title text-[5vw] w-full h-full flex items-center justify-center text-white text-lg">No hay imágenes</div>
+                <div className="
+                    /* Layout */
+                    w-full h-full flex items-center justify-center
+
+                    /* Tipografía */
+                    anybody-title text-[6vw] text-white
+                ">No hay imágenes</div>
             )}
         </div>
 
         {/* title, author, date */}
-        <div className="p-8 gap-1 mx-auto -mt-8 mb-5 flex flex-col justify-center align-middle items-center text-center text-canary bg-sgbus-green h-auto w-80 drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]">
-            <h2 className="anybody-logo text-[6vw]/[120%]">{recipe.title}</h2>
-            <h3 className=" mb-4 anybody text-[4vw] underline decoration-[0.5em]">@{author}</h3>
-            <time className="anybody text-[3vw]">{formatDate(recipe.date)}</time>
+        <div className="
+            /* Layout */
+            p-[6vw] gap-2 mx-auto -mt-[6vw] mb-[5vw] flex flex-col justify-center align-middle items-center text-center
+            h-auto w-[80vw]
+
+            /* Colores */
+            bg-sgbus-green text-canary
+
+            /* Sombra */
+            drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]
+            sm:drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+        ">
+            <h2 className="
+                /* Tipografía */
+                anybody-logo text-[6vw]/[120%]
+            ">{recipe.title}</h2>
+            <h3 className="
+                /* Layout */
+                mb-[4vw]
+
+                /* Tipografía */
+                anybody text-[4vw] underline decoration-[0.4em] underline-offset-[0.4em]
+            ">@{author}</h3>
+            <time className="
+                /* Tipografía */
+                anybody text-[3vw] -mb-[1vw]
+            ">{formatDate(recipe.date)}</time>
         </div>
 
         {/* description */}
-        {recipe.description && <p className="py-3 anybody text-violet text-[4vw]/[120%] w-80 justify-center mx-auto text-center">{recipe.description}</p>}
+        {recipe.description && <p className="
+            /* Layout */
+            py-[4vw] w-[80vw] justify-center mx-auto text-center
+
+            /* Tipografía */
+            anybody text-[4vw]/[120%] text-violet
+        ">{recipe.description}</p>}
 
         {/* time, difficulty */}
         {
             (recipe.time || recipe.difficulty) && (
-                <div className="anybody-title text-violet text-[5vw] flex flex-row gap-2 justify-center py-3">
+                <div className="
+                    /* Layout */
+                    flex flex-row gap-2 justify-center py-[2vw]
+
+                    /* Tipografía */
+                    anybody-title text-[5vw] text-violet
+                ">
                     {recipe.time && <h3>{recipe.time} min</h3>}
                     {recipe.difficulty && (
                         <>
@@ -139,30 +198,85 @@ function Recipe({
         }
 
         {/* tags */}
-        {recipe.tags && recipe.tags.length > 0 && (<div className=" text-spring-bud flex flex-wrap mx-10 pt-3 pb-8 drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] gap-5 justify-center">{recipe.tags.map((tag, index) => (
-            <h3 className="bg-folly anybody-title py-0.5 px-2 text-[3vw]" key={index}>#{tag}</h3>
-        ))}
-        </div>)
-        }
+        {recipe.tags && recipe.tags.length > 0 && (
+            <div className="
+                /* Layout */
+                flex flex-wrap mx-[20vw] pt-[2vw] pb-[8vw] gap-5 justify-center
+
+                /* Colores */
+                text-spring-bud
+
+                /* Sombra */
+                drop-shadow-[1.3vw_1.3vw_0_rgba(0,0,0,0.8)]
+                sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+            ">
+                {recipe.tags.map((tag, index) => (
+                    <h3 className="
+                        /* Layout */
+                        py-[0.5vw] px-[1.8vw]
+
+                        /* Tipografía */
+                        anybody-title text-[3vw]
+
+                        /* Colores */
+                        bg-folly
+                    " key={index}>#{tag}</h3>
+                ))}
+            </div>
+        )}
 
         {/* ingredients */}
         {recipe.ingredients && recipe.ingredients.length > 0 && (
-            <div className="flex flex-col justify-items-center items-center py-5 bg-hot-magenta">
-                <h2 className="mt-2 anybody-logo text-spring-bud text-[7vw] drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Ingredientes</h2>
+            <div className="
+                /* Layout */
+                flex flex-col justify-items-center items-center py-[4vw]
+
+                /* Colores */
+                bg-hot-magenta
+            ">
+                <h2 className="
+                    /* Layout */
+                    mt-[2vw]
+
+                    /* Tipografía */
+                    anybody-logo text-[7vw] text-spring-bud
+
+                    /* Sombra */
+                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.8)]
+                ">Ingredientes</h2>
 
                 {/* Separación de ingredientes */}
-                <div className="flex flex-col text-center px-5 gap-4">
+                <div className="
+                    /* Layout */
+                    flex flex-col text-center px-[8vw] gap-4
+                ">
                     {/* Ingredientes principales */}
                     {recipe.ingredients.some(ingredient => ingredient.main) && (
                         <>
-                            <h3 className="text-[5vw] text-center anybody-title bg-spring-bud text-hot-magenta mt-5 mb-2 w-30 mx-auto drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Principales</h3>
+                            <h3 className="
+                                /* Layout */
+                                text-center mt-[5vw] mb-[2vw] w-[30vw] mx-auto
+
+                                /* Tipografía */
+                                anybody-title text-[5vw] text-hot-magenta
+
+                                /* Colores */
+                                bg-spring-bud
+
+                                /* Sombra */
+                                drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                            ">Principales</h3>
                             {recipe.ingredients
                                 .filter(ingredient => ingredient.main)
                                 .map((ingredient) => (
-                                    <div className="text-spring-bud anybody text-[5vw]/[120%]" key={ingredient.id}>
+                                    <div className="
+                                        /* Tipografía */
+                                        anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] text-spring-bud
+                                    " key={ingredient.id}>
                                         <p>
                                             <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
-                                            {ingredient.annotation && <span className="italic"> ({ingredient.annotation})</span>}
+                                            {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
                                         </p>
                                     </div>
                                 ))}
@@ -172,14 +286,29 @@ function Recipe({
                     {/* Ingredientes de despensa */}
                     {recipe.ingredients.some(ingredient => !ingredient.main) && (
                         <>
-                            <h3 className="text-[5vw] text-center anybody-title bg-spring-bud text-hot-magenta mt-5 mb-2 w-30 mx-auto drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Despensa</h3>
+                            <h3 className="
+                                /* Layout */
+                                text-center mt-[5vw] mb-[2vw] w-[30vw] mx-auto
+
+                                /* Tipografía */
+                                anybody-title text-[5vw] text-hot-magenta
+
+                                /* Colores */
+                                bg-spring-bud
+
+                                /* Sombra */
+                                drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                            ">Despensa</h3>
                             {recipe.ingredients
                                 .filter(ingredient => !ingredient.main)
                                 .map((ingredient) => (
-                                    <div className="text-spring-bud anybody text-[5vw]/[120%]" key={ingredient.id}>
+                                    <div className="
+                                        /* Tipografía */
+                                        anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] text-spring-bud
+                                    " key={ingredient.id}>
                                         <p>
                                             <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
-                                            {ingredient.annotation && <span className="italic"> ({ingredient.annotation})</span>}
+                                            {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
                                         </p>
                                     </div>
                                 ))}
@@ -191,20 +320,68 @@ function Recipe({
 
         {/* steps */}
         {recipe.steps && recipe.steps.length > 0 && (
-            <div className="flex flex-col justify-items-center items-center py-5 bg-hot-magenta border-transparent -mt-1">
-                <h2 className="anybody-logo text-spring-bud text-[7vw] drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]">Preparación</h2>
+            <div className="
+                /* Layout */
+                flex flex-col justify-items-center items-center py-[6vw] -mt-1 w-full
+               
+                /* Colores */
+                bg-hot-magenta
 
-                <div className="text-hot-magenta mt-5 text-center w-90 flex flex-col gap-8">
+                /* Bordes */
+                border-transparent
+            ">
+                <h2 className="
+                    /* Layout */
+                    mt-[2vw]
+
+                    /* Tipografía */
+                    anybody-logo text-[7vw] text-spring-bud
+
+                    /* Sombra */
+                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.8)]
+                ">Preparación</h2>
+
+                <div className="
+                    /* Layout */
+                    mt-5 text-center w-[85vw] flex flex-col gap-8
+
+                    /* Colores */
+                    text-hot-magenta
+                ">
                     {recipe.steps.map((step, index) => (
-                        <div className="flex flex-col gap-3 px-5 py-8 bg-spring-bud drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)]" key={index}>
-                            <h3 className="anybody-logo text-[6vw]/[120%]">{index + 1}</h3>
-                            <p className="anybody text-[5vw]/[120%]">{step.text}</p>
-                            {step.note && <p className="anybody text-[4vw]/[120%] italic">({step.note})</p>}
+                        <div className="
+                            /* Layout */
+                            flex flex-col gap-3 px-[5vw] py-[6vw]
+
+                            /* Colores */
+                            bg-spring-bud
+
+                            /* Sombra */
+                            drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)]
+                            sm:drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+                        " key={index}>
+                            <h3 className="
+                                /* Tipografía */
+                                anybody-logo text-[6vw]/[100%] sm:text-[5vw]/[100%]
+                            ">{index + 1}</h3>
+                            <p className="
+                                /* Tipografía */
+                                anybody text-[5vw]/[120%] sm:text-[4vw]/[120%]
+                            ">{step.text}</p>
+                            {step.note && <p className="
+                                /* Tipografía */
+                                anybody text-[4vw]/[120%] sm:text-[3vw]/[120%] 
+                                italic font-light
+                            ">({step.note})</p>}
                             {step.image && (
                                 <img
                                     src={step.image}
                                     alt={`Paso ${index + 1} image`}
-                                    className="w-full mt-3"
+                                    className="
+                                        /* Layout */
+                                        w-full mt-[2vw]
+                                    "
                                 />
                             )}
                         </div>
@@ -214,30 +391,111 @@ function Recipe({
         )}
 
         {/* buttons */}
-        <div className="flex flex-row gap-8 pt-5 pb-10 -mt-1 w-full px-10 justify-between bg-hot-magenta">
-            <div className="flex flex-row gap-5">
+        <div className="
+            /* Layout */
+            flex flex-row gap-8 pt-[5vw] pb-[10vw] -mt-1 w-full px-[8vw] justify-between
+
+            /* Colores */
+            bg-hot-magenta
+        ">
+            <div className="flex flex-row gap-5 sm:gap-8">
                 <button
-                    className="bg-hot-magenta text-spring-bud text-[12vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12"
+                    className="
+                    /* Layout */
+                    h-[12vw] w-[12vw] rounded-full flex items-center justify-center  pr-[0.15em]
+
+                    /* Colores */
+                    bg-spring-bud text-hot-magenta
+                    hover:bg-hot-magenta hover:text-spring-bud
+                    hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+
+                    /* Tipografía */
+                    text-[8vw]
+
+                    /* Sombra */
+                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+
+                    /* Transiciones */
+                    transition-all duration-100 ease-out
+                    hover:-translate-y-1 hover:scale-105
+                    "
                     onClick={handleRecipeBackButton}
                 >
-                    <FaChevronCircleLeft />
+                    <FaChevronLeft />
                 </button>
 
                 <button
-                    className="bg-hot-magenta text-spring-bud text-[12vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12"
+                    className="
+                    /* Layout */
+                    h-[12vw] w-[12vw] rounded-full flex items-center justify-center pb-[0.05em]
+
+                    /* Colores */
+                    bg-spring-bud text-hot-magenta
+                    hover:bg-hot-magenta hover:text-spring-bud
+                    hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+
+                    /* Tipografía */
+                    text-[8vw]
+
+                    /* Sombra */
+                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+
+                    /* Transiciones */
+                    transition-all duration-100 ease-out
+                    hover:-translate-y-1 hover:scale-105
+                    "
                     onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 >
-                    <FaChevronCircleUp />
+                    <FaChevronUp />
                 </button>
             </div>
-            <div className="flex flex-row gap-5">
-                <button className="bg-spring-bud text-hot-magenta text-[8vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12 flex items-center justify-center" type="button" onClick={handleEditRecipeButton}><MdEdit /></button>
+            <div className="flex flex-row gap-5 sm:gap-8">
+                <button className="
+                    /* Layout */
+                    h-[12vw] w-[12vw] rounded-full flex items-center justify-center
 
-                <button className="bg-spring-bud text-hot-magenta text-[8vw] rounded-full transition drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] h-12 w-12 flex items-center justify-center" type="button" onClick={handleDeleteButtonClick}><MdDelete /></button>
+                    /* Colores */
+                    bg-spring-bud text-hot-magenta
+                    hover:bg-hot-magenta hover:text-spring-bud
+                    hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+
+                    /* Tipografía */
+                    text-[8vw]
+
+                    /* Sombra */
+                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+
+                    /* Transiciones */
+                    transition-all duration-100 ease-out
+                    hover:-translate-y-1 hover:scale-105
+                " type="button" onClick={handleEditRecipeButton}><MdEdit /></button>
+
+                <button className="
+                    /* Layout */
+                    h-[12vw] w-[12vw] rounded-full flex items-center justify-center
+
+                    /* Colores */
+                    bg-spring-bud text-hot-magenta
+                    hover:bg-hot-magenta hover:text-spring-bud
+                    hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+
+                    /* Tipografía */
+                    text-[8vw]
+
+                    /* Sombra */
+                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+
+                    /* Transiciones */
+                    transition-all duration-100 ease-out
+                    hover:-translate-y-1 hover:scale-105
+                " type="button" onClick={handleDeleteButtonClick}><MdDelete /></button>
             </div>
         </div>
-
-    </article >
+    </article>
 }
 
 export default Recipe

@@ -15,27 +15,114 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
 
     console.log('RecipeThumbnail -> render')
 
-    return <article className="flex flex-col pb-10 bg-canary">
-        <button className="relative flex items-center justify-center" type="button" onClick={handleRecipeThumbnailClick}>
-            <h2 className="flex absolute z-2 px-10 anybody-logo text-spring-bud text-[13vw]/[90%] drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)] ">{recipe.title}</h2>
+    return <article className="
+        /* Layout */
+        flex flex-col pb-10
 
-            <div className="relative w-full">
+        /* Colores */
+        bg-canary
+    ">
+        <button className="
+            /* Layout */
+            relative flex items-center justify-center
+        " type="button" onClick={handleRecipeThumbnailClick}>
+            <h2 className="
+                /* Layout */
+                flex absolute z-2 px-10
+
+                /* Tipografía */
+                anybody-logo text-spring-bud text-[13vw]/[100%]
+
+                /* Sombra */
+                drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
+                sm:drop-shadow-[0.1em_0.1em_0_rgba(0,0,0,0.8)]
+            ">{recipe.title}</h2>
+
+            <div className="
+                /* Layout */
+                relative w-full
+            ">
                 {recipe.images && recipe.images.length > 0 ? (
                     <>
-                        <div className="absolute inset-0 bg-black/20 flex items-center justify-center"></div>
-                        <img className="flex h-100 w-full object-cover justify-center" src={recipe.images[0]} alt="Imagen de receta" />
+                        <div className="
+                            /* Layout */
+                            absolute inset-0 flex items-center justify-center
+
+                            /* Colores */
+                            bg-black/20
+                        "></div>
+                        <img className="
+                            /* Layout */
+                            flex w-full justify-center
+                            h-[90vw]
+
+                            /* Imagen */
+                            object-cover
+                        " src={recipe.images[0]} alt="Imagen de receta" />
                     </>
                 ) : (
-                    <div className="h-100 bg-violet"></div>
+                    <div className="
+                        /* Layout */
+                        h-[90vw]
+
+                        /* Colores */
+                        bg-violet
+                    "></div>
                 )}
             </div>
         </button>
 
-        <time className="mx-auto py-1.5 px-5 -mt-6 w-auto flex justify-center items-center z-1 anybody-title text-folly bg-spring-bud text-[4vw] drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)]">{formatDate(recipe.date)}</time>
+        <time className="
+            /* Layout */
+            mx-auto py-[1.5vw] px-[4vw] -mt-[5vw] w-auto flex justify-center items-center z-1
 
-        <div className="absolute flex flex-row justify-end w-full gap-3 p-4 opacity-50">
-            <button className="flex items-center justify-center w-9 h-9 rounded-full text-[5vw] text-spring-bud bg-folly  drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]" type="button" onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}><FaShareAlt /></button>
-            <button className="flex items-center justify-center w-9 h-9 rounded-full text-[5vw] text-spring-bud bg-folly drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]" type="button" onClick={() => alert('Añadir a lista: funcionalidad en el horno')}><FaListUl /></button>
+            /* Tipografía */
+            anybody-title text-folly text-[4vw]
+
+            /* Colores */
+            bg-spring-bud
+
+            /* Sombra */
+            drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)]
+            sm:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+        ">{formatDate(recipe.date)}</time>
+
+        <div className="
+            /* Layout */
+            absolute flex flex-row justify-end w-full gap-3 sm:gap-4 p-[4vw] opacity-50
+        ">
+            <button className="
+                /* Layout */
+                flex items-center justify-center w-9 h-9 rounded-full pr-[0.7vw]
+                sm:w-12 sm:h-12
+
+                /* Tipografía */
+                text-[5vw]
+                sm:text-[4vw]
+
+                /* Colores */
+                text-spring-bud bg-folly
+
+                /* Sombra */
+                drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                sm:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+            " type="button" onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}><FaShareAlt /></button>
+            <button className="
+                /* Layout */
+                flex items-center justify-center w-9 h-9 rounded-full
+                sm:w-12 sm:h-12
+
+                /* Tipografía */
+                text-[5vw]
+                sm:text-[4vw]
+
+                /* Colores */
+                text-spring-bud bg-folly
+
+                /* Sombra */
+                drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                sm:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+            " type="button" onClick={() => alert('Añadir a lista: funcionalidad en el horno')}><FaListUl /></button>
         </div>
     </article >
 }
