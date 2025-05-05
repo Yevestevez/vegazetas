@@ -229,7 +229,7 @@ function Recipe({
         {recipe.ingredients && recipe.ingredients.length > 0 && (
             <div className="
                 /* Layout */
-                flex flex-col justify-items-center items-center py-[4vw]
+                flex flex-col justify-items-center items-center py-[4vw] w-full
 
                 /* Colores */
                 bg-hot-magenta
