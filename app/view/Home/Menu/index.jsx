@@ -19,95 +19,160 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
         onCreateRecipeClicked()
     }
 
-
     console.log('Menu -> render')
 
-    // Estilos comunes (TailwindCSS)
     const linkClasses = `
-        /* Flexbox */
+        /* Layout */
         flex items-center justify-center
+        h-[12vw] sm:h-[9vw] w-[80vw] pt-[1vw]
+        mt-[6vw] sm:mt-[5vw]
 
-        /* Tamaño y estructura */
-        h-[12vw] w-[80vw] pt-[0.5vw]
-        
+        /* Tipografía */
+        anybody-title text-[6vw]
+
+        /* Sombra */
         drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
 
-        /* Estilo de texto */
-        anybody-title
-        text-[6vw]
-
+        /* Animaciones */
         transition-transform duration-150 ease-out
         hover:-translate-y-1 hover:scale-105
         hover:drop-shadow-[2.2vw_2.2vw_0_rgba(0,0,0,0.8)]
     `
 
-    const btnClasses = `
-        rounded-full 
+    return <div className="
+        /* Layout */
+        flex flex-col min-h-screen min-w-screen items-center
 
-        /* Tamaño */
-        h-[20vw] w-[20vw]
-        sm:w-[18vw] sm:h-[18vw]
-        md:w-[14vw] md:h-[14vw]
-        lg:h-[11vw] lg:w-[11vw]
-        xl:h-[10vw] xl:w-[10vw]
-        2xl:h-[8vw] 2xl:w-[8vw]
-
-        /* Sombra */
-        drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
-        lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-
-        /* Estilo de texto */
-        anybody-logo
-        text-[clamp(min(4vw,10rem),4vw,10rem)]/[100%]
-        md:text-[clamp(min(2vw,10rem),4vw,10rem)]
-        lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
-        xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
-
-        /* Hover y animaciones */
-        transition-transform duration-150 ease-out
-        hover:bg-aquamarine hover:text-folly
-        hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
-        hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
-        hover:-translate-y-2 hover:scale-105
-    `
-
-    return <div className="flex flex-col min-h-screen min-w-screen bg-spring-bud items-center">
+        /* Colores */
+        bg-spring-bud
+    ">
         <Header onUserLoggedOut={handleUserLoggedOut} />
-        <main className="flex flex-col items-center">
-            <div className="mt-5">
-                <a className={`${linkClasses} bg-veronica mt-[6vw] text-canary rotate-1 hover:-rotate-2`} href="" onClick={handleMyRecipesLinkClick} >Mis recetas</a>
-                <a className={`${linkClasses} opacity-50 bg-coquelicot mt-[6vw] text-aquamarine -rotate-1 hover:rotate-2`} href="" onClick={(event) => {
-                    event.preventDefault()
-
-                    alert('Funcionalidad cociendose a fuego lento')
-                }}>Las favoritas</a>
-                <a className={`${linkClasses} opacity-50 bg-folly mt-[6vw] text-spring-bud rotate-1 hover:-rotate-2`} href="" onClick={(event) => {
-                    event.preventDefault()
-
-                    alert('Funcionalidad en el horno')
-                }}>¡Listas y más listas!</a>
-                <a className={`${linkClasses} opacity-50 bg-canary mt-[6vw] text-coquelicot -rotate-1 hover:rotate-2`} href="" onClick={(event) => {
-                    event.preventDefault()
-
-                    alert('Funcionalidad salteándose con un chorro de aceite')
-                }}>Menús</a>
-                <a className={`${linkClasses} opacity-50 bg-hot-magenta mt-[6vw] text-violet rotate-1 hover:-rotate-2`} href="" onClick={(event) => {
-                    event.preventDefault()
-
-                    alert('Funcionalidad burbujeando en la olla')
-                }}>Lista de la compra</a>
-                <a className={`${linkClasses} opacity-50 bg-aquamarine mt-[6vw] text-dark-orange -rotate-1 hover:rotate-2`} href="" onClick={(event) => {
-                    event.preventDefault()
-
-                    alert('Funcionalidad cociendose a fuego lento')
-                }}>Descubre</a>
-                <a className={`${linkClasses} opacity-50 bg-dark-orange mt-[6vw] text-veronica rotate-1 hover:-rotate-2`} href="" onClick={(event) => {
-                    event.preventDefault()
-
-                    alert('Funcionalidad cociendose en el horno')
-                }} >Enlaces</a>
+        <main className="
+            /* Layout */
+            flex flex-col items-center
+        ">
+            <div className="
+                /* Layout */
+                mt-[1.5vw] sm:mt-[1vw]
+            ">
+                <a className={`
+                    ${linkClasses}
+                    
+                    /* Layout y Hover */
+                    rotate-1 hover:-rotate-2
+                    
+                    /* Colores */
+                    bg-veronica text-canary
+                `} href="" onClick={handleMyRecipesLinkClick}>Mis recetas</a>
+                <a className={`
+                    ${linkClasses}
+                    
+                    /* Layout y Hover */
+                    -rotate-1 hover:rotate-2
+                    
+                    /* Colores */
+                    bg-coquelicot text-aquamarine opacity-50
+                `} href="" onClick={(event) => {
+                        event.preventDefault()
+                        alert('Funcionalidad cociendose a fuego lento')
+                    }}>Las favoritas</a>
+                <a className={`
+                    ${linkClasses}
+                    
+                    /* Layout y Hover */
+                    rotate-1 hover:-rotate-2
+                    
+                    /* Colores */
+                    bg-folly text-spring-bud opacity-50
+                `} href="" onClick={(event) => {
+                        event.preventDefault()
+                        alert('Funcionalidad en el horno')
+                    }}>¡Listas y más listas!</a>
+                <a className={`
+                    ${linkClasses}
+                    
+                    /* Layout y Hover */
+                    -rotate-1 hover:rotate-2
+                    
+                    /* Colores */
+                    bg-canary text-coquelicot opacity-50
+                `} href="" onClick={(event) => {
+                        event.preventDefault()
+                        alert('Funcionalidad salteándose con un chorro de aceite')
+                    }}>Menús</a>
+                <a className={`
+                    ${linkClasses}
+                    
+                    /* Layout y Hover */
+                    rotate-1 hover:-rotate-2
+                    
+                    /* Colores */
+                    bg-hot-magenta text-violet opacity-50
+                `} href="" onClick={(event) => {
+                        event.preventDefault()
+                        alert('Funcionalidad burbujeando en la olla')
+                    }}>Lista de la compra</a>
+                <a className={`
+                    ${linkClasses}
+                    
+                    /* Layout y Hover */
+                    -rotate-1 hover:rotate-2
+                    
+                    /* Colores */
+                    bg-aquamarine text-dark-orange opacity-50
+                `} href="" onClick={(event) => {
+                        event.preventDefault()
+                        alert('Funcionalidad cociendose a fuego lento')
+                    }}>Descubre</a>
+                <a className={`
+                    ${linkClasses}
+                    
+                    /* Layout y Hover */
+                    rotate-1 hover:-rotate-2
+                    
+                    /* Colores */
+                    bg-dark-orange text-veronica opacity-50
+                `} href="" onClick={(event) => {
+                        event.preventDefault()
+                        alert('Funcionalidad cociendose en el horno')
+                    }}>Enlaces</a>
             </div>
-            <button type='button' className={`${btnClasses}flex items-center justify-center text-center bg-folly mt-[8vw] text-spring-bud`} onClick={handleCreateRecipeClick}>Nueva<br></br>receta</button>
+            <button type='button' className="
+                /* Layout */
+                flex items-center justify-center text-center
+                rounded-full mt-[6vw] sm:mt-[5vw]
+
+                /* Tamaño */
+                h-[20vw] w-[20vw]
+                sm:w-[16vw] sm:h-[16vw]
+                md:w-[14vw] md:h-[14vw]
+                lg:h-[11vw] lg:w-[11vw]
+                xl:h-[10vw] xl:w-[10vw]
+                2xl:h-[8vw] 2xl:w-[8vw]
+
+                /* Tipografía */
+                anybody-logo
+                text-[clamp(min(4vw,10rem),4vw,10rem)]/[100%]
+                sm:text-[clamp(min(3vw,10rem),3vw,10rem)]
+                md:text-[clamp(min(2vw,10rem),4vw,10rem)]
+                lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
+                xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
+
+                /* Colores */
+                bg-folly text-spring-bud
+
+                /* Sombra */
+                drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+                lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+
+                /* Animaciones */
+                transition-transform duration-150 ease-out
+                hover:-translate-y-2 hover:scale-105
+                hover:bg-aquamarine hover:text-folly
+                hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
+                hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
+            "
+                onClick={handleCreateRecipeClick}>Nueva<br></br>receta</button>
         </main>
     </div>
 }

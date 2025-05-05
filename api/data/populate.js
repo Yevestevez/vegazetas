@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs'
 mongoose.connect('mongodb://localhost:27017/vegazetas')
     .then(() => Promise.all([User.deleteMany(), Ingredient.deleteMany(), Step.deleteMany(), Recipe.deleteMany()]))
     .then(() => {
-        return bcrypt.hash('123123123', 10)
+        return bcrypt.hash('a123123123', 10)
             .then(hash => {
                 // users
                 const ana = new User({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: hash })

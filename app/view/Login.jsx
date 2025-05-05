@@ -44,116 +44,175 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
 
     console.log('Login -> render')
 
-    // Estilos comunes (TailwindCSS)
-    const logoClasses = `
-        /* Márgenes */
-        mt-[18vw]
-
-        /* Sombra */
-        drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)]
-
-        /* Estilo de texto */
-        anybody-logo text-center
-
-        /* Tamaño de texto con responsive */
-        text-[22vw]/[80%] 
-        sm:text-[20vw]/[80%] 
-        md:text-[15vw]/[80%] 
-        lg:text-[12vw]/[80%]
-    `
-
-    const titleClasses = `
-        /* Flexbox */
-        flex items-center justify-center
-
-        /* Tamaño y estructura */
-        h-[10vw] 
-        mt-[5vw] 
-
-        /* Fondo y sombra */
-        
-        drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
-
-        /* Estilo de texto */
-         anybody-title
-        text-[6vw]
-    `
-
     const inputClasses = `
-        /* Flexbox */
-        flex items-center justify-center
-        
-        /* Tamaño y estructura */
-        w-[70vw] h-[14vw]
-        p-5
-
-        /* Fondo, sombra y focus */
-        bg-aquamarine rounded-full outline-aquamarine 
-        drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8) focus:outline-5 focus:bg-violet focus:text-aquamarine
-
-        /* Texto */
-        anybody text-violet text-center text-[4.5vw]
-        min-w-0 truncate placeholder:italic
-    `
-
-    const btnClasses = `
-        rounded-full 
+        /* Layout */
+        flex items-center justify-center rounded-full
+        p-5 mb-[2vw]
 
         /* Tamaño */
-        h-[20vw] w-[20vw]
-        sm:w-[18vw] sm:h-[18vw]
-        md:w-[14vw] md:h-[14vw]
-        lg:h-[11vw] lg:w-[11vw]
-        xl:h-[10vw] xl:w-[10vw]
-        2xl:h-[8vw] 2xl:w-[8vw]
+        w-[70vw] h-[14vw]
+        sm:h-[12vw]
+
+        /* Colores */
+        bg-aquamarine focus:bg-violet
+        outline-aquamarine 
+        focus:outline-5 focus:text-aquamarine
+
+        /* Tipografía */
+        anybody text-violet text-center text-[4.5vw]
+        sm:text-[3.8vw]
+        min-w-0 truncate placeholder:italic
 
         /* Sombra */
-        drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
-        lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-
-        /* Estilo de texto */
-        anybody-logo
-        text-[clamp(min(4vw,10rem),4.5vw,10rem)]
-        md:text-[clamp(min(2vw,10rem),4vw,10rem)]
-        lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
-        xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
-
-        /* Hover y animaciones */
-        transition-transform duration-150 ease-out
-        hover:bg-folly hover:text-aquamarine
-        hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
-        hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
-        hover:-translate-y-2 hover:scale-105
+        drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
     `
 
-    const linkClasses = `
-        anybody-title text-[6.5vw] underline decoration-[3vw]
-        transition-transform duration-150 ease-out
-        hover:-translate-y-1.5
-    `
+    return <div className="
+        /* Layout */
+        flex flex-col min-h-screen min-w-screen items-center
 
-    return <div className="flex flex-col min-h-screen min-w-screen bg-violet items-center">
-        <h1 className={`${logoClasses} text-hot-magenta`}>Vega<br></br>zetas</h1>
+        /* Colores */
+        bg-violet
+    ">
+        <h1 className="
+            /* Layout */
+            text-center mt-[18vw]
+            sm:mt-[10vw]
 
-        <h2 className={`${titleClasses} w-[22vw] bg-hot-magenta text-violet`}>Inicio</h2>
+            /* Tipografía */
+            anybody-logo text-hot-magenta
+            text-[22vw]/[80%]
+            sm:text-[22vw]/[80%]
+            md:text-[15vw]/[80%]
+            lg:text-[12vw]/[80%]
+
+            /* Sombra */
+            drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)]
+        "
+        >Vega<br></br>zetas</h1>
+
+        <h2 className="
+            /* Layout */
+            flex items-center justify-center text-center
+            mt-[10vw] sm:mt-[6vw]
+            pt-[1vw] sm:pt-[1vw]
+            h-[10vw] sm:h-[8vw]
+            w-[22vw] sm:w-[20vw]
+
+            /* Tipografía */
+            anybody-title text-[6vw]
+            sm:text-[5vw]
+
+            /* Colores */
+            bg-hot-magenta text-violet
+
+            /* Sombra */
+            drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+        ">INICIO</h2>
 
         <main>
-            <form className="flex flex-col gap-[1.5vw] mt-[10vw] items-center justify-center" onSubmit={handleFormSubmit}>
-                <label className="text-aquamarine anybody font-bold text-[4.5vw]" htmlFor="email">Email</label>
+            <form className="
+                /* Layout */
+                flex flex-col items-center justify-center
+                gap-[1.5vw]
+                mt-[10vw] sm:mt-[6vw]
+            "
+                onSubmit={handleFormSubmit}>
+                <label className="
+                    /* Tipografía */
+                    anybody font-bold text-[4.5vw]
+                    
+                    /* Colores */
+                    text-aquamarine
+                " htmlFor="email">Email</label>
                 <input className={inputClasses} type="text" id="email" placeholder="¿Cuál es tu email?" title="Email con el que te registraste en Vegazetas" />
 
-                <label className="text-aquamarine anybody font-bold text-[4.5vw] mt-[3vw]" htmlFor="password">Contraseña</label>
+                <label className="
+                    /* Layout */
+                    mt-[3vw]
+
+                    /* Tipografía */
+                    anybody font-bold text-[4.5vw]
+                    
+                    /* Colores */
+                    text-aquamarine
+                " htmlFor="password">Contraseña</label>
                 <input className={inputClasses} type="password" id="password" placeholder="Contraseña de acceso" title="Contraseña con la que te registraste en Vegazetas" />
 
-                <button className={`${btnClasses} flex items-center justify-center self-end bg-aquamarine mt-[6vw] text-violet`} type="submit">Inicio</button>
+                <button
+                    className="
+                        /* Layout */
+                        flex items-center justify-center self-end rounded-full anybody-logo
+                        mt-[6vw]
+
+                        /* Tamaño */
+                        w-[20vw] h-[20vw]
+                        sm:w-[18vw] sm:h-[18vw]
+                        md:w-[14vw] md:h-[14vw]
+                        lg:w-[11vw] lg:h-[11vw]
+                        xl:w-[10vw] xl:h-[10vw]
+                        2xl:w-[8vw] 2xl:h-[8vw]
+
+                        /* Tipografía */
+                        text-[clamp(min(4vw,10rem),4.5vw,10rem)]
+                        md:text-[clamp(min(2vw,10rem),4vw,10rem)]
+                        lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
+                        xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
+
+                        /* Sombra */
+                        drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+                        lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                        hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
+                        hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
+
+                        /* Colores */
+                        bg-aquamarine hover:bg-folly
+                        text-violet hover:text-aquamarine
+
+                        /* Interacciones */
+                        transition-transform duration-150 ease-out
+                        hover:-translate-y-2 hover:scale-105
+                    "
+                    type="submit"
+                >
+                    Inicio
+                </button>
             </form>
 
-            <div className="flex flex-col w-full -mt-[20vw] gap-[2vw]">
-                <p className="text-hot-magenta anybody">¿No estás registrado?</p>
-                <a className={`${linkClasses} text-hot-magenta hover:text-canary w-[8rem]`} href="" onClick={handleRegisterLinkClick} >Registro</a>
+            <div className="
+                /* Layout */
+                flex flex-col w-full
+                gap-[2vw]
+                -mt-[20vw] sm:-mt-[18vw]
+                pb-[15vw]
+            ">
+                <p className="
+                    /* Tipografía */
+                    anybody text-[3vw]
+                    sm:text-[2.6vw]
+                    
+                    /* Colores */
+                    text-hot-magenta
+                ">¿No estás registrado?</p>
+                <a className="
+                    /* Layout */
+                    w-[8rem]
+
+                    /* Tipografía */
+                    anybody-title text-[6.5vw]
+                    underline decoration-[2.5vw]
+                    underline-offset-[2.5vw]
+
+                    /* Colores */
+                    text-hot-magenta hover:text-canary
+
+                    /* Interacciones */
+                    transition-transform duration-150 ease-out
+                    hover:-translate-y-1.5
+                "
+                    href="" onClick={handleRegisterLinkClick} >Registro</a>
             </div>
         </main>
-
     </div>
 }
 
