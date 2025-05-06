@@ -853,7 +853,7 @@ function SaveRecipe({
                                     name="unit"
                                     placeholder="g, uds, ml..."
                                     pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
-                                    maxlength={20}
+                                    maxLength={20}
                                     title="Solo letras, espacios y tildes. Máximo 20 caracteres"
                                 />
                             </div>
@@ -865,7 +865,7 @@ function SaveRecipe({
                             type="text"
                             name="annotation"
                             placeholder="¿Necesitas alguna aclaración?"
-                            maxlength={50}
+                            maxLength={50}
                             title="Máximo 50 caracteres"
                         />
 
@@ -923,14 +923,14 @@ function SaveRecipe({
                     {(recipe.steps ?? []).map((step, index) => (
                         <li className="
                             /* Layout */
-                            flex flex-col items-center
+                            flex flex-col items-center gap-[2vw]
                         " key={index}>
                             <h3 className="
                                 /* Tipografía */
                                 anybody-logo text-[5vw]
                             ">{index + 1}</h3>
-                            <div><strong>{step.text}</strong></div>
-                            {step.note && <div className="italic">{step.note}</div>}
+                            <div className="text-[4vw]/[120%] sm:text-[3.5vw]/[120%]"><strong>{step.text}</strong></div>
+                            {step.note && <div className="italic text-[3.5vw]/[120%] sm:text-[3vw]/[120%]">{step.note}</div>}
                             {step.image && <img src={step.image} alt={`Image ${index + 1}`} className="pt-[3vw]" />}
                             <button className="
                                 /* Tipografía */
@@ -940,7 +940,7 @@ function SaveRecipe({
                             </button>
                             <div className="
                                 /* Layout */
-                                bg-folly h-[0.5vw] mt-[6vw] mb-[3vw] w-[70vw]
+                                bg-folly h-[0.5vw] mt-[4vw] mb-[2vw] w-[70vw]
                             "></div>
                         </li>
                     ))}
@@ -1032,7 +1032,7 @@ function SaveRecipe({
                             /* Colores */
                             bg-spring-bud text-folly
                             hover:bg-folly hover:text-spring-bud
-                            hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+                            hover:outline-[0.1em] hover:outline-spring-bud
 
                             /* Tipografía */
                             text-[8vw]
@@ -1058,7 +1058,7 @@ function SaveRecipe({
                             /* Colores */
                             bg-spring-bud text-folly
                             hover:bg-folly hover:text-spring-bud
-                            hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+                            hover:outline-[0.1em] hover:outline-spring-bud
 
                             /* Tipografía */
                             text-[8vw]
@@ -1087,7 +1087,7 @@ function SaveRecipe({
                         /* Colores */
                         bg-spring-bud text-folly
                         hover:bg-folly hover:text-spring-bud
-                        hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+                        hover:outline-[0.1em] hover:outline-spring-bud
 
                         /* Tipografía */
                         text-[8vw]

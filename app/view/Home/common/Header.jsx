@@ -60,7 +60,7 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
         /* Layout */
         fixed top-0 left-0 right-0
         flex flex-row items-center justify-between
-        py-5 px-10 w-full
+        py-[4vw] sm:py-[3vw] px-[8vw] sm:px-[6vw] md:px-[5vw]  w-full
         z-10
 
         /* Colores */
@@ -72,7 +72,7 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
                 text-center
 
                 /* Tipografía */
-                anybody-logo text-[8vw]/[80%]
+                anybody-logo text-[8vw]/[80%] sm:text-[7vw]/[80%] md:text-[6vw]/[80%]
                 text-sgbus-green
 
                 /* Sombra */
@@ -92,10 +92,10 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
 
             <FaRegUserCircle className="
                 /* Layout */
-                rounded-full mr-[3vw]
+                rounded-full mr-[2vw] sm:mr-[0.5vw]
 
                 /* Tamaño */
-                text-[14vw] sm:text-[12vw]
+                text-[13vw] sm:text-[11vw] md:text-[10vw]
 
                 /* Colores */
                 text-sgbus-green bg-veronica
@@ -103,6 +103,7 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
                 /* Sombra */
                 drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
                 sm:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.8)]
+                md:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
             " />
         </div>
     </div>

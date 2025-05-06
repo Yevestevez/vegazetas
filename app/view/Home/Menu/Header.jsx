@@ -53,27 +53,22 @@ function Header({ onUserLoggedOut }) {
     return <>
         <div className="
             /* Layout */
-            flex flex-col sm:flex-row items-center sm:items-center
-            sm:justify-center 
-            gap-2 sm:gap-12
-            py-[3vw] w-full 
-            sm:px-12
+            flex flex-col sm:flex-row items-center
+            sm:justify-between
+            gap-2 sm:gap-22 md:gap-30
+            py-[3vw] md:py-[2vw] w-full sm:px-[10vw]
+
 
             /* Colores */
             bg-folly
         ">
-            <div className="
-                /* Layout */
-                sm:w-[30vw]
-            ">
+            <div>
                 <h1 className="
                     /* Layout */
                     text-center
-                    sm:text-center
 
                     /* Tipografía */
-                    anybody-logo text-[13vw]
-                    sm:text-[10vw]/[80%]
+                    anybody-logo text-[13vw] sm:text-[9vw]/[80%] md:text-[7vw]/[80%]
                     text-aquamarine
 
                     /* Sombra */
@@ -90,7 +85,7 @@ function Header({ onUserLoggedOut }) {
                     rounded-full
 
                     /* Tamaño */
-                    text-[17vw] sm:text-[14vw]
+                    text-[17vw] sm:text-[14vw] md:text-[11vw]
 
                     /* Colores */
                     text-aquamarine bg-folly
@@ -98,6 +93,7 @@ function Header({ onUserLoggedOut }) {
                     /* Sombra */
                     drop-shadow-[1.3vw_1.3vw_0_rgba(0,0,0,0.8)]
                     sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    md:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.8)]
                 " />
 
                 <div className="
@@ -106,7 +102,7 @@ function Header({ onUserLoggedOut }) {
                 ">
                     <h2 className="
                         /* Tipografía */
-                        anybody-title text-[5.5vw]
+                        anybody-title text-[5.5vw] md:text-[4.5vw]
                         text-aquamarine
 
                         /* Layout */
@@ -114,15 +110,16 @@ function Header({ onUserLoggedOut }) {
 
                         /* Sombra */
                         drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
+                        md:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
                     ">{name}</h2>
                     <p className="
                         /* Tipografía */
-                        anybody text-[3.5vw] sm:text-[2.5vw] font-semibold
+                        anybody text-[3.5vw] sm:text-[2.5vw] md:text-[2vw] font-semibold
                         text-aquamarine
                     ">¿Qué vas a comer hoy?</p>
                     <button className="
                         /* Tipografía */
-                        anybody text-[2.7vw] sm:text-[2vw]
+                        anybody text-[2.7vw] sm:text-[2vw] md:text-[1.8vw]
                         text-aquamarine
 
                         /* Layout */

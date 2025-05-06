@@ -186,7 +186,7 @@ function Register({ onLoginClicked, onUserRegistered }) {
 
                         /* Tipografía */
                         text-[clamp(min(3.5vw,10rem),3.5vw,10rem)]
-                        md:text-[clamp(min(2vw,10rem),4vw,10rem)]
+                        md:text-[clamp(min(2vw,10rem),3vw,10rem)]
                         lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
                         xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
 

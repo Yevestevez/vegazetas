@@ -3,7 +3,7 @@ import { useAppContext } from '../../../context'
 import Header from './Header'
 
 function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
-    const { alert, confirm } = useAppContext()
+    const { alert } = useAppContext()
 
     const handleMyRecipesLinkClick = event => {
         event.preventDefault()
@@ -24,19 +24,20 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
     const linkClasses = `
         /* Layout */
         flex items-center justify-center
-        h-[12vw] sm:h-[9vw] w-[80vw] pt-[1vw]
-        mt-[6vw] sm:mt-[5vw]
+        h-[12vw] sm:h-[9vw] md:h-[8vw] w-[80vw] pt-[1vw]
+        mt-[6vw] sm:mt-[5vw] md:mt-[4.5vw]
 
         /* Tipografía */
-        anybody-title text-[6vw]
+        anybody-title text-[6vw] md:text-[5vw]
 
         /* Sombra */
-        drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+        drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
 
         /* Animaciones */
         transition-transform duration-150 ease-out
         hover:-translate-y-1 hover:scale-105
         hover:drop-shadow-[2.2vw_2.2vw_0_rgba(0,0,0,0.8)]
+        hover:md:drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]
     `
 
     return <div className="
@@ -140,7 +141,7 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
             <button type='button' className="
                 /* Layout */
                 flex items-center justify-center text-center
-                rounded-full mt-[6vw] sm:mt-[5vw]
+                rounded-full mt-[6vw] sm:mt-[5vw] md:mb-[6vw]
 
                 /* Tamaño */
                 h-[20vw] w-[20vw]
@@ -154,7 +155,7 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
                 anybody-logo
                 text-[clamp(min(4vw,10rem),4vw,10rem)]/[100%]
                 sm:text-[clamp(min(3vw,10rem),3vw,10rem)]
-                md:text-[clamp(min(2vw,10rem),4vw,10rem)]
+                md:text-[clamp(min(2vw,10rem),3vw,10rem)]
                 lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
                 xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
 
@@ -163,14 +164,16 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
 
                 /* Sombra */
                 drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+                md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
                 lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
 
                 /* Animaciones */
                 transition-transform duration-150 ease-out
                 hover:-translate-y-2 hover:scale-105
                 hover:bg-aquamarine hover:text-folly
-                hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
-                hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
+                hover:drop-shadow-[1.7vw_1.7vw_0_rgba(0,0,0,0.7)]
+                hover:md:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.7)]
+                hover:lg:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.7)]
             "
                 onClick={handleCreateRecipeClick}>Nueva<br></br>receta</button>
         </main>

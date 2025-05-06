@@ -17,7 +17,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
 
     return <article className="
         /* Layout */
-        flex flex-col pb-10
+        flex flex-col pb-[8vw]
 
         /* Colores */
         bg-canary
@@ -28,14 +28,15 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
         " type="button" onClick={handleRecipeThumbnailClick}>
             <h2 className="
                 /* Layout */
-                flex absolute z-2 px-10
+                flex absolute z-2 px-[8vw]
 
                 /* Tipografía */
-                anybody-logo text-spring-bud text-[13vw]/[100%]
+                anybody-logo text-spring-bud text-[13vw]/[100%] sm:text-[12vw]/[100%] md:text-[11vw]/[100%]
 
                 /* Sombra */
                 drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
                 sm:drop-shadow-[0.1em_0.1em_0_rgba(0,0,0,0.8)]
+                md:drop-shadow-[0.08em_0.08em_0_rgba(0,0,0,0.8)]
             ">{recipe.title}</h2>
 
             <div className="
@@ -54,7 +55,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                         <img className="
                             /* Layout */
                             flex w-full justify-center
-                            h-[90vw]
+                            h-[90vw] sm:h-[80vw] md:h-[70vw]
 
                             /* Imagen */
                             object-cover
@@ -63,7 +64,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                 ) : (
                     <div className="
                         /* Layout */
-                        h-[90vw]
+                        h-[90vw] sm:h-[80vw] md:h-[70vw]
 
                         /* Colores */
                         bg-violet
@@ -74,17 +75,18 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
 
         <time className="
             /* Layout */
-            mx-auto py-[1.5vw] px-[4vw] -mt-[5vw] w-auto flex justify-center items-center z-1
+            mx-auto py-[1.5vw] px-[4vw] -mt-[5vw] sm:-mt-[4vw] w-auto flex justify-center items-center z-1
 
             /* Tipografía */
-            anybody-title text-folly text-[4vw]
+            anybody-title text-folly text-[4vw] sm:text-[3.5vw] md:text-[3vw]
 
             /* Colores */
             bg-spring-bud
 
             /* Sombra */
-            drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)]
+            drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]
             sm:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+            md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
         ">{formatDate(recipe.date)}</time>
 
         <div className="
