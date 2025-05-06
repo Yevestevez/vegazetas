@@ -47,11 +47,10 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
     const inputClasses = `
         /* Layout */
         flex items-center justify-center rounded-full
-        p-5 mb-[2vw]
+        p-[4vw] mb-[2vw]
 
         /* Tamaño */
-        w-[70vw] h-[14vw]
-        sm:h-[12vw]
+        w-[70vw] h-[14vw] sm:h-[12vw] lg:h-[10vw]
 
         /* Colores */
         bg-aquamarine focus:bg-violet
@@ -59,12 +58,13 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
         focus:outline-5 focus:text-aquamarine
 
         /* Tipografía */
-        anybody text-violet text-center text-[4.5vw]
-        sm:text-[3.8vw]
+        anybody text-violet text-center text-[4.5vw] sm:text-[3.8vw] lg:text-[3.5vw]
         min-w-0 truncate placeholder:italic
 
         /* Sombra */
         drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+        md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+        lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
     `
 
     return <div className="
@@ -84,7 +84,6 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
             text-[22vw]/[80%]
             sm:text-[22vw]/[80%]
             md:text-[15vw]/[80%]
-            lg:text-[12vw]/[80%]
 
             /* Sombra */
             drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)]
@@ -108,6 +107,8 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
 
             /* Sombra */
             drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+            sm:drop-shadow-[1.4w_1.4vw_0_rgba(0,0,0,0.8)]
+            md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
         ">INICIO</h2>
 
         <main>
@@ -149,21 +150,19 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                         w-[20vw] h-[20vw]
                         sm:w-[18vw] sm:h-[18vw]
                         md:w-[14vw] md:h-[14vw]
-                        lg:w-[11vw] lg:h-[11vw]
-                        xl:w-[10vw] xl:h-[10vw]
-                        2xl:w-[8vw] 2xl:h-[8vw]
 
                         /* Tipografía */
                         text-[clamp(min(4vw,10rem),4.5vw,10rem)]
                         md:text-[clamp(min(2vw,10rem),4vw,10rem)]
-                        lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
-                        xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
+                        lg:text-[clamp(min(2vw,10rem),3.5vw,10rem)]
 
                         /* Sombra */
                         drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+                        md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
                         lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                        hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
-                        hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
+                        hover:drop-shadow-[1.7vw_1.7vw_0_rgba(0,0,0,0.7)]
+                        hover:md:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.7)]
+                        hover:lg:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.7)]
 
                         /* Colores */
                         bg-aquamarine hover:bg-folly
@@ -183,13 +182,14 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                 /* Layout */
                 flex flex-col w-full
                 gap-[2vw]
-                -mt-[20vw] sm:-mt-[18vw]
-                pb-[15vw]
+                -mt-[20vw] sm:-mt-[18vw] md:-mt-[15vw] lg:-mt-[15vw]
+                pb-[15vw] lg:pb-[12vw]
             ">
                 <p className="
                     /* Tipografía */
                     anybody text-[3vw]
                     sm:text-[2.6vw]
+                    -mb-[2vw]
                     
                     /* Colores */
                     text-hot-magenta

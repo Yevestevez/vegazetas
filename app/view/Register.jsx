@@ -49,7 +49,7 @@ function Register({ onLoginClicked, onUserRegistered }) {
     const inputClasses = `
         /* Layout */
         flex items-center justify-center rounded-full
-        p-5 mb-[2vw] sm:mb-[3vw]
+        p-[4vw] mb-[2vw] sm:mb-[3vw]
 
         /* Tamaño */
         w-[70vw] h-[14vw]
@@ -67,6 +67,8 @@ function Register({ onLoginClicked, onUserRegistered }) {
 
         /* Sombra */
         drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+        md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+        lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
     `
 
     return <div className="
@@ -78,15 +80,13 @@ function Register({ onLoginClicked, onUserRegistered }) {
     ">
         <h1 className="
             /* Layout */
-            text-center mt-[18vw]
-            sm:mt-[10vw]
+            text-center mt-[14vw]
 
             /* Tipografía */
             anybody-logo text-violet
             text-[22vw]/[80%]
             sm:text-[22vw]/[80%]
-            md:text-[15vw]/[80%]
-            lg:text-[12vw]/[80%]
+            md:text-[20vw]/[80%]
 
             /* Sombra */
             drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)]
@@ -95,8 +95,8 @@ function Register({ onLoginClicked, onUserRegistered }) {
         <h2 className="
             /* Layout */
             flex items-center justify-center text-center
-            mt-[10vw] sm:mt-[6vw]
-            pt-[1vw] sm:pt-[1vw]
+            mt-[10vw] sm:mt-[8vw]
+            pt-[1vw]
             h-[10vw] sm:h-[8vw]
             w-[30vw] sm:w-[26vw]
 
@@ -109,6 +109,8 @@ function Register({ onLoginClicked, onUserRegistered }) {
 
             /* Sombra */
             drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+            sm:drop-shadow-[1.4w_1.4vw_0_rgba(0,0,0,0.8)]
+            md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
         ">REGISTRO</h2>
 
         <main>
@@ -180,21 +182,18 @@ function Register({ onLoginClicked, onUserRegistered }) {
                         w-[20vw] h-[20vw]
                         sm:w-[18vw] sm:h-[18vw]
                         md:w-[14vw] md:h-[14vw]
-                        lg:w-[11vw] lg:h-[11vw]
-                        xl:w-[10vw] xl:h-[10vw]
-                        2xl:w-[8vw] 2xl:h-[8vw]
 
                         /* Tipografía */
                         text-[clamp(min(3.5vw,10rem),3.5vw,10rem)]
-                        md:text-[clamp(min(2vw,10rem),3vw,10rem)]
-                        lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
-                        xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
+                        md:text-[clamp(min(2vw,8rem),2.6vw,10rem)]
 
                         /* Sombra */
                         drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+                        md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
                         lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                        hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
-                        hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
+                        hover:drop-shadow-[1.7vw_1.7vw_0_rgba(0,0,0,0.7)]
+                        hover:md:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.7)]
+                        hover:lg:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.7)]
 
                         /* Colores */
                         bg-sgbus-green hover:bg-canary
@@ -214,13 +213,14 @@ function Register({ onLoginClicked, onUserRegistered }) {
                 /* Layout */
                 flex flex-col w-full
                 gap-[2vw]
-                -mt-[20vw] sm:-mt-[18vw]
-                pb-[15vw]
+                -mt-[20vw] sm:-mt-[18vw] md:-mt-[15vw] lg:-mt-[15vw]
+                pb-[15vw] lg:pb-[12vw]
             ">
                 <p className="
                     /* Tipografía */
                     anybody text-[3vw]
                     sm:text-[2.6vw]
+                    -mb-[2vw]
                     
                     /* Colores */
                     text-violet

@@ -1108,7 +1108,7 @@ function SaveRecipe({
                         /* Colores */
                         bg-spring-bud text-folly
                         hover:bg-folly hover:text-spring-bud
-                        hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+                        hover:outline-[0.1em] hover:outline-spring-bud
 
                         /* Tipografía */
                         text-[8vw]
