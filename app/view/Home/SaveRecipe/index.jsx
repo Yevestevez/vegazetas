@@ -426,7 +426,7 @@ function SaveRecipe({
         min-w-0 truncate placeholder:italic placeholder:text-[4vw] sm:placeholder:text-[3.5vw]
     `
     const labelClasses = `
-        flex items-center justify-center -mb-[4vw] sm:-mb-[3vw]
+        flex items-center justify-center -mb-[3vw]
         anybody text-center text-[5vw] sm:text-[4vw] font-bold
     `
 
@@ -448,7 +448,7 @@ function SaveRecipe({
 
     return <section className="
         /* Layout */
-        pt-[20vw] h-full w-screen
+        h-full w-screen pt-[21vw] sm:pt-[17vw] md:pt-[16vw]
 
         /* Colores */
         bg-folly
@@ -462,7 +462,7 @@ function SaveRecipe({
         {/* ===== TÍTULO DE LA PÁGINA ===== */}
         <h1 className="
             /* Layout */
-            flex justify-center text-center py-[5vw] sm:py-[3vw] mt-[6vw] sm:mt-[3vw]
+            flex justify-center text-center py-[6vw]
 
             /* Tipografía */
             anybody-logo text-[7vw] sm:text-[6vw] text-spring-bud
@@ -481,7 +481,7 @@ function SaveRecipe({
             {/* ===== FORMULARIO DE RECETA ===== */}
             <form className="
                 /* Layout */
-                flex flex-col w-full gap-6 sm:gap-8 mb-[5vw]
+                flex flex-col w-full gap-[6vw] mb-[5vw]
             " onSubmit={handleRecipeFormSubmit}>
                 <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Título*</label>
                 <input
@@ -530,7 +530,7 @@ function SaveRecipe({
                 ">
                     <div className="
                         /* Layout */
-                        flex flex-col gap-6 sm:gap-8
+                        flex flex-col gap-[5vw]
                     ">
                         <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Tiempo</label>
                         <input
@@ -548,7 +548,7 @@ function SaveRecipe({
 
                     <div className="
                         /* Layout */
-                        flex flex-col gap-6 sm:gap-8
+                        flex flex-col gap-[5vw]
                     ">
                         <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Dificultad</label>
                         <input
@@ -788,7 +788,7 @@ function SaveRecipe({
                 {/* Nuevo ingrediente */}
                 <div className="
                     /* Layout */
-                    flex flex-col py-[5vw] gap-5 w-[70vw] mt-[6vw] mb-[1vw]
+                    flex flex-col py-[5vw] gap-[4vw] w-[70vw] mt-[6vw] mb-[1vw]
 
                     /* Colores */
                     bg-folly
@@ -807,7 +807,7 @@ function SaveRecipe({
                     {/* inputs de nuevo ingrediente */}
                     <div className="
                         /* Layout */
-                        flex flex-col w-full items-center gap-8
+                        flex flex-col w-full items-center gap-[6vw]
                     ">
                         <label className={`${labelClasses} text-spring-bud`} htmlFor="name">Nombre*</label>
                         <input
@@ -826,7 +826,7 @@ function SaveRecipe({
                         ">
                             <div className="
                                 /* Layout */
-                                flex flex-col gap-6 sm:gap-8
+                                flex flex-col gap-[6vw]
                             ">
                                 <label className={`${labelClasses} text-spring-bud`} htmlFor="quantity">Cantidad*</label>
                                 <input
@@ -844,7 +844,7 @@ function SaveRecipe({
 
                             <div className="
                                 /* Layout */
-                                flex flex-col gap-6 sm:gap-8
+                                flex flex-col gap-[6vw]
                             ">
                                 <label className={`${labelClasses} text-spring-bud`} htmlFor="unit">Unidad*</label>
                                 <input
@@ -960,7 +960,7 @@ function SaveRecipe({
                     ">Nuevo Paso</h3>
 
                     {/* inputs de nuevo paso */}
-                    <div className="flex flex-col w-full items-center gap-8">
+                    <div className="flex flex-col w-full items-center gap-[6vw]">
                         <label className={`${labelClasses} text-spring-bud`} htmlFor="text">Instrucciones*</label>
                         <textarea
                             className="
@@ -1018,11 +1018,11 @@ function SaveRecipe({
             {/* ===== BOTONES DE NAVEGACIÓN ===== */}
             <div className="
                 /* Layout */
-                flex flex-row gap-8 pt-[5vw] pb-[10vw] w-full justify-between
+                flex flex-row pt-[5vw] pb-[10vw] w-full justify-between
             ">
                 <div className="
                     /* Layout */
-                    flex flex-row gap-5 sm:gap-8
+                    flex flex-row gap-[4vw]
                 ">
                     <button
                         className="
@@ -1078,7 +1078,7 @@ function SaveRecipe({
                 </div>
                 <div className="
                     /* Layout */
-                    flex flex-row gap-5 sm:gap-8
+                    flex flex-row gap-[4vw]
                 ">
                     <button className="
                         /* Layout */
