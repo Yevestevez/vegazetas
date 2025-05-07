@@ -5,7 +5,7 @@ import { FaListUl } from "react-icons/fa6"
 import formatDate from '../../helper/formatDate'
 
 function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
-    const { alert, confirm } = useAppContext()
+    const { alert } = useAppContext()
 
     const handleRecipeThumbnailClick = event => {
         event.preventDefault()
@@ -31,12 +31,11 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                 flex absolute z-2 px-[8vw]
 
                 /* Tipografía */
-                anybody-logo text-spring-bud text-[13vw]/[100%] sm:text-[12vw]/[100%] md:text-[11vw]/[100%]
+                anybody-logo text-spring-bud text-[13vw]/[100%] sm:text-[12vw]/[100%] md:text-[11vw]/[100%] lg:text-[10vw]/[100%]
 
                 /* Sombra */
                 drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
                 sm:drop-shadow-[0.1em_0.1em_0_rgba(0,0,0,0.8)]
-                md:drop-shadow-[0.08em_0.08em_0_rgba(0,0,0,0.8)]
             ">{recipe.title}</h2>
 
             <div className="
@@ -55,7 +54,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                         <img className="
                             /* Layout */
                             flex w-full justify-center
-                            h-[90vw] sm:h-[80vw] md:h-[70vw]
+                            h-[90vw] sm:h-[80vw] md:h-[70vw] lg:h-[60vw]
 
                             /* Imagen */
                             object-cover
@@ -64,7 +63,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                 ) : (
                     <div className="
                         /* Layout */
-                        h-[90vw] sm:h-[80vw] md:h-[70vw]
+                        h-[90vw] sm:h-[80vw] md:h-[70vw] lg:h-[60vw]
 
                         /* Colores */
                         bg-violet
@@ -78,7 +77,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
             mx-auto py-[1.5vw] px-[4vw] -mt-[5vw] sm:-mt-[4vw] w-auto flex justify-center items-center z-1
 
             /* Tipografía */
-            anybody-title text-folly text-[4vw] sm:text-[3.5vw] md:text-[3vw]
+            anybody-title text-folly text-[4vw] sm:text-[3.5vw] md:text-[3.2vw]
 
             /* Colores */
             bg-spring-bud
@@ -91,12 +90,12 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
 
         <div className="
             /* Layout */
-            absolute flex flex-row justify-end w-full gap-3 sm:gap-4 p-[4vw] opacity-50
+            absolute flex flex-row justify-end w-full gap-[3vw] lg:gap-[2.5vw] p-[4vw] lg:p-[3vw] opacity-50 pr-[6vw]
         ">
             <button className="
                 /* Layout */
                 flex items-center justify-center w-9 h-9 rounded-full pr-[0.7vw]
-                sm:w-12 sm:h-12
+                sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16
 
                 /* Tipografía */
                 text-[5vw]
@@ -112,7 +111,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
             <button className="
                 /* Layout */
                 flex items-center justify-center w-9 h-9 rounded-full
-                sm:w-12 sm:h-12
+                sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16
 
                 /* Tipografía */
                 text-[5vw]
