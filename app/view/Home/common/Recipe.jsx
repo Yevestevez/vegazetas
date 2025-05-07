@@ -252,7 +252,7 @@ function Recipe({
                 {/* Separación de ingredientes */}
                 <div className="
                     /* Layout */
-                    flex flex-col text-center px-[8vw] gap-4
+                    flex flex-col text-center px-[8vw] gap-[3vw]
                 ">
                     {/* Ingredientes principales */}
                     {recipe.ingredients.some(ingredient => ingredient.main) && (
@@ -344,7 +344,7 @@ function Recipe({
 
                 <div className="
                     /* Layout */
-                    mt-5 text-center w-[85vw] flex flex-col gap-8
+                    mt-5 text-center w-[85vw] flex flex-col gap-[6vw]
 
                     /* Colores */
                     text-hot-magenta
@@ -393,12 +393,12 @@ function Recipe({
         {/* buttons */}
         <div className="
             /* Layout */
-            flex flex-row gap-8 pt-[5vw] pb-[10vw] -mt-1 w-full px-[8vw] justify-between
+            flex flex-row pt-[5vw] pb-[10vw] -mt-1 w-full px-[8vw] justify-between
 
             /* Colores */
             bg-hot-magenta
         ">
-            <div className="flex flex-row gap-5 sm:gap-8">
+            <div className="flex flex-row gap-[4vw]">
                 <button
                     className="
                     /* Layout */
@@ -407,7 +407,7 @@ function Recipe({
                     /* Colores */
                     bg-spring-bud text-hot-magenta
                     hover:bg-hot-magenta hover:text-spring-bud
-                    hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+                    hover:outline-[0.1em] hover:outline-spring-bud
 
                     /* Tipografía */
                     text-[8vw]
@@ -433,7 +433,7 @@ function Recipe({
                     /* Colores */
                     bg-spring-bud text-hot-magenta
                     hover:bg-hot-magenta hover:text-spring-bud
-                    hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+                    hover:outline-[0.1em] hover:outline-spring-bud
 
                     /* Tipografía */
                     text-[8vw]
@@ -451,7 +451,7 @@ function Recipe({
                     <FaChevronUp />
                 </button>
             </div>
-            <div className="flex flex-row gap-5 sm:gap-8">
+            <div className="flex flex-row gap-[4vw]">
                 <button className="
                     /* Layout */
                     h-[12vw] w-[12vw] rounded-full flex items-center justify-center
@@ -459,7 +459,7 @@ function Recipe({
                     /* Colores */
                     bg-spring-bud text-hot-magenta
                     hover:bg-hot-magenta hover:text-spring-bud
-                    hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+                    hover:outline-[0.1em] hover:outline-spring-bud
 
                     /* Tipografía */
                     text-[8vw]
@@ -480,7 +480,7 @@ function Recipe({
                     /* Colores */
                     bg-spring-bud text-hot-magenta
                     hover:bg-hot-magenta hover:text-spring-bud
-                    hover:outline hover:outline-[0.1em] hover:outline-spring-bud
+                    hover:outline-[0.1em] hover:outline-spring-bud
 
                     /* Tipografía */
                     text-[8vw]
