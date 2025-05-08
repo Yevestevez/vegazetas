@@ -56,9 +56,10 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
         bg-aquamarine focus:bg-violet
         outline-aquamarine 
         focus:outline-5 focus:text-aquamarine
+        text-violet
 
         /* Tipografía */
-        anybody text-violet text-center text-[4.5vw] sm:text-[3.8vw] lg:text-[3.5vw] xl:text-[2.5vw]
+        anybody  text-center text-[4.5vw] sm:text-[3.8vw] lg:text-[3.5vw] xl:text-[2.5vw]
         min-w-0 truncate placeholder:italic
 
         /* Sombra */
