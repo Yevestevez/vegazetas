@@ -78,8 +78,9 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
 
     return <div className="
         /* Layout */
-        flex flex-col items-center text-center
-        h-screen w-screen pt-[21vw] sm:pt-[17vw] md:pt-[16vw]
+        flex flex-col xl:flex-row min-h-screen w-full items-center text-center overflow-x-hidden
+
+        pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0vw]
 
         /* Colores */
         bg-canary
@@ -89,18 +90,24 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
             onLogoClicked={handleLogoLinkCLick}
         />
 
-        <h1 className="
-            /* Layout */
-            py-[2vw] text-center
+        <div className="
+            flex xl:fixed xl:top-[60vh] text-center py-[2vw] xl:py-[5vh] items-center justify-center
 
-            /* Tipografía */
-            anybody-logo text-folly text-[6vw]
+            xl:min-w-[30vw]
+            xl:min-h-[40vh]
 
-            /* Sombra */
-            drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
-        ">Tus recetas</h1>
+            xl:bg-sgbus-green
+        ">
+            <h1 className="
+                /* Tipografía */
+                anybody-logo text-folly xl:text-veronica text-[6vw] xl:text-[5vw]/[100%]
 
-        <main className="w-full">
+                /* Sombra */
+                drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
+            ">Tus <br className="hidden xl:block" />recetas</h1>
+        </div>
+
+        <main className="flex flex-col w-full xl:w-[70vw] xl:ml-[30vw]">
             {myRecipes.length > 0 ? (
                 myRecipes.map(recipe => (
                     <RecipeThumbnail

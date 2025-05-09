@@ -60,13 +60,13 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
         /* Layout */
         fixed top-0 left-0 z-10 xl:gap-[5vw]
 
-        w-screen xl:w-[30vw]
-        xl:h-screen xl:overflow-y-auto
+        w-full xl:w-[30vw]
+        xl:min-h-[60vh] xl:overflow-y-auto
 
-        flex flex-row xl:flex-col items-center justify-between xl:justify-start
+        flex flex-row xl:flex-col items-center justify-between xl:justify-center
 
-        py-[4vw] sm:py-[3vw] xl:py-[7vw]
-        px-[8vw] sm:px-[6vw] md:px-[5vw]
+        py-[4vw] sm:py-[3vw] xl:py-[0vw]
+        px-[8vw] sm:px-[6vw] md:px-[5vw] xl:px-[3vw]
 
         /* Colores */
         bg-veronica

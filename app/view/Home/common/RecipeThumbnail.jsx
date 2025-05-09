@@ -17,7 +17,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
 
     return <article className="
         /* Layout */
-        flex flex-col pb-[8vw]
+        flex flex-col pb-[8vw] xl:pb-[6vw] w-full
 
         /* Colores */
         bg-canary
@@ -28,10 +28,11 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
         " type="button" onClick={handleRecipeThumbnailClick}>
             <h2 className="
                 /* Layout */
-                flex absolute z-2 px-[8vw]
+                flex absolute z-2 px-[8vw] xl:px-[6vw]
 
                 /* Tipografía */
-                anybody-logo text-spring-bud text-[13vw]/[100%] sm:text-[12vw]/[100%] md:text-[11vw]/[100%] lg:text-[10vw]/[100%]
+                anybody-logo text-spring-bud
+                text-[12vw]/[100%] sm:text-[11vw]/[100%] lg:text-[10vw]/[100%] xl:text-[6vw]/[100%]
 
                 /* Sombra */
                 drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
@@ -40,7 +41,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
 
             <div className="
                 /* Layout */
-                relative w-full
+                relative min-w-full
             ">
                 {recipe.images && recipe.images.length > 0 ? (
                     <>
@@ -54,7 +55,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                         <img className="
                             /* Layout */
                             flex w-full justify-center
-                            h-[90vw] sm:h-[80vw] md:h-[70vw] lg:h-[60vw]
+                            h-[90vw] sm:h-[80vw] md:h-[70vw] lg:h-[60vw] xl:h-[40vw]
 
                             /* Imagen */
                             object-cover
@@ -63,7 +64,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                 ) : (
                     <div className="
                         /* Layout */
-                        h-[90vw] sm:h-[80vw] md:h-[70vw] lg:h-[60vw]
+                        h-[90vw] sm:h-[80vw] md:h-[70vw] lg:h-[60vw] xl:h-[40vw]
 
                         /* Colores */
                         bg-violet
@@ -74,10 +75,13 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
 
         <time className="
             /* Layout */
-            mx-auto py-[1.5vw] px-[4vw] -mt-[5vw] sm:-mt-[4vw] w-auto flex justify-center items-center z-1
+            mx-auto w-auto flex justify-center items-center z-1
+            py-[1.5vw] xl:py-[1vw]
+            px-[4vw] xl:px-[2.5vw]
+            -mt-[5vw] sm:-mt-[4vw] xl:-mt-[3vw]
 
             /* Tipografía */
-            anybody-title text-folly text-[4vw] sm:text-[3.5vw] md:text-[3.2vw]
+            anybody-title text-folly text-[4vw] sm:text-[3.5vw] md:text-[3.2vw] xl:text-[2vw]
 
             /* Colores */
             bg-spring-bud
@@ -86,20 +90,27 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
             drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]
             sm:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
             md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+            xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
         ">{formatDate(recipe.date)}</time>
 
         <div className="
             /* Layout */
-            absolute flex flex-row justify-end w-full gap-[3vw] lg:gap-[2.5vw] p-[4vw] lg:p-[3vw] opacity-50 pr-[6vw]
+            absolute flex flex-row justify-end opacity-50 right-0
+            w-full
+            gap-[3vw] lg:gap-[2.5vw] xl:gap-[2vw]
+            p-[4vw] lg:p-[3vw]
+            pr-[5vw]
         ">
             <button className="
                 /* Layout */
-                flex items-center justify-center w-9 h-9 rounded-full pr-[0.7vw]
-                sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16
+                flex items-center justify-center rounded-full
+                pr-[0.7vw] xl:pr-[0.5vw]
+
+                w-[9vw] sm:w-[7.5vw] lg:w-[6vw] xl:w-[4.5vw]
+                h-[9vw] sm:h-[7.5vw] lg:h-[6vw] xl:h-[4.5vw]
 
                 /* Tipografía */
-                text-[5vw]
-                sm:text-[4vw]
+                text-[5vw] sm:text-[4vw] lg:text-[3.5vw] xl:text-[2.8vw]
 
                 /* Colores */
                 text-spring-bud bg-folly
@@ -107,15 +118,16 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                 /* Sombra */
                 drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
                 sm:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
             " type="button" onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}><FaShareAlt /></button>
             <button className="
                 /* Layout */
-                flex items-center justify-center w-9 h-9 rounded-full
-                sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16
+                flex items-center justify-center rounded-full
+                w-[9vw] sm:w-[7.5vw] lg:w-[6vw] xl:w-[4.5vw]
+                h-[9vw] sm:h-[7.5vw] lg:h-[6vw] xl:h-[4.5vw]
 
                 /* Tipografía */
-                text-[5vw]
-                sm:text-[4vw]
+                text-[5vw] sm:text-[4vw] lg:text-[3.5vw] xl:text-[2.5vw]
 
                 /* Colores */
                 text-spring-bud bg-folly
@@ -123,6 +135,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                 /* Sombra */
                 drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
                 sm:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
             " type="button" onClick={() => alert('Añadir a lista: funcionalidad en el horno')}><FaListUl /></button>
         </div>
     </article >
