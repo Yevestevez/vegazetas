@@ -54,28 +54,23 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
         h-[20vw] w-[20vw]
         sm:w-[18vw] sm:h-[18vw]
         md:w-[14vw] md:h-[14vw]
-        lg:h-[11vw] lg:w-[11vw]
-        xl:h-[10vw] xl:w-[10vw]
-        2xl:h-[8vw] 2xl:w-[8vw]
 
         /* Tipografía */
         anybody-logo
         text-[clamp(min(4vw,10rem),4vw,10rem)]/[100%]
-        md:text-[clamp(min(2vw,10rem),4vw,10rem)]
-        lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
-        xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
+        md:text-[clamp(min(2vw,10rem),3vw,10rem)]
 
         /* Sombra */
         drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
-        lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+        md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
 
         /* Animaciones */
         transition-transform duration-150 ease-out
 
         /* Hover */
         hover:bg-aquamarine hover:text-folly
-        hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
-        hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
+        hover:drop-shadow-[1.7vw_1.7vw_0_rgba(0,0,0,0.7)]
+        hover:md:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.7)]
         hover:-translate-y-2 hover:scale-105
     `
 
@@ -83,8 +78,9 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
 
     return <div className="
         /* Layout */
-        flex flex-col items-center text-center
-        h-screen w-screen pt-25 sm:pt-32
+        flex flex-col xl:flex-row min-h-screen w-full items-center text-center overflow-x-hidden
+
+        pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0vw]
 
         /* Colores */
         bg-canary
@@ -94,18 +90,24 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
             onLogoClicked={handleLogoLinkCLick}
         />
 
-        <h1 className="
-            /* Layout */
-            py-3 text-center
+        <div className="
+            flex xl:fixed xl:top-[60vh] text-center py-[2vw] xl:py-[5vh] items-center justify-center
 
-            /* Tipografía */
-            anybody-logo text-folly text-[6vw]
+            xl:min-w-[30vw]
+            xl:min-h-[40vh]
 
-            /* Sombra */
-            drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
-        ">Tus recetas</h1>
+            xl:bg-sgbus-green
+        ">
+            <h1 className="
+                /* Tipografía */
+                anybody-logo text-folly xl:text-veronica text-[6vw] xl:text-[5vw]/[100%]
 
-        <main className="w-full">
+                /* Sombra */
+                drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
+            ">Tus <br className="hidden xl:block" />recetas</h1>
+        </div>
+
+        <main className="flex flex-col w-full xl:w-[70vw] xl:ml-[30vw]">
             {myRecipes.length > 0 ? (
                 myRecipes.map(recipe => (
                     <RecipeThumbnail

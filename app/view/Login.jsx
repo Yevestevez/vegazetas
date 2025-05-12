@@ -47,24 +47,26 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
     const inputClasses = `
         /* Layout */
         flex items-center justify-center rounded-full
-        p-5 mb-[2vw]
+        p-[4vw] xl:p-[2vw] mb-[2vw]
 
         /* Tamaño */
-        w-[70vw] h-[14vw]
-        sm:h-[12vw]
+        w-[70vw] xl:w-[50vw] h-[14vw] sm:h-[12vw] lg:h-[10vw] xl:h-[6vw]
 
         /* Colores */
         bg-aquamarine focus:bg-violet
         outline-aquamarine 
         focus:outline-5 focus:text-aquamarine
+        text-violet
 
         /* Tipografía */
-        anybody text-violet text-center text-[4.5vw]
-        sm:text-[3.8vw]
+        anybody  text-center text-[4.5vw] sm:text-[3.8vw] lg:text-[3.5vw] xl:text-[2.5vw]
         min-w-0 truncate placeholder:italic
 
         /* Sombra */
         drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+        md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+        lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+        xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
     `
 
     return <div className="
@@ -74,53 +76,58 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
         /* Colores */
         bg-violet
     ">
-        <h1 className="
-            /* Layout */
-            text-center mt-[18vw]
-            sm:mt-[10vw]
+        <div className="flex flex-col xl:flex-row items-center align-middle gap-[6vw] mt-[18vw] sm:mt-[10vw] xl:mt-[8vw]">
+            <h1 className="
+                /* Layout */
+                text-center
 
-            /* Tipografía */
-            anybody-logo text-hot-magenta
-            text-[22vw]/[80%]
-            sm:text-[22vw]/[80%]
-            md:text-[15vw]/[80%]
-            lg:text-[12vw]/[80%]
+                /* Tipografía */
+                anybody-logo text-hot-magenta
+                text-[22vw]/[80%]
+                sm:text-[22vw]/[80%]
+                md:text-[15vw]/[80%]
+                xl:text-[10vw]/[80%]
 
-            /* Sombra */
-            drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)]
-        "
-        >Vega<br></br>zetas</h1>
+                /* Sombra */
+                drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)]
+            "
+            >Vega<br className="xl:hidden"></br>zetas</h1>
 
-        <h2 className="
-            /* Layout */
-            flex items-center justify-center text-center
-            mt-[10vw] sm:mt-[6vw]
-            pt-[1vw] sm:pt-[1vw]
-            h-[10vw] sm:h-[8vw]
-            w-[22vw] sm:w-[20vw]
+            <h2 className="
+                /* Layout */
+                flex items-center justify-center text-center xl:-mt-[0.5vw]
 
-            /* Tipografía */
-            anybody-title text-[6vw]
-            sm:text-[5vw]
+                pt-[1vw] sm:pt-[0.5vw]
+                h-[10vw] sm:h-[8vw] xl:h-[6vw]
+                w-[22vw] sm:w-[20vw] xl:w-[16vw]
 
-            /* Colores */
-            bg-hot-magenta text-violet
+                /* Tipografía */
+                anybody-title text-[6vw]
+                sm:text-[5vw]
+                xl:text-[4vw]
 
-            /* Sombra */
-            drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
-        ">INICIO</h2>
+                /* Colores */
+                bg-hot-magenta text-violet
+
+                /* Sombra */
+                drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+                sm:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.8)]
+                md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+            ">INICIO</h2>
+        </div>
 
         <main>
             <form className="
                 /* Layout */
                 flex flex-col items-center justify-center
-                gap-[1.5vw]
-                mt-[10vw] sm:mt-[6vw]
+                gap-[1.5vw] xl:gap-[1vw]
+                mt-[10vw] sm:mt-[6vw] xl:mt-[4vw]
             "
                 onSubmit={handleFormSubmit}>
                 <label className="
                     /* Tipografía */
-                    anybody font-bold text-[4.5vw]
+                    anybody font-bold text-[4.5vw] xl:text-[3vw]
                     
                     /* Colores */
                     text-aquamarine
@@ -129,10 +136,10 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
 
                 <label className="
                     /* Layout */
-                    mt-[3vw]
+                    mt-[3vw] xl:mt-[0vw]
 
                     /* Tipografía */
-                    anybody font-bold text-[4.5vw]
+                    anybody font-bold text-[4.5vw] xl:text-[3vw]
                     
                     /* Colores */
                     text-aquamarine
@@ -143,27 +150,29 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                     className="
                         /* Layout */
                         flex items-center justify-center self-end rounded-full anybody-logo
-                        mt-[6vw]
+                        mt-[6vw] xl:mt-[2vw]
 
                         /* Tamaño */
                         w-[20vw] h-[20vw]
                         sm:w-[18vw] sm:h-[18vw]
                         md:w-[14vw] md:h-[14vw]
-                        lg:w-[11vw] lg:h-[11vw]
-                        xl:w-[10vw] xl:h-[10vw]
-                        2xl:w-[8vw] 2xl:h-[8vw]
+                        xl:w-[12vw] xl:h-[12vw]
 
                         /* Tipografía */
                         text-[clamp(min(4vw,10rem),4.5vw,10rem)]
                         md:text-[clamp(min(2vw,10rem),4vw,10rem)]
-                        lg:text-[clamp(min(2vw,10rem),3vw,10rem)]
-                        xl:text-[clamp(min(1vw,10rem),2vw,10rem)]
+                        lg:text-[clamp(min(2vw,10rem),3.5vw,10rem)]
+                        xl:text-[clamp(min(2vw,10rem),3vw,10rem)]
 
                         /* Sombra */
                         drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+                        md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
                         lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                        hover:drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.7)]
-                        hover:lg:drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.7)]
+                        xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                        hover:drop-shadow-[1.7vw_1.7vw_0_rgba(0,0,0,0.7)]
+                        hover:md:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.7)]
+                        hover:lg:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.7)]
+                        hover:xl:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.7)]
 
                         /* Colores */
                         bg-aquamarine hover:bg-folly
@@ -183,13 +192,13 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                 /* Layout */
                 flex flex-col w-full
                 gap-[2vw]
-                -mt-[20vw] sm:-mt-[18vw]
-                pb-[15vw]
+                -mt-[20vw] sm:-mt-[18vw] md:-mt-[15vw] lg:-mt-[15vw] xl:-mt-[12vw]
+                pb-[15vw] lg:pb-[12vw] xl:pb-[8vw]
             ">
                 <p className="
                     /* Tipografía */
-                    anybody text-[3vw]
-                    sm:text-[2.6vw]
+                    anybody text-[3vw] sm:text-[2.6vw] lg:text-[2vw]
+                    -mb-[2vw]
                     
                     /* Colores */
                     text-hot-magenta
@@ -199,9 +208,9 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                     w-[8rem]
 
                     /* Tipografía */
-                    anybody-title text-[6.5vw]
-                    underline decoration-[2.5vw]
-                    underline-offset-[2.5vw]
+                    anybody-title text-[6.5vw] xl:text-[5vw]
+                    underline decoration-[2.5vw] xl:decoration-[2vw]
+                    underline-offset-[2.5vw] xl:underline-offset-[1.6vw]
 
                     /* Colores */
                     text-hot-magenta hover:text-canary
