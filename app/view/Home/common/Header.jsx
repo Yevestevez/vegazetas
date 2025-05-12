@@ -61,7 +61,7 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
         fixed top-0 left-0 z-10 xl:gap-[5vw]
 
         w-full xl:w-[30vw]
-        xl:min-h-[60vh] xl:overflow-y-auto
+        xl:h-[60vh] xl:overflow-y-auto
 
         flex flex-row xl:flex-col items-center justify-between xl:justify-center
 
