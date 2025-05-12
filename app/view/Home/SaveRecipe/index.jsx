@@ -577,7 +577,7 @@ function SaveRecipe({
                                 name="difficulty"
                                 placeholder="Fácil, media o dificil"
                                 defaultValue={difficultyTranslations[recipe.difficulty] || ''}
-                                pattern="^([Ff][AaÁá]cil|[Mm]edia|[Dd][IiÍí][Ff][IiÍí]cil|[Ee]asy|[Mm]edium|[Dd]ifficult)$"
+                                pattern="^\s*([Ff][AaÁá]cil|[Mm]edia|[Dd][IiÍí][Ff][IiÍí]cil|[Ee]asy|[Mm]edium|[Dd]ifficult)\s*$"
                                 title="Fácil, media o difícil"
                             />
                         </div>
@@ -627,6 +627,13 @@ function SaveRecipe({
                                     drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
                                     sm:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
                                     xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
+
+                                    cursor-pointer
+                                    transition-transform duration-150 ease-out
+                                    hover:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.7)]
+                                    hover:sm:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.7)]
+                                    hover:xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.7)]
+                                    hover:-translate-y-1 hover:scale-105
                                 " type="button" onClick={(event) => handleDeleteImageButton(event, index)}><MdDelete /></button>
                                 <img src={image} alt={`Image ${index}`} className="
                                     /* Layout */
@@ -705,7 +712,12 @@ function SaveRecipe({
                                     text-folly p-[0.5vw]
 
                                     /* Tipografía */
-                                    text-[7vw] sm:text-[6vw] xl:text-[3.5vw]
+                                    text-[7vw] sm:text-[6vw] lg:text-[5vw] xl:text-[3.5vw]
+
+                                    cursor-pointer
+                                    transition-transform duration-150 ease-out
+                                    hover:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.7)]
+                                    hover:-translate-y-1 hover:scale-105
                                 " type="button" onClick={(event) => handleDeleteTagButton(event, index)}><MdDelete /></button>
                             </li>
                         ))}
@@ -717,7 +729,7 @@ function SaveRecipe({
                         name="tag"
                         placeholder="Añade etiquetas a tu receta"
                         title="Solo letras minúsculas, números, guiones y guiones bajos. Sin espacios y máximo 30 caracteres"
-                        pattern="^[a-zA-Z0-9\-_]+$"
+                        pattern="^\s*[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\-_']{1,30}\s*$"
                         style={{ textTransform: 'lowercase' }}
                         maxLength={30}
                     />
@@ -779,6 +791,11 @@ function SaveRecipe({
                                                 <button className="
                                                     text-[5vw] sm:text-[4vw] xl:text-[2.5vw]
                                                     self-start
+
+                                                    cursor-pointer
+                                                    transition-transform duration-150 ease-out
+                                                    hover:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.7)]
+                                                    hover:-translate-y-1 hover:scale-105
                                                 " type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
                                                     <MdDelete />
                                                 </button>
@@ -824,6 +841,11 @@ function SaveRecipe({
                                                 <button className="
                                                     text-[5vw] sm:text-[4vw] xl:text-[2.5vw]
                                                     self-start
+
+                                                    cursor-pointer
+                                                    transition-transform duration-150 ease-out
+                                                    hover:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.7)]
+                                                    hover:-translate-y-1 hover:scale-105
                                                 " type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
                                                     <MdDelete />
                                                 </button>
@@ -874,8 +896,8 @@ function SaveRecipe({
                                 placeholder="Añade un nombre al ingrediente"
                                 required
                                 maxLength={50}
-                                pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$"
-                                title="Solo letras y espacios, hasta 50 caracteres"
+                                pattern="^\s*[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\s\-_'(),.%/+&]{1,50}\s*$"
+                                title="Solo letras, números, espacios y caracteres especiales como -_'(),.%/+&. Máximo 50 caracteres"
                             />
                             <div className="
                                 /* Layout */
@@ -909,7 +931,7 @@ function SaveRecipe({
                                         type="text"
                                         name="unit"
                                         placeholder="g, uds, ml..."
-                                        pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
+                                        pattern="^\s*[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+\s*$"
                                         maxLength={20}
                                         title="Solo letras, espacios y tildes. Máximo 20 caracteres"
                                     />
@@ -999,6 +1021,11 @@ function SaveRecipe({
                                 <button className="
                                     /* Tipografía */
                                     text-[6vw] sm:text-[5vw] xl:text-[3vw] mt-[3vw] xl:mt-[2vw]
+
+                                    cursor-pointer
+                                    transition-transform duration-150 ease-out
+                                    hover:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.7)]
+                                    hover:-translate-y-1 hover:scale-105
                                 " type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>
                                     <MdDelete />
                                 </button>
