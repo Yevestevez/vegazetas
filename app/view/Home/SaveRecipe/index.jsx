@@ -446,8 +446,10 @@ function SaveRecipe({
         xl:drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
 
         transition-transform duration-150 ease-out
-        hover:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.7)]
-        hover:-translate-y-2 hover:scale-105
+        hover:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.7)]
+        sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+        hover:xl:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.7)]
+        hover:-translate-y-1 hover:scale-105
     `
     console.log('CreateRecipe -> render')
 
@@ -455,6 +457,7 @@ function SaveRecipe({
         /* Layout */
         flex flex-col min-h-screen w-full items-center
         pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0]
+        overflow-hidden
 
         /* Colores */
         bg-folly
@@ -841,7 +844,7 @@ function SaveRecipe({
                     {/* Nuevo ingrediente */}
                     <div className="
                         /* Layout */
-                        flex flex-col py-[5vw] xl:py-[3vw] gap-[4vw] w-[70vw] xl:w-[50vw] mt-[6vw] xl:mt-[4vw] mb-[1vw] xl:mb-[3vw]
+                        flex flex-col py-[5vw] xl:py-[3vw] gap-[2vw] w-[70vw] xl:w-[50vw] mt-[6vw] xl:mt-[4vw] mb-[1vw] xl:mb-[3vw]
 
                         /* Colores */
                         bg-folly
@@ -958,44 +961,50 @@ function SaveRecipe({
                 {/* ===== FORMULARIO DE PASOS ===== */}
                 <form className="
                     /* Layout */
-                    flex flex-col items-center w-[80vw] my-[5vw] sm:my-[3vw] py-[5vw]
+                    flex flex-col items-center
+                    w-[80vw] xl:w-[60vw]
+                    my-[5vw] sm:my-[3vw] xl:my-[2vw]
+                    py-[5vw] xl:py-[2vw]
 
                     /* Colores */
                     bg-spring-bud
 
                     /* Sombra */
-                    drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    xl:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
                 " onSubmit={handleStepFormSubmit}>
                     <h2 className="
                         /* Tipografía */
-                        anybody-title text-folly text-[6vw] py-[3vw]
+                        anybody-title text-folly pt-[3vw]
+                        text-[6vw] xl:text-[4vw]
                     ">Pasos</h2>
 
                     <ul className="
                         /* Layout */
-                        flex flex-col items-center text-folly w-[70vw] justify-center text-center gap-[3vw]
+                        flex flex-col items-center text-folly w-[70vw] xl:w-[50vw] justify-center text-center gap-[3vw] xl:gap-[1vw]
                     ">
                         {(recipe.steps ?? []).map((step, index) => (
                             <li className="
                                 /* Layout */
-                                flex flex-col items-center gap-[2vw]
+                                flex flex-col items-center gap-[3vw] sm:gap-[4vw] xl:gap-[1vw] w-full
                             " key={index}>
                                 <h3 className="
                                     /* Tipografía */
-                                    anybody-logo text-[5vw]
+                                    anybody-logo text-[5vw] xl:text-[3vw]
                                 ">{index + 1}</h3>
-                                <div className="text-[4vw]/[120%] sm:text-[3.5vw]/[120%]"><strong>{step.text}</strong></div>
-                                {step.note && <div className="italic text-[3.5vw]/[120%] sm:text-[3vw]/[120%]">{step.note}</div>}
+                                <div className="text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[2vw]/[120%]"><strong>{step.text}</strong></div>
+                                {step.note && <div className="italic text-[3.5vw]/[120%] sm:text-[3vw]/[120%] xl:text-[1.6vw]/[120%]">{step.note}</div>}
                                 {step.image && <img src={step.image} alt={`Image ${index + 1}`} className="pt-[3vw]" />}
                                 <button className="
                                     /* Tipografía */
-                                    text-[6vw] sm:text-[5vw] mt-[3vw]
+                                    text-[6vw] sm:text-[5vw] xl:text-[3vw] mt-[3vw] xl:mt-[2vw]
                                 " type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>
                                     <MdDelete />
                                 </button>
                                 <div className="
                                     /* Layout */
-                                    bg-folly h-[0.5vw] mt-[4vw] mb-[2vw] w-[70vw]
+                                    bg-folly h-[0.5vw] xl:h-[0.3vw] mt-[4vw] mb-[2vw] xl:mb-[3vw] w-[70vw] xl:w-[50vw]
                                 "></div>
                             </li>
                         ))}
@@ -1004,27 +1013,36 @@ function SaveRecipe({
                     {/* Nuevo paso */}
                     <div className="
                         /* Layout */
-                        flex flex-col py-[5vw] gap-5 w-[70vw] mt-[6vw] mb-[1vw]
+                        flex flex-col py-[5vw] gap-[3vw] xl:gap-[2vw] w-[70vw] xl:w-[50vw] mt-[6vw] xl:mt-[2vw] mb-[1vw] xl:mb-[3vw]
                         bg-folly
                         drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
                     ">
                         <h3 className="
                             /* Layout */
                             flex justify-center
-                            anybody-title text-spring-bud text-[6vw] sm:text-[5vw]
+                            anybody-title text-spring-bud text-[6vw] sm:text-[5vw] xl:text-[3vw]
                         ">Nuevo Paso</h3>
 
                         {/* inputs de nuevo paso */}
-                        <div className="flex flex-col w-full items-center gap-[6vw]">
+                        <div className="flex flex-col w-full items-center gap-[6vw] xl:gap-[4vw]">
                             <label className={`${labelClasses} text-spring-bud`} htmlFor="text">Instrucciones*</label>
                             <textarea
                                 className="
-                                    w-[60vw] flex items-center justify-center p-[4vw] rounded-2xl min-h-auto resize-none
-                                    focus:outline-[1vw] sm:focus:outline-[0.6vw]
-                                    anybody text-center text-[4vw]/[120%] sm:text-[3.5vw]/[120%] placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] placeholder:italic
+                                    flex items-center justify-center rounded-2xl min-h-auto resize-none
+                                    w-[60vw] xl:w-[45vw]
+                                    p-[4vw] xl:p-[3vw]
+
+                                    focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.4vw]
+                                    anybody text-center placeholder:italic
+                                    text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[2vw]/[120%]
+                                    placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[2vw]/[120%]
                                     bg-spring-bud text-folly
                                     focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
-                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+
+                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                                    xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
                                 "
                                 name="text"
                                 placeholder="Añade las instrucciones del paso"
@@ -1040,12 +1058,20 @@ function SaveRecipe({
                             <label className={`${labelClasses} text-spring-bud`} htmlFor="note">Nota</label>
                             <textarea
                                 className="
-                                    w-[60vw] flex items-center justify-center p-[4vw] rounded-2xl min-h-auto resize-none
-                                    focus:outline-[1vw] sm:focus:outline-[0.6vw]
-                                    anybody text-center text-[4vw]/[120%] sm:text-[3.5vw]/[120%] placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] placeholder:italic
+                                    flex items-center justify-center rounded-2xl min-h-auto resize-none
+                                    w-[60vw] xl:w-[45vw]
+                                    p-[4vw] xl:p-[3vw]
+
+                                    focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.4vw]
+                                    anybody text-center placeholder:italic
+                                    text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[2vw]/[120%]
+                                    placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[2vw]/[120%]
                                     bg-spring-bud text-folly
                                     focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
-                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+
+                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                                    xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
                                 "
                                 name="note"
                                 placeholder="¿Necesitas aclarar algo?"
@@ -1059,14 +1085,14 @@ function SaveRecipe({
                             />
                             <label className={`${labelClasses} text-spring-bud`} htmlFor="image">Imagen</label>
                             <input
-                                className={`${inputClasses} w-[60vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                className={`${inputClasses} w-[60vw] xl:w-[45vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                                 type="url"
                                 name="image"
                                 placeholder="Pega aquí la url de la imagen"
                                 title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
                             />
                         </div>
-                        <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] mt-[2vw]`} type="submit"><MdSave /></button>
+                        <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] xl:text-[6vw]/[100%] mt-[2vw]`} type="submit"><MdSave /></button>
                     </div>
                 </form>
             </main>
