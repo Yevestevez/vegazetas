@@ -19,10 +19,10 @@ function Register({ onLoginClicked, onUserRegistered }) {
 
         const form = event.target
 
-        const name = form.name.value
-        const email = form.email.value
-        const username = form.username.value.toLowerCase()
-        const password = form.password.value
+        const name = form.name.value.trim()
+        const email = form.email.value.trim()
+        const username = form.username.value.toLowerCase().trim()
+        const password = form.password.value.trim()
 
         try {
             logic.registerUser(name, email, username, password)
