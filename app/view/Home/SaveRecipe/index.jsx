@@ -416,29 +416,34 @@ function SaveRecipe({
     const inputClasses = `
         flex items-center justify-center align-middle
 
-        p-[4vw] h-[8vw]
+        p-[4vw] xl:p-[2vw] h-[8vw] xl:h-[5vw]
 
         rounded-full
-        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-        focus:outline-[1vw] sm:focus:outline-[0.6vw]
+        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+        xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+        
+        focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.4vw]
 
-        anybody text-center text-[4vw] sm:text-[3.5vw]
-        min-w-0 truncate placeholder:italic placeholder:text-[4vw] sm:placeholder:text-[3.5vw]
+        anybody text-center min-w-0 truncate placeholder:italic
+        
+        text-[4vw] sm:text-[3.5vw] xl:text-[2vw]
+        placeholder:text-[4vw] sm:placeholder:text-[3.5vw] xl:placeholder:text-[2vw]
     `
     const labelClasses = `
         flex items-center justify-center -mb-[3vw]
-        anybody text-center text-[5vw] sm:text-[4vw] font-bold
+        anybody text-center text-[5vw] sm:text-[4vw] xl:text-[2.5vw] font-bold
     `
 
     const btnClasses = `
-        rounded-full 
+        rounded-full justify-items-center anybody-logo
 
-        h-[15vw] w-[15vw] sm:h-[12vw] sm:w-[12vw]
-        justify-items-center
-    
-        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-
-        anybody-logo
+        h-[15vw] sm:h-[12vw] xl:h-[8vw]
+        w-[15vw] sm:w-[12vw] xl:w-[8vw]
+        
+        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+        xl:drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
 
         transition-transform duration-150 ease-out
         hover:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.7)]
@@ -448,7 +453,8 @@ function SaveRecipe({
 
     return <section className="
         /* Layout */
-        h-full w-screen pt-[21vw] sm:pt-[17vw] md:pt-[16vw]
+        flex flex-col min-h-screen w-full items-center
+        pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0]
 
         /* Colores */
         bg-folly
@@ -459,566 +465,622 @@ function SaveRecipe({
             onLogoClicked={handleLogoLinkCLick}
         />
 
-        {/* ===== TÍTULO DE LA PÁGINA ===== */}
-        <h1 className="
-            /* Layout */
-            flex justify-center text-center py-[6vw]
+        <main className="flex flex-col w-full xl:w-[70vw]
 
-            /* Tipografía */
-            anybody-logo text-[7vw] sm:text-[6vw] text-spring-bud
+            mb-[30vw] sm:mb-[20vw] lg:mb-[16vw] xl:mb-[4vw]
 
-            /* Sombra */
-            drop-shadow-[0.15em_0.15em_0_rgba(0,0,0,0.8)] sm:drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
-        ">
-            {view === "update" ? "Edita tu receta" : "Crea tu nueva receta"}
-        </h1>
+            xl:ml-[30vw]">
 
-        {/* ===== CONTENIDO PRINCIPAL ===== */}
-        <main className="
-            /* Layout */
-            flex flex-col items-center w-[80vw] mx-auto
-        ">
-            {/* ===== FORMULARIO DE RECETA ===== */}
-            <form className="
+            {/* ===== TÍTULO DE LA PÁGINA ===== */}
+            <h1 className="
                 /* Layout */
-                flex flex-col w-full gap-[6vw] mb-[5vw]
-            " onSubmit={handleRecipeFormSubmit}>
-                <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Título*</label>
-                <input
-                    className={`${inputClasses} bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                    type="text"
-                    name="title"
-                    placeholder="Pon un título a tu receta"
-                    defaultValue={recipe.title}
-                    maxLength={50}
-                    required
-                    title="Campo obligatorio. Máximo 50 caracteres"
-                />
+                flex justify-center text-center py-[6vw] xl:py-[4vw]
 
-                <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Descripción</label>
-                <textarea
-                    className="
-                        /* Layout */
-                        w-full flex items-center justify-center p-[4vw] rounded-2xl min-h-auto resize-none
-                        focus:outline-[1vw] sm:focus:outline-[0.6vw]
-
-                        /* Tipografía */
-                        anybody text-center text-[4vw]/[120%] sm:text-[3.5vw]/[120%] placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] placeholder:italic
-
-                        /* Colores */
-                        bg-spring-bud text-folly
-                        focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
-
-                        /* Sombra */
-                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                    "
-                    name="description"
-                    placeholder="Describe tu receta ¡cuéntanos más!"
-                    defaultValue={recipe.description}
-                    maxLength={500}
-                    title="Máximo 500 caracteres"
-                    onInput={(e) => {
-                        e.target.style.height = 'auto';
-                        e.target.style.height = e.target.scrollHeight + 'px';
-                    }}
-                    wrap="soft"
-                />
-
-                <div className="
-                    /* Layout */
-                    flex flex-row w-full justify-between
-                ">
-                    <div className="
-                        /* Layout */
-                        flex flex-col gap-[5vw]
-                    ">
-                        <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Tiempo</label>
-                        <input
-                            className={`${inputClasses} w-[36vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                            type="number"
-                            name="time"
-                            placeholder="En minutos"
-                            defaultValue={recipe.time || 5}
-                            min={5}
-                            max={9999}
-                            step={5}
-                            title="Tiempo en minutos. Múltiplos de 5"
-                        />
-                    </div>
-
-                    <div className="
-                        /* Layout */
-                        flex flex-col gap-[5vw]
-                    ">
-                        <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Dificultad</label>
-                        <input
-                            className={`${inputClasses} w-[36vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                            type="text"
-                            name="difficulty"
-                            placeholder="Fácil, media o dificil"
-                            defaultValue={difficultyTranslations[recipe.difficulty] || ''}
-                            pattern="^([Ff][AaÁá]cil|[Mm]edia|[Dd][IiÍí][Ff][IiÍí]cil|[Ee]asy|[Mm]edium|[Dd]ifficult)$"
-                            title="Fácil, media o difícil"
-                        />
-                    </div>
-                </div>
-                <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
-            </form>
-
-            {/* ===== FORMULARIO DE IMÁGENES ===== */}
-            <form className="
-                /* Layout */
-                flex flex-col items-center w-[80vw] gap-6 sm:gap-8 my-[5vw] sm:my-[3vw] py-[5vw]
-
-                /* Colores */
-                bg-spring-bud
+                /* Tipografía */
+                anybody-logo text-[7vw] sm:text-[6vw] xl:text-[4vw] text-spring-bud
 
                 /* Sombra */
-                drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-            " onSubmit={handleImageFormSubmit}>
-                <label className={`${labelClasses} pb-[2vw] sm:pb-[1vw] text-folly`} htmlFor="image">Imágenes</label>
+                drop-shadow-[0.15em_0.15em_0_rgba(0,0,0,0.8)]
+                sm:drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
+            ">
+                {view === "update" ? "Edita tu receta" : "Crea tu nueva receta"}
+            </h1>
 
-                <ul className="
-                    /* Layout */
-                    flex flex-wrap gap-3 sm:gap-4 justify-center mt-[3vw]
-                ">
-                    {(recipe.images ?? []).map((image, index) => (
-                        <li className="
-                            /* Layout */
-                            relative
-                        " key={index}>
-                            <button className="
-                                /* Layout */
-                                absolute top-[2vw] right-[2vw] sm:top-[1.5vw] sm:right-[1.5vw] rounded-full p-1
-
-                                /* Tipografía */
-                                text-[5vw] sm:text-[4vw]
-
-                                /* Colores */
-                                bg-folly text-spring-bud
-
-                                /* Sombra */
-                                drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
-                            " type="button" onClick={(event) => handleDeleteImageButton(event, index)}><MdDelete /></button>
-                            <img src={image} alt={`Image ${index}`} className="
-                                /* Layout */
-                                h-[30vw] sm:h-[25vw] w-[35vw] object-cover
-                            " />
-                        </li>
-                    ))}
-                </ul>
-
-                <input
-                    className={`${inputClasses} w-[70vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
-                    type="url"
-                    name="image"
-                    placeholder="Pega aquí la URL de la imagen"
-                    title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
-                />
-
-                <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
-            </form>
-
-            {/* ===== FORMULARIO DE ETIQUETAS ===== */}
-            <form className="
+            {/* ===== CONTENIDO PRINCIPAL ===== */}
+            <main className="
                 /* Layout */
-                flex flex-col items-center w-[80vw] gap-6 sm:gap-8 my-[5vw] sm:my-[3vw] py-[5vw]
-
-                /* Colores */
-                bg-spring-bud
-
-                /* Sombra */
-                drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-            " onSubmit={handleTagFormSubmit}>
-                <label className={`${labelClasses} pb-3 text-folly`} htmlFor="tag">Etiquetas</label>
-
-                <ul className="
+                flex flex-col items-center w-[80vw] xl:w-[60vw] mx-auto
+            ">
+                {/* ===== FORMULARIO DE RECETA ===== */}
+                <form className="
                     /* Layout */
-                    flex flex-wrap mx-auto w-full px-[2vw]
-                ">
-                    {(recipe.tags ?? []).map((tag, index) => (
-                        <li className="
+                    flex flex-col w-full gap-[6vw] xl:gap-[4vw] mb-[5vw] xl:mb-[3vw]
+                " onSubmit={handleRecipeFormSubmit}>
+                    <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Título*</label>
+                    <input
+                        className={`${inputClasses} bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                        type="text"
+                        name="title"
+                        placeholder="Pon un título a tu receta"
+                        defaultValue={recipe.title}
+                        maxLength={50}
+                        required
+                        title="Campo obligatorio. Máximo 50 caracteres"
+                    />
+
+                    <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Descripción</label>
+                    <textarea
+                        className="
                             /* Layout */
-                            flex flex-row items-center gap-1 mx-[2vw] my-[1vw]
+                            w-full flex items-center justify-center p-[4vw] rounded-2xl min-h-auto resize-none
+                            focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.4vw]
+
+                            /* Tipografía */
+                            anybody text-center placeholder:italic
+                            text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[2vw]/[120%]
+                            placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[2vw]/[120%]
 
                             /* Colores */
-                            text-spring-bud
-                        " key={index}>
-                            <h3 className="
-                                /* Layout */
-                                bg-folly anybody-title pt-[1vw] sm:pt-[0.5vw] h-[6vw] sm:h-[5vw] px-[2vw] sm:px-[1.2vw]
-                                flex items-center
+                            bg-spring-bud text-folly
+                            focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
 
-                                /* Tipografía */
-                                text-[3.5vw] sm:text-[3vw]
+                            /* Sombra */
+                            drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                            sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                            xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                        "
+                        name="description"
+                        placeholder="Describe tu receta ¡cuéntanos más!"
+                        defaultValue={recipe.description}
+                        maxLength={500}
+                        title="Máximo 500 caracteres"
+                        onInput={(e) => {
+                            e.target.style.height = 'auto';
+                            e.target.style.height = e.target.scrollHeight + 'px';
+                        }}
+                        wrap="soft"
+                    />
 
-                                /* Sombra */
-                                drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                            ">#{tag}</h3>
-                            <button className="
-                                /* Layout */
-                                text-folly p-[0.5vw]
-
-                                /* Tipografía */
-                                text-[7vw] sm:text-[6vw]
-                            " type="button" onClick={(event) => handleDeleteTagButton(event, index)}><MdDelete /></button>
-                        </li>
-                    ))}
-                </ul>
-
-                <input
-                    className={`${inputClasses} w-[70vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly placeholder:normal-case`}
-                    type="text"
-                    name="tag"
-                    placeholder="Añade etiquetas a tu receta"
-                    title="Solo letras minúsculas, números, guiones y guiones bajos. Sin espacios y máximo 30 caracteres"
-                    pattern="^[a-zA-Z0-9\-_]+$"
-                    style={{ textTransform: 'lowercase' }}
-                    maxLength={30}
-                />
-                <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
-            </form>
-
-            {/* ===== FORMULARIO DE INGREDIENTES ===== */}
-            <form className="
-                /* Layout */
-                flex flex-col items-center w-[80vw] my-[5vw] sm:my-[3vw] py-[5vw]
-
-                /* Colores */
-                bg-spring-bud
-
-                /* Sombra */
-                drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-            " onSubmit={handleIngredientFormSubmit}>
-                <h2 className="
-                    /* Tipografía */
-                    anybody-title text-folly text-[6vw] pt-[3vw]
-                ">Ingredientes</h2>
-
-                <div>
-                    <div>
-                        {/* Ingredientes principales */}
-                        {mainIngredients.length > 0 && (
-                            <>
-                                <h3 className="
-                                    /* Layout */
-                                    w-[6em] mt-[6vw] mb-[5vw] mx-auto text-center
-
-                                    /* Tipografía */
-                                    anybody-title text-spring-bud font-bold text-[4vw] sm:text-[3.5vw]
-
-                                    /* Colores */
-                                    bg-folly
-
-                                    /* Sombra */
-                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                                ">Principales</h3>
-                                <ul className="
-                                    /* Layout */
-                                    flex flex-col items-start gap-3.5 sm:gap-5 w-full
-                                ">
-                                    {mainIngredients.map((ingredient, index) => (
-                                        <li key={index} className="
-                                            flex flex-row items-start gap-2 sm:gap-4 px-[5vw] w-full
-                                            text-folly
-                                        ">
-                                            <button className="
-                                                text-[5vw] sm:text-[4vw]
-                                                self-start
-                                            " type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
-                                                <MdDelete />
-                                            </button>
-                                            <p className="
-                                                text-left text-[4vw]/[110%] sm:text-[3vw]/[110%]
-                                            ">
-                                                <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
-                                                {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
-                                            </p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
-                        )}
-
-                        {/* Ingredientes de despensa */}
-                        {pantryIngredients.length > 0 && (
-                            <>
-                                <h3 className="
-                                    /* Layout */
-                                    w-[6em] mt-[6vw] mb-[5vw] mx-auto text-center
-
-                                    /* Tipografía */
-                                    anybody-title text-spring-bud font-bold text-[4vw] sm:text-[3.5vw]
-
-                                    /* Colores */
-                                    bg-folly
-
-                                    /* Sombra */
-                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                                ">Despensa</h3>
-                                <ul className="
-                                    /* Layout */
-                                    flex flex-col items-start gap-3.5 sm:gap-5 w-full
-                                ">
-                                    {pantryIngredients.map((ingredient, index) => (
-                                        <li key={index} className="
-                                            flex flex-row items-start gap-2 sm:gap-4 px-[5vw] w-full
-                                            text-folly
-                                        ">
-                                            <button className="
-                                                text-[5vw] sm:text-[4vw]
-                                                self-start
-                                            " type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
-                                                <MdDelete />
-                                            </button>
-                                            <p className="
-                                                text-left text-[4vw]/[110%] sm:text-[3vw]/[110%]
-                                            ">
-                                                <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
-                                                {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
-                                            </p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
-                        )}
-                    </div>
-                </div>
-
-                {/* Nuevo ingrediente */}
-                <div className="
-                    /* Layout */
-                    flex flex-col py-[5vw] gap-[4vw] w-[70vw] mt-[6vw] mb-[1vw]
-
-                    /* Colores */
-                    bg-folly
-
-                    /* Sombra */
-                    drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
-                ">
-                    <h3 className="
-                        /* Layout */
-                        flex justify-center
-
-                        /* Tipografía */
-                        anybody-title text-spring-bud text-[6vw] sm:text-[5vw]
-                    ">Nuevo ingrediente</h3>
-
-                    {/* inputs de nuevo ingrediente */}
                     <div className="
                         /* Layout */
-                        flex flex-col w-full items-center gap-[6vw]
+                        flex flex-row w-full justify-between
                     ">
-                        <label className={`${labelClasses} text-spring-bud`} htmlFor="name">Nombre*</label>
-                        <input
-                            className={`${inputClasses} w-[60vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                            type="text"
-                            name="name"
-                            placeholder="Añade un nombre al ingrediente"
-                            required
-                            maxLength={50}
-                            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$"
-                            title="Solo letras y espacios, hasta 50 caracteres"
-                        />
                         <div className="
                             /* Layout */
-                            flex flex-row justify-between w-[60vw]
+                            flex flex-col gap-[5vw] xl:gap-[4vw]
                         ">
-                            <div className="
-                                /* Layout */
-                                flex flex-col gap-[6vw]
-                            ">
-                                <label className={`${labelClasses} text-spring-bud`} htmlFor="quantity">Cantidad*</label>
-                                <input
-                                    className={`${inputClasses} w-[22vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                    type="number"
-                                    name="quantity"
-                                    placeholder="Número"
-                                    min={0}
-                                    max={9999}
-                                    step={0.01}
-                                    inputMode="decimal"
-                                    title="Introduce una cantidad entre 0 y 9999, hasta 2 decimales con punto (ej. 1.55)"
-                                />
-                            </div>
-
-                            <div className="
-                                /* Layout */
-                                flex flex-col gap-[6vw]
-                            ">
-                                <label className={`${labelClasses} text-spring-bud`} htmlFor="unit">Unidad*</label>
-                                <input
-                                    className={`${inputClasses} w-[32vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                    type="text"
-                                    name="unit"
-                                    placeholder="g, uds, ml..."
-                                    pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
-                                    maxLength={20}
-                                    title="Solo letras, espacios y tildes. Máximo 20 caracteres"
-                                />
-                            </div>
+                            <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Tiempo</label>
+                            <input
+                                className={`${inputClasses} w-[36vw] xl:w-[28vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                type="number"
+                                name="time"
+                                placeholder="En minutos"
+                                defaultValue={recipe.time || 5}
+                                min={5}
+                                max={9999}
+                                step={5}
+                                title="Tiempo en minutos. Múltiplos de 5"
+                            />
                         </div>
 
-                        <label className={`${labelClasses} text-spring-bud`} htmlFor="annotation">Anotación</label>
-                        <input
-                            className={`${inputClasses} w-[60vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                            type="text"
-                            name="annotation"
-                            placeholder="¿Necesitas alguna aclaración?"
-                            maxLength={50}
-                            title="Máximo 50 caracteres"
-                        />
-
                         <div className="
                             /* Layout */
-                            flex flex-row justify-around w-[60vw] items-center align-middle gap-1
+                            flex flex-col gap-[5vw] xl:gap-[4vw]
                         ">
-                            <label className="
-                                /* Layout */
-                                flex items-center justify-center
-
-                                /* Tipografía */
-                                anybody text-center text-[5vw] sm:text-[4vw] font-bold
-                                text-spring-bud
-                            " htmlFor="main">¿Ingrediente principal?</label>
+                            <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Dificultad</label>
                             <input
-                                className="
-                                    /* Layout */
-                                    w-[4vw] h-[4vw]
-
-                                    /* Colores */
-                                    accent-spring-bud
-                                "
-                                type="checkbox"
-                                defaultChecked="true"
-                                name="main"
+                                className={`${inputClasses} w-[36vw] xl:w-[28vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                type="text"
+                                name="difficulty"
+                                placeholder="Fácil, media o dificil"
+                                defaultValue={difficultyTranslations[recipe.difficulty] || ''}
+                                pattern="^([Ff][AaÁá]cil|[Mm]edia|[Dd][IiÍí][Ff][IiÍí]cil|[Ee]asy|[Mm]edium|[Dd]ifficult)$"
+                                title="Fácil, media o difícil"
                             />
                         </div>
                     </div>
+                    <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] xl:text-[6vw]/[100%]`} type="submit"><MdSave /></button>
+                </form>
 
-                    <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] `} type="submit"><MdSave /></button>
-                </div>
-            </form>
-
-            {/* ===== FORMULARIO DE PASOS ===== */}
-            <form className="
-                /* Layout */
-                flex flex-col items-center w-[80vw] my-[5vw] sm:my-[3vw] py-[5vw]
-
-                /* Colores */
-                bg-spring-bud
-
-                /* Sombra */
-                drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-            " onSubmit={handleStepFormSubmit}>
-                <h2 className="
-                    /* Tipografía */
-                    anybody-title text-folly text-[6vw] py-[3vw]
-                ">Pasos</h2>
-
-                <ul className="
+                {/* ===== FORMULARIO DE IMÁGENES ===== */}
+                <form className="
                     /* Layout */
-                    flex flex-col items-center text-folly w-[70vw] justify-center text-center gap-[3vw]
-                ">
-                    {(recipe.steps ?? []).map((step, index) => (
-                        <li className="
+                    flex flex-col items-center my-[5vw] sm:my-[3vw] xl:my-[2vw] py-[5vw] xl:py-[4vw]
+                    gap-[5vw] sm:gap-[6vw] xl:gap-[4vw]
+                    w-[80vw] xl:w-[60vw]
+
+                    /* Colores */
+                    bg-spring-bud
+
+                    /* Sombra */
+                    drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    xl:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                " onSubmit={handleImageFormSubmit}>
+                    <label className={`${labelClasses} pb-[2vw] sm:pb-[1vw] text-folly`} htmlFor="image">Imágenes</label>
+
+                    <ul className="
+                        /* Layout */
+                        flex flex-wrap gap-[2vw] sm:gap-[3vw] xl:gap-[2vw] justify-center mt-[3vw] xl:mt-[1vw]
+                    ">
+                        {(recipe.images ?? []).map((image, index) => (
+                            <li className="
+                                /* Layout */
+                                relative
+                            " key={index}>
+                                <button className="
+                                    /* Layout */
+                                    absolute rounded-full p-[0.5vw]
+                                    top-[2vw] sm:top-[1.5vw]
+                                    right-[2vw] sm:right-[1.5vw]
+
+                                    /* Tipografía */
+                                    text-[5vw] sm:text-[4vw] xl:text-[3vw]
+
+                                    /* Colores */
+                                    bg-folly text-spring-bud
+
+                                    /* Sombra */
+                                    drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                                    sm:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+                                    xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
+                                " type="button" onClick={(event) => handleDeleteImageButton(event, index)}><MdDelete /></button>
+                                <img src={image} alt={`Image ${index}`} className="
+                                    /* Layout */
+                                    object-cover
+                                    h-[30vw] sm:h-[25vw] xl:h-[20vw]
+                                    w-[35vw] xl:w-[26vw]
+                                " />
+                            </li>
+                        ))}
+                    </ul>
+
+                    <input
+                        className={`${inputClasses} w-[70vw] xl:w-[50vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
+                        type="url"
+                        name="image"
+                        placeholder="Pega aquí la URL de la imagen"
+                        title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
+                    />
+
+                    <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] xl:text-[6vw]/[100%]`} type="submit"><MdSave /></button>
+                </form>
+
+                {/* ===== FORMULARIO DE ETIQUETAS ===== */}
+                <form className="
+                    /* Layout */
+                    flex flex-col items-center
+                    w-[80vw] xl:w-[60vw]
+                    gap-[5vw] sm:gap-[6vw] xl:gap-[4vw]
+                    my-[5vw] sm:my-[3vw] xl:my-[2vw]
+                    py-[5vw] xl:py-[4vw]
+
+                    /* Colores */
+                    bg-spring-bud
+
+                    /* Sombra */
+                    drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    xl:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                " onSubmit={handleTagFormSubmit}>
+                    <label className={`${labelClasses} pb-[0.5vw] text-folly`} htmlFor="tag">Etiquetas</label>
+
+                    <ul className="
+                        /* Layout */
+                        flex flex-wrap
+                        mx-[6vw] xl:mx-[2vw]
+                        gap-[4vw] xl:gap-[2vw]
+                    ">
+                        {(recipe.tags ?? []).map((tag, index) => (
+                            <li className="
+                                /* Layout */
+                                flex flex-row items-center gap-[1vw] xl:gap-[0.5vw]
+
+                                /* Colores */
+                                text-spring-bud
+                            " key={index}>
+                                <h3 className="
+                                    /* Layout */
+                                    bg-folly
+
+                                    flex items-center
+                                    pt-[1vw] sm:pt-[0.5vw] xl:pt-[0.2vw]
+                                    h-[6vw] sm:h-[5vw] xl:h-[3.5vw]
+                                    px-[2vw] sm:px-[1.2vw]
+
+                                    /* Tipografía */
+                                    anybody-title
+                                    text-[3.5vw] sm:text-[3vw] xl:text-[2vw]
+
+                                    /* Sombra */
+                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                                    xl:drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
+                                ">#{tag}</h3>
+                                <button className="
+                                    /* Layout */
+                                    text-folly p-[0.5vw]
+
+                                    /* Tipografía */
+                                    text-[7vw] sm:text-[6vw] xl:text-[3.5vw]
+                                " type="button" onClick={(event) => handleDeleteTagButton(event, index)}><MdDelete /></button>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <input
+                        className={`${inputClasses} w-[70vw] xl:w-[50vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly placeholder:normal-case`}
+                        type="text"
+                        name="tag"
+                        placeholder="Añade etiquetas a tu receta"
+                        title="Solo letras minúsculas, números, guiones y guiones bajos. Sin espacios y máximo 30 caracteres"
+                        pattern="^[a-zA-Z0-9\-_]+$"
+                        style={{ textTransform: 'lowercase' }}
+                        maxLength={30}
+                    />
+                    <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] xl:text-[6vw]/[100%]`} type="submit"><MdSave /></button>
+                </form>
+
+                {/* ===== FORMULARIO DE INGREDIENTES ===== */}
+                <form className="
+                    /* Layout */
+                    flex flex-col items-center
+                    w-[80vw] xl:w-[60vw]
+                    my-[5vw] sm:my-[3vw] xl:my-[2vw]
+                    py-[5vw] xl:py-[2vw]
+
+                    /* Colores */
+                    bg-spring-bud
+
+                    /* Sombra */
+                    drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    xl:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                " onSubmit={handleIngredientFormSubmit}>
+                    <h2 className="
+                        /* Tipografía */
+                        anybody-title text-folly pt-[3vw]
+                        text-[6vw] xl:text-[4vw]
+                    ">Ingredientes</h2>
+
+                    <div>
+                        <div>
+                            {/* Ingredientes principales */}
+                            {mainIngredients.length > 0 && (
+                                <>
+                                    <h3 className="
+                                        /* Layout */
+                                        w-[6em] mt-[6vw] xl:mt-[4vw] mb-[5vw] xl:mb-[4vw] mx-auto text-center
+
+                                        /* Tipografía */
+                                        anybody-title text-spring-bud font-bold
+                                        text-[4vw] sm:text-[3.5vw] xl:text-[2.5vw]
+
+                                        /* Colores */
+                                        bg-folly
+
+                                        /* Sombra */
+                                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                                        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                                        xl:drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
+                                    ">Principales</h3>
+                                    <ul className="
+                                        /* Layout */
+                                        flex flex-col items-start gap-[3vw] sm:gap-[4vw] xl:sm:gap-[2vw] w-full
+                                    ">
+                                        {mainIngredients.map((ingredient, index) => (
+                                            <li key={index} className="
+                                                flex flex-row items-start gap-[2vw] xl:gap-[1.5vw] px-[5vw] w-full
+                                                text-folly
+                                            ">
+                                                <button className="
+                                                    text-[5vw] sm:text-[4vw] xl:text-[2.5vw]
+                                                    self-start
+                                                " type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
+                                                    <MdDelete />
+                                                </button>
+                                                <p className="
+                                                    text-left text-[4vw]/[110%] sm:text-[3vw]/[110%] xl:text-[2vw]/[110%]
+                                                ">
+                                                    <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
+                                                    {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
+                                                </p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </>
+                            )}
+
+                            {/* Ingredientes de despensa */}
+                            {pantryIngredients.length > 0 && (
+                                <>
+                                    <h3 className="
+                                        /* Layout */
+                                        w-[6em] mt-[6vw] xl:mt-[4vw] mb-[5vw] xl:mb-[4vw] mx-auto text-center
+
+                                        /* Tipografía */
+                                        anybody-title text-spring-bud font-bold text-[4vw] sm:text-[3.5vw] xl:text-[2.5vw]
+
+                                        /* Colores */
+                                        bg-folly
+
+                                        /* Sombra */
+                                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                                        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                                        xl:drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
+                                    ">Despensa</h3>
+                                    <ul className="
+                                        /* Layout */
+                                        flex flex-col items-start gap-[3vw] sm:gap-[4vw] xl:sm:gap-[2vw] w-full
+                                    ">
+                                        {pantryIngredients.map((ingredient, index) => (
+                                            <li key={index} className="
+                                                flex flex-row items-start gap-[2vw] xl:gap-[1.5vw] px-[5vw] w-full
+                                                text-folly
+                                            ">
+                                                <button className="
+                                                    text-[5vw] sm:text-[4vw] xl:text-[2.5vw]
+                                                    self-start
+                                                " type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}>
+                                                    <MdDelete />
+                                                </button>
+                                                <p className="
+                                                    text-left text-[4vw]/[110%] sm:text-[3vw]/[110%] xl:text-[2vw]/[110%]
+                                                ">
+                                                    <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
+                                                    {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
+                                                </p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Nuevo ingrediente */}
+                    <div className="
+                        /* Layout */
+                        flex flex-col py-[5vw] xl:py-[3vw] gap-[4vw] w-[70vw] xl:w-[50vw] mt-[6vw] xl:mt-[4vw] mb-[1vw] xl:mb-[3vw]
+
+                        /* Colores */
+                        bg-folly
+
+                        /* Sombra */
+                        drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    ">
+                        <h3 className="
                             /* Layout */
-                            flex flex-col items-center gap-[2vw]
-                        " key={index}>
-                            <h3 className="
-                                /* Tipografía */
-                                anybody-logo text-[5vw]
-                            ">{index + 1}</h3>
-                            <div className="text-[4vw]/[120%] sm:text-[3.5vw]/[120%]"><strong>{step.text}</strong></div>
-                            {step.note && <div className="italic text-[3.5vw]/[120%] sm:text-[3vw]/[120%]">{step.note}</div>}
-                            {step.image && <img src={step.image} alt={`Image ${index + 1}`} className="pt-[3vw]" />}
-                            <button className="
-                                /* Tipografía */
-                                text-[6vw] sm:text-[5vw] mt-[3vw]
-                            " type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>
-                                <MdDelete />
-                            </button>
+                            flex justify-center
+
+                            /* Tipografía */
+                            anybody-title text-spring-bud text-[6vw] sm:text-[5vw] xl:text-[3vw]
+                        ">Nuevo ingrediente</h3>
+
+                        {/* inputs de nuevo ingrediente */}
+                        <div className="
+                            /* Layout */
+                            flex flex-col w-full items-center gap-[6vw] xl:gap-[4vw]
+                        ">
+                            <label className={`${labelClasses} text-spring-bud`} htmlFor="name">Nombre*</label>
+                            <input
+                                className={`${inputClasses} w-[60vw] xl:w-[45vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                type="text"
+                                name="name"
+                                placeholder="Añade un nombre al ingrediente"
+                                required
+                                maxLength={50}
+                                pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$"
+                                title="Solo letras y espacios, hasta 50 caracteres"
+                            />
                             <div className="
                                 /* Layout */
-                                bg-folly h-[0.5vw] mt-[4vw] mb-[2vw] w-[70vw]
-                            "></div>
-                        </li>
-                    ))}
-                </ul>
+                                flex flex-row justify-between w-[60vw] xl:w-[45vw]
+                            ">
+                                <div className="
+                                    /* Layout */
+                                    flex flex-col gap-[6vw] xl:gap-[4vw]
+                                ">
+                                    <label className={`${labelClasses} text-spring-bud`} htmlFor="quantity">Cantidad*</label>
+                                    <input
+                                        className={`${inputClasses} w-[28vw] xl:w-[20vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                        type="number"
+                                        name="quantity"
+                                        placeholder="Número"
+                                        min={0}
+                                        max={9999}
+                                        step={0.01}
+                                        inputMode="decimal"
+                                        title="Introduce una cantidad entre 0 y 9999, hasta 2 decimales con punto (ej. 1.55)"
+                                    />
+                                </div>
 
-                {/* Nuevo paso */}
-                <div className="
-                    /* Layout */
-                    flex flex-col py-[5vw] gap-5 w-[70vw] mt-[6vw] mb-[1vw]
-                    bg-folly
-                    drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
-                ">
-                    <h3 className="
-                        /* Layout */
-                        flex justify-center
-                        anybody-title text-spring-bud text-[6vw] sm:text-[5vw]
-                    ">Nuevo Paso</h3>
+                                <div className="
+                                    /* Layout */
+                                    flex flex-col gap-[6vw] xl:gap-[4vw]
+                                ">
+                                    <label className={`${labelClasses} text-spring-bud`} htmlFor="unit">Unidad*</label>
+                                    <input
+                                        className={`${inputClasses} w-[28vw] xl:w-[20vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                        type="text"
+                                        name="unit"
+                                        placeholder="g, uds, ml..."
+                                        pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
+                                        maxLength={20}
+                                        title="Solo letras, espacios y tildes. Máximo 20 caracteres"
+                                    />
+                                </div>
+                            </div>
 
-                    {/* inputs de nuevo paso */}
-                    <div className="flex flex-col w-full items-center gap-[6vw]">
-                        <label className={`${labelClasses} text-spring-bud`} htmlFor="text">Instrucciones*</label>
-                        <textarea
-                            className="
-                                w-[60vw] flex items-center justify-center p-[4vw] rounded-2xl min-h-auto resize-none
-                                focus:outline-[1vw] sm:focus:outline-[0.6vw]
-                                anybody text-center text-[4vw]/[120%] sm:text-[3.5vw]/[120%] placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] placeholder:italic
-                                bg-spring-bud text-folly
-                                focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
-                                drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                            "
-                            name="text"
-                            placeholder="Añade las instrucciones del paso"
-                            maxLength={800}
-                            title="Máximo 800 caracteres"
-                            onInput={(e) => {
-                                e.target.style.height = 'auto';
-                                e.target.style.height = e.target.scrollHeight + 'px';
-                            }}
-                            wrap="soft"
-                            required
-                        />
-                        <label className={`${labelClasses} text-spring-bud`} htmlFor="note">Nota</label>
-                        <textarea
-                            className="
-                                w-[60vw] flex items-center justify-center p-[4vw] rounded-2xl min-h-auto resize-none
-                                focus:outline-[1vw] sm:focus:outline-[0.6vw]
-                                anybody text-center text-[4vw]/[120%] sm:text-[3.5vw]/[120%] placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] placeholder:italic
-                                bg-spring-bud text-folly
-                                focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
-                                drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                            "
-                            name="note"
-                            placeholder="¿Necesitas aclarar algo?"
-                            maxLength={500}
-                            title="Máximo 500 caracteres"
-                            onInput={(e) => {
-                                e.target.style.height = 'auto';
-                                e.target.style.height = e.target.scrollHeight + 'px';
-                            }}
-                            wrap="soft"
-                        />
-                        <label className={`${labelClasses} text-spring-bud`} htmlFor="image">Imagen</label>
-                        <input
-                            className={`${inputClasses} w-[60vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                            type="url"
-                            name="image"
-                            placeholder="Pega aquí la url de la imagen"
-                            title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
-                        />
+                            <label className={`${labelClasses} text-spring-bud`} htmlFor="annotation">Anotación</label>
+                            <input
+                                className={`${inputClasses} w-[60vw] xl:w-[45vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                type="text"
+                                name="annotation"
+                                placeholder="¿Necesitas alguna aclaración?"
+                                maxLength={50}
+                                title="Máximo 50 caracteres"
+                            />
+
+                            <div className="
+                                /* Layout */
+                                flex flex-row justify-around w-[60vw] xl:w-[35vw] items-center align-middle gap-[0.5vw]
+                            ">
+                                <label className="
+                                    /* Layout */
+                                    flex items-center justify-center
+
+                                    /* Tipografía */
+                                    anybody text-center text-[5vw] sm:text-[4vw] xl:sm:text-[2.5vw] font-bold
+                                    text-spring-bud
+                                " htmlFor="main">¿Ingrediente principal?</label>
+                                <input
+                                    className="
+                                        /* Layout */
+                                        w-[4vw] h-[4vw]
+                                        xl:w-[3vw] xl:h-[3vw]
+
+                                        /* Colores */
+                                        accent-spring-bud
+                                    "
+                                    type="checkbox"
+                                    defaultChecked="true"
+                                    name="main"
+                                />
+                            </div>
+                        </div>
+
+                        <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] xl:text-[6vw]/[100%]`} type="submit"><MdSave /></button>
                     </div>
-                    <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] mt-[2vw]`} type="submit"><MdSave /></button>
-                </div>
-            </form>
+                </form>
+
+                {/* ===== FORMULARIO DE PASOS ===== */}
+                <form className="
+                    /* Layout */
+                    flex flex-col items-center w-[80vw] my-[5vw] sm:my-[3vw] py-[5vw]
+
+                    /* Colores */
+                    bg-spring-bud
+
+                    /* Sombra */
+                    drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                " onSubmit={handleStepFormSubmit}>
+                    <h2 className="
+                        /* Tipografía */
+                        anybody-title text-folly text-[6vw] py-[3vw]
+                    ">Pasos</h2>
+
+                    <ul className="
+                        /* Layout */
+                        flex flex-col items-center text-folly w-[70vw] justify-center text-center gap-[3vw]
+                    ">
+                        {(recipe.steps ?? []).map((step, index) => (
+                            <li className="
+                                /* Layout */
+                                flex flex-col items-center gap-[2vw]
+                            " key={index}>
+                                <h3 className="
+                                    /* Tipografía */
+                                    anybody-logo text-[5vw]
+                                ">{index + 1}</h3>
+                                <div className="text-[4vw]/[120%] sm:text-[3.5vw]/[120%]"><strong>{step.text}</strong></div>
+                                {step.note && <div className="italic text-[3.5vw]/[120%] sm:text-[3vw]/[120%]">{step.note}</div>}
+                                {step.image && <img src={step.image} alt={`Image ${index + 1}`} className="pt-[3vw]" />}
+                                <button className="
+                                    /* Tipografía */
+                                    text-[6vw] sm:text-[5vw] mt-[3vw]
+                                " type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>
+                                    <MdDelete />
+                                </button>
+                                <div className="
+                                    /* Layout */
+                                    bg-folly h-[0.5vw] mt-[4vw] mb-[2vw] w-[70vw]
+                                "></div>
+                            </li>
+                        ))}
+                    </ul>
+
+                    {/* Nuevo paso */}
+                    <div className="
+                        /* Layout */
+                        flex flex-col py-[5vw] gap-5 w-[70vw] mt-[6vw] mb-[1vw]
+                        bg-folly
+                        drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)]
+                    ">
+                        <h3 className="
+                            /* Layout */
+                            flex justify-center
+                            anybody-title text-spring-bud text-[6vw] sm:text-[5vw]
+                        ">Nuevo Paso</h3>
+
+                        {/* inputs de nuevo paso */}
+                        <div className="flex flex-col w-full items-center gap-[6vw]">
+                            <label className={`${labelClasses} text-spring-bud`} htmlFor="text">Instrucciones*</label>
+                            <textarea
+                                className="
+                                    w-[60vw] flex items-center justify-center p-[4vw] rounded-2xl min-h-auto resize-none
+                                    focus:outline-[1vw] sm:focus:outline-[0.6vw]
+                                    anybody text-center text-[4vw]/[120%] sm:text-[3.5vw]/[120%] placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] placeholder:italic
+                                    bg-spring-bud text-folly
+                                    focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
+                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                                "
+                                name="text"
+                                placeholder="Añade las instrucciones del paso"
+                                maxLength={800}
+                                title="Máximo 800 caracteres"
+                                onInput={(e) => {
+                                    e.target.style.height = 'auto';
+                                    e.target.style.height = e.target.scrollHeight + 'px';
+                                }}
+                                wrap="soft"
+                                required
+                            />
+                            <label className={`${labelClasses} text-spring-bud`} htmlFor="note">Nota</label>
+                            <textarea
+                                className="
+                                    w-[60vw] flex items-center justify-center p-[4vw] rounded-2xl min-h-auto resize-none
+                                    focus:outline-[1vw] sm:focus:outline-[0.6vw]
+                                    anybody text-center text-[4vw]/[120%] sm:text-[3.5vw]/[120%] placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] placeholder:italic
+                                    bg-spring-bud text-folly
+                                    focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
+                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                                "
+                                name="note"
+                                placeholder="¿Necesitas aclarar algo?"
+                                maxLength={500}
+                                title="Máximo 500 caracteres"
+                                onInput={(e) => {
+                                    e.target.style.height = 'auto';
+                                    e.target.style.height = e.target.scrollHeight + 'px';
+                                }}
+                                wrap="soft"
+                            />
+                            <label className={`${labelClasses} text-spring-bud`} htmlFor="image">Imagen</label>
+                            <input
+                                className={`${inputClasses} w-[60vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                type="url"
+                                name="image"
+                                placeholder="Pega aquí la url de la imagen"
+                                title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
+                            />
+                        </div>
+                        <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] mt-[2vw]`} type="submit"><MdSave /></button>
+                    </div>
+                </form>
+            </main>
 
             {/* ===== BOTONES DE NAVEGACIÓN ===== */}
             <div className="
-                /* Layout */
-                flex flex-row pt-[5vw] pb-[10vw] w-full justify-between
+        /* Layout */
+            flex flex-row xl:flex-col w-full xl:w-[30vw] px-[8vw] xl:px-[4vw] justify-between fixed bottom-0 left-0 right-0 -mb-[1px] xl:-mb-0
+            overflow-hidden xl:h-[40vh] xl:justify-center items-center xl:gap-[5vh]
+
+            py-[5vw] sm:py-[3vw] xl:py-[4vw]
+
+            /* Colores */
+            bg-veronica
             ">
                 <div className="
                     /* Layout */
@@ -1026,24 +1088,29 @@ function SaveRecipe({
                 ">
                     <button
                         className="
-                            /* Layout */
-                            h-[12vw] w-[12vw] rounded-full flex items-center justify-center  pr-[0.15em]
+                           /* Layout */
+                    rounded-full flex items-center justify-center pr-[0.15em]
 
-                            /* Colores */
-                            bg-spring-bud text-folly
-                            hover:bg-folly hover:text-spring-bud
-                            hover:outline-[0.1em] hover:outline-spring-bud
+                    h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[6vw]
+                    w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[6vw]
 
-                            /* Tipografía */
-                            text-[8vw]
+                    /* Colores */
+                    bg-sgbus-green text-veronica
+                    hover:bg-veronica hover:text-sgbus-green
+                    hover:outline-[0.1em] hover:outline-sgbus-green
 
-                            /* Sombra */
-                            drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                            sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    /* Tipografía */
+                    text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[4vw]
 
-                            /* Transiciones */
-                            transition-all duration-100 ease-out
-                            hover:-translate-y-1 hover:scale-105
+                    /* Sombra */
+                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                    xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+
+                    /* Transiciones */
+                    transition-all duration-100 ease-out
+                    hover:-translate-y-1 hover:scale-105
                         "
                         onClick={handleSaveRecipeBackButton}
                     >
@@ -1053,23 +1120,28 @@ function SaveRecipe({
                     <button
                         className="
                          /* Layout */
-                            h-[12vw] w-[12vw] rounded-full flex items-center justify-center pb-[0.05em]
+                    rounded-full flex items-center justify-center pb-[0.05em]
 
-                            /* Colores */
-                            bg-spring-bud text-folly
-                            hover:bg-folly hover:text-spring-bud
-                            hover:outline-[0.1em] hover:outline-spring-bud
+                    h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[6vw]
+                    w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[6vw]
 
-                            /* Tipografía */
-                            text-[8vw]
+                    /* Colores */
+                    bg-sgbus-green text-veronica
+                    hover:bg-veronica hover:text-sgbus-green
+                    hover:outline-[0.1em] hover:outline-sgbus-green
 
-                            /* Sombra */
-                            drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                            sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    /* Tipografía */
+                    text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[4vw]
 
-                            /* Transiciones */
-                            transition-all duration-100 ease-out
-                            hover:-translate-y-1 hover:scale-105
+                    /* Sombra */
+                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                    xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+
+                    /* Transiciones */
+                    transition-all duration-100 ease-out
+                    hover:-translate-y-1 hover:scale-105
                         "
                         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                     >
@@ -1081,45 +1153,55 @@ function SaveRecipe({
                     flex flex-row gap-[4vw]
                 ">
                     <button className="
-                        /* Layout */
-                        h-[12vw] w-[12vw] rounded-full flex items-center justify-center
+                       /* Layout */
+                    rounded-full flex items-center justify-center
 
-                        /* Colores */
-                        bg-spring-bud text-folly
-                        hover:bg-folly hover:text-spring-bud
-                        hover:outline-[0.1em] hover:outline-spring-bud
+                    h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[6vw]
+                    w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[6vw]
 
-                        /* Tipografía */
-                        text-[8vw]
+                    /* Colores */
+                    bg-sgbus-green text-veronica
+                    hover:bg-veronica hover:text-sgbus-green
+                    hover:outline-[0.1em] hover:outline-sgbus-green
 
-                        /* Sombra */
-                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    /* Tipografía */
+                    text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[4vw]
 
-                        /* Transiciones */
-                        transition-all duration-100 ease-out
-                        hover:-translate-y-1 hover:scale-105
+                    /* Sombra */
+                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                    xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+
+                    /* Transiciones */
+                    transition-all duration-100 ease-out
+                    hover:-translate-y-1 hover:scale-105
                     " type="button" onClick={handleToRecipeClick}><MdRemoveRedEye /></button>
 
                     <button className="
                        /* Layout */
-                        h-[12vw] w-[12vw] rounded-full flex items-center justify-center
+                    rounded-full flex items-center justify-center
 
-                        /* Colores */
-                        bg-spring-bud text-folly
-                        hover:bg-folly hover:text-spring-bud
-                        hover:outline-[0.1em] hover:outline-spring-bud
+                    h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[6vw]
+                    w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[6vw]
 
-                        /* Tipografía */
-                        text-[8vw]
+                    /* Colores */
+                    bg-sgbus-green text-veronica
+                    hover:bg-veronica hover:text-sgbus-green
+                    hover:outline-[0.1em] hover:outline-sgbus-green
 
-                        /* Sombra */
-                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    /* Tipografía */
+                    text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[4vw]
 
-                        /* Transiciones */
-                        transition-all duration-100 ease-out
-                        hover:-translate-y-1 hover:scale-105
+                    /* Sombra */
+                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                    xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+
+                    /* Transiciones */
+                    transition-all duration-100 ease-out
+                    hover:-translate-y-1 hover:scale-105
                     " type="button" onClick={handleDeleteButtonClick}><MdDelete /></button>
                 </div>
             </div>
