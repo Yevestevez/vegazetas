@@ -50,7 +50,7 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
         p-[4vw] xl:p-[2vw] mb-[2vw]
 
         /* Tamaño */
-        w-[70vw] xl:w-[32vw]
+        w-[70vw] xl:w-[40vw]
         h-[14vw] sm:h-[12vw] lg:h-[10vw] xl:h-[6vw] 2xl:h-[5vw]
 
         /* Colores */
@@ -72,12 +72,13 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
 
     return <div className="
         /* Layout */
-        flex flex-col min-h-screen min-w-screen items-center
+        flex flex-col xl:flex-row h-screen w-full overflow-hidden
+        items-center justify-center
 
         /* Colores */
         bg-violet
     ">
-        <div className="flex flex-col xl:flex-row items-center align-middle gap-[6vw] mt-[18vw] sm:mt-[10vw] xl:mt-[6vw]">
+        <div className="flex flex-col items-center align-middle gap-[6vw] mt-[18vw] sm:mt-[10vw] xl:mt-0 w-full xl:w-[40vw] xl:px-4">
             <h1 className="
                 /* Layout */
                 text-center
@@ -93,7 +94,7 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                 drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)]
                 xl:drop-shadow-[0.09em_0.09em_0_rgba(0,0,0,0.8)]
             "
-            >Vega<br className="xl:hidden"></br>zetas</h1>
+            >Vega<br></br>zetas</h1>
 
             <h2 className="
                 /* Layout */
@@ -119,15 +120,15 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
             ">INICIO</h2>
         </div>
 
-        <main>
+        <main className="flex flex-col items-center justify-center xl:bg-hot-magenta xl:w-[60vw] xl:h-screen xl:overflow-y-auto">
             <form className="
                 /* Layout */
-                flex flex-col items-center justify-center
+                flex flex-col items-center justify-center w-full xl:w-[40vw]
                 gap-[1vw] xl:gap-[1vw]
                 mt-[10vw] sm:mt-[6vw] xl:mt-[6vw] 2xl:mt-[4vw]
             "
                 onSubmit={handleFormSubmit}>
-                <div className="flex flex-col xl:flex-row items-center justify-center gap-[2vw] lg:gap-[1vw] xl:gap-[4vw]">
+                <div className="flex flex-col items-center justify-center gap-[2vw] lg:gap-[1vw]">
                     <div className="flex flex-col items-center justify-center gap-[1.5vw]">
                         <label className="
                             /* Tipografía */
@@ -157,7 +158,7 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                     className="
                         /* Layout */
                         flex items-center justify-center self-end rounded-full anybody-logo
-                        mt-[6vw] xl:mt-[3vw] 2xl:mt-[2vw]
+                        mt-[6vw] xl:mt-[2vw] 2xl:mt-[2vw]
 
                         /* Tamaño */
                         w-[20vw] h-[20vw]
@@ -198,18 +199,18 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
 
             <div className="
                 /* Layout */
-                flex flex-col w-full
+                flex flex-col w-full xl:w-[40vw]
                 gap-[2vw]
                 -mt-[20vw] sm:-mt-[18vw] md:-mt-[15vw] lg:-mt-[15vw] xl:-mt-[11vw] 2xl:-mt-[9vw]
                 pb-[15vw] lg:pb-[12vw] xl:pb-[8vw]
             ">
                 <p className="
                     /* Tipografía */
-                    anybody text-[3vw] sm:text-[2.6vw] lg:text-[2vw] xl:text-[1.8vw] 2xl:text-[1.6vw]
+                    anybody text-[3vw] sm:text-[2.6vw] xl:text-[1.8vw] 2xl:text-[1.6vw]
                     -mb-[2vw]
                     
                     /* Colores */
-                    text-hot-magenta
+                    text-hot-magenta xl:text-violet
                 ">¿No estás registrado?</p>
                 <a className="
                     /* Layout */
@@ -221,7 +222,7 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                     underline-offset-[2.5vw] xl:underline-offset-[1.6vw] 2xl:underline-offset-[1.2vw]
 
                     /* Colores */
-                    text-hot-magenta hover:text-canary
+                    text-hot-magenta xl:text-violet hover:text-canary
 
                     /* Interacciones */
                     transition-transform duration-150 ease-out

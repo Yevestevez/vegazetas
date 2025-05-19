@@ -74,11 +74,11 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
         <a href="" onClick={handleLogoLinkClick}>
             <h1 className="  
                 /* Layout */
-                text-center
+                text-center xl:mt-[3vw]
 
                 /* Tipografía */
                 anybody-logo
-                text-[8vw]/[80%] sm:text-[7vw]/[80%] md:text-[6vw]/[80%] xl:text-[8vw]/[80%]
+                text-[8vw]/[80%] sm:text-[7vw]/[80%] md:text-[6vw]/[80%] xl:text-[7vw]/[80%] 2xl:text-[6vw]/[80%]
                 text-sgbus-green
 
                 /* Sombra */
