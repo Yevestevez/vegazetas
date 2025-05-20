@@ -121,9 +121,9 @@ function Recipe({
             {/* images */}
             <div className="
                 /* Layout */
-                 w-full flex flex-row items-center justify-center overflow-hidden
+                w-full flex flex-row items-center justify-center overflow-hidden
 
-                 h-[60vw] xl:h-[20vw]
+                h-[60vw] xl:h-[20vw]
 
                 /* Colores */
                 bg-violet

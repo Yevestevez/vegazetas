@@ -416,46 +416,46 @@ function SaveRecipe({
     const inputClasses = `
         flex items-center justify-center align-middle
 
-        p-[4vw] xl:p-[2vw] h-[8vw] xl:h-[5vw]
+        p-[4vw] xl:p-[1vw] h-[8vw] xl:h-[3vw]
 
         rounded-full
         drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
         sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-        xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+        xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
         
-        focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.4vw]
+        focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.3vw]
 
         anybody text-center min-w-0 truncate placeholder:italic
         
-        text-[4vw] sm:text-[3.5vw] xl:text-[2vw]
-        placeholder:text-[4vw] sm:placeholder:text-[3.5vw] xl:placeholder:text-[2vw]
+        text-[4vw] sm:text-[3.5vw] xl:text-[1.4vw]
+        placeholder:text-[4vw] sm:placeholder:text-[3.5vw] xl:placeholder:text-[1.4vw]
     `
     const labelClasses = `
-        flex items-center justify-center -mb-[3vw]
-        anybody text-center text-[5vw] sm:text-[4vw] xl:text-[2.5vw] font-bold
+        flex items-center justify-center -mb-[3vw] xl:-mb-[2.4vw]
+        anybody text-center text-[5vw] sm:text-[4vw] xl:text-[1.6vw] font-bold
     `
 
     const btnClasses = `
         rounded-full justify-items-center anybody-logo
 
-        h-[15vw] sm:h-[12vw] xl:h-[8vw]
-        w-[15vw] sm:w-[12vw] xl:w-[8vw]
+        h-[15vw] sm:h-[12vw] xl:h-[5vw]
+        w-[15vw] sm:w-[12vw] xl:w-[5vw]
         
         drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
         sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-        xl:drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
+        xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
 
         transition-transform duration-150 ease-out
         hover:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.7)]
         sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-        hover:xl:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.7)]
+        hover:xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.7)]
         hover:-translate-y-1 hover:scale-105
     `
     console.log('CreateRecipe -> render')
 
     return <section className="
         /* Layout */
-        flex flex-col min-h-screen w-full items-center
+        flex flex-col min-h-screen w-full items-center xl:items-start
         pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0]
         overflow-hidden
 
@@ -468,23 +468,27 @@ function SaveRecipe({
             onLogoClicked={handleLogoLinkCLick}
         />
 
-        <div className="flex flex-col w-full xl:w-[70vw]
+        <div className="
+            flex flex-col xl:ml-[40vw]
+
+            w-full xl:w-[35vw]
 
             mb-[30vw] sm:mb-[20vw] lg:mb-[16vw] xl:mb-[4vw]
 
-            xl:ml-[30vw]">
+            ">
 
             {/* ===== TÍTULO DE LA PÁGINA ===== */}
             <h1 className="
                 /* Layout */
-                flex justify-center text-center py-[6vw] xl:py-[4vw]
+                flex justify-center text-center py-[6vw] xl:py-[3vw]
 
                 /* Tipografía */
-                anybody-logo text-[7vw] sm:text-[6vw] xl:text-[4vw] text-spring-bud
+                anybody-logo text-[7vw] sm:text-[6vw] xl:text-[3vw] text-spring-bud
 
                 /* Sombra */
                 drop-shadow-[0.15em_0.15em_0_rgba(0,0,0,0.8)]
                 sm:drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
+                xl:drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)]
             ">
                 {view === "update" ? "Edita tu receta" : "Crea tu nueva receta"}
             </h1>
@@ -492,12 +496,12 @@ function SaveRecipe({
             {/* ===== CONTENIDO PRINCIPAL ===== */}
             <main className="
                 /* Layout */
-                flex flex-col items-center w-[80vw] xl:w-[60vw] mx-auto
+                flex flex-col items-center w-[80vw] xl:w-[28vw] mx-auto
             ">
                 {/* ===== FORMULARIO DE RECETA ===== */}
                 <form className="
                     /* Layout */
-                    flex flex-col w-full gap-[6vw] xl:gap-[4vw] mb-[5vw] xl:mb-[3vw]
+                    flex flex-col w-full gap-[6vw] xl:gap-[3vw] mb-[5vw] xl:mb-[3vw]
                 " onSubmit={handleRecipeFormSubmit}>
                     <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Título*</label>
                     <input
@@ -515,13 +519,13 @@ function SaveRecipe({
                     <textarea
                         className="
                             /* Layout */
-                            w-full flex items-center justify-center p-[4vw] rounded-2xl min-h-auto resize-none
-                            focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.4vw]
+                            w-full flex items-center justify-center p-[4vw] xl:p-[2vw] rounded-2xl min-h-auto resize-none
+                            focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.3vw]
 
                             /* Tipografía */
                             anybody text-center placeholder:italic
-                            text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[2vw]/[120%]
-                            placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[2vw]/[120%]
+                            text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1.4vw]/[120%]
+                            placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[1.4vw]/[120%]
 
                             /* Colores */
                             bg-spring-bud text-folly
@@ -530,7 +534,7 @@ function SaveRecipe({
                             /* Sombra */
                             drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
                             sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                            xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                            xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
                         "
                         name="description"
                         placeholder="Describe tu receta ¡cuéntanos más!"
@@ -550,11 +554,11 @@ function SaveRecipe({
                     ">
                         <div className="
                             /* Layout */
-                            flex flex-col gap-[5vw] xl:gap-[4vw]
+                            flex flex-col gap-[5vw] xl:gap-[3vw]
                         ">
                             <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Tiempo</label>
                             <input
-                                className={`${inputClasses} w-[36vw] xl:w-[28vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                className={`${inputClasses} w-[36vw] xl:w-[13vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                                 type="number"
                                 name="time"
                                 placeholder="En minutos"
@@ -568,11 +572,11 @@ function SaveRecipe({
 
                         <div className="
                             /* Layout */
-                            flex flex-col gap-[5vw] xl:gap-[4vw]
+                            flex flex-col gap-[5vw] xl:gap-[3vw]
                         ">
                             <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Dificultad</label>
                             <input
-                                className={`${inputClasses} w-[36vw] xl:w-[28vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                                className={`${inputClasses} w-[36vw] xl:w-[13vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                                 type="text"
                                 name="difficulty"
                                 placeholder="Fácil, media o dificil"
@@ -582,15 +586,15 @@ function SaveRecipe({
                             />
                         </div>
                     </div>
-                    <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] xl:text-[6vw]/[100%]`} type="submit"><MdSave /></button>
+                    <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%]`} type="submit"><MdSave /></button>
                 </form>
 
                 {/* ===== FORMULARIO DE IMÁGENES ===== */}
                 <form className="
                     /* Layout */
-                    flex flex-col items-center my-[5vw] sm:my-[3vw] xl:my-[2vw] py-[5vw] xl:py-[4vw]
-                    gap-[5vw] sm:gap-[6vw] xl:gap-[4vw]
-                    w-[80vw] xl:w-[60vw]
+                    flex flex-col items-center my-[5vw] sm:my-[3vw] xl:my-[1vw] py-[5vw] xl:py-[2vw]
+                    gap-[5vw] sm:gap-[6vw] xl:gap-[2vw]
+                    w-[80vw] xl:w-[28vw]
 
                     /* Colores */
                     bg-spring-bud
@@ -598,7 +602,7 @@ function SaveRecipe({
                     /* Sombra */
                     drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
                     sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                    xl:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                    xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
                 " onSubmit={handleImageFormSubmit}>
                     <label className={`${labelClasses} pb-[2vw] sm:pb-[1vw] text-folly`} htmlFor="image">Imágenes</label>
 
@@ -618,7 +622,7 @@ function SaveRecipe({
                                     right-[2vw] sm:right-[1.5vw]
 
                                     /* Tipografía */
-                                    text-[5vw] sm:text-[4vw] xl:text-[3vw]
+                                    text-[5vw] sm:text-[4vw] xl:text-[2vw]
 
                                     /* Colores */
                                     bg-folly text-spring-bud
@@ -638,22 +642,22 @@ function SaveRecipe({
                                 <img src={image} alt={`Image ${index}`} className="
                                     /* Layout */
                                     object-cover
-                                    h-[30vw] sm:h-[25vw] xl:h-[20vw]
-                                    w-[35vw] xl:w-[26vw]
+                                    h-[30vw] sm:h-[25vw] xl:h-[15vw]
+                                    w-[35vw] xl:w-[24vw]
                                 " />
                             </li>
                         ))}
                     </ul>
 
                     <input
-                        className={`${inputClasses} w-[70vw] xl:w-[50vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
+                        className={`${inputClasses} w-[70vw] xl:w-[24vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
                         type="url"
                         name="image"
                         placeholder="Pega aquí la URL de la imagen"
                         title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
                     />
 
-                    <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] xl:text-[6vw]/[100%]`} type="submit"><MdSave /></button>
+                    <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%]`} type="submit"><MdSave /></button>
                 </form>
 
                 {/* ===== FORMULARIO DE ETIQUETAS ===== */}
