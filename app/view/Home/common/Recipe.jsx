@@ -110,7 +110,7 @@ function Recipe({
         />
 
         <main className="
-            flex flex-col w-full xl:w-[70vw]
+            flex flex-col w-full xl:w-[50vw]
 
             mb-[30vw] sm:mb-[20vw] lg:mb-[16vw] xl:mb-[4vw]
 
@@ -419,129 +419,134 @@ function Recipe({
         {/* buttons */}
         <div className="
             /* Layout */
-            flex flex-row xl:flex-col w-full xl:w-[30vw] px-[8vw] xl:px-[4vw] justify-between fixed bottom-0 left-0 right-0 -mb-[1px] xl:-mb-0
-            overflow-hidden xl:h-[40vh] xl:justify-center items-center xl:gap-[5vh]
+            fixed bottom-0 left-0 overflow-hidden flex xl:justify-end
 
-            py-[5vw] sm:py-[3vw] xl:py-[4vw]
+            w-full xl:w-[40vw]
+            px-[8vw] xl:px-0
+            -mb-[1px] xl:-mb-0
+            xl:h-[55vh]
+            py-[5vw] sm:py-[3vw] xl:py-0
 
             /* Colores */
             bg-veronica
         ">
-            <div className="flex flex-row gap-[4vw]">
-                <button
-                    className="
-                    /* Layout */
-                    rounded-full flex items-center justify-center pr-[0.15em]
+            <div className="flex flex-row xl:flex-col justify-between xl:justify-center items-center xl:gap-[2vw] w-full xl:w-[20vw] h-full xl:pb-[2vw]"> 
+                <div className="flex flex-row xl:flex-col gap-[4vw] xl:gap-[2vw]">
+                    <button
+                        className="
+                        /* Layout */
+                        rounded-full flex items-center justify-center pr-[0.15em]
 
-                    h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[6vw]
-                    w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[6vw]
+                        h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[3.5vw]
+                        w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[3.5vw]
 
-                    /* Colores */
-                    bg-sgbus-green text-veronica
-                    hover:bg-veronica hover:text-sgbus-green
-                    hover:outline-[0.1em] hover:outline-sgbus-green
+                        /* Colores */
+                        bg-sgbus-green text-veronica
+                        hover:bg-veronica hover:text-sgbus-green
+                        hover:outline-[0.1em] hover:outline-sgbus-green
 
-                    /* Tipografía */
-                    text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[4vw]
+                        /* Tipografía */
+                        text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[2.5vw]
 
-                    /* Sombra */
-                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                    lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
-                    xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+                        /* Sombra */
+                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                        lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
 
-                    /* Transiciones */
-                    transition-all duration-100 ease-out
-                    hover:-translate-y-1 hover:scale-105
-                    "
-                    onClick={handleRecipeBackButton}
-                >
-                    <FaChevronLeft />
-                </button>
+                        /* Transiciones */
+                        transition-all duration-100 ease-out
+                        hover:-translate-y-1 hover:scale-105
+                        "
+                        onClick={handleRecipeBackButton}
+                    >
+                        <FaChevronLeft />
+                    </button>
 
-                <button
-                    className="
-                    /* Layout */
-                    rounded-full flex items-center justify-center pb-[0.05em]
+                    <button
+                        className="
+                        /* Layout */
+                        rounded-full flex items-center justify-center pb-[0.05em]
 
-                    h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[6vw]
-                    w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[6vw]
+                        h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[3.5vw]
+                        w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[3.5vw]
 
-                    /* Colores */
-                    bg-sgbus-green text-veronica
-                    hover:bg-veronica hover:text-sgbus-green
-                    hover:outline-[0.1em] hover:outline-sgbus-green
+                        /* Colores */
+                        bg-sgbus-green text-veronica
+                        hover:bg-veronica hover:text-sgbus-green
+                        hover:outline-[0.1em] hover:outline-sgbus-green
 
-                    /* Tipografía */
-                    text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[4vw]
+                        /* Tipografía */
+                        text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[2.5vw]
 
-                    /* Sombra */
-                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                    lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
-                    xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+                        /* Sombra */
+                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                        lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
 
-                    /* Transiciones */
-                    transition-all duration-100 ease-out
-                    hover:-translate-y-1 hover:scale-105
-                    "
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                >
-                    <FaChevronUp />
-                </button>
-            </div>
-            <div className="flex flex-row gap-[4vw]">
-                <button className="
-                    /* Layout */
-                    rounded-full flex items-center justify-center
+                        /* Transiciones */
+                        transition-all duration-100 ease-out
+                        hover:-translate-y-1 hover:scale-105
+                        "
+                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    >
+                        <FaChevronUp />
+                    </button>
+                </div>
+                <div className="flex flex-row xl:flex-col gap-[4vw] xl:gap-[2vw]">
+                    <button className="
+                        /* Layout */
+                        rounded-full flex items-center justify-center
 
-                    h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[6vw]
-                    w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[6vw]
+                        h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[3.5vw]
+                        w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[3.5vw]
 
-                    /* Colores */
-                    bg-sgbus-green text-veronica
-                    hover:bg-veronica hover:text-sgbus-green
-                    hover:outline-[0.1em] hover:outline-sgbus-green
+                        /* Colores */
+                        bg-sgbus-green text-veronica
+                        hover:bg-veronica hover:text-sgbus-green
+                        hover:outline-[0.1em] hover:outline-sgbus-green
 
-                    /* Tipografía */
-                    text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[4vw]
+                        /* Tipografía */
+                        text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[2.5vw]
 
-                    /* Sombra */
-                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                    lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
-                    xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+                        /* Sombra */
+                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                        lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
 
-                    /* Transiciones */
-                    transition-all duration-100 ease-out
-                    hover:-translate-y-1 hover:scale-105
-                " type="button" onClick={handleEditRecipeButton}><MdEdit /></button>
+                        /* Transiciones */
+                        transition-all duration-100 ease-out
+                        hover:-translate-y-1 hover:scale-105
+                    " type="button" onClick={handleEditRecipeButton}><MdEdit /></button>
 
-                <button className="
-                    /* Layout */
-                    rounded-full flex items-center justify-center
+                    <button className="
+                        /* Layout */
+                        rounded-full flex items-center justify-center
 
-                    h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[6vw]
-                    w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[6vw]
+                        h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[3.5vw]
+                        w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[3.5vw]
 
-                    /* Colores */
-                    bg-sgbus-green text-veronica
-                    hover:bg-veronica hover:text-sgbus-green
-                    hover:outline-[0.1em] hover:outline-sgbus-green
+                        /* Colores */
+                        bg-sgbus-green text-veronica
+                        hover:bg-veronica hover:text-sgbus-green
+                        hover:outline-[0.1em] hover:outline-sgbus-green
 
-                    /* Tipografía */
-                    text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[4vw]
+                        /* Tipografía */
+                        text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[2.5vw]
 
-                    /* Sombra */
-                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                    sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                    lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
-                    xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+                        /* Sombra */
+                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                        lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
 
-                    /* Transiciones */
-                    transition-all duration-100 ease-out
-                    hover:-translate-y-1 hover:scale-105
-                " type="button" onClick={handleDeleteButtonClick}><MdDelete /></button>
+                        /* Transiciones */
+                        transition-all duration-100 ease-out
+                        hover:-translate-y-1 hover:scale-105
+                    " type="button" onClick={handleDeleteButtonClick}><MdDelete /></button>
+                </div>
             </div>
         </div>
     </article>
