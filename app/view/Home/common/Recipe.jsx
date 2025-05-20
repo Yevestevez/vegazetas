@@ -97,7 +97,7 @@ function Recipe({
 
     return <article className="
         /* Layout */
-        flex flex-col min-h-screen w-full items-center
+        flex flex-col min-h-screen w-full items-center xl:items-start
         pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0]
         overflow-hidden
 
@@ -110,11 +110,11 @@ function Recipe({
         />
 
         <main className="
-            flex flex-col w-full xl:w-[50vw]
+            flex flex-col xl:ml-[40vw]
+            
+            w-full xl:w-[35vw] 
 
             mb-[30vw] sm:mb-[20vw] lg:mb-[16vw] xl:mb-[4vw]
-
-            xl:ml-[30vw]
 
             bg-aquamarine
             ">
@@ -123,7 +123,7 @@ function Recipe({
                 /* Layout */
                  w-full flex flex-row items-center justify-center overflow-hidden
 
-                 h-[60vw] xl:h-[30vw]
+                 h-[60vw] xl:h-[20vw]
 
                 /* Colores */
                 bg-violet
@@ -144,7 +144,7 @@ function Recipe({
                         w-full h-full flex items-center justify-center
 
                         /* Tipografía */
-                        anybody-title text-[6vw] text-white
+                        anybody-title text-[6vw] xl:text-[2vw] text-white
                     ">No hay imágenes</div>
                 )}
             </div>
@@ -152,11 +152,14 @@ function Recipe({
             {/* title, author, date */}
             <div className="
                 /* Layout */
-                flex flex-col justify-center align-middle items-center text-center mx-auto h-auto gap-[1.5vw] xl:gap-[0.5vw]
-                w-[80vw] xl:w-[60vw]
-                p-[6vw] xl:p-[4vw]
-                -mt-[6vw] xl:-mt-[3vw]
-                mb-[5vw] xl:mb-[3vw]
+                flex flex-col justify-center align-middle items-center text-center mx-auto h-auto gap-[1.5vw] xl:gap-[1vw]
+
+                w-[80vw] xl:w-[28vw]
+
+                p-[6vw] xl:p-[2vw]
+
+                -mt-[6vw] xl:-mt-[2vw]
+                mb-[5vw] xl:mb-[0vw]
 
                 /* Colores */
                 bg-canary text-coquelicot
@@ -165,23 +168,23 @@ function Recipe({
                 drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]
                 sm:drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
                 md:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.8)]
-                xl:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
             ">
                 <h2 className="
                     /* Tipografía */
-                    anybody-logo text-[6vw]/[120%] xl:text-[4vw]/[120%]
+                    anybody-logo text-[6vw]/[120%] xl:text-[1.8vw]/[120%]
                 ">{recipe.title}</h2>
                 <h3 className="
                     /* Layout */
-                    mb-[4vw] xl:mb-[3vw]
+                    mb-[4vw] xl:mb-[1vw]
 
                     /* Tipografía */
                     anybody underline decoration-[0.4em] underline-offset-[0.4em]
-                    text-[4vw] xl:text-[2.5vw]
+                    text-[4vw] xl:text-[1.4vw]
                 ">@{author}</h3>
                 <time className="
                     /* Tipografía */
-                    anybody text-[3vw] xl:text-[1.8vw] -mb-[1vw]
+                    anybody text-[3vw] xl:text-[1vw] -mb-[0.5vw]
                 ">{formatDate(recipe.date)}</time>
             </div>
 
@@ -189,10 +192,10 @@ function Recipe({
                 {/* description */}
                 {recipe.description && <p className="
                     /* Layout */
-                    py-[4vw] w-[80vw] xl:w-[60vw] justify-center mx-auto text-center
+                    py-[4vw] xl:py-[2vw] xl:pt-[3vw] w-[80vw] xl:w-[28vw] justify-center mx-auto text-center
 
                     /* Tipografía */
-                    anybody text-[4vw]/[120%] xl:text-[2.5vw]/[120%] text-violet
+                    anybody text-[4vw]/[120%] xl:text-[1.4vw]/[120%] text-violet
                 ">{recipe.description}</p>}
 
                 {/* time, difficulty */}
@@ -200,10 +203,10 @@ function Recipe({
                     (recipe.time || recipe.difficulty) && (
                         <div className="
                             /* Layout */
-                            flex flex-row gap-[2vw] justify-center py-[2vw] xl:py-[1vw]
+                            flex flex-row gap-[2vw] xl:gap-[1vw] justify-center py-[2vw] xl:py-[0.5vw]
 
                             /* Tipografía */
-                            anybody-title text-[5vw] xl:text-[3vw] text-violet
+                            anybody-title text-[5vw] xl:text-[1.8vw] text-violet
                         ">
                             {recipe.time && <h3>{recipe.time} min</h3>}
                             {recipe.difficulty && (
@@ -220,7 +223,7 @@ function Recipe({
                 {recipe.tags && recipe.tags.length > 0 && (
                     <div className="
                         /* Layout */
-                        flex flex-wrap mx-[20vw] xl:mx-[5vw] pt-[2vw] pb-[8vw] gap-[4vw] xl:gap-[3vw] justify-center
+                        flex flex-wrap mx-[20vw] xl:mx-[2vw] pt-[2vw] pb-[8vw] xl:pb-[4vw] gap-[4vw] xl:gap-[1.5vw] justify-center
 
                         /* Colores */
                         text-spring-bud
@@ -229,7 +232,7 @@ function Recipe({
                         drop-shadow-[1.3vw_1.3vw_0_rgba(0,0,0,0.8)]
                         sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
                         md:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                        xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[0.5vw_0.5vw_0_rgba(0,0,0,0.8)]
                     ">
                         {recipe.tags.map((tag, index) => (
                             <h3 className="
@@ -237,7 +240,7 @@ function Recipe({
                                 py-[0.5vw] xl:py-[0.1vw] px-[1.8vw]
 
                                 /* Tipografía */
-                                anybody-title text-[3vw] xl:text-[2vw]
+                                anybody-title text-[3vw] xl:text-[1.2vw]
 
                                 /* Colores */
                                 bg-folly
@@ -251,7 +254,7 @@ function Recipe({
             {recipe.ingredients && recipe.ingredients.length > 0 && (
                 <div className="
                     /* Layout */
-                    flex flex-col justify-items-center items-center py-[4vw] xl:py-[3vw] w-full
+                    flex flex-col justify-items-center items-center py-[4vw] xl:py-[1vw] w-full
 
                     /* Colores */
                     bg-hot-magenta
@@ -261,43 +264,43 @@ function Recipe({
                         mt-[2vw]
 
                         /* Tipografía */
-                        anybody-logo text-[7vw] md:text-[6vw] xl:text-[4.5vw] text-spring-bud
+                        anybody-logo text-[7vw] md:text-[6vw] xl:text-[2.5vw] text-spring-bud
 
                         /* Sombra */
                         drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
                         sm:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.8)]
                         md:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
-                        xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
                     ">Ingredientes</h2>
 
                     {/* Separación de ingredientes */}
                     <div className="
                         /* Layout */
-                        flex flex-col text-center px-[8vw] xl:px-[5.5vw] gap-[3vw] xl:gap-[2vw]
+                        flex flex-col text-center px-[8vw] xl:px-[3vw] gap-[3vw] xl:gap-[1vw]
                     ">
                         {/* Ingredientes principales */}
                         {recipe.ingredients.some(ingredient => ingredient.main) && (
                             <>
                                 <h3 className="
                                     /* Layout */
-                                    text-center mt-[5vw] mb-[2vw] xl:mb-[1vw] w-[30vw] sm:w-[25vw] xl:w-[16vw] mx-auto
+                                    text-center mt-[5vw] xl:mt-[3vw] mb-[2vw] xl:mb-[1vw] w-[30vw] sm:w-[25vw] xl:w-[9vw] mx-auto py-[0.5vw] xl:py-[0.1vw]
 
                                     /* Tipografía */
-                                    anybody-title text-[5vw] sm:text-[4vw] xl:text-[2.5vw] text-hot-magenta
+                                    anybody-title text-[5vw] sm:text-[4vw] xl:text-[1.4vw] text-hot-magenta
 
                                     /* Colores */
                                     bg-spring-bud
 
                                     /* Sombra */
                                     drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                                    xl:drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
+                                    xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
                                 ">Principales</h3>
                                 {recipe.ingredients
                                     .filter(ingredient => ingredient.main)
                                     .map((ingredient) => (
                                         <div className="
                                             /* Tipografía */
-                                            anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] md:text-[3.5vw]/[120%] xl:text-[2.2vw]/[120%]  text-spring-bud
+                                            anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] md:text-[3.5vw]/[120%] xl:text-[1.4vw]/[120%]  text-spring-bud
                                         " key={ingredient.id}>
                                             <p>
                                                 <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
@@ -312,25 +315,25 @@ function Recipe({
                         {recipe.ingredients.some(ingredient => !ingredient.main) && (
                             <>
                                 <h3 className="
-                                    /* Layout */
-                                    text-center mt-[5vw] xl:mt-[3vw] mb-[2vw] xl:mb-[1vw] w-[30vw] sm:w-[25vw] xl:w-[16vw] mx-auto
+                                /* Layout */
+                                    text-center mt-[5vw] xl:mt-[2vw] mb-[2vw] xl:mb-[1vw] w-[30vw] sm:w-[25vw] xl:w-[9vw] mx-auto py-[0.5vw] xl:py-[0.1vw]
 
                                     /* Tipografía */
-                                    anybody-title text-[5vw] sm:text-[4vw] xl:text-[2.5vw] text-hot-magenta
+                                    anybody-title text-[5vw] sm:text-[4vw] xl:text-[1.4vw] text-hot-magenta
 
                                     /* Colores */
                                     bg-spring-bud
 
                                     /* Sombra */
                                     drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                                    xl:drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
+                                    xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
                                 ">Despensa</h3>
                                 {recipe.ingredients
                                     .filter(ingredient => !ingredient.main)
                                     .map((ingredient) => (
                                         <div className="
                                             /* Tipografía */
-                                            anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] md:text-[3.5vw]/[120%] xl:text-[2.2vw]/[120%] text-spring-bud
+                                            anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] md:text-[3.5vw]/[120%] xl:text-[1.4vw]/[120%] text-spring-bud
                                         " key={ingredient.id}>
                                             <p>
                                                 <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
@@ -358,17 +361,17 @@ function Recipe({
                 ">
                     <h2 className="
                         /* Tipografía */
-                        anybody-logo text-[7vw] md:text-[6vw] xl:text-[4.5vw] text-spring-bud
+                        anybody-logo text-[7vw] md:text-[6vw] xl:text-[2.5vw] text-spring-bud
 
                         /* Sombra */
                         drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
                         sm:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.8)]
-                        xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
                     ">Preparación</h2>
 
                     <div className="
                         /* Layout */
-                        mt-[4vw] xl:mt-[3vw] text-center w-[85vw] xl:w-[60vw] flex flex-col gap-[6vw] xl:gap-[4vw]
+                        mt-[4vw] xl:mt-[2vw] text-center w-[85vw] xl:w-[28vw] flex flex-col gap-[6vw] xl:gap-[2vw]
 
                         /* Colores */
                         text-hot-magenta
@@ -376,7 +379,7 @@ function Recipe({
                         {recipe.steps.map((step, index) => (
                             <div className="
                                 /* Layout */
-                                flex flex-col gap-3 px-[5vw] py-[6vw] xl:py-[4vw]
+                                flex flex-col gap-[2vw] xl:gap-[0.8vw] px-[5vw] py-[6vw] xl:py-[2vw]
 
                                 /* Colores */
                                 bg-spring-bud
@@ -384,19 +387,19 @@ function Recipe({
                                 /* Sombra */
                                 drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)]
                                 sm:drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
-                                xl:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                                xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
                             " key={index}>
                                 <h3 className="
                                     /* Tipografía */
-                                    anybody-logo text-[6vw]/[100%] sm:text-[5vw]/[100%] md:text-[4.5vw]/[100%] xl:text-[3vw]/[100%]
+                                    anybody-logo text-[6vw]/[100%] sm:text-[5vw]/[100%] md:text-[4.5vw]/[100%] xl:text-[1.6vw]/[100%]
                                 ">{index + 1}</h3>
                                 <p className="
                                     /* Tipografía */
-                                    anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] md:text-[3.5vw]/[120%] xl:text-[2.2vw]/[120%]
+                                    anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] md:text-[3.5vw]/[120%] xl:text-[1.2vw]/[120%]
                                 ">{step.text}</p>
                                 {step.note && <p className="
                                     /* Tipografía */
-                                    anybody text-[4vw]/[120%] sm:text-[3vw]/[120%] xl:text-[2vw]/[120%]
+                                    anybody text-[4vw]/[120%] sm:text-[3vw]/[120%] xl:text-[1vw]/[120%]
                                     italic font-light
                                 ">({step.note})</p>}
                                 {step.image && (
@@ -405,7 +408,7 @@ function Recipe({
                                         alt={`Paso ${index + 1} image`}
                                         className="
                                             /* Layout */
-                                            w-full mt-[2vw]
+                                            w-full mt-[2vw] xl:mt-[1vw]
                                         "
                                     />
                                 )}
