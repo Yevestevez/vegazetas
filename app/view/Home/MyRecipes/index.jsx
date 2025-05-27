@@ -91,23 +91,23 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
         />
 
         <div className="
-            flex xl:fixed xl:top-[60vh] text-center py-[2vw] xl:py-[5vh] items-center justify-center
+            flex xl:fixed xl:bottom-0 text-center py-[2vw] xl:py-[5vh] items-center xl:justify-end xl:px-[5vw]
 
-            xl:min-w-[30vw]
-            xl:min-h-[40vh]
+            xl:w-[40vw]
+            xl:h-[60vh]
 
             xl:bg-sgbus-green
         ">
             <h1 className="
                 /* Tipografía */
-                anybody-logo text-folly xl:text-veronica text-[6vw] xl:text-[5vw]/[100%]
+                anybody-logo text-folly xl:text-veronica text-[6vw] xl:text-[2.6vw]/[100%]
 
                 /* Sombra */
                 drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]
             ">Tus <br className="hidden xl:block" />recetas</h1>
         </div>
 
-        <main className="flex flex-col w-full xl:w-[70vw] xl:ml-[30vw]">
+        <main className="flex flex-col w-full xl:w-[35vw] xl:ml-[40vw]">
             {myRecipes.length > 0 ? (
                 myRecipes.map(recipe => (
                     <RecipeThumbnail
