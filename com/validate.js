@@ -29,7 +29,7 @@ const validate = {
     // User
     email(email) {
         if (typeof email !== 'string') throw new ValidationError('invalid email type, must be a string')
-        if (!EMAIL_REGEX.test(email)) new ValidationError('invalid email syntax')
+        if (!EMAIL_REGEX.test(email)) throw new ValidationError('invalid email syntax')
     },
 
     username(username) {
@@ -57,7 +57,8 @@ const validate = {
     // },
 
     image(image) {
-        if (typeof image !== 'string' || !URL_REGEX.test(image)) throw new ValidationError('invalid image syntax, must be a valid URL')
+        if (typeof image !== 'string') throw new ValidationError('invalid image type, must be a string')
+        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image syntax, must be a valid URL')
     },
 
     description(description) {
@@ -106,11 +107,6 @@ const validate = {
     note(note) {
         if (typeof note !== 'string') throw new ValidationError('invalid note type, must be a string')
         if (note.length < 1 || note.length > 500) throw new ValidationError('invalid note length, must be between 1 and 500 characters')
-    },
-
-    image(image) {
-        if (typeof image !== 'string') throw new ValidationError('invalid image type, must be a string')
-        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image syntax, must be a valid URL')
     },
 
     // Ingredient
