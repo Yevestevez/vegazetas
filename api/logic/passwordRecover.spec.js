@@ -4,11 +4,11 @@ import mongoose from 'mongoose'
 import { User } from '../data/models.js'
 import { errors } from 'com'
 import bcrypt from 'bcryptjs'
-import recoverPassword from './recoverPassword.js'
+import passwordRecover from './passwordRecover.js'
 
 const { NotFoundError } = errors
 
-describe('recoverPassword', function () {
+describe('passwordRecover', function () {
     this.timeout(10000)
 
     before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
@@ -30,7 +30,7 @@ describe('recoverPassword', function () {
                 })
             })
             .then(user => {
-                return recoverPassword('ana@perez.com')
+                return passwordRecover('ana@perez.com')
                     .then(() => {
                         console.log = originalConsoleLog // restaurar console.log
 
@@ -53,7 +53,7 @@ describe('recoverPassword', function () {
     })
 
     it('fails on non existing user', done => {
-        recoverPassword('nonexistent@email.com')
+        passwordRecover('nonexistent@email.com')
             .then(() => done(new Error('Should have thrown')))
             .catch(error => {
                 expect(error).to.be.instanceOf(NotFoundError)

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import 'dotenv/config'
 import { User } from '../data/models.js'
 import { createTestMailTransporter } from '../util/mailer.js'
 import nodemailer from 'nodemailer'
@@ -6,7 +7,7 @@ import { errors, validate } from 'com'
 
 const { NotFoundError, SystemError } = errors
 
-const recoverPassword = (email) => {
+const passwordRecover = (email) => {
     validate.email(email)
 
     // Paso 1: buscar al usuario por email
@@ -17,7 +18,7 @@ const recoverPassword = (email) => {
 
             // Paso 2: generar token JWT con userId y expiración de 15 minutos
             const token = jwt.sign(
-                { sub: user.id }, // sub = subject (convención para "id")
+                { sub: user._id },
                 process.env.JWT_SECRET, // clave secreta
                 { expiresIn: '15m' } // duración del token
             )
@@ -29,7 +30,7 @@ const recoverPassword = (email) => {
             return createTestMailTransporter()
                 .catch(error => { throw new SystemError(error.message) })
                 .then(transporter => {
-                    const resetLink = `http://localhost:5173/reset-password/${token}`
+                    const resetLink = `${process.env.VITE_FRONTEND_URL}/user/password/reset/${token}`
 
                     // Paso 4: enviar correo con enlace
                     return transporter.sendMail({
@@ -47,4 +48,4 @@ const recoverPassword = (email) => {
         })
 }
 
-export default recoverPassword
+export default passwordRecover

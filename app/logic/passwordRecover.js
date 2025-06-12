@@ -1,6 +1,6 @@
 import { validate, errors } from 'com'
 
-const recoverPassword = (email) => {
+const passwordRecover = (email) => {
     validate.email(email)
 
     return fetch(`${import.meta.env.VITE_API_URL}/users/password/recover`, {
@@ -27,4 +27,4 @@ const recoverPassword = (email) => {
         })
 }
 
-export default recoverPassword
+export default passwordRecover

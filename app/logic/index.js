@@ -5,7 +5,7 @@ import isUserLoggedIn from "./isUserLoggedIn"
 import logoutUser from "./logoutUser"
 import getUserId from "./getUserId"
 import getUserUsername from "./getUserUsername"
-import recoverPassword from "./recoverPassword"
+import passwordRecover from "./passwordRecover.js"
 
 import getMyRecipes from "./getMyRecipes"
 import getRecipeById from "./getRecipeById"
@@ -34,7 +34,7 @@ const logic = {
     logoutUser,
     getUserId,
     getUserUsername,
-    recoverPassword,
+    passwordRecover,
 
     getMyRecipes,
     getRecipeById,
