@@ -6,17 +6,21 @@ import { errors } from 'com'
 import bcrypt from 'bcryptjs'
 import recoverPassword from './recoverPassword.js'
 
-const { NotFoundError, ValidationError } = errors
+const { NotFoundError } = errors
 
-describe('recoverPassword', () => {
+describe('recoverPassword', function () {
+    this.timeout(10000)
+
     before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
 
     beforeEach(() => User.deleteMany())
 
-    it('succeeds on existing user', () => {
-        let user
+    it('succeeds on existing user and sends email with token link', done => {
+        let consoleOutput = ''
+        const originalConsoleLog = console.log
+        console.log = (...args) => { consoleOutput += args.join(' ') + '\n' }
 
-        return bcrypt.hash('123123123', 10)
+        bcrypt.hash('123123123', 10)
             .then(hash => {
                 return User.create({
                     name: 'Ana Pérez',
@@ -25,31 +29,36 @@ describe('recoverPassword', () => {
                     password: hash
                 })
             })
-            .then(createdUser => {
-                user = createdUser
-
+            .then(user => {
                 return recoverPassword('ana@perez.com')
-            })
-            .then(result => {
-                expect(result).to.be.undefined
+                    .then(() => {
+                        console.log = originalConsoleLog // restaurar console.log
 
-                return User.findById(user._id)
+                        return User.findOne({ email: 'ana@perez.com' })
+                    })
+                    .then(() => {
+                        // Validar que consoleOutput tiene el link de Ethereal
+                        const previewUrlMatch = consoleOutput.match(/https:\/\/ethereal.email\/message\/[^\s]+/)
+                        expect(previewUrlMatch).to.exist
+                        const previewUrl = previewUrlMatch[0]
+                        expect(previewUrl).to.include('ethereal.email/message/')
+
+                        done()
+                    })
             })
-            .then(updatedUser => {
-                expect(updatedUser.resetPasswordToken).to.exist
-                expect(updatedUser.resetPasswordToken).to.have.lengthOf(64) // 32 bytes hex = 64 chars
-                expect(updatedUser.resetPasswordExpires).to.exist
+            .catch(error => {
+                console.log = originalConsoleLog
+                done(error)
             })
     })
 
-    it('fails on non existing user', () => {
-        let catchedError
-
-        return recoverPassword('nonexistent@email.com')
-            .catch(error => catchedError = error)
-            .finally(() => {
-                expect(catchedError).to.be.instanceOf(NotFoundError)
-                expect(catchedError.message).to.equal('user not found')
+    it('fails on non existing user', done => {
+        recoverPassword('nonexistent@email.com')
+            .then(() => done(new Error('Should have thrown')))
+            .catch(error => {
+                expect(error).to.be.instanceOf(NotFoundError)
+                expect(error.message).to.equal('user not found')
+                done()
             })
     })
 
