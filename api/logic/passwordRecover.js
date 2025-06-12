@@ -18,7 +18,7 @@ const passwordRecover = (email) => {
 
             // Paso 2: generar token JWT con userId y expiración de 15 minutos
             const token = jwt.sign(
-                { sub: user._id },
+                { sub: user.id },
                 process.env.JWT_SECRET, // clave secreta
                 { expiresIn: '15m' } // duración del token
             )

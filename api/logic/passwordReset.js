@@ -16,7 +16,7 @@ const passwordReset = (token, newPassword) => {
         throw new ValidationError('Invalid or expired token')
     }
 
-    // Buscar usuario usando el dato incluido en el token (user._id)
+    // Buscar usuario usando el dato incluido en el token (user.id)
     return User.findById(payload.sub)
         .then(user => {
             if (!user) throw new NotFoundError('User not found')

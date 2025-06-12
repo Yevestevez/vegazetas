@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import 'dotenv/config'
 import passwordRecover from './passwordRecover.js'
 
-mongoose.connect(process.env.TEST_MONGO_URL)
+mongoose.connect(process.env.MONGO_URL)
     .then(() => {
         try {
             passwordRecover('edu@yeves.com')
