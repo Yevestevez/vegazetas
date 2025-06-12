@@ -2,7 +2,8 @@ import registerUser from './registerUser.js'
 import authenticateUser from './authenticateUser.js'
 import getUserName from './getUserName.js'
 import getUserUsername from './getUserUsername.js'
-import passwordRecover from './passwordRecover.js';
+import passwordRecover from './passwordRecover.js'
+import passwordReset from './passwordReset.js'
 
 import createRecipe from './createRecipe.js'
 import getMyRecipes from './getMyRecipes.js'
@@ -28,6 +29,7 @@ const logic = {
     getUserName,
     getUserUsername,
     passwordRecover,
+    passwordReset,
 
     createRecipe,
     getMyRecipes,
