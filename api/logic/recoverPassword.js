@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import jwt from 'jsonwebtoken'
 import { User } from '../data/models.js'
 import { createTestMailTransporter } from '../util/mailer.js'
 import nodemailer from 'nodemailer'
@@ -9,29 +9,29 @@ const { NotFoundError, SystemError } = errors
 const recoverPassword = (email) => {
     validate.email(email)
 
+    // Paso 1: buscar al usuario por email
     return User.findOne({ email })
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
             if (!user) throw new NotFoundError('user not found')
 
-            const token = crypto.randomBytes(32).toString('hex')
-            const expires = Date.now() + 1000 * 60 * 15 // 15 minutos
+            // Paso 2: generar token JWT con userId y expiración de 15 minutos
+            const token = jwt.sign(
+                { sub: user.id }, // sub = subject (convención para "id")
+                process.env.JWT_SECRET, // clave secreta
+                { expiresIn: '15m' } // duración del token
+            )
 
-            user.resetPasswordToken = token
-            user.resetPasswordExpires = expires
-
-            return user.save()
-                .catch(error => { throw new SystemError(error.message) })
-                .then(() => {
-                    return { user, token }
-                })
+            return { user, token }
         })
         .then(({ user, token }) => {
+            // Paso 3: crear el transporter de pruebas (Ethereal)
             return createTestMailTransporter()
                 .catch(error => { throw new SystemError(error.message) })
                 .then(transporter => {
                     const resetLink = `http://localhost:5173/reset-password/${token}`
 
+                    // Paso 4: enviar correo con enlace
                     return transporter.sendMail({
                         from: '"Vegazetas" <no-reply@vegazetas.com>',
                         to: user.email,
