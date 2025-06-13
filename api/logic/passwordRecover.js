@@ -30,7 +30,7 @@ const passwordRecover = (email) => {
             return createTestMailTransporter()
                 .catch(error => { throw new SystemError(error.message) })
                 .then(transporter => {
-                    const resetLink = `${process.env.VITE_FRONTEND_URL}/user/password/reset/${token}`
+                    const resetLink = `${process.env.VITE_FRONTEND_URL}/password-reset/${token}`
 
                     // Paso 4: enviar correo con enlace
                     return transporter.sendMail({
