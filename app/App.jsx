@@ -7,6 +7,7 @@ import Landing from './view/Landing'
 import Register from './view/Register'
 import Login from './view/Login'
 import Home from './view/Home'
+import PasswordReset from './view/PasswordReset'
 
 import Alert from './view/common/Alert'
 import Confirm from './view/common/Confirm'
@@ -17,7 +18,7 @@ function App() {
     const location = useLocation()
 
     let viewInPath = location.pathname.slice(1)
-    if (viewInPath !== 'landing' && viewInPath !== 'register' && viewInPath !== 'login' && viewInPath !== 'my-recipes' && !viewInPath.startsWith('create-recipe') && !viewInPath.startsWith('update-recipe') && !viewInPath.startsWith('recipe'))
+    if (viewInPath !== 'landing' && viewInPath !== 'register' && viewInPath !== 'login' && viewInPath !== 'my-recipes' && !viewInPath.startsWith('password-reset') && !viewInPath.startsWith('create-recipe') && !viewInPath.startsWith('update-recipe') && !viewInPath.startsWith('recipe'))
         viewInPath = 'landing'
     const [view, setView] = useState(viewInPath)
 
@@ -26,6 +27,7 @@ function App() {
     const handleUserRegistered = () => setView('login')
     const handleUserLoggedIn = () => setView('home')
     const handleUserLoggedOut = () => setView('login')
+    const handlePasswordReseted = () => setView('login')
 
     // alert y confirm
     const [alertMessage, setAlertMessage] = useState('')
@@ -65,6 +67,9 @@ function App() {
             case 'home':
                 navigate('/')
                 break
+            case 'password-reset':
+                navigate('/password-reset/:token')
+                break
         }
     }, [view])
 
@@ -82,6 +87,10 @@ function App() {
 
             <Route path="/login" element={
                 logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onRegisterClicked={handleRegisterLinkClick} onUserLoggedIn={handleUserLoggedIn} />
+            } />
+
+            <Route path="/password-reset/:token" element={
+                <PasswordReset onPasswordReseted={handlePasswordReseted} />
             } />
 
             <Route path="/*" element={
