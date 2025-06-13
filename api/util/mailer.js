@@ -29,3 +29,27 @@ export function createTestMailTransporter() {
         throw new SystemError(error.message)
     }
 }
+
+export function createRealMailTransporter() {
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        })
+
+        return Promise.resolve(transporter)
+    } catch (error) {
+        return Promise.reject(new SystemError(error.message))
+    }
+}
+
+export function createMailTransporter() {
+    if (process.env.NODE_ENV === 'production') {
+        return createRealMailTransporter()
+    } else {
+        return createTestMailTransporter()
+    }
+}
