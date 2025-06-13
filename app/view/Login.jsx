@@ -55,7 +55,7 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                 const email = form.email.value.trim()
 
                 try {
-                    logic.recoverPassword(email)
+                    logic.passwordRecover(email)
                         .then(() => {
                             alert('Te hemos enviado un correo para recuperar tu contraseña')
                         })
