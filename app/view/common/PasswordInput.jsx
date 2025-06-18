@@ -41,6 +41,20 @@ function PasswordInput({
                 focusText: 'peer-focus:text-aquamarine',
                 hover: 'hover:text-hot-magenta'
             }
+        },
+        passwordReset: {
+            input: {
+                bg: 'bg-spring-bud',
+                focusBg: 'focus:bg-folly',
+                text: 'text-folly',
+                focusText: 'focus:text-spring-bud',
+                outline: 'outline-spring-bud'
+            },
+            icon: {
+                text: 'text-folly',
+                focusText: 'peer-focus:text-spring-bud',
+                hover: 'hover:text-spring-bud'
+            }
         }
     }
 
