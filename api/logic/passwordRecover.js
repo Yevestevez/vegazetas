@@ -36,9 +36,9 @@ const passwordRecover = (email) => {
                     return transporter.sendMail({
                         from: `"Vegazetas" <${process.env.EMAIL_USER}>`,
                         to: user.email,
-                        subject: 'Recuperar contraseña',
-                        text: `Haz click aquí para cambiar tu contraseña: ${resetLink}`,
-                        html: `<p>Haz clic aquí para cambiar tu contraseña:</p><a href="${resetLink}">${resetLink}</a>`
+                        subject: 'Recuperar contraseña Vegazetas',
+                        text: `Haz click en el siguiente enlace para cambiar tu contraseña: ${resetLink}`,
+                        html: `<p>Haz click en el siguiente enlace para cambiar tu contraseña:</p><a href="${resetLink}">Restablecer contraseña</a>`
                     })
                         .catch(error => { throw new SystemError(error.message) })
                 })
