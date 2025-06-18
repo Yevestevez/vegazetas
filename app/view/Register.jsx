@@ -83,14 +83,16 @@ function Register({ onLoginClicked, onUserRegistered }) {
     `
 
     return <div className="
-        /* Layout */
-        flex flex-col xl:flex-row min-h-screen w-full overflow-hidden
-        items-center justify-center
-
-        /* Colores */
-        bg-canary
+    flex flex-col xl:flex-row w-full h-screen
+    items-center justify-center
+    bg-canary
+    overflow-hidden
     ">
-        <div className="flex flex-col items-center align-middle gap-[6vw] mt-[18vw] sm:mt-[10vw] xl:mt-0 w-full xl:w-[40vw] xl:px-4 fixed top-0 left-0 relative">
+        <div className="flex flex-col items-center justify-center align-middle gap-[6vw]
+    mt-[18vw] sm:mt-[10vw] xl:mt-0
+    w-full xl:w-[40vw] xl:px-4
+    xl:h-screen xl:fixed xl:left-0
+">
             <h1 className="
                 /* Layout */
                 text-center
@@ -131,7 +133,7 @@ function Register({ onLoginClicked, onUserRegistered }) {
             ">REGISTRO</h2>
         </div>
 
-        <main className="flex flex-col items-center justify-center xl:bg-violet w-[70vw] xl:w-[60vw] xl:h-screen xl:overflow-y-auto">
+        <main className="flex flex-col items-center justify-center xl:bg-violet w-[70vw] xl:w-[60vw] xl:h-screen xl:overflow-y-auto xl:ml-[40vw] xl:pt-[8vw]">
             <div className="w-full xl:max-w-[40vw] xl:mx-auto">
             <form className="
                /* Layout */
