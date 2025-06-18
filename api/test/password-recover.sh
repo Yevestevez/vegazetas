@@ -1,0 +1,1 @@
+curl -X POST -H 'Content-Type: application/json' -d '{"email":"edu@yeves.com"}' http://localhost:8080/users/password/recover -v

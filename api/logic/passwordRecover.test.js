@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
 import 'dotenv/config'
-import registerUser from './registerUser.js'
+import passwordRecover from './passwordRecover.js'
 
-mongoose.connect(process.env.TEST_MONGO_URL)
+mongoose.connect(process.env.MONGO_URL)
     .then(() => {
         try {
-            registerUser('Eduardo Yeves', 'edu@yeves.com', 'eduyeves', 'e123123123')
-                .then(result => console.log('user registered', result))
+            passwordRecover('edu@yeves.com')
+                .then(() => console.log('recover email requested and send'))
                 .catch(error => console.error(error))
         } catch (error) {
             console.error(error)
