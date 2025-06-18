@@ -8,8 +8,9 @@ import { useAppContext } from '../context'
 import { useState } from 'react'
 
 function Login({ onRegisterClicked, onUserLoggedIn }) {
-    const { alert } = useAppContext()
+    const { alert, confirm } = useAppContext()
     const [password, setPassword] = useState('')
+    const [showRecoverPasswordForm, setShowRecoverPasswordForm] = useState(false)
 
     const handleRegisterLinkClick = event => {
         event.preventDefault()
@@ -43,6 +44,32 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
 
             console.error(error)
         }
+    }
+
+    const handleRecoverPasswordButtonClick = event => {
+        event.preventDefault()
+
+        confirm('¿Quieres cambiar la contraseña?', accepted => {
+            if (accepted) {
+                const form = event.target
+                const email = form.email.value.trim()
+
+                try {
+                    logic.passwordRecover(email)
+                        .then(() => {
+                            alert('Te hemos enviado un correo para recuperar tu contraseña')
+                        })
+                        .catch(error => {
+                            alert(error.message)
+                            console.error(error)
+                        })
+                } catch (error) {
+                    alert(error.message)
+
+                    console.error(error)
+                }
+            }
+        })
     }
 
     console.log('Login -> render')
@@ -241,6 +268,31 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                     hover:-translate-y-1.5
                 "
                     href="" onClick={handleRegisterLinkClick} >Registro</a>
+
+                {!showRecoverPasswordForm && (
+                    <button className="
+                    /* Tipografía */
+                    anybody font-light mt-[6vw] xl:mt-[2vw] 2xl:mt-[2vw]
+                    text-[3vw] sm:text-[2.6vw] xl:text-[1.8vw] 2xl:text-[1.6vw]
+
+                    /* Colores */
+                    text-aquamarine"
+                            onClick={() => setShowRecoverPasswordForm(true)}>
+                        ¿Olvidaste tu contraseña?
+                    </button>
+                )}
+
+                {showRecoverPasswordForm && (
+                    <form className="mt-[8vw] xl:mt-[2vw] 2xl:mt-[2vw]" onSubmit={handleRecoverPasswordButtonClick}>
+                        <input  className={`${inputClasses} `} type="email" name="email" placeholder="Tu email" required />
+                        <button className="
+                        anybody w-full
+                        text-[4vw] sm:text-[3vw] xl:text-[2vw] 2xl:text-[1.8vw]
+                        cursor-pointer
+                        text-aquamarine
+                        " type="submit">Recuperar contraseña</button>
+                    </form>
+                )}
             </div>
         </main>
     </div>
