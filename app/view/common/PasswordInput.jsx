@@ -69,7 +69,7 @@ function PasswordInput({
                     flex items-center justify-center rounded-full
                     p-[4vw] xl:p-[2vw] mb-[2vw]
                     pr-[12vw] xl:pr-[6vw]
-                    w-full h-[14vw] sm:h-[12vw] lg:h-[10vw] xl:h-[4vw]
+                    w-full h-[14vw] sm:h-[12vw] lg:h-[10vw] xl:h-[6vw] 2xl:h-[5vw]
 
                     /* Colores del tema */
                     ${currentTheme.input.bg} 
@@ -101,18 +101,23 @@ function PasswordInput({
                 onClick={() => setShowPassword(prev => !prev)}
                 className={`
                     /* Layout base */
-                    absolute right-[6vw] xl:right-[3vw] top-1/2
-                    -translate-y-1/2 -mt-[0.5vw]
-                    w-[6vw] xl:w-[2vw] h-[6vw] xl:h-[2vw]
-                    text-[8vw] xl:text-[6vw]
+                    absolute right-[6vw] xl:right-[3vw] 
+                    top-[50%] -translate-y-[50%] xl:top-[40%] xl:-translate-y-[50%]
+                    
+                    /* Tamaño del icono */
+                    text-[8vw] sm:text-[6vw] lg:text-[5vw] xl:text-[3vw]
+                    
+                    /* Contenedor del icono */
                     flex items-center justify-center
-
+                    w-[8vw] sm:w-[6vw] lg:w-[5vw] xl:w-[3vw]
+                    h-[8vw] sm:h-[6vw] lg:h-[5vw] xl:h-[3vw]
+            
                     /* Colores del tema */
                     ${currentTheme.icon.text}
                     ${currentTheme.icon.focusText}
                     ${currentTheme.icon.hover}
                     transition-colors duration-200
-                `}
+                    `}
                 aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
             >
                 {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
