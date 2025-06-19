@@ -27,20 +27,35 @@ function Register({ onLoginClicked, onUserRegistered }) {
         const username = form.username.value.toLowerCase().trim()
         const password = form.password.value.trim()
 
+        let closeAlert
+
+        const loadingAlertTimeout = setTimeout(() => {
+            closeAlert = alert('⏳ El servidor está arrancando. Esto puede tardar unos segundos...')
+        }, 2000)
+
         try {
             logic.registerUser(name, email, username, password)
                 .then(() => {
+                    clearTimeout(loadingAlertTimeout)
+                    if (closeAlert) closeAlert()
+
                     form.reset()
 
                     onUserRegistered()
                 })
                 .catch(error => {
+                    clearTimeout(loadingAlertTimeout)
+                    if (closeAlert) closeAlert()
+
                     if (error instanceof DuplicityError)
                         alert(error.message)
                     else if (error instanceof SystemError)
                         alert('Sorry, try again later')
                 })
         } catch (error) {
+            clearTimeout(loadingAlertTimeout)
+            if (closeAlert) closeAlert()
+
             alert(error.message)
 
             console.error(error)
