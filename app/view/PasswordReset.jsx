@@ -61,7 +61,7 @@ function PasswordReset({ onPasswordReseted }) {
 
     return <div className="
         /* Layout */
-        flex flex-col min-h-screen min-w-screen items-center gap-[14vw] sm:gap-[10vw] md:gap-[8vw] xl:gap-[4vw] 2xl:gap-[3vw]
+        flex flex-col min-h-screen min-w-screen items-center gap-[14vw] sm:gap-[10vw] md:gap-[8vw] xl:gap-[4vw] 2xl:gap-[3vw] pb-[4vw]
 
         /* Colores */
         bg-folly
@@ -107,11 +107,6 @@ function PasswordReset({ onPasswordReseted }) {
         ">NUEVA CONTRASEÑA</h2>
 
         <form onSubmit={handleFormSubmit} className="flex flex-col items-center justify-center w-full gap-[1.5vw] xl:gap-[0.5vw]">
-            <label className="/* Tipografía */
-                    anybody font-bold text-[6vw] xl:text-[2.4vw]
-
-                    /* Colores */
-                    text-spring-bud" htmlFor="password">Contraseña</label>
             <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
