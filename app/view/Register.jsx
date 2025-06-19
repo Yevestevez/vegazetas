@@ -30,7 +30,7 @@ function Register({ onLoginClicked, onUserRegistered }) {
         let closeAlert
 
         const loadingAlertTimeout = setTimeout(() => {
-            closeAlert = alert('⏳ El servidor está arrancando. Esto puede tardar unos segundos...')
+            closeAlert = alert('⏳ El servidor se está despertando, espera unos segundos...')
         }, 2000)
 
         try {
