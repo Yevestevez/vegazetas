@@ -53,7 +53,7 @@ function PasswordInput({
             icon: {
                 text: 'text-folly',
                 focusText: 'peer-focus:text-spring-bud',
-                hover: 'hover:text-spring-bud'
+                hover: 'hover:text-violet'
             }
         }
     }
