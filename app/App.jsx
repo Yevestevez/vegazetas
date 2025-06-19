@@ -32,7 +32,10 @@ function App() {
     // alert y confirm
     const [alertMessage, setAlertMessage] = useState('')
     const [confirmMessage, setConfirmMessage] = useState('')
-    const alert = message => setAlertMessage(message)
+    const alert = message => {
+        setAlertMessage(message)
+        return () => setAlertMessage('')
+    }
     const confirm = (message, callback) => {
         setConfirmMessage(message)
         App.confirmCallback = callback
