@@ -21,20 +21,35 @@ function PasswordReset({ onPasswordReseted }) {
                 const form = event.target
                 const newPassword = form.password.value.trim()
 
+                let closeAlert
+
+                const loadingAlertTimeout = setTimeout(() => {
+                    closeAlert = alert('⏳ El servidor se está despertando, espera unos segundos...')
+                }, 2000)
+
                 try {
                     logic.passwordReset(token,newPassword)
                         .then(() => {
+                            clearTimeout(loadingAlertTimeout)
+                            if (closeAlert) closeAlert()
+
                             alert('Contraseña cambiada correctamente')
 
                             onPasswordReseted()
                         })
                         .catch(error => {
+                            clearTimeout(loadingAlertTimeout)
+                            if (closeAlert) closeAlert()
+
                             if (error instanceof ValidationError)
                                 alert(error.message)
                             else if (error instanceof SystemError)
                                 alert('Sorry try again')
                         })
                 } catch (error) {
+                    clearTimeout(loadingAlertTimeout)
+                    if (closeAlert) closeAlert()
+
                     alert(error.message)
                     console.error(error)
                 }
