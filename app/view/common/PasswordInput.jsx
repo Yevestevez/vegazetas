@@ -53,7 +53,7 @@ function PasswordInput({
             icon: {
                 text: 'text-folly',
                 focusText: 'peer-focus:text-spring-bud',
-                hover: 'hover:text-spring-bud'
+                hover: 'hover:text-violet'
             }
         }
     }
@@ -103,6 +103,7 @@ function PasswordInput({
                     /* Layout base */
                     absolute right-[6vw] xl:right-[3vw] 
                     top-[50%] -translate-y-[50%] xl:top-[40%] xl:-translate-y-[50%]
+                    cursor-pointer
                     
                     /* Tamaño del icono */
                     text-[8vw] sm:text-[6vw] lg:text-[5vw] xl:text-[3vw]
