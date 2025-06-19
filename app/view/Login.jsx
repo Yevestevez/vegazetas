@@ -67,16 +67,31 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                 const form = event.target
                 const email = form.email.value.trim()
 
+                let closeAlert
+
+                const loadingAlertTimeout = setTimeout(() => {
+                    closeAlert = alert('⏳ El servidor se está despertando, espera unos segundos...')
+                }, 2000)
+
                 try {
                     logic.passwordRecover(email)
                         .then(() => {
+                            clearTimeout(loadingAlertTimeout)
+                            if (closeAlert) closeAlert()
+
                             alert('Te hemos enviado un correo para recuperar tu contraseña')
                         })
                         .catch(error => {
+                            clearTimeout(loadingAlertTimeout)
+                            if (closeAlert) closeAlert()
+
                             alert(error.message)
                             console.error(error)
                         })
                 } catch (error) {
+                    clearTimeout(loadingAlertTimeout)
+                    if (closeAlert) closeAlert()
+
                     alert(error.message)
 
                     console.error(error)
