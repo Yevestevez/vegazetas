@@ -22,24 +22,37 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
         event.preventDefault()
 
         const form = event.target
-
         const email = form.email.value.trim()
         const password = form.password.value.trim()
+
+        let closeAlert
+
+        const loadingAlertTimeout = setTimeout(() => {
+            closeAlert = alert('⏳ El servidor está arrancando. Esto puede tardar unos segundos...')
+        }, 2000)
 
         try {
             logic.loginUser(email, password)
                 .then(() => {
+                    clearTimeout(loadingAlertTimeout)
+                    if (closeAlert) closeAlert()
+
                     form.reset()
 
                     onUserLoggedIn()
                 })
                 .catch(error => {
+                    clearTimeout(loadingAlertTimeout)
+                    if (closeAlert) closeAlert()
+
                     if (error instanceof CredentialsError)
                         alert(error.message)
                     else if (error instanceof SystemError)
                         alert('Sorry try again')
                 })
         } catch (error) {
+            clearTimeout(loadingAlertTimeout)
+            if (closeAlert) closeAlert()
             alert(error.message)
 
             console.error(error)
