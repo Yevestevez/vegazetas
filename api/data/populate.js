@@ -1,9 +1,11 @@
 import mongoose from 'mongoose'
 import { User, Ingredient, Step, Recipe } from './models.js'
 
+import 'dotenv/config'
+
 import bcrypt from 'bcryptjs'
 
-mongoose.connect('mongodb://localhost:27017/vegazetas')
+mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => Promise.all([User.deleteMany(), Ingredient.deleteMany(), Step.deleteMany(), Recipe.deleteMany()]))
     .then(() => {
         return bcrypt.hash('a123123123', 10)
@@ -28,15 +30,15 @@ mongoose.connect('mongodb://localhost:27017/vegazetas')
                 const cebollino = new Ingredient({ name: 'Cebollino', quantity: 4, unit: 'cucharadas', main: false })
                 const arroz = new Ingredient({ name: 'Arroz', quantity: 2, unit: 'vasos pequeños', main: false })
 
-                // steps - Tofu coreano
-                const tofuCoreanoStep1 = new Step({ text: 'Secar tofu y sofreír con un toque de sal y pimienta', image: 'https://danzadefogones.com/wp-content/uploads/2018/01/Tofu-picante-estilo-coreano-2.jpg' })
-                const tofuCoreanoStep2 = new Step({ text: 'Mezclar azúcar, soja, salsa de tomate y salsa gochujang', note: 'Si es demasiado denso añadir agua' })
-                const tofuCoreanoStep3 = new Step({ text: 'Añadir tofu, sofreír con la salsa y reservar' })
-                const tofuCoreanoStep4 = new Step({ text: 'Picar la cebolla en trozos no demasiado pequeños y los ajos bien picados' })
-                const tofuCoreanoStep5 = new Step({ text: 'Sofreir cebolla y ajos con un poco de aceite' })
-                const tofuCoreanoStep6 = new Step({ text: 'Añadir mezcla de tofu y salsa dejando espesar unos minutos', image: 'https://danzadefogones.com/wp-content/uploads/2018/01/Tofu-picante-estilo-coreano-3.jpg' })
-                const tofuCoreanoStep7 = new Step({ text: 'Cocer arroz y servir con tofu por encima' })
-                const tofuCoreanoStep8 = new Step({ text: 'Decorar con sésamo y cebollino' })
+                // steps - Tofu coreano (con orden consecutivo)
+                const tofuCoreanoStep1 = new Step({ text: 'Secar tofu y sofreír con un toque de sal y pimienta', image: 'https://danzadefogones.com/wp-content/uploads/2018/01/Tofu-picante-estilo-coreano-2.jpg', order: 1 })
+                const tofuCoreanoStep2 = new Step({ text: 'Mezclar azúcar, soja, salsa de tomate y salsa gochujang', note: 'Si es demasiado denso añadir agua', order: 2 })
+                const tofuCoreanoStep3 = new Step({ text: 'Añadir tofu, sofreír con la salsa y reservar', order: 3 })
+                const tofuCoreanoStep4 = new Step({ text: 'Picar la cebolla en trozos no demasiado pequeños y los ajos bien picados', order: 4 })
+                const tofuCoreanoStep5 = new Step({ text: 'Sofreir cebolla y ajos con un poco de aceite', order: 5 })
+                const tofuCoreanoStep6 = new Step({ text: 'Añadir mezcla de tofu y salsa dejando espesar unos minutos', image: 'https://danzadefogones.com/wp-content/uploads/2018/01/Tofu-picante-estilo-coreano-3.jpg', order: 6 })
+                const tofuCoreanoStep7 = new Step({ text: 'Cocer arroz y servir con tofu por encima', order: 7 })
+                const tofuCoreanoStep8 = new Step({ text: 'Decorar con sésamo y cebollino', order: 8 })
 
                 // recipe - Tofu coreano
                 const tofuCoreano = new Recipe({
@@ -56,13 +58,13 @@ mongoose.connect('mongodb://localhost:27017/vegazetas')
                 const galletasOreo = new Ingredient({ name: 'Galletas Oreo', quantity: 150, unit: 'g' })
                 const quesoCremaVegano = new Ingredient({ name: 'Queso crema vegano', quantity: 60, unit: 'g' })
 
-                // steps - Turrón del rey Trufón
-                const turronReyTrufonStep1 = new Step({ text: 'Derretir chocolate' })
-                const turronReyTrufonStep2 = new Step({ text: 'Cubrir un molde con una capa fina y dejar enfriar en la nevera' })
-                const turronReyTrufonStep3 = new Step({ text: 'Triturar galletas' })
-                const turronReyTrufonStep4 = new Step({ text: 'Mezclar queso crema y polvo de galleta' })
-                const turronReyTrufonStep5 = new Step({ text: 'Añadir la mezcla al molde con el chocolate ya frío' })
-                const turronReyTrufonStep6 = new Step({ text: 'Cubrir la mezcla con una segunda capa de chocolate y volver a enfriar' })
+                // steps - Turrón del rey Trufón (con orden consecutivo)
+                const turronReyTrufonStep1 = new Step({ text: 'Derretir chocolate', order: 1 })
+                const turronReyTrufonStep2 = new Step({ text: 'Cubrir un molde con una capa fina y dejar enfriar en la nevera', order: 2 })
+                const turronReyTrufonStep3 = new Step({ text: 'Triturar galletas', order: 3 })
+                const turronReyTrufonStep4 = new Step({ text: 'Mezclar queso crema y polvo de galleta', order: 4 })
+                const turronReyTrufonStep5 = new Step({ text: 'Añadir la mezcla al molde con el chocolate ya frío', order: 5 })
+                const turronReyTrufonStep6 = new Step({ text: 'Cubrir la mezcla con una segunda capa de chocolate y volver a enfriar', order: 6 })
 
                 // recipe - Turrón del rey Trufón
                 const turronReyTrufon = new Recipe({
@@ -83,5 +85,17 @@ mongoose.connect('mongodb://localhost:27017/vegazetas')
         console.log('user saved', edu._id)
         console.log('recipe saved', tofuCoreano._id)
         console.log('recipe saved', turronReyTrufon._id)
+
+        // Mostrar IDs de los steps para usar en tests
+        console.log('\n=== STEPS IDs para testing ===')
+        console.log('Tofu Coreano Steps:')
+        tofuCoreano.steps.forEach((step, index) => {
+            console.log(`  Step ${step.order}: ${step._id} - "${step.text.substring(0, 30)}..."`)
+        })
+
+        console.log('\nTurrón del Rey Trufón Steps:')
+        turronReyTrufon.steps.forEach((step, index) => {
+            console.log(`  Step ${step.order}: ${step._id} - "${step.text.substring(0, 30)}..."`)
+        })
     })
     .catch(error => console.error(error))
