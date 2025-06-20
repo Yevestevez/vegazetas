@@ -53,6 +53,9 @@ const step = new Schema({
     },
     image: {
         type: String
+    },
+    order: {
+        type: Number
     }
 })
 
