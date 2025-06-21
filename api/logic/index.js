@@ -16,6 +16,7 @@ import removeIngredientFromRecipe from './removeIngredientFromRecipe.js'
 
 import addStepToRecipe from './addStepToRecipe.js'
 import removeStepFromRecipe from './removeStepFromRecipe.js'
+import reorderStep from './reorderStep.js'
 
 import addImageToRecipe from './addImageToRecipe.js'
 import removeImageFromRecipe from './removeImageFromRecipe.js'
@@ -42,6 +43,7 @@ const logic = {
 
     addStepToRecipe,
     removeStepFromRecipe,
+    reorderStep,
 
     addImageToRecipe,
     removeImageFromRecipe,
