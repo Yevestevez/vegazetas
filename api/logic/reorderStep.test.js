@@ -1,89 +1,106 @@
 import mongoose from 'mongoose'
 import reorderStep from './reorderStep.js'
-
 import 'dotenv/config'
 
 mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {
         try {
-            // Test 1: Mover paso hacia arriba
-            console.log('=== Test 1: Moving step UP ===')
+            // Test successful reordering of a middle step upwards
+            console.log('Test 1: Move middle step up')
             reorderStep(
-                '6855579a661027cb6647eb71', // recipeId
-                '6855579a661027cb6647eb6b', // stepId (paso a mover)
+                '6856e3a4815f336ea7140277', // userId
+                '6856e3a4815f336ea714028e', // recipeId
+                '6856e3a4815f336ea7140289', // stepId
                 'up' // direction
             )
-                .then(result => console.log('Step moved UP successfully', result))
-                .catch(error => console.error('Error moving UP:', error))
-
-            // Test 2: Mover paso hacia abajo
-            setTimeout(() => {
-                console.log('\n=== Test 2: Moving step DOWN ===')
-                reorderStep(
-                    '6855579a661027cb6647eb71', // recipeId
-                    '6855579a661027cb6647eb6b', // stepId (paso a mover)
-                    'down' // direction
-                )
-                    .then(result => console.log('Step moved DOWN successfully', result))
-                    .catch(error => console.error('Error moving DOWN:', error))
-            }, 1000)
-
-            // Test 3: Error - Recipe not found
-            setTimeout(() => {
-                console.log('\n=== Test 3: Recipe not found ===')
-                reorderStep(
-                    '000000000000000000000000', // recipeId inexistente
-                    '6855579a661027cb6647eb6b', // stepId
-                    'up'
-                )
-                    .then(result => console.log('Unexpected success:', result))
-                    .catch(error => console.error('Expected error - Recipe not found:', error.message))
-            }, 2000)
-
-            // Test 4: Error - Step not found
-            setTimeout(() => {
-                console.log('\n=== Test 4: Step not found ===')
-                reorderStep(
-                    '6855579a661027cb6647eb71', // recipeId válido
-                    '000000000000000000000000', // stepId inexistente
-                    'up'
-                )
-                    .then(result => console.log('Unexpected success:', result))
-                    .catch(error => console.error('Expected error - Step not found:', error.message))
-            }, 3000)
-
-            // Test 5: Edge case - Trying to move first step up
-            setTimeout(() => {
-                console.log('\n=== Test 5: Move first step UP (should do nothing) ===')
-                reorderStep(
-                    '6855579a661027cb6647eb71', // recipeId
-                    '6855579a661027cb6647eb69', // stepId del primer paso
-                    'up'
-                )
-                    .then(result => console.log('First step UP (no change expected):', result))
-                    .catch(error => console.error('Error with first step UP:', error))
-            }, 4000)
-
-            // Test 6: Edge case - Trying to move last step down
-            setTimeout(() => {
-                console.log('\n=== Test 6: Move last step DOWN (should do nothing) ===')
-                reorderStep(
-                    '6855579a661027cb6647eb71', // recipeId
-                    '6855579a661027cb6647eb70', // stepId del último paso
-                    'down'
-                )
-                    .then(result => console.log('Last step DOWN (no change expected):', result))
-                    .catch(error => console.error('Error with last step DOWN:', error))
-
-                // Cerrar conexión después del último test
-                setTimeout(() => {
-                    mongoose.connection.close()
-                    console.log('\n=== Tests completed ===')
-                }, 1000)
-            }, 5000)
-
+                .then(() => console.log('step reordered up successfully'))
+                .catch(error => console.error('Test 1 failed:', error.message))
+                .then(() => {
+                    // Test successful reordering of a middle step downwards
+                    console.log('\nTest 2: Move middle step down')
+                    return reorderStep(
+                        '6856e3a4815f336ea7140277',
+                        '6856e3a4815f336ea714028e',
+                        '6856e3a4815f336ea7140289',
+                        'down'
+                    )
+                })
+                .then(() => console.log('step reordered down successfully'))
+                .catch(error => console.error('Test 2 failed:', error.message))
+                .then(() => {
+                    // Test attempt to move first step up (should not change order)
+                    console.log('\nTest 3: Try to move first step up')
+                    return reorderStep(
+                        '6856e3a4815f336ea7140277',
+                        '6856e3a4815f336ea714028e',
+                        '6856e3a4815f336ea7140286', // first step id
+                        'up'
+                    )
+                })
+                .then(() => console.log('first step remains in position as expected'))
+                .catch(error => console.error('Test 3 failed:', error.message))
+                .then(() => {
+                    // Test attempt to move last step down (should not change order)
+                    console.log('\nTest 4: Try to move last step down')
+                    return reorderStep(
+                        '6856e3a4815f336ea7140277',
+                        '6856e3a4815f336ea714028e',
+                        '6856e3a4815f336ea714028d', // last step id
+                        'down'
+                    )
+                })
+                .then(() => console.log('last step remains in position as expected'))
+                .catch(error => console.error('Test 4 failed:', error.message))
+                .then(() => {
+                    // Test with non-existent user
+                    console.log('\nTest 5: Error - user not found')
+                    return reorderStep(
+                        '000000000000000000000000', // non-existent userId
+                        '6856e3a4815f336ea714028e',
+                        '6856e3a4815f336ea7140289',
+                        'up'
+                    )
+                })
+                .then(() => console.error('Test 5 should have failed'))
+                .catch(error => console.log('Test 5 failed as expected:', error.message))
+                .then(() => {
+                    // Test with non-existent recipe
+                    console.log('\nTest 6: Error - recipe not found')
+                    return reorderStep(
+                        '6856e3a4815f336ea7140277',
+                        '000000000000000000000000', // non-existent recipeId
+                        '6856e3a4815f336ea7140289',
+                        'up'
+                    )
+                })
+                .then(() => console.error('Test 6 should have failed'))
+                .catch(error => console.log('Test 6 failed as expected:', error.message))
+                .then(() => {
+                    // Test with non-existent step
+                    console.log('\nTest 7: Error - step not found')
+                    return reorderStep(
+                        '6856e3a4815f336ea7140277',
+                        '6856e3a4815f336ea714028e',
+                        '000000000000000000000000', // non-existent stepId
+                        'up'
+                    )
+                })
+                .then(() => console.error('Test 7 should have failed'))
+                .catch(error => console.log('Test 7 failed as expected:', error.message))
+                .then(() => {
+                    // Test with unauthorized user (not recipe author)
+                    console.log('\nTest 8: Error - user is not recipe author')
+                    return reorderStep(
+                        '6856e3a4815f336ea7140278', // different userId
+                        '6856e3a4815f336ea714028e',
+                        '6856e3a4815f336ea7140289',
+                        'up'
+                    )
+                })
+                .then(() => console.error('Test 8 should have failed'))
+                .catch(error => console.log('Test 8 failed as expected:', error.message))
         } catch (error) {
-            console.error('Sync error:', error)
+            console.error('Test setup failed:', error)
         }
     })
-    .catch(error => console.error('Connection error:', error))
+    .catch(error => console.error('Database connection failed:', error))
