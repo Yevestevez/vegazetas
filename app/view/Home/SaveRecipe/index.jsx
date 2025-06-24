@@ -4,8 +4,7 @@ import { useParams } from 'react-router-dom'
 import { MdDelete } from "react-icons/md"
 import { MdSave } from "react-icons/md"
 import { MdRemoveRedEye } from "react-icons/md"
-import { FaChevronUp } from "react-icons/fa"
-import { FaChevronLeft } from "react-icons/fa"
+import { FaChevronUp, FaChevronDown, FaChevronLeft } from "react-icons/fa"
 
 import Header from '../common/Header'
 
@@ -354,7 +353,12 @@ function SaveRecipe({
                         .then(() => {
                             setRecipe(prevRecipe => ({
                                 ...prevRecipe,
-                                steps: prevRecipe.steps.filter(step => step.id !== stepId)
+                                steps: prevRecipe.steps
+                                    .filter(step => step.id !== stepId)
+                                    .map((step, index) => ({
+                                        ...step,
+                                        order: index
+                                    }))
                             }))
                         })
                         .catch(error => {
@@ -368,6 +372,70 @@ function SaveRecipe({
                 }
             }
         })
+    }
+
+    const handleMoveStepUp = (event, stepId) => {
+        event.preventDefault()
+
+        const stepIndex = recipe.steps.findIndex(step => step.id === stepId)
+        if (stepIndex > 0) {
+            try {
+                logic.reorderStep(recipe.id, stepId, 'up')
+                    .then(() => {
+                        setRecipe(prevRecipe => {
+                            const newSteps = [...prevRecipe.steps]
+
+                            const temp = newSteps[stepIndex]
+                            newSteps[stepIndex] = newSteps[stepIndex - 1]
+                            newSteps[stepIndex - 1] = temp
+
+                            return {
+                                ...prevRecipe,
+                                steps: newSteps
+                            };
+                        });
+                    })
+                    .catch(error => {
+                        alert(error.message)
+                        console.error(error)
+                    });
+            } catch (error) {
+                alert(error.message)
+                console.error(error)
+            }
+        }
+    }
+
+    const handleMoveStepDown = (event, stepId) => {
+        event.preventDefault()
+
+        const stepIndex = recipe.steps.findIndex(step => step.id === stepId)
+        if (stepIndex < recipe.steps.length - 1) {
+            try {
+                logic.reorderStep(recipe.id, stepId, 'down')
+                    .then(() => {
+                        setRecipe(prevRecipe => {
+                            const newSteps = [...prevRecipe.steps]
+
+                            const temp = newSteps[stepIndex]
+                            newSteps[stepIndex] = newSteps[stepIndex + 1]
+                            newSteps[stepIndex + 1] = temp
+
+                            return {
+                                ...prevRecipe,
+                                steps: newSteps
+                            };
+                        });
+                    })
+                    .catch(error => {
+                        alert(error.message)
+                        console.error(error)
+                    });
+            } catch (error) {
+                alert(error.message)
+                console.error(error)
+            }
+        }
     }
 
     const handleSaveRecipeBackButton = (event) => {
@@ -1024,17 +1092,54 @@ function SaveRecipe({
                                 <div className="text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1.2vw]/[120%]"><strong>{step.text}</strong></div>
                                 {step.note && <div className="italic text-[3.5vw]/[120%] sm:text-[3vw]/[120%] xl:text-[1vw]/[120%]">{step.note}</div>}
                                 {step.image && <img src={step.image} alt={`Image ${index + 1}`} className="pt-[3vw] xl:pt-[1vw]" />}
-                                <button className="
-                                    /* Tipografía */
-                                    text-[6vw] sm:text-[5vw] xl:text-[1.4vw] mt-[3vw] xl:mt-[0.5vw]
 
-                                    cursor-pointer
-                                    transition-transform duration-150 ease-out
-                                    hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)]
-                                    hover:-translate-y-1 hover:scale-105
-                                " type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>
-                                    <MdDelete />
-                                </button>
+                                <div className="flex flex-row items-center justify-center gap-[3vw] xl:gap-[1vw] w-full">
+                                    <button className="
+                                        /* Tipografía */
+                                        text-[6vw] sm:text-[5vw] xl:text-[1.4vw] mt-[3vw] xl:mt-[0.5vw]
+
+                                        cursor-pointer
+                                        transition-transform duration-150 ease-out
+                                        hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)]
+                                        hover:-translate-y-1 hover:scale-105
+                                    " type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>
+                                        <MdDelete />
+                                    </button>
+
+                                    <div className="flex flex-row items-center justify-center gap-[1.5vw] xl:gap-[0.5vw] bg-folly text-spring-bud px-[2vw] py-[1vw] xl:px-[0.5vw] xl:py-[0.3vw] mt-[3vw] xl:mt-[0.5vw] rounded-full">
+                                        <button
+                                            onClick={(event) => handleMoveStepUp(event, step.id)}
+                                            disabled={index === 0}
+                                            className="/* Tipografía */
+                                            text-[5vw] sm:text-[4vw] xl:text-[1.4vw]
+
+                                            cursor-pointer
+                                            transition-transform duration-150 ease-out
+                                            hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)]
+                                            hover:-translate-y-1 hover:scale-105
+                                            disabled:opacity-30 disabled:cursor-not-allowed
+                                            "
+                                        >
+                                            <FaChevronUp />
+                                        </button>
+                                        <button
+                                            onClick={(event) => handleMoveStepDown(event, step.id)}
+                                            disabled={index === recipe.steps.length - 1}
+                                            className="/* Tipografía */
+                                            text-[5vw] sm:text-[4vw] xl:text-[1.4vw]
+
+                                            cursor-pointer
+                                            transition-transform duration-150 ease-out
+                                            hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)]
+                                            hover:-translate-y-1 hover:scale-105
+                                            disabled:opacity-30 disabled:cursor-not-allowed
+                                            "
+                                        >
+                                            <FaChevronDown />
+                                        </button>
+                                    </div>
+                                </div>
+
                                 <div className="
                                     /* Layout */
                                     bg-folly h-[0.5vw] xl:h-[0.2vw] mt-[4vw] xl:mt-[0.5vw] mb-[2vw] xl:mb-[0.5vw] w-[70vw] xl:w-[24vw]

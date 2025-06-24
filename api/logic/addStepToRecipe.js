@@ -1,7 +1,6 @@
 import { User, Recipe } from '../data/models.js'
-
 import { validate, errors } from 'com'
-const { NotFoundError, SystemError } = errors
+const { NotFoundError, SystemError, OwnershipError } = errors
 
 const addStepToRecipe = (userId, recipeId, text, note, image) => {
     validate.id(userId, 'userId')
@@ -9,8 +8,6 @@ const addStepToRecipe = (userId, recipeId, text, note, image) => {
     validate.text(text)
     if (note) validate.note(note)
     if (image) validate.image(image)
-
-    const step = { text, note, image }
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -22,15 +19,20 @@ const addStepToRecipe = (userId, recipeId, text, note, image) => {
                 .then(recipe => {
                     if (!recipe) throw new NotFoundError('recipe not found')
 
+                    if (recipe.author.toString() !== userId)
+                        throw new OwnershipError('user is not author of recipe')
+
+                    const newOrder = recipe.steps.length
+
+                    const step = { text, note, image, order: newOrder }
+
                     recipe.steps.push(step)
 
                     return recipe.save()
                         .catch(error => { throw new SystemError(error.message) })
                 })
         })
-        .then(recipe => {
-            return recipe.steps[recipe.steps.length - 1]._id.toString()
-        })
+        .then(recipe => recipe.steps[recipe.steps.length - 1]._id.toString())
 }
 
 export default addStepToRecipe
