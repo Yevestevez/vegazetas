@@ -4,8 +4,7 @@ import { useParams } from 'react-router-dom'
 import { MdDelete } from "react-icons/md"
 import { MdSave } from "react-icons/md"
 import { MdRemoveRedEye } from "react-icons/md"
-import { FaChevronUp } from "react-icons/fa"
-import { FaChevronLeft } from "react-icons/fa"
+import { FaChevronUp, FaChevronDown, FaChevronLeft } from "react-icons/fa"
 
 import Header from '../common/Header'
 
@@ -373,6 +372,70 @@ function SaveRecipe({
                 }
             }
         })
+    }
+
+    const handleMoveStepUp = (event, stepId) => {
+        event.preventDefault()
+
+        const stepIndex = recipe.steps.findIndex(step => step.id === stepId)
+        if (stepIndex > 0) {
+            try {
+                logic.reorderStep(recipe.id, stepId, 'up')
+                    .then(() => {
+                        setRecipe(prevRecipe => {
+                            const newSteps = [...prevRecipe.steps]
+
+                            const temp = newSteps[stepIndex]
+                            newSteps[stepIndex] = newSteps[stepIndex - 1]
+                            newSteps[stepIndex - 1] = temp
+
+                            return {
+                                ...prevRecipe,
+                                steps: newSteps
+                            };
+                        });
+                    })
+                    .catch(error => {
+                        alert(error.message)
+                        console.error(error)
+                    });
+            } catch (error) {
+                alert(error.message)
+                console.error(error)
+            }
+        }
+    }
+
+    const handleMoveStepDown = (event, stepId) => {
+        event.preventDefault()
+
+        const stepIndex = recipe.steps.findIndex(step => step.id === stepId)
+        if (stepIndex < recipe.steps.length - 1) {
+            try {
+                logic.reorderStep(recipe.id, stepId, 'down')
+                    .then(() => {
+                        setRecipe(prevRecipe => {
+                            const newSteps = [...prevRecipe.steps]
+
+                            const temp = newSteps[stepIndex]
+                            newSteps[stepIndex] = newSteps[stepIndex + 1]
+                            newSteps[stepIndex + 1] = temp
+
+                            return {
+                                ...prevRecipe,
+                                steps: newSteps
+                            };
+                        });
+                    })
+                    .catch(error => {
+                        alert(error.message)
+                        console.error(error)
+                    });
+            } catch (error) {
+                alert(error.message)
+                console.error(error)
+            }
+        }
     }
 
     const handleSaveRecipeBackButton = (event) => {
@@ -1040,6 +1103,23 @@ function SaveRecipe({
                                 " type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>
                                     <MdDelete />
                                 </button>
+
+                                <button
+                                    onClick={(event) => handleMoveStepUp(event, step.id)}
+                                    disabled={index === 0}
+                                    className="p-1 text-gray-600 hover:text-gray-800 disabled:text-gray-400 cursor-pointer"
+                                >
+                                    <FaChevronUp />
+                                </button>
+                                <button
+                                    onClick={(event) => handleMoveStepDown(event, step.id)}
+                                    disabled={index === recipe.steps.length - 1}
+                                    className="p-1 text-gray-600 hover:text-gray-800 disabled:text-gray-400 cursor-pointer"
+                                >
+                                    <FaChevronDown />
+                                </button>
+
+
                                 <div className="
                                     /* Layout */
                                     bg-folly h-[0.5vw] xl:h-[0.2vw] mt-[4vw] xl:mt-[0.5vw] mb-[2vw] xl:mb-[0.5vw] w-[70vw] xl:w-[24vw]
