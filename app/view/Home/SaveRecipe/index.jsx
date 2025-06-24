@@ -354,7 +354,12 @@ function SaveRecipe({
                         .then(() => {
                             setRecipe(prevRecipe => ({
                                 ...prevRecipe,
-                                steps: prevRecipe.steps.filter(step => step.id !== stepId)
+                                steps: prevRecipe.steps
+                                    .filter(step => step.id !== stepId)
+                                    .map((step, index) => ({
+                                        ...step,
+                                        order: index
+                                    }))
                             }))
                         })
                         .catch(error => {
