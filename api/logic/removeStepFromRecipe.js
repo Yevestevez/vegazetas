@@ -29,6 +29,11 @@ const removeStepFromRecipe = (userId, recipeId, stepId) => {
 
             steps.splice(index, 1)
 
+            // Reordenar los pasos restantes
+            steps.forEach((step, newIndex) => {
+                step.order = newIndex
+            })
+
             return recipe.save()
                 .catch(error => { throw new SystemError(error.message) })
         })
