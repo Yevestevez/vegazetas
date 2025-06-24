@@ -50,12 +50,6 @@ const validate = {
         if (title.length < 1 || title.length > 50) throw new ValidationError('invalid title length, must be between 1 and 50 characters')
     },
 
-    // images(images) {
-    //     if (!Array.isArray(images)) throw new ValidationError('invalid images type, must be an array')
-    //     if (images.length > 3) throw new ValidationError('too many images (max 2)')
-    //     if (images.some(image => typeof image !== 'string' || !URL_REGEX.test(image))) throw new ValidationError('invalid images syntax, must be a valid URL')
-    // },
-
     image(image) {
         if (typeof image !== 'string') throw new ValidationError('invalid image type, must be a string')
         if (!URL_REGEX.test(image)) throw new ValidationError('invalid image syntax, must be a valid URL')
@@ -77,26 +71,9 @@ const validate = {
         if (!['easy', 'medium', 'difficult'].includes(difficulty)) throw new ValidationError('invalid difficulty (must be easy, medium or difficult)')
     },
 
-    // tags(tags) {
-    //     if (!Array.isArray(tags)) throw new ValidationError('invalid tags type, must be an array')
-    //     if (tags.length > 20) throw new ValidationError('too many tags (max 20)')
-    //     if (tags.some(tag => typeof tag !== 'string' || tag.length < 1 || tag.length > 20)) throw new ValidationError('each tag must be a string between 1 and 20 characters')
-    // },
-
     tag(tag) {
         if (typeof tag !== 'string' || tag.length < 1 || tag.length > 30) throw new ValidationError('each tag must have between 1 and 20 characters')
     },
-
-    // ingredients(ingredients) {
-    //     if (!Array.isArray(ingredients)) throw new ValidationError('invalid ingredients type, must be an array')
-    //     if (ingredients.length > 30) throw new ValidationError('too many ingredients (max 30)')
-    //     if (ingredients.length < 1) throw new ValidationError('there must be at least one ingredient')
-    // },
-
-    // steps(steps) {
-    //     if (!Array.isArray(steps)) throw new ValidationError('invalid steps type, must be an array')
-    //     if (steps.length > 20) throw new ValidationError('too many steps (max 20)')
-    // },
 
     // Step
     text(text) {
@@ -107,6 +84,11 @@ const validate = {
     note(note) {
         if (typeof note !== 'string') throw new ValidationError('invalid note type, must be a string')
         if (note.length < 1 || note.length > 500) throw new ValidationError('invalid note length, must be between 1 and 500 characters')
+    },
+
+    direction(direction) {
+        if (direction !== 'up' && direction !== 'down')
+            throw new Error('direction must be "up" or "down"')
     },
 
     // Ingredient
