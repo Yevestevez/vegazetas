@@ -17,9 +17,9 @@ describe('authenticateUser', () => {
     beforeEach(() => User.deleteMany())
 
     it('succeeds on existing user', () => {
-        return bcrypt.hash('123123123', 10)
+        return bcrypt.hash('a123123123', 10)
             .then(hash => User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: hash }))
-            .then(() => authenticateUser('ana@perez.com', '123123123'))
+            .then(() => authenticateUser('ana@perez.com', 'a123123123'))
             .then(userId => {
                 expect(userId).to.be.a('string').with.lengthOf(24)
 
@@ -28,7 +28,7 @@ describe('authenticateUser', () => {
             .then(user => {
                 expect(user.email).to.equal('ana@perez.com')
 
-                return bcrypt.compare('123123123', user.password)
+                return bcrypt.compare('a123123123', user.password)
             })
             .then(match => expect(match).to.be.true)
     })
@@ -36,9 +36,9 @@ describe('authenticateUser', () => {
     it('fails on wrong email', () => {
         let catchedError
 
-        return bcrypt.hash('123123123', 10)
+        return bcrypt.hash('a123123123', 10)
             .then(hash => User.create({ name: 'Eduardo Yeves', email: 'eduardo@yeves.com', username: 'eduardoyeves', password: hash }))
-            .then(() => authenticateUser('edu@yeves.com', '123123123'))
+            .then(() => authenticateUser('edu@yeves.com', 'a123123123'))
             .catch(error => catchedError = error)
             .finally(() => {
                 expect(catchedError).instanceOf(CredentialsError)
@@ -49,9 +49,9 @@ describe('authenticateUser', () => {
     it('fails on wrong password', () => {
         let catchedError
 
-        return bcrypt.hash('123123123', 10)
+        return bcrypt.hash('a123123123', 10)
             .then(hash => User.create({ name: 'Harry Potter', email: 'harry@potter.com', username: 'harrypotter', password: hash }))
-            .then(() => authenticateUser('harry@potter.com', '123123123X'))
+            .then(() => authenticateUser('harry@potter.com', 'a123123123X'))
             .catch(error => catchedError = error)
             .finally(() => {
                 expect(catchedError).instanceOf(CredentialsError)
