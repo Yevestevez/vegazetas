@@ -36,7 +36,7 @@ router.delete('/:recipeId/ingredients/:ingredientId', removeIngredientFromRecipe
 
 router.post('/:recipeId/steps', jsonBodyParser, addStepToRecipeHandler)
 router.delete('/:recipeId/steps/:stepId', removeStepFromRecipeHandler)
-router.patch('/:recipeId/steps/:stepId', jsonBodyParser, reorderStepHandler)
+router.patch('/:recipeId/steps/:stepId/reorder', jsonBodyParser, reorderStepHandler)
 
 router.post('/:recipeId/images', jsonBodyParser, addImageToRecipeHandler)
 router.delete('/:recipeId/images/:index', removeImageFromRecipeHandler)

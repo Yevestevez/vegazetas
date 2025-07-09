@@ -9,7 +9,7 @@ const reorderStep = (
     validate.id(stepId, 'stepId')
     validate.direction(direction)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/steps/${stepId}`, {
+    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/steps/${stepId}/reorder`, {
         method: 'PATCH',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,
