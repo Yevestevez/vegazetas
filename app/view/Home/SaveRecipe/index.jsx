@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams } from 'react-router-dom'
 
-import { MdDelete } from "react-icons/md"
+import {MdDelete, MdEdit, MdClose} from "react-icons/md"
 import { MdSave } from "react-icons/md"
 import { MdRemoveRedEye } from "react-icons/md"
 import { FaChevronUp, FaChevronDown, FaChevronLeft } from "react-icons/fa"
@@ -30,6 +30,8 @@ function SaveRecipe({
 
         loadRecipe(recipeId)
     }, [recipeId])
+
+   const [editStep, setEditStep] = useState(null)
 
     // Efecto para ajustar la altura de los textareas
     useEffect(() => {
@@ -341,6 +343,55 @@ function SaveRecipe({
                 alert(error.message)
                 console.error(error)
             })
+    }
+
+    const handleEditStepFormSubmit = (event) => {
+        event.preventDefault()
+
+        console.log('submit handler triggered')
+
+        const stepId = editStep
+
+        const form = event.target
+
+        const text = form.text.value.trim()
+        const note = form.note.value.trim() || undefined
+        const image = form.image.value.trim() || undefined
+
+        if (!text) {
+            alert('El paso debe tener instrucciones')
+            return
+        }
+
+        confirm('¿Quieres guardar los cambios en este paso?', accepted => {
+            console.log('CONFIRM accepted:', accepted)
+
+            if (!accepted) return
+
+            try {
+                logic.updateStep(recipe.id, stepId, text, note, image)
+                    .then(() => {
+                        setRecipe(prevRecipe => ({
+                            ...prevRecipe,
+                            steps: prevRecipe.steps.map(step =>
+                                step.id === stepId
+                                    ? { ...step, text, note, image }
+                                    : step
+                            )
+                        }))
+
+                        setEditStep(null)
+                        //form.reset()
+                    })
+                    .catch(error => {
+                        alert(error.message)
+                        console.error(error)
+                    })
+            } catch (error) {
+                alert(error.message)
+                console.error(error)
+            }
+        })
     }
 
     const handleDeleteStepButton = (event, stepId) => {
@@ -1055,7 +1106,7 @@ function SaveRecipe({
                 </form>
 
                 {/* ===== FORMULARIO DE PASOS ===== */}
-                <form className="
+                <div className="
                     /* Layout */
                     flex flex-col items-center
                     w-[80vw] xl:w-[28vw]
@@ -1069,7 +1120,7 @@ function SaveRecipe({
                     drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)]
                     sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
                     xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
-                " onSubmit={handleStepFormSubmit}>
+                    ">
                     <h2 className="
                         /* Tipografía */
                         anybody-title text-folly pt-[3vw] xl:pt-[2vw] xl:pb-[1vw]
@@ -1089,21 +1140,79 @@ function SaveRecipe({
                                     /* Tipografía */
                                     anybody-logo text-[5vw] xl:text-[1.6vw]
                                 ">{index + 1}</h3>
-                                <div className="text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1.2vw]/[120%]"><strong>{step.text}</strong></div>
-                                {step.note && <div className="italic text-[3.5vw]/[120%] sm:text-[3vw]/[120%] xl:text-[1vw]/[120%]">{step.note}</div>}
-                                {step.image && <img src={step.image} alt={`Image ${index + 1}`} className="pt-[3vw] xl:pt-[1vw]" />}
+
+                                {editStep === step.id ? (
+                                    <form
+                                        onSubmit={handleEditStepFormSubmit}
+                                        className="flex flex-col gap-[3vw] xl:gap-[1vw] mt-[3vw] xl:mt-[1vw]"
+                                    >
+                                        <input
+                                            name="text"
+                                            type="text"
+                                            defaultValue={step.text}
+                                            placeholder="Texto del paso"
+                                            className="text-[4vw] sm:text-[3vw] xl:text-[1vw] p-2 border rounded"
+                                            required
+                                        />
+
+                                        <textarea
+                                            name="note"
+                                            defaultValue={step.note}
+                                            placeholder="Nota (opcional)"
+                                            className="italic text-[3.5vw] sm:text-[3vw] xl:text-[1vw] p-2 border rounded"
+                                            rows={3}
+                                        />
+
+                                        <input
+                                            name="image"
+                                            type="url"
+                                            defaultValue={step.image}
+                                            placeholder="URL de la imagen (opcional)"
+                                            className="text-[3.5vw] sm:text-[3vw] xl:text-[1vw] p-2 border rounded"
+                                        />
+
+                                        <div className="flex gap-[4vw] xl:gap-[1vw] mt-[2vw] xl:mt-[0.5vw]">
+                                            <button
+                                                type="submit"
+                                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-[3.5vw] xl:text-[1vw]"
+                                            >
+                                                Guardar
+                                            </button>
+                                        </div>
+                                    </form>
+                                ) : (
+                                    <>
+                                        <div className="text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1.2vw]/[120%]">
+                                            <strong>{step.text}</strong>
+                                        </div>
+                                        {step.note && (
+                                            <div className="italic text-[3.5vw]/[120%] sm:text-[3vw]/[120%] xl:text-[1vw]/[120%]">
+                                                {step.note}
+                                            </div>
+                                        )}
+                                        {step.image && (
+                                            <img
+                                                src={step.image}
+                                                alt={`Image ${index + 1}`}
+                                                className="pt-[3vw] xl:pt-[1vw]"
+                                            />
+                                        )}
+                                    </>
+                                )}
 
                                 <div className="flex flex-row items-center justify-center gap-[3vw] xl:gap-[1vw] w-full">
-                                    <button className="
-                                        /* Tipografía */
-                                        text-[6vw] sm:text-[5vw] xl:text-[1.4vw] mt-[3vw] xl:mt-[0.5vw]
-
-                                        cursor-pointer
-                                        transition-transform duration-150 ease-out
-                                        hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)]
-                                        hover:-translate-y-1 hover:scale-105
-                                    " type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>
-                                        <MdDelete />
+                                    <button
+                                        className="
+                                            text-[6vw] sm:text-[5vw] xl:text-[1.4vw] mt-[3vw] xl:mt-[0.5vw]
+                                            cursor-pointer
+                                            transition-transform duration-150 ease-out
+                                            hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)]
+                                            hover:-translate-y-1 hover:scale-105
+  "
+                                        type="button"
+                                        onClick={() => setEditStep(editStep === step.id ? null : step.id)}
+                                    >
+                                        {editStep === step.id ? <MdClose /> : <MdEdit />}
                                     </button>
 
                                     <div className="flex flex-row items-center justify-center gap-[1.5vw] xl:gap-[0.5vw] bg-folly text-spring-bud px-[2vw] py-[1vw] xl:px-[0.5vw] xl:py-[0.3vw] mt-[3vw] xl:mt-[0.5vw] rounded-full">
@@ -1138,6 +1247,18 @@ function SaveRecipe({
                                             <FaChevronDown />
                                         </button>
                                     </div>
+
+                                    <button className="
+                                        /* Tipografía */
+                                        text-[6vw] sm:text-[5vw] xl:text-[1.4vw] mt-[3vw] xl:mt-[0.5vw]
+
+                                        cursor-pointer
+                                        transition-transform duration-150 ease-out
+                                        hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)]
+                                        hover:-translate-y-1 hover:scale-105
+                                    " type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}>
+                                        <MdDelete />
+                                    </button>
                                 </div>
 
                                 <div className="
@@ -1149,7 +1270,9 @@ function SaveRecipe({
                     </ul>
 
                     {/* Nuevo paso */}
-                    <div className="
+                    <form
+                        onSubmit={handleStepFormSubmit}
+                        className="
                         /* Layout */
                         flex flex-col py-[5vw] xl:py-[2vw] gap-[3vw] xl:gap-[0vw] w-[70vw] xl:w-[24vw] mt-[6vw] xl:mt-[1vw] mb-[1vw] xl:mb-[2.5vw]
                         bg-folly
@@ -1163,7 +1286,7 @@ function SaveRecipe({
                         ">Nuevo Paso</h3>
 
                         {/* inputs de nuevo paso */}
-                        <div className="flex flex-col w-full items-center gap-[6vw] xl:gap-[2vw]">
+                        <div className="flex flex-col w-full items-center gap-[6vw] xl:gap-[2vw]" >
                             <label className={`${labelClasses} text-spring-bud`} htmlFor="text">Instrucciones*</label>
                             <textarea
                                 className="
@@ -1231,8 +1354,8 @@ function SaveRecipe({
                             />
                         </div>
                         <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%] mt-[2vw]`} type="submit"><MdSave /></button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </main>
 
             {/* buttons */}
