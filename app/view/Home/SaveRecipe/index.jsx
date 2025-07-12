@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import {MdDelete, MdEdit, MdClose} from "react-icons/md"
-import { MdSave } from "react-icons/md"
-import { MdRemoveRedEye } from "react-icons/md"
-import { FaChevronUp, FaChevronDown, FaChevronLeft } from "react-icons/fa"
+import { MdDelete, MdEdit, MdSave, MdRemoveRedEye } from 'react-icons/md'
+import { FaChevronUp, FaChevronDown, FaChevronLeft } from 'react-icons/fa'
+import { IoMdCloseCircle } from 'react-icons/io'
 
 import Header from '../common/Header'
 
@@ -1144,41 +1143,80 @@ function SaveRecipe({
                                 {editStep === step.id ? (
                                     <form
                                         onSubmit={handleEditStepFormSubmit}
-                                        className="flex flex-col gap-[3vw] xl:gap-[1vw] mt-[3vw] xl:mt-[1vw]"
+                                        className="flex flex-col w-full items-center gap-[6vw] xl:gap-[2vw]"
                                     >
-                                        <input
+                                        <label className={`${labelClasses} text-folly`} htmlFor="text">Instrucciones*</label>
+                                        <textarea
                                             name="text"
-                                            type="text"
                                             defaultValue={step.text}
-                                            placeholder="Texto del paso"
-                                            className="text-[4vw] sm:text-[3vw] xl:text-[1vw] p-2 border rounded"
+                                            className="
+                                                flex items-center justify-center rounded-2xl min-h-auto resize-none
+                                                w-[60vw] xl:w-[20vw]
+                                                p-[4vw] xl:p-[1vw]
+
+                                                focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.25vw]
+                                                anybody text-center placeholder:italic
+                                                text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1vw]/[120%]
+                                                placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[1vw]/[120%]
+                                                bg-folly text-spring-bud
+                                                focus:bg-spring-bud focus:text-folly focus:outline-folly
+
+                                                drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                                                sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                                                xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
+                                            "
+                                            placeholder="Añade las instrucciones del paso"
+                                            maxLength={800}
+                                            title="Máximo 800 caracteres"
+                                            onInput={(e) => {
+                                                e.target.style.height = 'auto';
+                                                e.target.style.height = e.target.scrollHeight + 'px';
+                                            }}
+                                            wrap="soft"
                                             required
                                         />
 
+                                        <label className={`${labelClasses} text-folly`} htmlFor="note">Nota</label>
                                         <textarea
                                             name="note"
                                             defaultValue={step.note}
-                                            placeholder="Nota (opcional)"
-                                            className="italic text-[3.5vw] sm:text-[3vw] xl:text-[1vw] p-2 border rounded"
-                                            rows={3}
+                                            className="
+                                                flex items-center justify-center rounded-2xl min-h-auto resize-none
+                                                w-[60vw] xl:w-[20vw]
+                                                p-[4vw] xl:p-[1vw]
+
+                                                focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.25vw]
+                                                anybody text-center placeholder:italic
+                                                text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1vw]/[120%]
+                                                placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[1vw]/[120%]
+                                                bg-folly text-spring-bud
+                                                focus:bg-spring-bud focus:text-folly focus:outline-folly
+
+                                                drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                                                sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
+                                                xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
+                                            "
+                                            placeholder="¿Necesitas aclarar algo?"
+                                            maxLength={500}
+                                            title="Máximo 500 caracteres"
+                                            onInput={(e) => {
+                                                e.target.style.height = 'auto';
+                                                e.target.style.height = e.target.scrollHeight + 'px';
+                                            }}
+                                            wrap="soft"
                                         />
 
+                                        <label className={`${labelClasses} text-folly`} htmlFor="image">Imagen</label>
                                         <input
                                             name="image"
                                             type="url"
                                             defaultValue={step.image}
-                                            placeholder="URL de la imagen (opcional)"
-                                            className="text-[3.5vw] sm:text-[3vw] xl:text-[1vw] p-2 border rounded"
+                                            placeholder="Pega aquí la url de la imagen"
+                                            title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
+                                            className={`${inputClasses} w-[60vw] xl:w-[20vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
                                         />
 
-                                        <div className="flex gap-[4vw] xl:gap-[1vw] mt-[2vw] xl:mt-[0.5vw]">
-                                            <button
-                                                type="submit"
-                                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-[3.5vw] xl:text-[1vw]"
-                                            >
-                                                Guardar
-                                            </button>
-                                        </div>
+                                        <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%] mt-[2vw]`} type="submit"><MdSave /></button>
                                     </form>
                                 ) : (
                                     <>
@@ -1212,7 +1250,7 @@ function SaveRecipe({
                                         type="button"
                                         onClick={() => setEditStep(editStep === step.id ? null : step.id)}
                                     >
-                                        {editStep === step.id ? <MdClose /> : <MdEdit />}
+                                        {editStep === step.id ? <IoMdCloseCircle /> : <MdEdit />}
                                     </button>
 
                                     <div className="flex flex-row items-center justify-center gap-[1.5vw] xl:gap-[0.5vw] bg-folly text-spring-bud px-[2vw] py-[1vw] xl:px-[0.5vw] xl:py-[0.3vw] mt-[3vw] xl:mt-[0.5vw] rounded-full">
