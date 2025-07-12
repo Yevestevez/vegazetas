@@ -24,7 +24,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
     ">
         <button className="
             /* Layout */
-            relative flex items-center justify-center
+            relative flex items-center justify-center cursor-pointer
         " type="button" onClick={handleRecipeThumbnailClick}>
             <h2 className="
                 /* Layout */
