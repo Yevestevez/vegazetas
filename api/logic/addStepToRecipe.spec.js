@@ -19,7 +19,7 @@ describe('addStepToRecipe', () => {
     it('succeeds on existing user and recipe', () => {
         let addedStepId
 
-        return User.create({ name: 'Draco Malfoy', email: 'draco@malfoy.com', username: 'dracomalfoy', password: '123123123' })
+        return User.create({ name: 'Draco Malfoy', email: 'draco@malfoy.com', username: 'dracomalfoy', password: 'a123123123' })
             .then(user => {
                 return Recipe.create({
                     author: user.id,
@@ -57,10 +57,45 @@ describe('addStepToRecipe', () => {
             })
     })
 
+    it('assigns correct order when adding multiple steps', () => {
+        let userId, recipeId
+
+        return User.create({ name: 'Neville Longbottom', email: 'neville@hogwarts.com', username: 'neville', password: 'a123123123' })
+            .then(user => {
+                userId = user._id.toString()
+                return Recipe.create({
+                    author: userId,
+                    title: 'Clase de Herbología',
+                    images: [],
+                    description: 'Cómo cuidar plantas mágicas',
+                    time: 45,
+                    difficulty: 'easy',
+                    tags: ['herbología', 'plantas']
+                })
+            })
+            .then(recipe => {
+                recipeId = recipe._id.toString()
+
+                return addStepToRecipe(userId, recipeId, 'Coger una mandrágora', '', '')
+            })
+            .then(() => addStepToRecipe(userId, recipeId, 'Ponerse orejeras', '', ''))
+            .then(() => addStepToRecipe(userId, recipeId, 'Trasplantarla', '', ''))
+            .then(() => Recipe.findById(recipeId))
+            .then(recipe => {
+                expect(recipe.steps).to.have.lengthOf(3)
+
+                expect(recipe.steps[0].order).to.equal(0)
+                expect(recipe.steps[1].order).to.equal(1)
+                expect(recipe.steps[2].order).to.equal(2)
+
+                expect(recipe.steps[1].text).to.equal('Ponerse orejeras')
+            })
+    })
+
     it('fails on wrong user', () => {
         let catchedError
 
-        return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
+        return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: 'a123123123' })
             .then(user => {
                 return Recipe.create({
                     author: user.id,
@@ -85,7 +120,7 @@ describe('addStepToRecipe', () => {
     it('fails on wrong recipe', () => {
         let catchedError
 
-        return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
+        return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: 'a123123123' })
             .then(user => {
                 return Recipe.create({
                     author: user.id,

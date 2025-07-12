@@ -14,11 +14,9 @@ const createRecipe = (
 ) => {
     validate.id(userId, 'userId')
     validate.title(title)
-    if (images) validate.images(images)
     if (description) validate.description(description)
     if (time) validate.time(time)
     if (difficulty) validate.difficulty(difficulty)
-    if (tags) validate.tags(tags)
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })

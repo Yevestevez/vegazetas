@@ -68,6 +68,50 @@ describe('removeStepFromRecipe', () => {
             })
     })
 
+    it('reorders remaining steps after one is removed', () => {
+        let step0, step1, step2
+        let userId, recipeId
+
+        return User.create({ name: 'Hermione Granger', email: 'hermione@hogwarts.com', username: 'hermione', password: '123123123' })
+            .then(user => {
+                userId = user._id.toString()
+
+                return Recipe.create({
+                    author: userId,
+                    title: 'Poción multijugos',
+                    images: [],
+                    description: 'Transformación temporal en otra persona',
+                    time: 90,
+                    difficulty: 'difficult',
+                    tags: ['poción', 'transformación'],
+                    steps: [
+                        { text: 'Picar ingredientes', note: '', image: '' },
+                        { text: 'Añadir mandrágora', note: '', image: '' },
+                        { text: 'Remover durante 30 min', note: '', image: '' }
+                    ]
+                })
+            })
+            .then(recipe => {
+                recipeId = recipe._id.toString()
+                step0 = recipe.steps[0]
+                step1 = recipe.steps[1]
+                step2 = recipe.steps[2]
+
+                return removeStepFromRecipe(userId, recipeId, step1._id.toString())
+            })
+            .then(() => Recipe.findById(recipeId))
+            .then(recipe => {
+                expect(recipe.steps).to.have.lengthOf(2)
+
+                // Reordenado correctamente
+                expect(recipe.steps[0]._id.toString()).to.equal(step0._id.toString())
+                expect(recipe.steps[0].order).to.equal(0)
+
+                expect(recipe.steps[1]._id.toString()).to.equal(step2._id.toString())
+                expect(recipe.steps[1].order).to.equal(1)
+            })
+    })
+
     it('fails on wrong user', () => {
         let catchedError
         let step

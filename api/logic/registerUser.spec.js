@@ -17,7 +17,7 @@ describe('registerUser', () => {
     beforeEach(() => User.deleteMany())
 
     it('succeeds on new user', () => {
-        return registerUser('Ana Pérez', 'ana@perez.com', 'anaperez', '123123123')
+        return registerUser('Ana Pérez', 'ana@perez.com', 'anaperez', 'a123123123')
             .then(result => {
                 expect(result).to.be.undefined
 
@@ -28,7 +28,7 @@ describe('registerUser', () => {
                 expect(user.email).to.equal('ana@perez.com')
                 expect(user.username).to.equal('anaperez')
 
-                return bcrypt.compare('123123123', user.password)
+                return bcrypt.compare('a123123123', user.password)
                     .then(match => expect(match).to.be.true)
             })
     })
@@ -36,10 +36,10 @@ describe('registerUser', () => {
     it('fails on existing user', () => {
         let catchedError
 
-        return bcrypt.hash('123123123', 10)
+        return bcrypt.hash('a123123123', 10)
             .then(hash => {
-                return User.create({ name: 'Eduardo Yeves', email: 'eduardo@yeves.com', username: 'eduardoyeves', password: '123123123' })
-                    .then(() => registerUser('Eduardo Yeves', 'eduardo@yeves.com', 'eduardoyeves', '123123123'))
+                return User.create({ name: 'Eduardo Yeves', email: 'eduardo@yeves.com', username: 'eduardoyeves', password: 'a123123123' })
+                    .then(() => registerUser('Eduardo Yeves', 'eduardo@yeves.com', 'eduardoyeves', 'a123123123'))
                     .catch(error => catchedError = error)
                     .finally(() => {
                         expect(catchedError).to.be.instanceOf(DuplicityError)

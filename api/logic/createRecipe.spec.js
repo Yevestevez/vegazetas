@@ -19,7 +19,7 @@ describe('createRecipe', () => {
     it('succeeds on existing user', () => {
         let newRecipeId
 
-        return User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: '123123123' })
+        return User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: 'a123123123' })
             .then(user => {
                 return createRecipe(
                     user._id.toString(),
@@ -54,7 +54,7 @@ describe('createRecipe', () => {
     it('fails on wrong user', () => {
         let catchedError
 
-        return User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: '123123123' })
+        return User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: 'a123123123' })
             .then(user => {
                 return createRecipe(
                     new ObjectId().toString(),
