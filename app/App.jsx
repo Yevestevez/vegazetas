@@ -30,17 +30,20 @@ function App() {
     const handlePasswordReseted = () => setView('login')
 
     // alert y confirm
-    const [alertMessage, setAlertMessage] = useState('')
+    const [alertMessage, setAlertMessage] = useState(null)
     const [confirmMessage, setConfirmMessage] = useState('')
-    const alert = message => {
-        setAlertMessage(message)
-        return () => setAlertMessage('')
+    const alert = (message, options = {}) => {
+        setAlertMessage({
+            text: message,
+            isWakingServer: options.isWakingServer || false,
+        })
+        return () => setAlertMessage(null)
     }
     const confirm = (message, callback) => {
         setConfirmMessage(message)
         App.confirmCallback = callback
     }
-    const handleAcceptAlert = () => setAlertMessage('')
+    const handleAcceptAlert = () => setAlertMessage(null)
     const handleAcceptConfirm = () => {
         App.confirmCallback(true)
 
@@ -101,7 +104,13 @@ function App() {
             } />
         </Routes>
 
-        {alertMessage && <Alert message={alertMessage} onAccept={handleAcceptAlert} />}
+        {alertMessage && (
+            <Alert
+                message={alertMessage.text}
+                isWakingServer={alertMessage.isWakingServer}
+                onAccept={handleAcceptAlert} />
+        )}
+
         {confirmMessage && <Confirm message={confirmMessage} onAccept={handleAcceptConfirm} onCancel={handleCancelConfirm} />}
     </AppContext.Provider >
 }
