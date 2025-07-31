@@ -28,7 +28,7 @@ mongoose.connect(uri)
             let updated = false
 
             recipe.steps = recipe.steps.map((step, index) => {
-                // El objeto step es un Subdocument, no siempre tiene toObject() si accedes directo
+                // El objeto step es un subdocumento, no siempre tiene toObject() si accedemos directamente
                 // Para evitar problemas, usamos una copia manual:
                 if (step.order === undefined) {
                     updated = true

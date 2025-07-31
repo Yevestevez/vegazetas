@@ -9,7 +9,7 @@ function PasswordInput({
                            pattern,
                            title,
                            className,
-                           theme = 'register' // tema por defecto
+                           theme = 'register'
                        }) {
     const [showPassword, setShowPassword] = useState(false)
 
@@ -64,14 +64,10 @@ function PasswordInput({
         <div className={`relative ${className}`}>
             <input
                 className={`
-                    peer
-                    /* Layout y tamaño base */
-                    flex items-center justify-center rounded-full
-                    p-[4vw] xl:p-[2vw] mb-[2vw]
-                    pr-[12vw] xl:pr-[6vw]
+                    peer flex items-center justify-center rounded-full
+                    p-[4vw] xl:p-[2vw] pr-[12vw] xl:pr-[6vw] mb-[2vw]
                     w-full h-[14vw] sm:h-[12vw] lg:h-[10vw] xl:h-[6vw] 2xl:h-[5vw]
 
-                    /* Colores del tema */
                     ${currentTheme.input.bg} 
                     ${currentTheme.input.focusBg}
                     ${currentTheme.input.text} 
@@ -79,13 +75,10 @@ function PasswordInput({
                     ${currentTheme.input.outline}
                     focus:outline-5
 
-                    /* Estilos base */
                     anybody text-center text-[4.5vw] sm:text-[3.8vw] lg:text-[3.5vw] xl:text-[2vw]
                     min-w-0 truncate placeholder:italic
-                    drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
-                    md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                    lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-                    xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
+                    
+                    drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
                 `}
                 type={showPassword ? "text" : "password"}
                 value={value}
@@ -100,20 +93,13 @@ function PasswordInput({
                 type="button"
                 onClick={() => setShowPassword(prev => !prev)}
                 className={`
-                    /* Layout base */
-                    absolute right-[6vw] xl:right-[3vw] 
-                    top-[50%] -translate-y-[50%] xl:top-[40%] xl:-translate-y-[50%]
-                    cursor-pointer
+                    flex items-center justify-center absolute right-[6vw] xl:right-[3vw] top-[50%] -translate-y-[50%] xl:top-[40%] xl:-translate-y-[50%] cursor-pointer
                     
-                    /* Tamaño del icono */
                     text-[8vw] sm:text-[6vw] lg:text-[5vw] xl:text-[3vw]
-                    
-                    /* Contenedor del icono */
-                    flex items-center justify-center
+
                     w-[8vw] sm:w-[6vw] lg:w-[5vw] xl:w-[3vw]
                     h-[8vw] sm:h-[6vw] lg:h-[5vw] xl:h-[3vw]
             
-                    /* Colores del tema */
                     ${currentTheme.icon.text}
                     ${currentTheme.icon.focusText}
                     ${currentTheme.icon.hover}
@@ -126,6 +112,5 @@ function PasswordInput({
         </div>
     )
 }
-
 
 export default PasswordInput
