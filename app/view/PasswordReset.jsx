@@ -24,8 +24,9 @@ function PasswordReset({ onPasswordReseted }) {
                 let closeAlert
 
                 const loadingAlertTimeout = setTimeout(() => {
-                    closeAlert = alert('⏳ El servidor se está despertando, espera unos segundos...')
-                }, 2000)
+                    closeAlert = alert('El servidor está despertando... Solo espera mientras cambiamos tu contraseña', {
+                        isWakingServer: true,
+                    }) }, 2000)
 
                 try {
                     logic.passwordReset(token,newPassword)
