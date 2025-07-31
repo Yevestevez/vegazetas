@@ -72,7 +72,7 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                 let closeAlert
 
                 const loadingAlertTimeout = setTimeout(() => {
-                    closeAlert = alert('El servidor está despertando... Solo espera y te enviaremos un correo con las instrucciones.', {
+                    closeAlert = alert('El servidor está despertando... Solo espera y te enviamos un correo con instrucciones.', {
                         isWakingServer: true,
                     })
                 }, 2000)
