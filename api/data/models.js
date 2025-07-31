@@ -100,7 +100,7 @@ const recipe = new Schema({
 })
 
 const User = model('User', user)
-const Ingredient = model('Ingrediente', ingredient)
+const Ingredient = model('Ingredient', ingredient)
 const Step = model('Step', step)
 const Recipe = model('Recipe', recipe)
 
