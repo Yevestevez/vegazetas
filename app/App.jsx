@@ -79,8 +79,6 @@ function App() {
         }
     }, [view])
 
-    console.log('App -> render')
-
     return <AppContext.Provider value={{ alert, confirm }}>
         <Routes>
             <Route path="/landing" element={
