@@ -108,8 +108,6 @@ function Recipe({
       hover:-translate-y-1 hover:scale-105
     `
 
-    console.log('Recipe -> render')
-
     return <article className="flex flex-col min-h-screen w-full items-center xl:items-start pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0] overflow-hidden bg-hot-magenta">
         <Header
             onUserLoggedOut={handleUserLoggedOut}

@@ -1,4 +1,4 @@
-<img src="./images/vegazeta-logo.png" height="100">
+<img src="./images/vegazeta-logo.png" alt="Vegazetas logo" height="100">
 
 <br>
 
@@ -6,13 +6,13 @@
 
 ## Introducción
 
-**Vegazetas** es una aplicación web que permite **crear, visualizar, editar y eliminar recetas**. Tiene una interfaz muy colorida, llamativa y simple; y una experiencia de usuario cómoda y sencilla, tanto para crear las recetas como para visualizarlas mientas las preparas en la cocina.
+**Vegazetas** es una aplicación web (SPA) que permite **crear, visualizar, editar y eliminar recetas**. Tiene una interfaz muy colorida, llamativa y simple; y una experiencia de usuario cómoda y sencilla, tanto para crear las recetas como para visualizarlas mientas las preparas en la cocina.
 
-Para ello cuenta con varias secciones y funcionalidades. A nivel de acceso tiene una sección de **registro** e **inicio de sesión**. Una vez iniciada la sesión encontramos un **menú** de navegación entre las distintas secciones y el botón para **crear receta**.
+Para ello cuenta con varias secciones y funcionalidades. A nivel de acceso tiene una sección de **registro**, **inicio de sesión** y **recuperación de contraseña** vía envío al mail de un enlace. Una vez iniciada la sesión encontramos un **menú** de navegación entre las distintas secciones y el botón para **crear receta**.
 
-Dispone de la sección **Mis recetas**, una lista de vistas en miniaturas de las recetas del usuario y navegación directa a la **visualización de una receta** al seleccionarla. Dentro de la receta podemos eliminarla o navegar hacia la sección de edición de receta.
+Por ahora, dispone de la sección **Mis recetas**, una lista de vistas en miniaturas de las recetas del usuario y navegación directa a la **visualización de una receta** al seleccionarla. Dentro de la receta podemos eliminarla o navegar hacia la sección de edición de receta.
 
-En esta sección de **edición** podemos modificar los campos de la receta, además de elmiminar y añadir nuevas imágenes, etiquetas, ingredientes y pasos. Describiremos los campos de la receta de manera más detallada en [Data Model](#data-model).
+En esta sección de **edición** podemos modificar los campos de la receta, además de elmiminar y añadir nuevas imágenes, etiquetas, ingredientes y pasos. Los pasos se pueden editar y reordenar. Describiremos todos los campos de la receta de manera más detallada en [Data Model](#data-model).
 
 En **futuras versiones** se implementarán nuevas funcionalidades como:
 - Filtro de recetas por ingredientes, etiquetas y títulos
@@ -25,14 +25,12 @@ En **futuras versiones** se implementarán nuevas funcionalidades como:
 - Generación automática de una lista de la compra editable en función de los ingredientes de la receta
 - Calendario de planificación de menús
 - Modo cocina: botón para evitar que se apague la pantalla del móvil o tablet mientas cocinas
+- Modificación de raciones de una receta a gusto del usuario (x2, x3...)
 - Cambio del tamaño de letra en las recetas
-- App responsive
+- App completamente responsive (ya es responsive a nivel básico)
 - ¡Y mucho más!
 
 <br>
-
-![The Office Gif](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjd0ZGh0czA0MHJ3aTFlaDhmcjBtMmtsMjM4eWh6dHNsdTBwN296ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hKyroc5P7axuU/giphy.webp)
-
 
 ## Funcional
 
@@ -42,9 +40,12 @@ User
 
 - Registro
 - Inicio de sesión
+- Recuperación de contraseña vía mail
 - Cierre de sesión
-- Creación de receta
-- Edición de receta
+- Creación de recetas
+- Edición de recetas
+  - Edición y ordenación de pasos
+- Eliminación de recetas
 - Visualización de receta seleccionada
 - Visualización de "mis recetas"
 
@@ -96,7 +97,8 @@ User
 - id *(ObjectId)*
 - text *(string)*
 - note *(string)*
-- image *(string)* 
+- image *(string)*
+- order *(number)*
 
 **Recipe**
 - id *(ObjectId)*
@@ -118,6 +120,7 @@ App
  |- Landing
  |- Register
  |- Login
+ |- PasswordReset
  |- Home
     |- Menu
         |- Header (Menu)
@@ -139,9 +142,4 @@ App
 
 ### Cobertura
 
-![Code Coverage](./images/vegazetas-test-coverage.png)
-
-
-## Tareas
-
-[GitHub](https://github.com/b00tc4mp/isdi-parttime-202410/issues/45)
+![Code Coverage](./images/vegazetas-test-coverage-082025.jpg)

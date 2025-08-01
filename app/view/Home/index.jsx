@@ -95,8 +95,6 @@ function Home({ onUserLoggedOut }) {
         }
     }, [view, selectedRecipeId, location.pathname, navigate])
 
-    console.log('Home -> render')
-
     return <main>
         <Routes>
             <Route

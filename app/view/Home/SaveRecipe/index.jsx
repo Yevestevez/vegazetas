@@ -554,7 +554,14 @@ function SaveRecipe({
         hover:-translate-y-1 hover:scale-105
     `
 
-    console.log('CreateRecipe -> render')
+    const textareaClasses = `
+        flex items-center justify-center rounded-2xl min-h-auto resize-none box-border
+        anybody text-center placeholder:italic
+        text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1vw]/[120%]
+        placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[1vw]/[120%]
+        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
+        focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.25vw]
+    `
 
     return <section className="flex flex-col min-h-screen w-full items-center xl:items-start pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0] overflow-hidden bg-folly">
         <Header
@@ -588,16 +595,7 @@ function SaveRecipe({
 
                     <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Descripción</label>
                     <textarea
-                        className="
-                            w-full flex items-center justify-center p-[4vw] xl:p-[2vw] rounded-2xl min-h-auto resize-none
-                            focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.3vw]
-                            anybody text-center placeholder:italic
-                            text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1vw]/[120%]
-                            placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[1vw]/[120%]
-                            bg-spring-bud text-folly
-                            focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
-                            drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-                        "
+                        className={`${textareaClasses} w-full p-[4vw] xl:p-[2vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                         name="description"
                         placeholder="Describe tu receta ¡cuéntanos más!"
                         defaultValue={recipe.description}
@@ -895,16 +893,7 @@ function SaveRecipe({
                                         <textarea
                                             name="text"
                                             defaultValue={step.text}
-                                            className="
-                                                flex items-center justify-center rounded-2xl min-h-auto resize-none
-                                                w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw]
-                                                focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.25vw]
-                                                anybody text-center placeholder:italic
-                                                text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1vw]/[120%]
-                                                placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[1vw]/[120%]
-                                                bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly
-                                                drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-                                            "
+                                            className={`${textareaClasses} w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
                                             placeholder="Añade las instrucciones del paso"
                                             maxLength={800}
                                             title="Máximo 800 caracteres"
@@ -920,16 +909,7 @@ function SaveRecipe({
                                         <textarea
                                             name="note"
                                             defaultValue={step.note}
-                                            className="
-                                                flex items-center justify-center rounded-2xl min-h-auto resize-none
-                                                w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw]
-                                                focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.25vw]
-                                                anybody text-center placeholder:italic
-                                                text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1vw]/[120%]
-                                                placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[1vw]/[120%]
-                                                bg-folly text-spring-budfocus:bg-spring-bud focus:text-folly focus:outline-folly
-                                                drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-                                            "
+                                            className={`${textareaClasses} w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
                                             placeholder="¿Necesitas aclarar algo?"
                                             maxLength={500}
                                             title="Máximo 500 caracteres"
@@ -1040,16 +1020,7 @@ function SaveRecipe({
                         <div className="flex flex-col w-full items-center gap-[6vw] xl:gap-[2vw]" >
                             <label className={`${labelClasses} text-spring-bud`} htmlFor="text">Instrucciones*</label>
                             <textarea
-                                className="
-                                    flex items-center justify-center rounded-2xl min-h-auto resize-none
-                                    w-[60vw] xl:w-[20vw]  xl:p-[1vw]
-                                    focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.25vw]
-                                    anybody text-center placeholder:italic
-                                    text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1vw]/[120%]
-                                    placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[1vw]/[120%]
-                                    bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
-                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-                                "
+                                className={`${textareaClasses} w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                                 name="text"
                                 placeholder="Añade las instrucciones del paso"
                                 maxLength={800}
@@ -1063,16 +1034,7 @@ function SaveRecipe({
                             />
                             <label className={`${labelClasses} text-spring-bud`} htmlFor="note">Nota</label>
                             <textarea
-                                className="
-                                    flex items-center justify-center rounded-2xl min-h-auto resize-none
-                                    w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw]
-                                    focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.25vw]
-                                    anybody text-center placeholder:italic
-                                    text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1vw]/[120%]
-                                    placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[1vw]/[120%]
-                                    bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud
-                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-                                "
+                                className={`${textareaClasses} w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
                                 name="note"
                                 placeholder="¿Necesitas aclarar algo?"
                                 maxLength={500}

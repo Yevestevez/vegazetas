@@ -18,8 +18,6 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
         onCreateRecipeClicked()
     }
 
-    console.log('Menu -> render')
-
     const linkClasses = `
         flex items-center justify-center
         pt-[1vw] sm:pt-[0.8vw] xl:pt-[0.4vw]

@@ -13,8 +13,6 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
         onRecipeThumbnailClick(recipe.id)
     }
 
-    console.log('RecipeThumbnail -> render')
-
     return <article className="flex flex-col pb-[8vw] xl:pb-[2vw] w-full bg-canary">
         <button className="relative flex items-center justify-center cursor-pointer" type="button" onClick={handleRecipeThumbnailClick}>
             <h2 className="

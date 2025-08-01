@@ -11,8 +11,6 @@ function Landing({ onLoginClicked, onRegisterClicked }) {
         onRegisterClicked()
     }
 
-    console.log('Landing -> render')
-
     const btnClasses = `
         flex items-center justify-center rounded-full
         h-[26vw] sm:h-[22vw] md:h-[18vw] lg:h-[18vw] xl:h-[9vw] 2xl:h-[8vw]
@@ -39,7 +37,7 @@ function Landing({ onLoginClicked, onRegisterClicked }) {
         <main className="flex flex-col sm:flex-row lg:flex-row md:flex-row items-center gap-[8vw] xl:gap-[5vw] 2xl:gap-[4vw]">
             <a className={`
                     ${btnClasses}
-                    text-[clamp(1.8rem,7vw,10rem)] sm:text-[clamp(5rem,5vw,10rem)] md:text-[clamp(2.5rem,4vw,10rem)] xl:text-[clamp(2rem,2.2vw,10rem)] 2xl:text-[clamp(2rem,2vw,10rem)]
+                    text-[clamp(1.8rem,7vw,10rem)] sm:text-[clamp(2.5rem,5vw,10rem)] md:text-[clamp(2.5rem,4vw,10rem)] xl:text-[clamp(2rem,2.2vw,10rem)] 2xl:text-[clamp(2rem,2vw,10rem)]
                     hover:bg-violet hover:text-hot-magenta
                 `}
                 href=""
@@ -47,7 +45,7 @@ function Landing({ onLoginClicked, onRegisterClicked }) {
 
             <a className={`
                     ${btnClasses}
-                    text-[clamp(1rem,5vw,10rem)] sm:text-[clamp(5rem,5vw,10rem)] md:text-[clamp(1.8rem,3vw,10rem)] xl:text-[clamp(1rem,1.8vw,10rem)] 2xl:text-[clamp(1rem,1.6vw,10rem)]
+                    text-[clamp(1rem,5vw,10rem)] sm:text-[clamp(1.8rem,4vw,10rem)] md:text-[clamp(1.8rem,3vw,10rem)] xl:text-[clamp(1rem,1.8vw,10rem)] 2xl:text-[clamp(1rem,1.6vw,10rem)]
                     hover:bg-canary hover:text-violet
                 `}
                 href=""

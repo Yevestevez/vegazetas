@@ -45,8 +45,6 @@ function Header({ onUserLoggedOut }) {
         })
     }
 
-    console.log('Header -> render')
-
     return <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-[2vw] py-[3vw] md:py-[2vw] w-full sm:px-[10vw] bg-folly">
             <div>
                 <h1 className="text-center anybody-logo text-[13vw] sm:text-[9vw]/[80%] md:text-[7.5vw]/[80%] text-aquamarine drop-shadow-[0.1em_0.1em_0_rgba(0,0,0,0.8)]">Vega<br className="hidden sm:block xl:hidden" />zetas</h1>

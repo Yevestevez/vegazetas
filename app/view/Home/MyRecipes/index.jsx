@@ -46,8 +46,6 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
         onCreateRecipeClicked()
     }
 
-    console.log('MyRecipes -> render')
-
     return <div className="flex flex-col xl:flex-row min-h-screen w-full items-center text-center overflow-x-hidden pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0vw] bg-canary">
         <Header
             onUserLoggedOut={handleUserLoggedOut}

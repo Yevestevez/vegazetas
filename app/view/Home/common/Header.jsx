@@ -27,8 +27,6 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
         onLogoClicked()
     }
 
-    console.log('Header -> render')
-
     return <div className="
         fixed top-0 xl:left-0 z-10 flex flex-row xl:flex-col justify-between xl:items-end bg-veronica
         w-full xl:w-[40vw] xl:h-[45vh] xl:overflow-y-auto
