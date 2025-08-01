@@ -9,7 +9,6 @@ const URL_REGEX = /^https?:\/\/[^\s/$.?#].[^\s]*$/i
 const UNIT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/
 
 const validate = {
-
     id(id, explain = 'id') {
         if (typeof id !== 'string') throw new ValidationError(`invalid ${explain} type, must be a string`)
         if (id.length !== 24) throw new ValidationError(`invalid ${explain} length, must be 24 characters`)

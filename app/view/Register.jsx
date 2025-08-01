@@ -64,8 +64,6 @@ function Register({ onLoginClicked, onUserRegistered }) {
         }
     }
 
-    console.log('Register -> render')
-
     const inputClasses = `
         /* Layout */
         flex items-center justify-center rounded-full

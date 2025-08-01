@@ -1,41 +1,36 @@
-<img src="./images/vegazeta-logo.png" height="100">
+<img src="./images/vegazeta-logo.png" alt="Vegazetas logo" height="100">
 
 <br>
 
 # Vegazetas
 
-## Intro
+## Introduction
 
-## Intro
+**Vegazetas** is a web application (SPA) that allows users to **create, view, edit, and delete recipes**. It features a very colorful, eye-catching, and simple interface, providing a comfortable and easy user experience—both for creating recipes and for viewing them while cooking.
 
-**Vegazetas** is a web application that allows you to **create, view, edit, and delete recipes**. It features a **colorful**, **eye-catching**, and **simple** interface, offering a **comfortable** and **intuitive** user experience—both for creating recipes and for viewing them while cooking in the kitchen.
+The app includes several sections and functionalities. For access, it has **sign-up**, **log-in**, and **password recovery** via an email link. Once logged in, users can navigate through the **menu** and use the **create recipe** button.
 
-The app includes several **sections** and **features**. In terms of access, there is a section for **sign-up** and **login**. Once logged in, users will find a **navigation menu** to move between the different sections and a button to **create a recipe**.
+Currently, it offers the **My Recipes** section, which displays a list of the user's recipes as thumbnails and allows direct navigation to the **recipe view** when one is selected. From the recipe view, users can delete the recipe or navigate to the edit section.
 
-It includes the **My Recipes** section, a list of recipe thumbnails created by the user with direct navigation to the **recipe view** when selected. Inside a recipe, users can delete it or navigate to the **edit recipe** section.
-
-In the **edit** section, users can modify any recipe field, as well as remove or add new **images**, **tags**, **ingredients**, and **steps**. The recipe fields will be described in more detail in the [**Data Model**](#data-model) section.
+In the **edit** section, users can modify recipe fields, as well as add or remove images, tags, ingredients, and steps. Steps can be edited and reordered. All recipe fields will be described in more detail in the [Data Model](#data-model) section.
 
 In **future versions**, new features will be implemented, such as:
-
-- Filtering recipes by *ingredients*, *tags*, and *titles*
-- Viewing recipes from other users and a **like** button to save them in a new **My Favorites** section
-- Sharing recipes via *link*
-- A section for *recipe lists*
-- External *links to recipes* outside of Vegazetas
-- Creating recipes in *draft/private* mode to publish them later
-- Modifying the *user profile* and deleting the account
-- Automatically generating an *editable shopping list* based on recipe ingredients
-- *Menu planning calendar*
-- *Cooking mode*: a button to prevent the mobile or tablet screen from turning off while cooking
-- Changing the *font size* in recipe view
-- *Responsive app design*
-- *And much more!*
+- Recipe filtering by ingredients, tags, and titles
+- Viewing recipes from other users and a like button to save them to a new "Favorites" section
+- Sharing recipes via link
+- Recipe list section
+- Links to external recipes
+- Draft/private recipe creation, to publish them later
+- User profile modification and account deletion
+- Automatic generation of an editable shopping list based on recipe ingredients
+- Menu planning calendar
+- Cooking mode: button to prevent screen from turning off on mobile or tablet while cooking
+- Adjust servings (x2, x3...) to user preference
+- Adjustable font size in recipes
+- Fully responsive app (already has basic responsiveness)
+- And much more!
 
 <br>
-
-![The Office Gif](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjd0ZGh0czA0MHJ3aTFlaDhmcjBtMmtsMjM4eWh6dHNsdTBwN296ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hKyroc5P7axuU/giphy.webp)
-
 
 ## Functional
 
@@ -43,23 +38,24 @@ In **future versions**, new features will be implemented, such as:
 
 User
 
-- Sign up
-- Log in
-- Log out
-- Create recipe
-- Edit recipe
-- View selected recipe
-- View "My Recipes"
-
+- Sign-up
+- Log-in
+- Password recovery via email
+- Log-out
+- Recipe creation
+- Recipe editing
+    - Editing and reordering steps
+- Recipe deletion
+- Viewing selected recipe
+- Viewing "my recipes"
 
 ### UXUI Design
 
 [Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214)
 
-
 ## Technical
 
-### Blocks
+### Structure
 
 - App
 - API
@@ -72,7 +68,7 @@ User
 - com
 - doc (documentation)
 
-### Techs
+### Technologies
 
 - HTML/CSS/JS
 - React
@@ -99,7 +95,8 @@ User
 - id *(ObjectId)*
 - text *(string)*
 - note *(string)*
-- image *(string)* 
+- image *(string)*
+- order *(number)*
 
 **Recipe**
 - id *(ObjectId)*
@@ -121,6 +118,7 @@ App
  |- Landing
  |- Register
  |- Login
+ |- PasswordReset
  |- Home
     |- Menu
         |- Header (Menu)
@@ -142,9 +140,4 @@ App
 
 ### Coverage
 
-![Code Coverage](./images/vegazetas-test-coverage.png)
-
-
-## Tasks
-
-[GitHub](https://github.com/b00tc4mp/isdi-parttime-202410/issues/45)
+![Code Coverage](./images/vegazetas-test-coverage-082025.jpg)
