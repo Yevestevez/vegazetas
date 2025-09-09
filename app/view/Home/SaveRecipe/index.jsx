@@ -30,6 +30,13 @@ function SaveRecipe({
         loadRecipe(recipeId)
     }, [recipeId])
 
+    const [difficulty, setDifficulty] = useState(recipe?.difficulty || "")
+    useEffect(() => {
+        if (recipe && recipe.difficulty) {
+            setDifficulty(recipe.difficulty)
+        }
+    }, [recipe])
+
    const [editStep, setEditStep] = useState(null)
 
     useEffect(() => {
@@ -626,15 +633,17 @@ function SaveRecipe({
 
                         <div className="flex flex-col gap-[5vw] xl:gap-[2vw]">
                             <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Dificultad</label>
-                            <input
-                                className={`${inputClasses} w-[36vw] xl:w-[13vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                type="text"
+                            <select
+                                className={`flex items-center justify-center align-middle rounded-full p-[1vw] xl:p-[0.5vw] h-[8vw] xl:h-[2.5vw] anybody text-center min-w-0 truncate placeholder:italic focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.3vw] text-[4vw] sm:text-[3.5vw] xl:text-[1vw] placeholder:text-[4vw] sm:placeholder:text-[3.5vw] xl:placeholder:text-[1vw] drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)] w-[36vw] xl:w-[13vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud appearance-none`}
                                 name="difficulty"
-                                placeholder="Fácil, media o dificil"
-                                defaultValue={difficultyTranslations[recipe.difficulty] || ''}
-                                pattern="^\s*([Ff][AaÁá]cil|[Mm]edia|[Dd][IiÍí][Ff][IiÍí]cil|[Ee]asy|[Mm]edium|[Dd]ifficult)\s*$"
-                                title="Fácil, media o difícil"
-                            />
+                                value={difficulty}
+                                onChange={(e) => setDifficulty(e.target.value)}
+                            >
+                                <option value="">-- Selecciona --</option>
+                                <option value="easy">Fácil</option>
+                                <option value="medium">Media</option>
+                                <option value="difficult">Difícil</option>
+                            </select>
                         </div>
                     </div>
                     <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%]`} type="submit"><MdSave /></button>
