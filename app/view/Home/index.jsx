@@ -32,7 +32,7 @@ function Home({ onUserLoggedOut }) {
         Promise.resolve(logic.getUserId())
             .then(userId => {
                 if (!userId) throw new NotFoundError('user not found')
-                return logic.createRecipe(userId, `Borrador de receta ${Date.now()}`)
+                return logic.createRecipe(userId, `Borrador de receta ${String(new Date().getDate()).padStart(2,"0")}/${String(new Date().getMonth()+1).padStart(2,"0")} ${String(new Date().getHours()).padStart(2,"0")}:${String(new Date().getMinutes()).padStart(2,"0")}:${String(new Date().getSeconds()).padStart(2,"0")}`)
             })
             .then(recipeId => {
                 if (!recipeId) throw new NotFoundError('recipe not found')
