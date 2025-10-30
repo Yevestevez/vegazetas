@@ -1,7 +1,8 @@
-import { useAppContext } from '../../../context'
-
 import { FaShareAlt } from "react-icons/fa"
 import { FaListUl } from "react-icons/fa6"
+
+import { useAppContext } from '../../../context'
+
 import formatDate from '../../helper/formatDate'
 
 function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {

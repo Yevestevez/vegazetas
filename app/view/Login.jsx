@@ -1,22 +1,17 @@
-import logic from '../logic'
-import PasswordInput from './common/PasswordInput.jsx'
-
-import { useAppContext } from '../context'
 import { useState } from 'react'
+import { Link } from "react-router-dom"
 
+import logic from '../logic'
+import { useAppContext } from '../context'
+
+import PasswordInput from './common/PasswordInput.jsx'
 import { errors } from 'com'
 const { CredentialsError, SystemError } = errors
 
-function Login({ onRegisterClicked, onUserLoggedIn }) {
+function Login({ onUserLoggedIn }) {
     const { alert, confirm } = useAppContext()
     const [password, setPassword] = useState('')
     const [showRecoverPasswordForm, setShowRecoverPasswordForm] = useState(false)
-
-    const handleRegisterLinkClick = event => {
-        event.preventDefault()
-
-        onRegisterClicked()
-    }
 
     const handleFormSubmit = event => {
         event.preventDefault()
@@ -171,18 +166,19 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
 
             <div className="flex flex-col w-full xl:w-[40vw] gap-[2vw] -mt-[20vw] sm:-mt-[18vw] md:-mt-[15vw] lg:-mt-[15vw] xl:-mt-[11vw] 2xl:-mt-[9vw] pb-[15vw] lg:pb-[12vw] xl:pb-[8vw]">
                 <p className="anybody text-[3vw] sm:text-[2.6vw] xl:text-[1.8vw] 2xl:text-[1.6vw] -mb-[2vw] text-hot-magenta xl:text-violet">¿No estás registrado?</p>
-                <a className="
+                <Link className="
                     w-[8rem] anybody-title text-hot-magenta xl:text-violet hover:text-canary
                     text-[6.5vw] xl:text-[4.5vw] 2xl:text-[4vw]
                     underline decoration-[2.5vw] xl:decoration-[2vw] 2xl:decoration-[1.5vw]
                     underline-offset-[2.5vw] xl:underline-offset-[1.6vw] 2xl:underline-offset-[1.2vw]
                     transition-transform duration-150 ease-out hover:-translate-y-1.5
                 "
-                    href="#" onClick={handleRegisterLinkClick} >Registro</a>
+                    to="/register"
+                >Registro</Link>
 
                 {!showRecoverPasswordForm && (
                     <button
-                        className="anybody font-light mt-[6vw] xl:mt-[2vw] 2xl:mt-[2vw] text-[3vw] sm:text-[2.6vw] xl:text-[1.8vw] 2xl:text-[1.6vw] text-aquamarine"
+                        className="anybody font-light mt-[6vw] xl:mt-[2vw] 2xl:mt-[2vw] text-[3vw] sm:text-[2.6vw] xl:text-[1.8vw] 2xl:text-[1.6vw] text-aquamarine cursor-pointer"
                         onClick={() => setShowRecoverPasswordForm(true)}>¿Olvidaste tu contraseña?
                     </button>
                 )}
@@ -197,7 +193,7 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                         ">RECUPERA TU CONTRASEÑA
                         </h3>
                         <form className="flex flex-col mt-[8vw] xl:mt-[4vw] 2xl:mt-[3vw] items-center" onSubmit={handleRecoverPasswordButtonClick}>
-                            <input  className={`${inputClasses}`} type="email" name="email" placeholder="¿Cuál es tu email?" required />
+                            <input className={`${inputClasses}`} type="email" name="email" placeholder="¿Cuál es tu email?" required />
                             <button className="
                                 flex items-center justify-center rounded-full anybody-logo mt-[4vw] xl:mt-[1vw]
                                 w-[20vw] sm:w-[18vw] md:w-[14vw] xl:w-[11vw] 2xl:w-[9vw]
@@ -208,7 +204,7 @@ function Login({ onRegisterClicked, onUserLoggedIn }) {
                                 bg-aquamarine hover:bg-folly text-violet hover:text-aquamarine
                                 transition-transform duration-150 ease-out hover:-translate-y-2 hover:scale-105
                             "
-                            type="submit">Recuperar contraseña</button>
+                                type="submit">Recuperar contraseña</button>
                         </form>
                     </div>
                 )}

@@ -7,10 +7,10 @@ import { MdDelete } from "react-icons/md"
 import { MdEdit } from "react-icons/md"
 
 import logic from '../../../logic'
-import formatDate from '../../helper/formatDate'
-import Header from '../common/Header'
-
 import { useAppContext } from '../../../context'
+import formatDate from '../../helper/formatDate'
+
+import Header from '../common/Header'
 
 function Recipe({
     onUserLoggedOut,
@@ -263,7 +263,7 @@ function Recipe({
             fixed bottom-0 left-0 overflow-hidden flex xl:justify-end bg-veronica
             w-full xl:w-[40vw] xl:h-[55vh] px-[8vw] xl:px-0 -mb-[1px] xl:-mb-0  py-[5vw] sm:py-[3vw] xl:py-0
         ">
-            <div className="flex flex-row xl:flex-col justify-between xl:justify-center items-center xl:gap-[2vw] w-full xl:w-[20vw] h-full xl:pb-[2vw]"> 
+            <div className="flex flex-row xl:flex-col justify-between xl:justify-center items-center xl:gap-[2vw] w-full xl:w-[20vw] h-full xl:pb-[2vw]">
                 <div className="flex flex-row xl:flex-col gap-[4vw] xl:gap-[2vw]">
                     <button className={`${btnClass} pr-[0.15em]`} onClick={handleRecipeBackButton}><FaChevronLeft /></button>
                     <button className={`${btnClass} pb-[0.05em]`} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}><FaChevronUp /></button>

@@ -1,21 +1,16 @@
-import logic from '../logic'
-import PasswordInput from './common/PasswordInput.jsx'
+import { useState } from 'react'
+import { Link } from "react-router-dom"
 
+import logic from '../logic'
+import { useAppContext } from '../context'
+
+import PasswordInput from './common/PasswordInput.jsx'
 import { errors } from 'com'
 const { DuplicityError, SystemError } = errors
 
-import { useAppContext } from '../context'
-import { useState } from 'react'
-
-function Register({ onLoginClicked, onUserRegistered }) {
+function Register({ onUserRegistered }) {
     const { alert } = useAppContext()
     const [password, setPassword] = useState('')
-
-    const handleLoginLinkClick = event => {
-        event.preventDefault()
-
-        onLoginClicked()
-    }
 
     const handleFormSubmit = event => {
         event.preventDefault()
@@ -98,100 +93,100 @@ function Register({ onLoginClicked, onUserRegistered }) {
     `
 
     return <div className="
-    flex flex-col xl:flex-row w-full h-screen
-    items-center justify-center
-    bg-canary
-    overflow-hidden
-    ">
+                flex flex-col xl:flex-row w-full h-screen
+                items-center justify-center
+                bg-canary
+                overflow-hidden
+                ">
         <div className="flex flex-col items-center justify-center align-middle gap-[6vw]
-    mt-[18vw] sm:mt-[10vw] xl:mt-0
-    w-full xl:w-[40vw] xl:px-4
-    xl:h-screen xl:fixed xl:left-0
-">
+                    mt-[18vw] sm:mt-[10vw] xl:mt-0
+                    w-full xl:w-[40vw] xl:px-4
+                    xl:h-screen xl:fixed xl:left-0
+                ">
             <h1 className="
-                /* Layout */
-                text-center
+                        /* Layout */
+                        text-center
 
-                /* Tipografía */
-                anybody-logo text-violet
-                text-[22vw]/[80%]
-                sm:text-[22vw]/[80%]
-                md:text-[20vw]/[80%]
-                xl:text-[8vw]/[80%]
+                        /* Tipografía */
+                        anybody-logo text-violet
+                        text-[22vw]/[80%]
+                        sm:text-[22vw]/[80%]
+                        md:text-[20vw]/[80%]
+                        xl:text-[8vw]/[80%]
 
-                /* Sombra */
-                drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)]
-                xl:drop-shadow-[0.09em_0.09em_0_rgba(0,0,0,0.8)]
-            ">Vega<br></br>zetas</h1>
+                        /* Sombra */
+                        drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[0.09em_0.09em_0_rgba(0,0,0,0.8)]
+                    ">Vega<br></br>zetas</h1>
 
             <h2 className="
-                /* Layout */
-                flex items-center justify-center text-center xl:-mt-[0.5vw]
+                        /* Layout */
+                        flex items-center justify-center text-center xl:-mt-[0.5vw]
 
-                pt-[1vw] sm:pt-[0.5vw]
-                h-[10vw] sm:h-[8vw] xl:h-[4vw]
-                w-[30vw] sm:w-[24vw] xl:w-[18vw]
+                        pt-[1vw] sm:pt-[0.5vw]
+                        h-[10vw] sm:h-[8vw] xl:h-[4vw]
+                        w-[30vw] sm:w-[24vw] xl:w-[18vw]
 
-                /* Tipografía */
-                anybody-title text-[6vw]
-                sm:text-[5vw]
-                xl:text-[3.5vw]
+                        /* Tipografía */
+                        anybody-title text-[6vw]
+                        sm:text-[5vw]
+                        xl:text-[3.5vw]
 
-                /* Colores */
-                bg-violet text-canary
+                        /* Colores */
+                        bg-violet text-canary
 
-                /* Sombra */
-                drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
-                sm:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.8)]
-                md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-                xl:drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
-            ">REGISTRO</h2>
+                        /* Sombra */
+                        drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)]
+                        sm:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.8)]
+                        md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
+                        xl:drop-shadow-[0.7vw_0.7vw_0_rgba(0,0,0,0.8)]
+                    ">REGISTRO</h2>
         </div>
 
         <main className="flex flex-col items-center justify-center xl:bg-violet w-[70vw] xl:w-[60vw] xl:h-screen xl:overflow-y-auto xl:ml-[40vw] xl:pt-[8vw]">
             <div className="w-full xl:max-w-[40vw] xl:mx-auto">
-            <form className="
+                <form className="
                /* Layout */
                 flex flex-col items-center justify-center w-full
                 gap-[1.5vw] xl:gap-[0.5vw]
                 mt-[10vw] sm:mt-[6vw] max-w-full
             "
-                onSubmit={handleFormSubmit}>
-                <div className="flex flex-col items-center justify-center w-full gap-[1.5vw] xl:gap-[0.5vw] px-2">
-                    
-                    <label className={labelClasses} htmlFor="name">Nombre</label>
-                    <input className={inputClasses} type="text" id="name" placeholder="¿Quién eres?" maxLength={50} pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$" title="Solo letras y espacios, hasta 50 caracteres" required />
+                    onSubmit={handleFormSubmit}>
+                    <div className="flex flex-col items-center justify-center w-full gap-[1.5vw] xl:gap-[0.5vw] px-2">
 
-                    <label className={labelClasses} htmlFor="email">Email</label>
-                    <input className={inputClasses} type="email" id="email" placeholder="¿Cuál es tu email?" title="Email con el que accederás a Vegazetas" required />
-                
-                
-                    <label className={labelClasses} htmlFor="username">Usuario</label>
-                    <input
-                        className={`${inputClasses} lowercase`}
-                        type="text"
-                        id="username"
-                        placeholder="Tu nombre en Vegazetas"
-                        maxLength={25}
-                        pattern="^[a-zA-Z0-9._-]{1,25}$"
-                        title="Solo minúsculas, números, guiones, guiones bajos o puntos, sin espacios. Máx. 25 caracteres"
-                        required />
+                        <label className={labelClasses} htmlFor="name">Nombre</label>
+                        <input className={inputClasses} type="text" id="name" placeholder="¿Quién eres?" maxLength={50} pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$" title="Solo letras y espacios, hasta 50 caracteres" required />
 
-                    <label className={labelClasses} htmlFor="password">Contraseña</label>
-                    <PasswordInput
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        id="password"
-                        placeholder="Contraseña de acceso"
-                        pattern="^(?!.*[\s])(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&-_+]{8,25}$"
-                        title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número y no contener espacios"
-                        className="w-[70vw] xl:w-[40vw]"
-                        theme="register"
-                    />
-                </div>
+                        <label className={labelClasses} htmlFor="email">Email</label>
+                        <input className={inputClasses} type="email" id="email" placeholder="¿Cuál es tu email?" title="Email con el que accederás a Vegazetas" required />
 
-                <button
-                    className="
+
+                        <label className={labelClasses} htmlFor="username">Usuario</label>
+                        <input
+                            className={`${inputClasses} lowercase`}
+                            type="text"
+                            id="username"
+                            placeholder="Tu nombre en Vegazetas"
+                            maxLength={25}
+                            pattern="^[a-zA-Z0-9._-]{1,25}$"
+                            title="Solo minúsculas, números, guiones, guiones bajos o puntos, sin espacios. Máx. 25 caracteres"
+                            required />
+
+                        <label className={labelClasses} htmlFor="password">Contraseña</label>
+                        <PasswordInput
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            id="password"
+                            placeholder="Contraseña de acceso"
+                            pattern="^(?!.*[\s])(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&-_+]{8,25}$"
+                            title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número y no contener espacios"
+                            className="w-[70vw] xl:w-[40vw]"
+                            theme="register"
+                        />
+                    </div>
+
+                    <button
+                        className="
                         /* Layout */
                         flex items-center justify-center self-end rounded-full anybody-logo
                         mt-[6vw] xl:mt-[2vw]
@@ -226,20 +221,20 @@ function Register({ onLoginClicked, onUserRegistered }) {
                         transition-transform duration-150 ease-out
                         hover:-translate-y-2 hover:scale-105
                     "
-                    type="submit"
-                >
-                    Registro
-                </button>
-            </form>
+                        type="submit"
+                    >
+                        Registro
+                    </button>
+                </form>
 
-            <div className="
+                <div className="
                     /* Layout */
                 flex flex-col w-full xl:w-[40vw]
                 gap-[2vw]
                 -mt-[20vw] sm:-mt-[18vw] md:-mt-[15vw] lg:-mt-[15vw] xl:-mt-[10vw]
                 pb-[15vw] lg:pb-[12vw] xl:pb-[6vw]
             ">
-                <p className="
+                    <p className="
                     /* Tipografía */
                     anybody text-[3vw] sm:text-[2.6vw] lg:text-[2vw] xl:text-[1.8vw]
                     -mb-[2vw]
@@ -247,24 +242,25 @@ function Register({ onLoginClicked, onUserRegistered }) {
                     /* Colores */
                     text-violet xl:text-canary
                 ">¿Ya tienes cuenta?</p>
-                <a className="
-              /* Layout */
-                    w-[8rem]
+                    <Link className="
+                            /* Layout */
+                                    w-[8rem]
 
-                    /* Tipografía */
-                    anybody-title text-[6.5vw] xl:text-[4vw]
-                    underline decoration-[2.5vw] xl:decoration-[2vw]
-                    underline-offset-[2.5vw] xl:underline-offset-[1.6vw]
+                                    /* Tipografía */
+                                    anybody-title text-[6.5vw] xl:text-[4vw]
+                                    underline decoration-[2.5vw] xl:decoration-[2vw]
+                                    underline-offset-[2.5vw] xl:underline-offset-[1.6vw]
 
-                    /* Colores */
-                    text-violet xl:text-canary hover:text-hot-magenta
+                                    /* Colores */
+                                    text-violet xl:text-canary hover:text-hot-magenta
 
-                    /* Interacciones */
-                    transition-transform duration-150 ease-out
-                    hover:-translate-y-1.5
-                "
-                    href="" onClick={handleLoginLinkClick} >Login</a>
-            </div>
+                                    /* Interacciones */
+                                    transition-transform duration-150 ease-out
+                                    hover:-translate-y-1.5
+                                "
+                        to="/login"
+                    >Login</Link>
+                </div>
             </div>
         </main>
     </div>

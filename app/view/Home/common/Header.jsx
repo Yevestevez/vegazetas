@@ -1,8 +1,11 @@
-import logic from '../../../logic'
-import { useAppContext } from '../../../context'
+import { Link } from 'react-router-dom'
+
 import { FaRegUserCircle } from "react-icons/fa"
 
-function Header({ onUserLoggedOut, onLogoClicked }) {
+import logic from '../../../logic'
+import { useAppContext } from '../../../context'
+
+function Header({ onUserLoggedOut }) {
     const { alert, confirm } = useAppContext()
 
     const handleLogoutButtonClick = () => {
@@ -21,28 +24,22 @@ function Header({ onUserLoggedOut, onLogoClicked }) {
         })
     }
 
-    const handleLogoLinkClick = event => {
-        event.preventDefault()
-
-        onLogoClicked()
-    }
-
     return <div className="
         fixed top-0 xl:left-0 z-10 flex flex-row xl:flex-col justify-between xl:items-end bg-veronica
         w-full xl:w-[40vw] xl:h-[45vh] xl:overflow-y-auto
         py-[4vw] sm:py-[3vw] xl:py-[0vw] px-[8vw] sm:px-[6vw] md:px-[5vw] xl:px-[0vw]
         ">
         <div className="flex flex-row xl:flex-col items-center h-full w-full xl:w-[20vw] justify-between xl:justify-center xl:gap-[3vw]">
-            <a href="#" onClick={handleLogoLinkClick}>
+            <Link to="/menu">
                 <h1 className="text-center anybody-logo text-sgbus-green drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)] text-[8vw]/[80%] sm:text-[7vw]/[80%] md:text-[6vw]/[80%] xl:text-[4.5vw]/[80%]">Vega<br></br>zetas</h1>
-            </a>
+            </Link>
 
             <div className="flex flex-row xl:flex-col gap-[2vw] xl:gap-[1vw] items-center align-middle justify-center">
                 <button
                     className="anybody text-[2.7vw]/[120%] xl:text-[0.7vw]/[120%] text-sgbus-green order-1 xl:order-2 cursor-pointer"
                     type="button"
                     onClick={handleLogoutButtonClick}>
-                        Cerrar<br className="xl:hidden"></br> sesión
+                    Cerrar<br className="xl:hidden"></br> sesión
                 </button>
 
                 <FaRegUserCircle className="

@@ -1,19 +1,17 @@
 import { useState, useEffect } from 'react'
 
 import logic from '../../../logic'
-import RecipeThumbnail from '../common/RecipeThumbnail'
-import Header from '../common/Header'
-
 import { useAppContext } from '../../../context'
 
-function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onCreateRecipeClicked }) {
+import Header from '../common/Header'
+import RecipeThumbnail from '../common/RecipeThumbnail'
+
+function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClicked }) {
     const { alert } = useAppContext()
 
     const [myRecipes, setMyRecipes] = useState([])
 
     useEffect(() => {
-        console.log('MyRecipes -> useEffect')
-
         loadMyRecipes()
     }, [])
 
@@ -38,8 +36,6 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
     const handleRecipeThumbnailClick = (recipeId) => onRecipeThumbnailClick(recipeId)
     const handleUserLoggedOut = () => onUserLoggedOut()
 
-    const handleLogoLinkClick = () => onLogoClicked()
-
     const handleCreateRecipeClick = event => {
         event.preventDefault()
 
@@ -49,7 +45,6 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onLogoClicked, onC
     return <div className="flex flex-col xl:flex-row min-h-screen w-full items-center text-center overflow-x-hidden pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0vw] bg-canary">
         <Header
             onUserLoggedOut={handleUserLoggedOut}
-            onLogoClicked={handleLogoLinkClick}
         />
 
         <div className="flex xl:fixed xl:bottom-0 text-center py-[2vw] xl:py-[5vh] items-center xl:justify-end xl:px-[5vw] xl:w-[40vw] xl:h-[60vh] xl:bg-sgbus-green">

@@ -1,14 +1,11 @@
+import { Link } from 'react-router-dom'
+
 import { useAppContext } from '../../../context'
+
 import Header from './Header'
 
-function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
+function Menu({ onUserLoggedOut, onCreateRecipeClicked }) {
     const { alert } = useAppContext()
-
-    const handleMyRecipesLinkClick = event => {
-        event.preventDefault()
-
-        onMyRecipesClicked()
-    }
 
     const handleUserLoggedOut = () => onUserLoggedOut()
 
@@ -38,33 +35,34 @@ function Menu({ onMyRecipesClicked, onUserLoggedOut, onCreateRecipeClicked }) {
         <main className="flex flex-col items-center">
             <div className="flex flex-col xl:flex-row mt-[6vw] sm:mt-[5vw] xl:mt-[4vw] gap-[6vw] sm:gap-[5.5vw] md:gap-[4.5vw] xl:gap-[6vw]">
                 <div className="flex flex-col gap-[6vw] sm:gap-[5.5vw] md:gap-[4.5vw] xl:gap-[3vw]">
-                    <a className={`${linkClasses} rotate-1 hover:-rotate-2 bg-veronica text-canary`} href="#" onClick={handleMyRecipesLinkClick}>Mis recetas</a>
+                    <Link to="/my-recipes" className={`${linkClasses} rotate-1 hover:-rotate-2 bg-veronica text-canary`} href="#"
+                    >Mis recetas</Link>
                     <a className={`${linkClasses} -rotate-1 hover:rotate-2 bg-coquelicot text-aquamarine opacity-50`} href="#" onClick={(event) => {
-                            event.preventDefault()
-                            alert('Funcionalidad cociendose a fuego lento')
-                        }}>Las favoritas</a>
+                        event.preventDefault()
+                        alert('Funcionalidad cociendose a fuego lento')
+                    }}>Las favoritas</a>
                     <a className={`${linkClasses} rotate-1 hover:-rotate-2 bg-folly text-spring-bud opacity-50`} href="#" onClick={(event) => {
-                            event.preventDefault()
-                            alert('Funcionalidad en el horno')
-                        }}>¡Listas y más listas!</a>
+                        event.preventDefault()
+                        alert('Funcionalidad en el horno')
+                    }}>¡Listas y más listas!</a>
                     <a className={`${linkClasses} -rotate-1 hover:rotate-2 bg-canary text-coquelicot opacity-50`} href="#" onClick={(event) => {
-                            event.preventDefault()
-                            alert('Funcionalidad salteándose con un chorro de aceite')
-                        }}>Menús</a>
+                        event.preventDefault()
+                        alert('Funcionalidad salteándose con un chorro de aceite')
+                    }}>Menús</a>
                 </div>
                 <div className="flex flex-col gap-[6vw] sm:gap-[5.5vw] md:gap-[4.5vw] xl:gap-[3vw]">
                     <a className={`${linkClasses} rotate-1 hover:-rotate-2 bg-hot-magenta text-violet opacity-50`} href="#" onClick={(event) => {
-                            event.preventDefault()
-                            alert('Funcionalidad burbujeando en la olla')
-                        }}>Lista de la compra</a>
+                        event.preventDefault()
+                        alert('Funcionalidad burbujeando en la olla')
+                    }}>Lista de la compra</a>
                     <a className={`${linkClasses} -rotate-1 hover:rotate-2 bg-aquamarine text-dark-orange opacity-50`} href="#" onClick={(event) => {
-                            event.preventDefault()
-                            alert('Funcionalidad cociendose a fuego lento')
-                        }}>Descubre</a>
+                        event.preventDefault()
+                        alert('Funcionalidad cociendose a fuego lento')
+                    }}>Descubre</a>
                     <a className={`${linkClasses} rotate-1 hover:-rotate-2 bg-dark-orange text-veronica opacity-50`} href="#" onClick={(event) => {
-                            event.preventDefault()
-                            alert('Funcionalidad cociendose en el horno')
-                        }}>Enlaces</a>
+                        event.preventDefault()
+                        alert('Funcionalidad cociendose en el horno')
+                    }}>Enlaces</a>
                 </div>
             </div>
             <button type='button' className="

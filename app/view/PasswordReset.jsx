@@ -1,10 +1,10 @@
-import logic from '../logic'
-import PasswordInput from './common/PasswordInput.jsx'
 import { useParams } from 'react-router-dom'
-
-import { useAppContext } from '../context'
 import { useState } from 'react'
 
+import logic from '../logic'
+import { useAppContext } from '../context'
+
+import PasswordInput from './common/PasswordInput.jsx'
 import { errors } from 'com'
 const { SystemError, ValidationError } = errors;
 
@@ -32,10 +32,11 @@ function PasswordReset({ onPasswordReseted }) {
                 const loadingAlertTimeout = setTimeout(() => {
                     closeAlert = alert('El servidor está despertando... Solo espera mientras cambiamos tu contraseña', {
                         isWakingServer: true,
-                    }) }, 2000)
+                    })
+                }, 2000)
 
                 try {
-                    logic.passwordReset(token,newPassword)
+                    logic.passwordReset(token, newPassword)
                         .then(() => {
                             clearTimeout(loadingAlertTimeout)
                             if (closeAlert) closeAlert()

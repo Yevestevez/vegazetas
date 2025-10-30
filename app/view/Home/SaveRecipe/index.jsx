@@ -5,11 +5,10 @@ import { MdDelete, MdEdit, MdSave, MdRemoveRedEye } from 'react-icons/md'
 import { FaChevronUp, FaChevronDown, FaChevronLeft } from 'react-icons/fa'
 import { IoMdCloseCircle } from 'react-icons/io'
 
-import Header from '../common/Header'
-
 import logic from '../../../logic'
-
 import { useAppContext } from '../../../context'
+
+import Header from '../common/Header'
 
 function SaveRecipe({
     view,
@@ -25,8 +24,6 @@ function SaveRecipe({
     const [recipe, setRecipe] = useState(null)
 
     useEffect(() => {
-        console.log('recipe -> useEffect')
-
         loadRecipe(recipeId)
     }, [recipeId])
 
@@ -37,7 +34,7 @@ function SaveRecipe({
         }
     }, [recipe])
 
-   const [editStep, setEditStep] = useState(null)
+    const [editStep, setEditStep] = useState(null)
 
     useEffect(() => {
         const adjustTextareaHeight = (textarea) => {
@@ -1006,8 +1003,8 @@ function SaveRecipe({
                                                 transition-transform duration-150 ease-out cursor-pointer
                                                 hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)] hover:-translate-y-1 hover:scale-105
                                             "
-                                            type="button"
-                                            onClick={(event) => handleDeleteStepButton(event, step.id)}>
+                                        type="button"
+                                        onClick={(event) => handleDeleteStepButton(event, step.id)}>
                                         <MdDelete />
                                     </button>
                                 </div>

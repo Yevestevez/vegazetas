@@ -1,7 +1,7 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom'
 
 import logic from '../../logic'
+import { useAppContext } from '../../context'
 
 import NotFoundError from 'com/errors/NotFoundError'
 
@@ -10,35 +10,24 @@ import MyRecipes from './MyRecipes'
 import Recipe from './common/Recipe'
 import SaveRecipe from './SaveRecipe'
 
-import { useAppContext } from '../../context'
-
 function Home({ onUserLoggedOut }) {
     const { alert } = useAppContext()
 
     const navigate = useNavigate()
-    const location = useLocation()
 
-    let viewInPath = location.pathname.slice(1)
-
-    if (viewInPath !== 'my-recipes' && !viewInPath.startsWith('create-recipe') && !viewInPath.startsWith('update-recipe') && !viewInPath.startsWith('recipe'))
-        viewInPath = 'menu'
-
-    const [view, setView] = useState(viewInPath)
-    const [selectedRecipeId, setSelectedRecipeId] = useState(null)
-
-    const handleMyRecipesLinkClick = () => setView('my-recipes')
+    const handleMyRecipesLinkClick = () => navigate('/my-recipes')
 
     const handleCreateRecipeClick = () => {
         Promise.resolve(logic.getUserId())
             .then(userId => {
                 if (!userId) throw new NotFoundError('user not found')
-                return logic.createRecipe(userId, `Borrador de receta ${String(new Date().getDate()).padStart(2,"0")}/${String(new Date().getMonth()+1).padStart(2,"0")} ${String(new Date().getHours()).padStart(2,"0")}:${String(new Date().getMinutes()).padStart(2,"0")}:${String(new Date().getSeconds()).padStart(2,"0")}`)
+
+                return logic.createRecipe(userId, `Borrador de receta ${String(new Date().getDate()).padStart(2, "0")}/${String(new Date().getMonth() + 1).padStart(2, "0")} ${String(new Date().getHours()).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}:${String(new Date().getSeconds()).padStart(2, "0")}`)
             })
             .then(recipeId => {
                 if (!recipeId) throw new NotFoundError('recipe not found')
 
-                setSelectedRecipeId(recipeId)
-                setView('create-recipe')
+                navigate(`/create-recipe/${recipeId}`)
             })
             .catch(error => {
                 alert(error.message)
@@ -46,54 +35,21 @@ function Home({ onUserLoggedOut }) {
             })
     }
 
-    const handleRecipeEditClick = (recipeId) => {
-        setSelectedRecipeId(recipeId)
-        setView('update-recipe')
-    }
+    const handleRecipeEditClick = (recipeId) => { navigate(`/update-recipe/${recipeId}`) }
 
-    const handleRecipeThumbnailClick = (recipeId) => {
-        setSelectedRecipeId(recipeId)
-        setView('recipe')
-    }
+    const handleRecipeThumbnailClick = (recipeId) => { navigate(`/recipe/${recipeId}`) }
 
-    const handleToRecipeClick = (recipeId) => {
-        setSelectedRecipeId(recipeId)
-        setView('recipe')
-    }
+    const handleToRecipeClick = (recipeId) => { navigate(`/recipe/${recipeId}`) }
 
-    const handleLogoLinkClick = () => setView('menu')
+    const handleLogoLinkClick = () => navigate('/menu')
 
     const handleUserLoggedOut = () => onUserLoggedOut()
 
-    const handleRecipeDeleted = () => setView('my-recipes')
+    const handleRecipeDeleted = () => navigate('/my-recipes')
 
-    const handleRecipeBackButton = () => setView("my-recipes")
+    const handleRecipeBackButton = () => navigate('/my-recipes')
 
-    const handleSaveRecipeBackButton = () => setView("my-recipes")
-
-    useEffect(() => {
-        switch (view) {
-            case 'menu':
-                navigate('/menu')
-                break
-            case 'my-recipes':
-                navigate('/my-recipes')
-                break
-            case 'create-recipe':
-                if (selectedRecipeId) {
-                    navigate(`/create-recipe/${selectedRecipeId}`)
-                }
-                break
-            case 'update-recipe':
-                if (selectedRecipeId) {
-                    navigate(`/update-recipe/${selectedRecipeId}`)
-                }
-                break
-            case 'recipe':
-                if (selectedRecipeId) navigate(`/recipe/${selectedRecipeId}`)
-                break
-        }
-    }, [view, selectedRecipeId, location.pathname, navigate])
+    const handleSaveRecipeBackButton = () => navigate('/my-recipes')
 
     return <main>
         <Routes>

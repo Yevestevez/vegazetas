@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react'
-import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
 import logic from './logic'
+import { AppContext } from './context'
+
+import Alert from './view/common/Alert'
+import Confirm from './view/common/Confirm'
 
 import Landing from './view/Landing'
 import Register from './view/Register'
@@ -9,25 +13,13 @@ import Login from './view/Login'
 import Home from './view/Home'
 import PasswordReset from './view/PasswordReset'
 
-import Alert from './view/common/Alert'
-import Confirm from './view/common/Confirm'
-import { AppContext } from './context'
-
 function App() {
     const navigate = useNavigate()
-    const location = useLocation()
 
-    let viewInPath = location.pathname.slice(1)
-    if (viewInPath !== 'landing' && viewInPath !== 'register' && viewInPath !== 'login' && viewInPath !== 'my-recipes' && !viewInPath.startsWith('password-reset') && !viewInPath.startsWith('create-recipe') && !viewInPath.startsWith('update-recipe') && !viewInPath.startsWith('recipe'))
-        viewInPath = 'landing'
-    const [view, setView] = useState(viewInPath)
-
-    const handleLoginLinkClick = () => setView('login')
-    const handleRegisterLinkClick = () => setView('register')
-    const handleUserRegistered = () => setView('login')
-    const handleUserLoggedIn = () => setView('home')
-    const handleUserLoggedOut = () => setView('login')
-    const handlePasswordReseted = () => setView('login')
+    const handleUserRegistered = () => navigate('/login')
+    const handleUserLoggedIn = () => navigate('/')
+    const handleUserLoggedOut = () => navigate('/login')
+    const handlePasswordReseted = () => navigate('/login')
 
     // alert y confirm
     const [alertMessage, setAlertMessage] = useState(null)
@@ -59,38 +51,22 @@ function App() {
         App.confirmCallback = null
     }
 
-    useEffect(() => {
-        switch (view) {
-            case 'landing':
-                navigate('/landing')
-                break
-            case 'register':
-                navigate('/register')
-                break
-            case 'login':
-                navigate('/login')
-                break
-            case 'home':
-                navigate('/')
-                break
-            case 'password-reset':
-                navigate('/password-reset/:token')
-                break
-        }
-    }, [view])
-
     return <AppContext.Provider value={{ alert, confirm }}>
         <Routes>
+            <Route path="/" element={
+                logic.isUserLoggedIn() ? <Navigate to="/menu" replace /> : <Navigate to="/landing" replace />
+            } />
+
             <Route path="/landing" element={
-                logic.isUserLoggedIn() ? <Navigate to="/" /> : <Landing onLoginClicked={handleLoginLinkClick} onRegisterClicked={handleRegisterLinkClick} />
+                logic.isUserLoggedIn() ? <Navigate to="/" /> : <Landing />
             } />
 
             <Route path="/register" element={
-                logic.isUserLoggedIn() ? <Navigate to="/" /> : <Register onLoginClicked={handleLoginLinkClick} onUserRegistered={handleUserRegistered} />
+                logic.isUserLoggedIn() ? <Navigate to="/" /> : <Register onUserRegistered={handleUserRegistered} />
             } />
 
             <Route path="/login" element={
-                logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onRegisterClicked={handleRegisterLinkClick} onUserLoggedIn={handleUserLoggedIn} />
+                logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onUserLoggedIn={handleUserLoggedIn} />
             } />
 
             <Route path="/password-reset/:token" element={
