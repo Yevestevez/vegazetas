@@ -21,7 +21,7 @@ function Confirm({ message, onCancel, onAccept }) {
             h-[40%] sm:h-[40%] md:h-[40%] xl:h-[50%]
 
             bg-folly border-8 border-spring-bud text-spring-bud drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)]">
-            <p className="anybody font-extrabold text-[5vw]/[120%] sm:text-[4vw]/[120%] xl:text-[2vw]/[120%]">{message}</p>
+            <p className="anybody font-extrabold text-[5vw] sm:text-[4vw] xl:text-[2vw] leading-[120%]">{message}</p>
             <div className="flex row gap-[5vw]">
                 <button className={`${btnClasses} flex items-center justify-center bg-violet text-folly`} type="button" onClick={onCancel}>Cancelar</button>
 

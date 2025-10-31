@@ -20,7 +20,7 @@ function Alert({ message, onAccept, isWakingServer = false }) {
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                 </svg>
             )}
-            <p className="anybody font-extrabold text-[5vw]/[120%] sm:text-[4vw]/[120%] xl:text-[2vw]/[120%]">{message}</p>
+            <p className="anybody font-extrabold text-[5vw] sm:text-[4vw] xl:text-[2vw] leading-[80%]">{message}</p>
 
             <button
                 type="button" onClick={onAccept}

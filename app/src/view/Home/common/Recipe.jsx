@@ -136,14 +136,14 @@ function Recipe({
 
                 drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] md:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
             ">
-                <h2 className="anybody-logo text-[6vw]/[120%] xl:text-[1.8vw]/[120%]">{recipe.title}</h2>
+                <h2 className="anybody-logo text-[6vw] xl:text-[1.8vw] leading-[120%]">{recipe.title}</h2>
                 <h3 className="mb-[4vw] xl:mb-[1vw] anybody underline decoration-[0.4em] underline-offset-[0.4em] text-[4vw] xl:text-[1.4vw]">@{author}</h3>
                 <time className="anybody text-[3vw] xl:text-[1vw] -mb-[0.5vw]">{formatDate(recipe.date)}</time>
             </div>
 
             <div>
                 {/* description */}
-                {recipe.description && <p className="py-[4vw] xl:py-[2vw] xl:pt-[3vw] w-[80vw] xl:w-[28vw] justify-center mx-auto text-center anybody text-[4vw]/[120%] xl:text-[1.4vw]/[120%] text-violet">{recipe.description}</p>}
+                {recipe.description && <p className="py-[4vw] xl:py-[2vw] xl:pt-[3vw] w-[80vw] xl:w-[28vw] justify-center mx-auto text-center anybody text-[4vw] xl:text-[1.4vw] leading-[120%] text-violet">{recipe.description}</p>}
 
                 {/* time, difficulty */}
                 {
@@ -193,7 +193,7 @@ function Recipe({
                                 {recipe.ingredients
                                     .filter(ingredient => ingredient.main)
                                     .map((ingredient) => (
-                                        <div className="anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] md:text-[3.5vw]/[120%] xl:text-[1.4vw]/[120%] text-spring-bud" key={ingredient.id}>
+                                        <div className="anybody text-[5vw] sm:text-[4vw] md:text-[3.5vw] xl:text-[1.4vw] leading-[120%] text-spring-bud" key={ingredient.id}>
                                             <p>
                                                 <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
                                                 {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
@@ -214,7 +214,7 @@ function Recipe({
                                 {recipe.ingredients
                                     .filter(ingredient => !ingredient.main)
                                     .map((ingredient) => (
-                                        <div className="anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] md:text-[3.5vw]/[120%] xl:text-[1.4vw]/[120%] text-spring-bud" key={ingredient.id}>
+                                        <div className="anybody text-[5vw] sm:text-[4vw] md:text-[3.5vw] xl:text-[1.4vw] leading-[120%] text-spring-bud" key={ingredient.id}>
                                             <p>
                                                 <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
                                                 {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
@@ -241,9 +241,9 @@ function Recipe({
                                 flex flex-col gap-[2vw] xl:gap-[0.8vw] px-[5vw] py-[6vw] xl:py-[2vw] bg-spring-bud
                                 drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
                             " key={index}>
-                                <h3 className="anybody-logo text-[6vw]/[100%] sm:text-[5vw]/[100%] md:text-[4.5vw]/[100%] xl:text-[1.6vw]/[100%]">{index + 1}</h3>
-                                <p className="anybody text-[5vw]/[120%] sm:text-[4vw]/[120%] md:text-[3.5vw]/[120%] xl:text-[1.2vw]/[120%]">{step.text}</p>
-                                {step.note && <p className="anybody text-[4vw]/[120%] sm:text-[3vw]/[120%] xl:text-[1vw]/[120%] italic font-light">({step.note})</p>}
+                                <h3 className="anybody-logo text-[6vw] sm:text-[5vw] md:text-[4.5vw] xl:text-[1.6vw] leading-[100%]">{index + 1}</h3>
+                                <p className="anybody text-[5vw] sm:text-[4vw] md:text-[3.5vw] xl:text-[1.2vw] leading-[120%]">{step.text}</p>
+                                {step.note && <p className="anybody text-[4vw] sm:text-[3vw] xl:text-[1vw] italic font-light leading-[120%]">({step.note})</p>}
                                 {step.image && (
                                     <img
                                         src={step.image}

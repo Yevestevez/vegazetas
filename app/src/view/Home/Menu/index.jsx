@@ -72,7 +72,7 @@ function Menu({ onUserLoggedOut, onCreateRecipeClicked }) {
                 w-[20vw] sm:w-[16vw] md:w-[14vw] xl:w-[12vw]
 
                 anybody-logo  bg-folly text-aquamarine
-                text-[clamp(4vw,4vw,10rem)]/[100%] sm:text-[clamp(3vw,3vw,10rem)] md:text-[clamp(2vw,3vw,10rem)] xl:text-[clamp(1.5vw,2.5vw,10rem)]
+                text-[clamp(4vw,4vw,10rem)] leading-[100%] sm:text-[clamp(3vw,3vw,10rem)] md:text-[clamp(2vw,3vw,10rem)] xl:text-[clamp(1.5vw,2.5vw,10rem)]
 
                 drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.8)] md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
                 hover:hover:drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] hover:sm:drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] hover:md:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.8)] hover:xl:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]

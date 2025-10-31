@@ -68,7 +68,7 @@ function PasswordReset({ onPasswordReseted }) {
     return <div className="flex flex-col min-h-screen min-w-screen items-center gap-[14vw] sm:gap-[10vw] md:gap-[8vw] xl:gap-[4vw] 2xl:gap-[3vw] pb-[4vw] bg-folly">
         <h1 className="
                 text-center mt-[38vw] sm:mt-[24vw] md:mt-[22vw] xl:mt-[4vw] anybody-logo text-spring-bud drop-shadow-[0.06em_0.06em_0_rgba(0,0,0,0.8)]
-                text-[30vw]/[80%] sm:text-[28vw]/[80%] md:text-[24vw]/[80%] xl:text-[12vw]/[80%] 2xl:text-[11vw]/[80%]
+                text-[30vw] sm:text-[28vw] md:text-[24vw] xl:text-[12vw] 2xl:text-[11vw] leading-[80%]
             ">Vega<br></br>zetas
         </h1>
 

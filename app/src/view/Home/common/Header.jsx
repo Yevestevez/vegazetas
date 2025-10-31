@@ -31,12 +31,12 @@ function Header({ onUserLoggedOut }) {
         ">
         <div className="flex flex-row xl:flex-col items-center h-full w-full xl:w-[20vw] justify-between xl:justify-center xl:gap-[3vw]">
             <Link to="/menu">
-                <h1 className="text-center anybody-logo text-sgbus-green drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)] text-[8vw]/[80%] sm:text-[7vw]/[80%] md:text-[6vw]/[80%] xl:text-[4.5vw]/[80%]">Vega<br></br>zetas</h1>
+                <h1 className="text-center anybody-logo text-sgbus-green drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)] text-[8vw] sm:text-[7vw] md:text-[6vw] xl:text-[4.5vw] leading-[80%]">Vega<br></br>zetas</h1>
             </Link>
 
             <div className="flex flex-row xl:flex-col gap-[2vw] xl:gap-[1vw] items-center align-middle justify-center">
                 <button
-                    className="anybody text-[2.7vw]/[120%] xl:text-[0.7vw]/[120%] text-sgbus-green order-1 xl:order-2 cursor-pointer"
+                    className="anybody text-[2.7vw] xl:text-[0.7vw] leading-[120%] text-sgbus-green order-1 xl:order-2 cursor-pointer"
                     type="button"
                     onClick={handleLogoutButtonClick}>
                     Cerrar<br className="xl:hidden"></br> sesión

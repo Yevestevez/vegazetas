@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wdth,wght@0,50..150,100..900;1,50..150,100..900&display=swap');
 
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
+:root {
     --color-sgbus-green: #44D800;
     --color-dark-orange: #FF8C00;
     --color-violet: #7F00FF;
@@ -15,14 +17,29 @@
     --color-hot-magenta: #FF1DCE;
 }
 
+/* .anybody-logo {
+    font-family: "Anybody", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    font-variation-settings: "wdth" 80;
+}
+
+.anybody-title {
+    font-family: "Anybody", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings: "wdth" 80;
+} */
+
 @layer components {
     .anybody-logo {
         font-family: "Anybody", sans-serif;
         font-optical-sizing: auto;
         font-weight: 900;
         font-style: normal;
-        font-variation-settings:
-            "wdth" 80;
+        font-variation-settings: "wdth" 80;
     }
 
     .anybody-title {
@@ -30,7 +47,6 @@
         font-optical-sizing: auto;
         font-weight: 700;
         font-style: normal;
-        font-variation-settings:
-            "wdth" 80;
+        font-variation-settings: "wdth" 80;
     }
 }

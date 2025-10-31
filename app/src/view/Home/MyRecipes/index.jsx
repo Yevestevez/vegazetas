@@ -48,7 +48,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
         />
 
         <div className="flex xl:fixed xl:bottom-0 text-center py-[2vw] xl:py-[5vh] items-center xl:justify-end xl:px-[5vw] xl:w-[40vw] xl:h-[60vh] xl:bg-sgbus-green">
-            <h1 className="anybody-logo text-folly xl:text-veronica text-[6vw] xl:text-[2.6vw]/[100%] drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]">Tus <br className="hidden xl:block" />recetas</h1>
+            <h1 className="anybody-logo text-folly xl:text-veronica text-[6vw] xl:text-[2.6vw] leading-[100%] drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)]">Tus <br className="hidden xl:block" />recetas</h1>
         </div>
 
         <main className="flex flex-col w-full xl:w-[35vw] xl:ml-[40vw]">
@@ -64,7 +64,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
                 ))
             ) : (
                 <>
-                    <p className="text-center mt-[2vw] anybody font-bold text-folly text-[4vw]/[120%] xl:text-[2vw]/[120%]">Todavía no tienes ninguna receta<br />¡Añade una nueva!</p>
+                    <p className="text-center mt-[2vw] anybody font-bold text-folly text-[4vw] xl:text-[2vw] leading-[120%]">Todavía no tienes ninguna receta<br />¡Añade una nueva!</p>
                     <button
                         type='button'
                         onClick={handleCreateRecipeClick}
@@ -73,7 +73,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
                             h-[20vw] sm:h-[18vw] md:h-[14vw] xl:h-[10vw]
                             w-[20vw] sm:w-[18vw] md:w-[14vw] xl:w-[10vw]
 
-                            anybody-logo text-[clamp(1rem,4vw,10rem)]/[100%] md:text-[clamp(1.5rem,3vw,10rem)] xl:text-[clamp(1rem,2vw,3rem)]
+                            anybody-logo text-[clamp(1rem,4vw,10rem)] leading-[100%] md:text-[clamp(1.5rem,3vw,10rem)] xl:text-[clamp(1rem,2vw,3rem)]
 
                             drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
                             hover:drop-shadow-[1.7vw_1.7vw_0_rgba(0,0,0,0.7)] hover:md:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.7)]

@@ -109,10 +109,11 @@ function Register({ onUserRegistered }) {
 
                         /* Tipografía */
                         anybody-logo text-violet
-                        text-[22vw]/[80%]
-                        sm:text-[22vw]/[80%]
-                        md:text-[20vw]/[80%]
-                        xl:text-[8vw]/[80%]
+                        text-[22vw]
+                        sm:text-[22vw]
+                        md:text-[20vw]
+                        xl:text-[8vw]
+                        leading-[80%]
 
                         /* Sombra */
                         drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)]

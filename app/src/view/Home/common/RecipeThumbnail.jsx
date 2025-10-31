@@ -17,8 +17,8 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
     return <article className="flex flex-col pb-[8vw] xl:pb-[2vw] w-full bg-canary">
         <button className="relative flex items-center justify-center cursor-pointer" type="button" onClick={handleRecipeThumbnailClick}>
             <h2 className="
-                flex absolute z-2 px-[8vw] xl:px-[4vw] anybody-logo text-spring-bud
-                text-[12vw]/[100%] sm:text-[11vw]/[100%] lg:text-[10vw]/[100%] xl:text-[3vw]/[100%]
+                flex absolute z-10 px-[8vw] xl:px-[4vw] anybody-logo text-spring-bud
+                text-[12vw] sm:text-[11vw] lg:text-[10vw] xl:text-[3vw] leading-[100%]
                 drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)] sm:drop-shadow-[0.1em_0.1em_0_rgba(0,0,0,0.8)]
             ">{recipe.title}</h2>
 

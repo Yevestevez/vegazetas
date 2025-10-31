@@ -112,7 +112,7 @@ function Login({ onUserLoggedIn }) {
         <div className="flex flex-col items-center align-middle gap-[6vw] mt-[18vw] sm:mt-[10vw] xl:mt-0 w-full xl:w-[40vw] xl:px-4 xl:fixed xl:left-0">
             <h1 className="
                 text-center anybody-logo text-hot-magenta
-                text-[22vw]/[80%] sm:text-[22vw]/[80%] md:text-[15vw]/[80%] xl:text-[8vw]/[80%]
+                text-[22vw] sm:text-[22vw] md:text-[15vw] xl:text-[8vw] leading-[80%]
                 drop-shadow-[0.07em_0.07em_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.09em_0.09em_0_rgba(0,0,0,0.8)]
             "
             >Vega<br></br>zetas</h1>

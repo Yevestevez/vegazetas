@@ -561,8 +561,8 @@ function SaveRecipe({
     const textareaClasses = `
         flex items-center justify-center rounded-2xl min-h-auto resize-none box-border
         anybody text-center placeholder:italic
-        text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1vw]/[120%]
-        placeholder:text-[4vw]/[120%] sm:placeholder:text-[3.5vw]/[120%] xl:placeholder:text-[1vw]/[120%]
+        text-[4vw] sm:text-[3.5vw] xl:text-[1vw]
+        placeholder:text-[4vw] sm:placeholder:text-[3.5vw] xl:placeholder:text-[1vw] leading-[120%]
         drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
         focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.25vw]
     `
@@ -643,7 +643,7 @@ function SaveRecipe({
                             </select>
                         </div>
                     </div>
-                    <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%]`} type="submit"><MdSave /></button>
+                    <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw] xl:text-[3vw] leading-[100%]`} type="submit"><MdSave /></button>
                 </form>
 
                 {/* ===== Images ===== */}
@@ -683,7 +683,7 @@ function SaveRecipe({
                         title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
                     />
 
-                    <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%]`} type="submit"><MdSave /></button>
+                    <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw] xl:text-[3vw] leading-[100%]`} type="submit"><MdSave /></button>
                 </form>
 
                 {/* ===== Tags ===== */}
@@ -731,7 +731,7 @@ function SaveRecipe({
                         style={{ textTransform: 'lowercase' }}
                         maxLength={30}
                     />
-                    <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%]`} type="submit"><MdSave /></button>
+                    <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw] xl:text-[3vw] leading-[100%]`} type="submit"><MdSave /></button>
                 </form>
 
                 {/* ===== Ingredients ===== */}
@@ -764,7 +764,7 @@ function SaveRecipe({
                                                             hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)] hover:-translate-y-1 hover:scale-105
                                                             " type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}><MdDelete />
                                                 </button>
-                                                <p className="text-left text-[4vw]/[110%] sm:text-[3vw]/[110%] xl:text-[1.2vw]/[110%]">
+                                                <p className="text-left text-[4vw] sm:text-[3vw] xl:text-[1.2vw] leading-[110%]">
                                                     <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
                                                     {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
                                                 </p>
@@ -792,7 +792,7 @@ function SaveRecipe({
                                                             hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)] hover:-translate-y-1 hover:scale-105
                                                         " type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}><MdDelete />
                                                 </button>
-                                                <p className="text-left text-[4vw]/[110%] sm:text-[3vw]/[110%] xl:text-[1.2vw]/[110%]">
+                                                <p className="text-left text-[4vw] sm:text-[3vw] xl:text-[1.2vw] leading-[110%]">
                                                     <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
                                                     {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
                                                 </p>
@@ -874,7 +874,7 @@ function SaveRecipe({
                             </div>
                         </div>
 
-                        <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%]`} type="submit"><MdSave /></button>
+                        <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw] xl:text-[3vw] leading-[100%]`} type="submit"><MdSave /></button>
                     </div>
                 </form>
 
@@ -936,15 +936,15 @@ function SaveRecipe({
                                             className={`${inputClasses} w-[60vw] xl:w-[20vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
                                         />
 
-                                        <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%] mt-[2vw]`} type="submit"><MdSave /></button>
+                                        <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw] xl:text-[3vw] leading-[100%] mt-[2vw]`} type="submit"><MdSave /></button>
                                     </form>
                                 ) : (
                                     <>
-                                        <div className="text-[4vw]/[120%] sm:text-[3.5vw]/[120%] xl:text-[1.2vw]/[120%]">
+                                        <div className="text-[4vw] sm:text-[3.5vw] xl:text-[1.2vw] leading-[120%]">
                                             <strong>{step.text}</strong>
                                         </div>
                                         {step.note && (
-                                            <div className="italic text-[3.5vw]/[120%] sm:text-[3vw]/[120%] xl:text-[1vw]/[120%]">
+                                            <div className="italic text-[3.5vw] sm:text-[3vw] xl:text-[1vw] leading-[120%]">
                                                 {step.note}
                                             </div>
                                         )}
@@ -1060,7 +1060,7 @@ function SaveRecipe({
                                 title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
                             />
                         </div>
-                        <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw]/[100%] xl:text-[3vw]/[100%] mt-[2vw]`} type="submit"><MdSave /></button>
+                        <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw] xl:text-[3vw] leading-[100%] mt-[2vw]`} type="submit"><MdSave /></button>
                     </form>
                 </div>
             </main>

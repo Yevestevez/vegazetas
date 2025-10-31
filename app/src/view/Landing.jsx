@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import CircleButton from "./common/CircleButton"
 
 function Landing() {
     const btnClasses = `
@@ -14,13 +15,13 @@ function Landing() {
     return <div className="flex flex-col min-h-screen min-w-screen items-center gap-[14vw] sm:gap-[10vw] md:gap-[8vw] xl:gap-[4vw] 2xl:gap-[3vw] bg-folly">
         <h1 className="
                 text-center mt-[38vw] sm:mt-[24vw] md:mt-[22vw] xl:mt-[6vw] anybody-logo text-spring-bud drop-shadow-[0.06em_0.06em_0_rgba(0,0,0,0.8)]
-                text-[30vw]/[80%] sm:text-[28vw]/[80%] md:text-[24vw]/[80%] xl:text-[12vw]/[80%] 2xl:text-[11vw]/[80%]
+                text-[30vw] leading-[80%] sm:text-[28vw] md:text-[24vw] xl:text-[12vw] 2xl:text-[11vw]
             ">Vega<br></br>zetas
         </h1>
 
         <p className="
                 text-center anybody-title text-spring-bud
-                text-[8vw]/[120%] sm:text-[8vw]/[120%] md:text-[7vw]/[120%] xl:text-[4.5vw]/[120%] 2xl:text-[4vw]/[120%]
+                text-[8vw] leading-[120%] sm:text-[8vw] md:text-[7vw] xl:text-[4.5vw] 2xl:text-[4vw]
             ">Cook & Cool
         </p>
 
@@ -41,6 +42,7 @@ function Landing() {
                 to="/register"
             >Registro</Link>
         </main>
+
     </div>
 }
 
