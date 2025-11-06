@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
     --color-sgbus-green: #44D800;
     --color-dark-orange: #FF8C00;
     --color-violet: #7F00FF;
@@ -15,22 +15,6 @@
     --color-canary: #FFEB00;
     --color-aquamarine: #00FFCE;
     --color-hot-magenta: #FF1DCE;
-}
-
-/* .anybody-logo {
-    font-family: "Anybody", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 900;
-    font-style: normal;
-    font-variation-settings: "wdth" 80;
-}
-
-.anybody-title {
-    font-family: "Anybody", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
-    font-variation-settings: "wdth" 80;
 } */
 
 @layer components {

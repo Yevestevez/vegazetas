@@ -6,6 +6,7 @@ import { useAppContext } from '../context'
 
 import PasswordInput from './common/PasswordInput.jsx'
 import { errors } from 'com'
+import CircleButton from './common/CircleButton.jsx'
 const { DuplicityError, SystemError } = errors
 
 function Register({ onUserRegistered }) {
@@ -185,6 +186,10 @@ function Register({ onUserRegistered }) {
                             theme="register"
                         />
                     </div>
+                    <CircleButton
+                        type="submit" variant="large" bg-color="sgbus-green" text-color="canary"
+                    >Registro
+                    </CircleButton>
 
                     <button
                         className="
