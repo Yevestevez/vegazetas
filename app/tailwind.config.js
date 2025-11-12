@@ -19,6 +19,9 @@ export default {
                 'aquamarine': '#00FFCE',
                 'hot-magenta': '#FF1DCE'
             },
+            screens: {
+                'xs': '480px'
+            },
         },
     },
     safelist: [

@@ -1,5 +1,3 @@
-// import { FaGithub, FaLinkedin } from "react-icons/fa"
-
 import CircleButton from "./common/CircleButton"
 import LogoVegazetas from "./common/LogoVegazetas"
 import Footer from "./common/Footer"

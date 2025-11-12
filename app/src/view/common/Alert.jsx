@@ -1,17 +1,15 @@
+import CircleButton from "./CircleButton"
+
 function Alert({ message, onAccept, isWakingServer = false }) {
-    return <div className="flex justify-center items-center w-full h-full fixed top-0 mx-auto z-10 bg-folly/50">
+    return <div className="fixed top-0 z-10 flex items-center justify-center w-full h-full mx-auto bg-folly bg-opacity-70">
         <div className="
-            flex flex-col mx-auto p-10 items-center justify-center text-center gap-[2vw]
-
-            w-[70%] sm:w-[80%] md:w-[60%] xl:w-[60%]
-            h-[40%] sm:h-[40%] md:h-[40%] xl:h-[50%]
-
-            bg-folly border-8 border-spring-bud text-spring-bud
-            drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)]
+            flex flex-col items-center justify-center gap-4 xs:gap-8 p-4 xs:p-10 md:p-24 lg:p-48 mx-auto text-center 
+            border-8 bg-folly border-spring-bud text-spring-bud
+            shadow-[0.8rem_0.8rem_0_0_rgba(0,0,0,0.8)]
         ">
             {isWakingServer && (
                 <svg
-                    className="animate-spin h-12 w-12 text-spring-bud mb-4"
+                    className="size-12 mb-4 text-spring-bud animate-spin"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -20,26 +18,14 @@ function Alert({ message, onAccept, isWakingServer = false }) {
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                 </svg>
             )}
-            <p className="anybody font-extrabold text-[5vw] sm:text-[4vw] xl:text-[2vw] leading-[80%]">{message}</p>
+            <p className="text-lg xs:text-2xl font-black leading-6 anybody">{message}</p>
 
-            <button
-                type="button" onClick={onAccept}
-                className="
-                    rounded-full flex items-center justify-center anybody-logo bg-spring-bud text-folly
-
-                    w-[20vw] sm:w-[18vw] md:w-[14vw] xl:w-[8vw]
-                    h-[20vw] sm:h-[18vw] md:h-[14vw] xl:h-[8vw]
-
-                    text-[clamp(1rem,3.5vw,10rem)] md:text-[clamp(1rem,2.6vw,10rem)] lg:text-[clamp(1.6rem,2vw,10rem)] xl:text-[clamp(1.2rem,1.4vw,10rem)]
-
-                    drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
-                    hover:drop-shadow-[1.7vw_1.7vw_0_rgba(0,0,0,0.7)] hover:md:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.7)] hover:lg:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.7)] hover:xl:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.7)]
-
-                    transition-transform duration-150 ease-out hover:-translate-y-2 hover:scale-105
-                "
+            <CircleButton
+                onClick={onAccept}
+                className="bg-spring-bud text-folly outline-none hover:bg-folly hover:text-spring-bud hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
             >
                 Aceptar
-            </button>
+            </CircleButton>
         </div>
     </div>
 }

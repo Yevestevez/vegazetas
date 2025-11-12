@@ -1,16 +1,16 @@
-import {IoMdEye ,IoMdEyeOff} from 'react-icons/io'
+import { IoMdEye, IoMdEyeOff } from 'react-icons/io'
 import { useState } from 'react'
 
 function PasswordInput({
-                           value,
-                           onChange,
-                           id,
-                           placeholder,
-                           pattern,
-                           title,
-                           className,
-                           theme = 'register'
-                       }) {
+    value,
+    onChange,
+    id,
+    placeholder,
+    pattern,
+    title,
+    className,
+    theme = 'register'
+}) {
     const [showPassword, setShowPassword] = useState(false)
 
     const themes = {
