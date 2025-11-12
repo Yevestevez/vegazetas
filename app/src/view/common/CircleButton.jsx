@@ -8,7 +8,7 @@ const SIZE_VARIANTS = {
   `,
   large: `
     size-20 xs:size-24 sm:size-28 lg:size-32
-    text-sm xs:text-xl lg:text-2xl xl:text-2xl
+    text-sm xs:text-xl lg:text-2xl
     shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.6rem_0.6rem_0_0_rgba(0,0,0,0.8)]
   `
 }

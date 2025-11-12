@@ -135,19 +135,20 @@ function Register({ onUserRegistered }) {
                     </div>
                 </div>
                 <CircleButton
-                    type="submit" variant="large" bg-color="sgbus-green" text-color="canary" className={"self-end mt-4 bg-sgbus-green hover:bg-violet text-canary hover:text-hot-magenta z-10"}
+                    type="submit" variant="large" className={"self-end mt-4 bg-sgbus-green hover:bg-violet text-canary hover:text-hot-magenta z-10"}
                 >Registro
                 </CircleButton>
             </form>
 
-            <div className="flex flex-col w-full gap-2 -mt-24 xs:-mt-28 md:-mt-32 lg:-mt-36 text-violet">
+            <nav aria-label="Navegación a Inicio" className="flex flex-col w-full gap-2 -mt-24 xs:-mt-28 md:-mt-32 lg:-mt-36 text-violet">
                 <p className="anybody text-xs xs:text-sm">¿Ya tienes cuenta?</p>
-                <Link className="z-0 w-fit anybody-title text-5xl md:text-6xl font-bold underline decoration-8 transition-all duration-150 ease-out hover:text-hot-magenta hover:-translate-y-2 hover:scale-105 active:scale-95 focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105"
+                <Link className="z-0 w-fit anybody-title text-4xl xs:text-5xl md:text-6xl font-bold underline decoration-8 transition-all duration-150 ease-out hover:text-hot-magenta hover:-translate-y-2 hover:scale-105 active:scale-95 focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105"
                     to="/login"
                 >Login</Link>
-            </div>
+            </nav>
         </main>
-        <Footer className=""></Footer>
+
+        <Footer></Footer>
     </div>
 }
 
