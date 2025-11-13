@@ -4,7 +4,6 @@ import { Link } from "react-router-dom"
 import logic from '../logic'
 import { useAppContext } from '../context'
 
-import PasswordInput from './common/PasswordInput.jsx'
 import CircleButton from './common/CircleButton.jsx'
 import Input from './common/Input.jsx'
 import LogoVegazetas from './common/LogoVegazetas.jsx'
@@ -104,21 +103,12 @@ function Login({ onUserLoggedIn }) {
         })
     }
 
-    const inputClasses = `
-        flex items-center justify-center rounded-full p-[4vw] xl:p-[2vw] mb-[2vw]
-        w-[70vw] xl:w-[40vw]
-        h-[14vw] sm:h-[12vw] lg:h-[10vw] xl:h-[6vw] 2xl:h-[5vw]
-        bg-aquamarine focus:bg-violet outline-aquamarine focus:outline-5 focus:text-aquamarine text-violet
-        anybody text-center text-[4.5vw] sm:text-[3.8vw] lg:text-[3.5vw] xl:text-[2vw] min-w-0 truncate placeholder:italic
-        drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] md:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] lg:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
-    `
-
     const labelClasses = 'anybody text-xl font-bold text-aquamarine'
 
     return <div className="flex flex-col items-center justify-start md:justify-center w-full min-h-screen gap-2 xs:gap-4 py-6 xs:py-10 md:pt-0 bg-violet">
         <LogoVegazetas to="/Landing" className="text-hot-magenta hover:text-folly"></LogoVegazetas>
 
-        <main className="flex flex-col items-center justify-center w-full max-w-5xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
+        <main className="flex flex-col items-center justify-center w-full max-w-7xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
             <SectionTitle className="bg-hot-magenta text-violet">INICIO</SectionTitle>
 
             <form className="flex flex-col items-center justify-center w-full gap-2"
@@ -133,7 +123,7 @@ function Login({ onUserLoggedIn }) {
                             theme="login"
                             name="email"
                             id="email"
-                            title="Email con el que accederás a Vegazetas"
+                            title="Email con el que te registraste en Vegazetas"
                             required
                         />
                     </div>
@@ -205,7 +195,7 @@ function Login({ onUserLoggedIn }) {
             )}
         </main>
 
-        <Footer></Footer>
+        <Footer />
     </div>
 }
 

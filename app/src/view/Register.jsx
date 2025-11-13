@@ -68,7 +68,7 @@ function Register({ onUserRegistered }) {
     return <div className="flex flex-col items-center justify-start md:justify-center w-full min-h-screen gap-2 xs:gap-4 py-6 xs:py-10 md:pt-0 bg-canary">
         <LogoVegazetas to="/Landing" className="text-violet hover:text-folly"></LogoVegazetas>
 
-        <main className="flex flex-col items-center justify-center w-full max-w-5xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
+        <main className="flex flex-col items-center justify-center w-full max-w-7xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
             <SectionTitle className="bg-violet text-canary">REGISTRO</SectionTitle>
 
             <form className="flex flex-col items-center justify-center w-full gap-2"
@@ -148,7 +148,7 @@ function Register({ onUserRegistered }) {
             </nav>
         </main>
 
-        <Footer></Footer>
+        <Footer />
     </div>
 }
 
