@@ -5,6 +5,7 @@ import logic from '../../../logic'
 import { useAppContext } from '../../../context'
 
 import LogoVegazetasHeader from '../common/LogoVegazetasHeader'
+import ProfileImage from '../common/ProfileImage'
 
 import { errors } from 'com'
 const { NotFoundError, SystemError } = errors
@@ -47,12 +48,12 @@ function Header({ onUserLoggedOut }) {
         })
     }
 
-    return <header className="min-w-screen w-full bg-folly flex justify-center">
-        <div className='flex flex-col md:flex-row items-center justify-center w-full max-w-7xl p-4 lg:p-6 gap-4 md:gap-10 xl:gap-14'>
-            <LogoVegazetasHeader />
+    return <header className="z-10 flex fixed top-0 min-w-screen w-full bg-folly justify-center">
+        <div className='flex flex-col md:flex-row items-center justify-center w-full max-w-7xl p-4 lg:p-6 gap-4 md:gap-12 lg:gap-20 xl:gap-24'>
+            <LogoVegazetasHeader variant="menu" />
 
             <div className="flex flex-row justify-center items-center gap-4">
-                <FaRegUserCircle className="rounded-full text-spring-bud text-5xl  xs:text-6xl xl:text-7xl bg-folly shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]" />
+                <ProfileImage variant="menu" />
 
                 <div className="flex flex-col items-start gap-0 xl:gap-1">
                     <p className="-mb-1 anybody-title font-black text-lg xl:text-2xl text-spring-bud drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4rem_0.4rem_0_rgba(0,0,0,0.8)]

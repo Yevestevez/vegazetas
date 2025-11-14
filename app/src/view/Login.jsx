@@ -115,7 +115,7 @@ function Login({ onUserLoggedIn }) {
                 onSubmit={handleFormSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-2 xs:gap-4 md:gap-10">
 
-                    <div className="flex flex-col xs:gap-2 text-center">
+                    <div className="flex flex-col gap-2 text-center">
                         <label className={labelClasses} htmlFor="email">Email</label>
                         <Input
                             type="email"
@@ -128,7 +128,7 @@ function Login({ onUserLoggedIn }) {
                         />
                     </div>
 
-                    <div className="flex flex-col xs:gap-2 text-center">
+                    <div className="flex flex-col gap-2 text-center">
                         <label className={labelClasses} htmlFor="password">Contraseña</label>
                         <Input
                             type="password"
@@ -167,7 +167,7 @@ function Login({ onUserLoggedIn }) {
 
             {showRecoverPasswordForm && (
                 <section aria-labelledby="recovery-title" className="w-full flex flex-col items-center justify-center pb-10 xs:pb-20 gap-4 xs:gap-6">
-                    <div className="border-t border-aquamarine w-full my-10 border-2" aria-hidden="true" />
+                    <div className="border-t border-aquamarine w-full my-8 border-2" aria-hidden="true" />
                     <h2 id="recovery-title" className="
                             text-center bg-hot-magenta text-violet
                             flex items-center justify-center p-2 anybody-title text-base xs:text-xl drop-shadow-[0.6rem_0.6rem_0_rgba(0,0,0,0.8)]

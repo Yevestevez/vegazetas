@@ -3,8 +3,10 @@ import clsx from 'clsx'
 
 const SIZE_VARIANTS = {
   small: `
-    size-16 xs:size-20 sm:size-24 md:size-28 lg:size-32 xl:size-36 2xl:size-40
-    text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
+    size-16 xs:size-20 sm:size-22 md:size-24 xl:size-28
+    text-sm xs:text-sm sm:text-base md:text-lg lg:text-xl
+    leading-tight sm:leading-tight md:leading-tight lg:leading-tight
+    shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]
   `,
   large: `
     size-20 xs:size-24 sm:size-28 lg:size-32
