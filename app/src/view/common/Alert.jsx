@@ -1,7 +1,7 @@
 import CircleButton from "./CircleButton"
 
 function Alert({ message, onAccept, isWakingServer = false }) {
-    return <div className="fixed top-0 z-10 flex items-center justify-center w-full h-full mx-auto bg-folly bg-opacity-70">
+    return <div className="fixed top-0 z-[100] flex items-center justify-center w-full h-full mx-auto bg-folly bg-opacity-70">
         <div className="
             flex flex-col items-center justify-center gap-4 xs:gap-8 p-4 xs:p-10 md:p-24 lg:p-48 mx-auto text-center 
             border-8 bg-folly border-spring-bud text-spring-bud

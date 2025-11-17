@@ -1,7 +1,7 @@
 import CircleButton from "./CircleButton"
 
 function Confirm({ message, onCancel, onAccept }) {
-    return <div className="fixed top-0 z-10 flex items-center justify-center w-full h-full mx-auto bg-folly bg-opacity-70">
+    return <div className="fixed top-0 z-[100] flex items-center justify-center w-full h-full mx-auto bg-folly bg-opacity-70">
         <div className="
             flex flex-col items-center justify-center mx-auto text-center
             gap-4 xs:gap-8 p-4 xs:p-10 md:p-24 lg:p-48

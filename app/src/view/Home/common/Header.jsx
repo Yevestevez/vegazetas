@@ -26,7 +26,7 @@ function Header({ onUserLoggedOut }) {
     }
 
     return <header className="z-10 flex fixed top-0 min-w-screen w-full justify-center bg-veronica">
-        <div className="flex items-center justify-between w-full py-3 lg:py-6 px-6 sm:px-8 md:px-12 xl:px-14 max-w-7xl gap-2">
+        <div className="flex items-center justify-between w-full py-3 lg:py-6 px-8 md:px-12 xl:px-14 max-w-7xl gap-2">
             <LogoVegazetasHeader to="/menu" variant="myRecipes" />
 
             <div className="flex gap-2 lg:gap-4 items-center align-middle justify-center">

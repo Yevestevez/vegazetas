@@ -49,10 +49,17 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
             onUserLoggedOut={handleUserLoggedOut}
         />
 
-        <main className="flex flex-col w-full py-20 xs:py-24 lg:py-32 xl:py-36 gap-2 max-w-7xl overflow-hidden">
+        <main className="
+        flex flex-col w-full max-w-7xl overflow-hidden
+        pt-20 xs:pt-24 lg:pt-32 xl:pt-36
+        pb-24 xs:pb-28 sm:pb-32
+        gap-2
+        ">
             <h1 className="anybody-logo text-veronica text-lg xs:text-xl sm:text-2xl xl:text-3xl drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)] pb-2">Tus recetas</h1>
             {myRecipes.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xs:gap-10 w-full">
+                <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+                px-8 md:px-12 xl:px-14
+                gap-6 xs:gap-10 lg:gap-12 xl:gap-14">
                     {myRecipes.map(recipe => (
                         <RecipeThumbnail
                             key={recipe.id}
