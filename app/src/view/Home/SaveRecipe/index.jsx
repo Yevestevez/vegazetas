@@ -9,6 +9,7 @@ import logic from '../../../logic'
 import { useAppContext } from '../../../context'
 
 import Header from '../common/Header'
+import Footer from '../../common/Footer'
 
 function SaveRecipe({
     view,
@@ -569,6 +570,7 @@ function SaveRecipe({
 
     return <section className="flex flex-col min-h-screen w-full items-center xl:items-start pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0] overflow-hidden bg-folly">
         <Header
+            variant='saveRecipe'
             onUserLoggedOut={handleUserLoggedOut}
             onLogoClicked={handleLogoLinkCLick}
         />
@@ -1066,7 +1068,7 @@ function SaveRecipe({
             </main>
 
             {/* Buttons */}
-            <div className="fixed bottom-0 left-0 overflow-hidden flex xl:justify-end w-full xl:w-[40vw] px-[8vw] xl:px-0 -mb-[1px] xl:-mb-0 xl:h-[55vh] py-[5vw] sm:py-[3vw] xl:py-0 bg-veronica">
+            <div className="fixed bottom-16 left-0 overflow-hidden flex xl:justify-end w-full xl:w-[40vw] px-[8vw] xl:px-0 -mb-[1px] xl:-mb-0 xl:h-[55vh] py-[5vw] sm:py-[3vw] xl:py-0 bg-veronica">
                 <div className="flex flex-row xl:flex-col justify-between xl:justify-center items-center xl:gap-[2vw] w-full xl:w-[20vw] h-full xl:pb-[2vw]">
                     <div className="flex flex-row xl:flex-col gap-[4vw] xl:gap-[2vw]">
                         <button
@@ -1104,6 +1106,8 @@ function SaveRecipe({
                 </div>
             </div>
         </div>
+
+        <Footer></Footer>
     </section>
 }
 

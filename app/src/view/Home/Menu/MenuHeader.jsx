@@ -50,10 +50,10 @@ function Header({ onUserLoggedOut }) {
 
     return <header className="z-10 flex fixed top-0 min-w-screen w-full bg-folly justify-center">
         <div className='flex flex-col md:flex-row items-center justify-center w-full max-w-7xl p-4 lg:p-6 gap-4 md:gap-12 lg:gap-20 xl:gap-24'>
-            <LogoVegazetasHeader variant="menu" />
+            <LogoVegazetasHeader className="text-spring-bud" />
 
             <div className="flex flex-row justify-center items-center gap-4">
-                <ProfileImage variant="menu" />
+                <ProfileImage variant="menu" className="text-spring-bud" />
 
                 <div className="flex flex-col items-start gap-0 xl:gap-1">
                     <p className="-mb-1 anybody-title font-black text-lg xl:text-2xl text-spring-bud drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4rem_0.4rem_0_rgba(0,0,0,0.8)]

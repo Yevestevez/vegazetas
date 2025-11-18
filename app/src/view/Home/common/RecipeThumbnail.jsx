@@ -44,7 +44,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                         />
                     </>
                 ) : (
-                    <div className="w-full bg-violet aspect-square" />
+                    <div className="w-full bg-veronica aspect-square" />
                 )}
 
                 <h2 className="

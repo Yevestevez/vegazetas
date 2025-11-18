@@ -46,12 +46,13 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
 
     return <div className="flex flex-col min-h-screen w-full items-center text-center bg-sgbus-green">
         <Header
+            variant="myRecipes"
             onUserLoggedOut={handleUserLoggedOut}
         />
 
         <main className="
         flex flex-col w-full max-w-7xl overflow-hidden
-        pt-20 xs:pt-24 lg:pt-32 xl:pt-36
+        pt-20 xs:pt-24 lg:pt-36 xl:pt-40
         pb-24 xs:pb-28 sm:pb-32
         gap-2
         ">
