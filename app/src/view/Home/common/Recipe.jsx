@@ -85,7 +85,7 @@ function Recipe({
 
     if (!recipe) return <p>Cargando receta...</p>
 
-    return <div className="flex flex-col min-h-screen w-full items-center bg-hot-magenta">
+    return <div className="flex flex-col min-h-screen w-full items-center bg-spring-bud">
         <Header
             variant="recipe"
             onUserLoggedOut={handleUserLoggedOut}
@@ -100,7 +100,7 @@ function Recipe({
             <section
                 aria-labelledby="recipe-action-title"
                 className="
-                    z-20 w-full flex text-center items-center fixed left-0 top-16 xs:top-20
+                    z-20 w-full flex text-center items-center justify-center fixed left-0 top-16 xs:top-20
                     py-4
                     bg-folly
                     border-b-4 border-b-spring-bud
@@ -136,114 +136,112 @@ function Recipe({
                 </div>
             </section>
 
-            {/* receta */}
-            <article aria-labelledby="recipe-title">
+            {/* recipe */}
+            <article aria-labelledby="recipe-title" className="flex flex-col gap-3 xs:gap-4">
+                <section className='flex flex-col items-center'>
+                    <h2 className="sr-only">Presentación de la receta</h2>
 
-                {/* images */}
-                <section className="w-full flex flex-row items-center justify-center overflow-hidden h-44 mt-16 bg-violet">
+                    {/* images */}
+                    <div className="w-full flex flex-row items-center justify-center overflow-hidden h-44 xs:h-56 sm:h-72 md:h-80 mt-16 xs:mt-12 lg:mt-0 xl:-mt-4 max-w-7xl">
+                        {recipe.images.length > 0 ? (
+                            recipe.images.map((image, index) => (
+                                <img key={index} src={image} alt={`Recipe image ${index + 1}`} className="w-full h-full object-cover -m-1 border-none" />
+                            ))
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center anybody-title text-lg md:text-xl xl:text-2xl text-canary bg-violet" role="status">No hay imágenes</div>
+                        )}
+                    </div>
 
-                    <h2 className="sr-only">Imágenes de la receta</h2>
+                    {/* title, author, date */}
+                    <div className="
+                        z-10 relative flex flex-col justify-center align-middle items-center text-center
+                        gap-3 p-4 xs:p-6 w-3/4 sm:p-8 md:p-10 sm:w-2/3 lg:w-1/2
+                        mx-16 -mt-4 sm:-mt-6 lg:-mt-8
+                        bg-folly text-spring-bud
+                        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.5rem_0.5rem_0_0_rgba(0,0,0,0.8)]
+                    ">
+                        <h1 className="anybody-logo text-xl sm:text-2xl lg:text-3xl xl:text-4xl -mb-2 leading-tight sm:leading-tight lg:leading-tight xl:leading-tight">{recipe.title}</h1>
+                        <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl underline decoration-4 underline-offset-4">@{author}</h2>
+                        <time className="text-xs sm:text-sm lg:text-base xl:text-lg">{formatDate(recipe.date)}</time>
+                    </div>
 
-                    {recipe.images.length > 0 ? (
-                        recipe.images.map((image, index) => (
-                            <img key={index} src={image} alt={`Recipe image ${index + 1}`} className="w-full h-full object-cover -m-1 border-none" />
-                        ))
-                    ) : (
-                        <div className="w-full h-full flex items-center justify-center anybody-title text-lg text-canary" role="status">No hay imágenes</div>
-                    )}
-                </section>
+                    <div className='flex flex-col gap-3 xs:gap-4 lg:gap-6 py-6 xs:py-8 md:py-10 justify-center items-center px-8 md:px-12 xl:px-14 w-full'>
+                        {/* description */}
+                        {recipe.description && <p className="text-folly text-center text-base sm:text-lg lg:text-xl xl:text-2xl leading-tight sm:leading-tight lg:leading-tight xl:leading-tight">{recipe.description}</p>}
 
-                {/* title, author, date */}
-                <section className="
-                    z-10 relative flex flex-col justify-center align-middle items-center text-center
-                    gap-3 p-4
-                    mx-10 -mt-4
-                    bg-folly text-spring-bud
-                    shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]
-                ">
-                    <h1 id="recipe-title" className="anybody-logo text-xl -mb-2 leading-tight">{recipe.title}</h1>
-                    <h2 className="text-base underline decoration-4 underline-offset-4">@{author}</h2>
-                    <time className="text-xs ">{formatDate(recipe.date)}</time>
-                </section>
+                        {/* time, difficulty */}
+                        {
+                            (recipe.time || recipe.difficulty) && (
+                                <div className="flex flex-row anybody-title text-lg sm:text-xl lg:text-2xl xl:text-3xl text-folly gap-2">
+                                    {recipe.time && <h3>{recipe.time} min</h3>}
+                                    {recipe.difficulty && (
+                                        <>
+                                            {recipe.time && " · "}
+                                            <h3>Dificultad: {difficultyMap[recipe.difficulty]}</h3>
+                                        </>
+                                    )}
+                                </div>
+                            )
+                        }
 
-                <div className='flex flex-col gap-3 p-6 justify-center items-center'>
-                    {/* description */}
-                    {recipe.description && <p className="text-folly text-center text-base leading-tight">{recipe.description}</p>}
-
-                    {/* time, difficulty */}
-                    {
-                        (recipe.time || recipe.difficulty) && (
-                            <div className="flex flex-row anybody-title text-lg text-folly gap-2">
-                                {recipe.time && <h3>{recipe.time} min</h3>}
-                                {recipe.difficulty && (
-                                    <>
-                                        {recipe.time && " · "}
-                                        <h3>Dificultad: {difficultyMap[recipe.difficulty]}</h3>
-                                    </>
-                                )}
+                        {/* tags */}
+                        {recipe.tags && recipe.tags.length > 0 && (
+                            <div className="flex flex-wrap justify-center gap-3 xs:gap-4 md:gap-6 text-spring-bud">
+                                {recipe.tags.map((tag, index) => (
+                                    <h3 className="anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-folly shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]" key={index}>#{tag}</h3>
+                                ))}
                             </div>
-                        )
-                    }
-
-                    {/* tags */}
-                    {recipe.tags && recipe.tags.length > 0 && (
-                        <div className="flex flex-wrap justify-center gap-3 text-spring-bud">
-                            {recipe.tags.map((tag, index) => (
-                                <h3 className="anybody-title text-xs pb-0.5 pt-1 px-2 bg-folly shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]" key={index}>#{tag}</h3>
-                            ))}
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
+                </section>
 
                 {/* ingredients */}
                 {recipe.ingredients && recipe.ingredients.length > 0 && (
-                    <section className="flex flex-col justify-items-center items-center py-[4vw] xl:py-[1vw] w-full bg-folly">
-                        <h2 className="
-                        mt-[2vw] anybody-logo text-[7vw] md:text-[6vw] xl:text-[2.5vw] text-spring-bud
-                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.8)] md:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
+                    <section aria-labelledby='ingredients' className="flex flex-col justify-items-center items-center py-6 sm:py-8 gap-6 px-8 md:px-12 xl:px-14 w-full bg-folly">
+                        <h2 id="ingredients" className="
+                        anybody-logo text-2xl sm:text-3xl xl:text-4xl text-spring-bud
+                        drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)]
                     ">Ingredientes</h2>
 
-                        <div className="flex flex-col text-center px-[8vw] xl:px-[3vw] gap-[3vw] xl:gap-[1vw]">
+                        <div className="columns-1 lg:columns-2 gap-6 text-center space-y-6">
                             {/* Ingredientes principales */}
                             {recipe.ingredients.some(ingredient => ingredient.main) && (
-                                <>
+                                <div className="flex flex-col items-center justify-center align-middle">
                                     <h3 className="
-                                    text-center mt-[5vw] xl:mt-[3vw] mb-[2vw] xl:mb-[1vw] w-[30vw] sm:w-[25vw] xl:w-[9vw] mx-auto py-[0.5vw] xl:py-[0.1vw]
-                                    anybody-title text-[5vw] sm:text-[4vw] xl:text-[1.4vw] text-folly bg-spring-bud
-                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-                                ">Principales</h3>
+                                        px-4 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl text-folly bg-spring-bud
+                                        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
+                                    ">Principales</h3>
                                     {recipe.ingredients
                                         .filter(ingredient => ingredient.main)
                                         .map((ingredient) => (
-                                            <div className="anybody text-[5vw] sm:text-[4vw] md:text-[3.5vw] xl:text-[1.4vw] leading-[120%] text-spring-bud" key={ingredient.id}>
+                                            <div className="py-1 xs:py-1.5 text-base sm:text-lg xl:text-xl leading-tight sm:leading-tight xl:leading-tight text-spring-bud" key={ingredient.id}>
                                                 <p>
                                                     <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
                                                     {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
                                                 </p>
                                             </div>
                                         ))}
-                                </>
+                                </div>
                             )}
 
                             {/* Ingredientes de despensa */}
                             {recipe.ingredients.some(ingredient => !ingredient.main) && (
-                                <>
+                                <div className="flex flex-col items-center justify-center align-middle">
                                     <h3 className="
-                                    text-center mt-[5vw] xl:mt-[2vw] mb-[2vw] xl:mb-[1vw] w-[30vw] sm:w-[25vw] xl:w-[9vw] mx-auto py-[0.5vw] xl:py-[0.1vw]
-                                    anybody-title text-[5vw] sm:text-[4vw] xl:text-[1.4vw] text-folly bg-spring-bud
-                                    drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-                                ">Despensa</h3>
+                                        px-4 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl text-folly bg-spring-bud
+                                        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
+                                    ">Despensa</h3>
                                     {recipe.ingredients
                                         .filter(ingredient => !ingredient.main)
                                         .map((ingredient) => (
-                                            <div className="anybody text-[5vw] sm:text-[4vw] md:text-[3.5vw] xl:text-[1.4vw] leading-[120%] text-spring-bud" key={ingredient.id}>
+                                            <div className="py-1 xs:py-1.5 text-base sm:text-lg xl:text-xl leading-tight sm:leading-tight xl:leading-tight text-spring-bud" key={ingredient.id}>
                                                 <p>
                                                     <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
                                                     {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
                                                 </p>
                                             </div>
                                         ))}
-                                </>
+                                </div>
                             )}
                         </div>
                     </section>
@@ -251,27 +249,30 @@ function Recipe({
 
                 {/* steps */}
                 {recipe.steps && recipe.steps.length > 0 && (
-                    <section className="flex flex-col justify-items-center items-center py-[6vw] xl:py-[4vw] -my-1 w-full bg-folly border-transparent">
-                        <h2 className="
-                        anybody-logo text-[7vw] md:text-[6vw] xl:text-[2.5vw] text-spring-bud
-                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[0.9vw_0.9vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
+                    <section aria-labelledby='steps' className="flex flex-col justify-items-center items-center py-6 gap-6 px-8 md:px-12 xl:px-14 w-full">
+                        <h2 id="steps" className="
+                        anybody-logo text-2xl sm:text-3xl xl:text-4xl text-folly
+                        drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)]
                     ">Preparación</h2>
 
-                        <div className="mt-[4vw] xl:mt-[2vw] text-center w-[85vw] xl:w-[28vw] flex flex-col gap-[6vw] xl:gap-[2vw] text-folly">
+                        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 xs:gap-8 space-y-6 items-center justify-center text-center text-spring-bud">
                             {recipe.steps.map((step, index) => (
                                 <div className="
-                                flex flex-col gap-[2vw] xl:gap-[0.8vw] px-[5vw] py-[6vw] xl:py-[2vw] bg-spring-bud
-                                drop-shadow-[2vw_2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
-                            " key={index}>
-                                    <h3 className="anybody-logo text-[6vw] sm:text-[5vw] md:text-[4.5vw] xl:text-[1.6vw] leading-[100%]">{index + 1}</h3>
-                                    <p className="anybody text-[5vw] sm:text-[4vw] md:text-[3.5vw] xl:text-[1.2vw] leading-[120%]">{step.text}</p>
-                                    {step.note && <p className="anybody text-[4vw] sm:text-[3vw] xl:text-[1vw] italic font-light leading-[120%]">({step.note})</p>}
+                                    break-inside-avoid
+                                    flex flex-col h-full p-4 xs:p-6 gap-3 w-full bg-folly 
+                                    shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.5rem_0.5rem_0_0_rgba(0,0,0,0.8)]
+                                " key={index}>
+                                    <h3 className="anybody-logo text-lg sm:text-xl xl:text-2xl">{index + 1}</h3>
+                                    <p className="text-base sm:text-lg xl:text-xl leading-tight sm:leading-tight xl:leading-tight">{step.text}</p>
+                                    {step.note && <p className="text-sm sm:text-base italic font-light leading-tight sm:leading-tight">({step.note})</p>}
                                     {step.image && (
-                                        <img
-                                            src={step.image}
-                                            alt={`Paso ${index + 1} image`}
-                                            className="w-full mt-[2vw] xl:mt-[1vw]"
-                                        />
+                                        <div className="w-full mt-2 sm:max-h-48 overflow-hidden bg-folly">
+                                            <img
+                                                src={step.image}
+                                                alt={`Paso ${index + 1} image`}
+                                                className="w-full h-auto sm:max-h-48 object-contain"
+                                            />
+                                        </div>
                                     )}
                                 </div>
                             ))}
