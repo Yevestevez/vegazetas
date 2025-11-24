@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom"
 
-import { FaChevronUp } from "react-icons/fa"
-import { FaChevronLeft } from "react-icons/fa"
-import { MdDelete } from "react-icons/md"
-import { MdEdit } from "react-icons/md"
+import { FaChevronUp, FaChevronLeft } from "react-icons/fa"
+import { MdDelete, MdEdit } from "react-icons/md"
 
-import logic from '../../../logic'
 import { useAppContext } from '../../../context'
+import logic from '../../../logic'
 import formatDate from '../../helper/formatDate'
 
 import Header from '../common/Header'
@@ -91,21 +89,12 @@ function Recipe({
             onUserLoggedOut={handleUserLoggedOut}
         />
 
-        <main className="flex flex-col w-full max-w-7xl overflow-hidden
-        pt-14 xs:pt-24 lg:pt-36 xl:pt-40
-        pb-24 xs:pb-28 sm:pb-32
-        gap-2 bg-spring-bud">
+        <main className="flex flex-col w-full max-w-7xl overflow-hidden pt-14 xs:pt-24 lg:pt-36 xl:pt-40 pb-24 xs:pb-28 sm:pb-32 gap-2 bg-spring-bud">
 
             {/* <-- button group --> */}
             <section
                 aria-labelledby="recipe-action-title"
-                className="
-                    z-20 w-full flex text-center items-center justify-center fixed left-0 top-16 xs:top-20
-                    py-4
-                    bg-folly
-                    border-b-4 border-b-spring-bud
-                    h-16
-                ">
+                className="z-20 w-full flex text-center items-center justify-center fixed left-0 top-16 xs:top-20 py-4 bg-folly border-b-4 border-b-spring-bud h-16">
                 <h2 id="recipe-actions-title" className="sr-only">
                     Botonera de acciones y navegación de la receta
                 </h2>
@@ -136,40 +125,54 @@ function Recipe({
                 </div>
             </section>
 
-            {/* recipe */}
+            {/* <-- recipe --> */}
             <article aria-labelledby="recipe-title" className="flex flex-col gap-3 xs:gap-4">
                 <section className='flex flex-col items-center'>
                     <h2 className="sr-only">Presentación de la receta</h2>
 
-                    {/* images */}
+                    {/* <-- images --> */}
+
                     <div className="w-full flex flex-row items-center justify-center overflow-hidden h-44 xs:h-56 sm:h-72 md:h-80 mt-16 xs:mt-12 lg:mt-0 xl:-mt-4 max-w-7xl">
                         {recipe.images.length > 0 ? (
-                            recipe.images.map((image, index) => (
-                                <img key={index} src={image} alt={`Recipe image ${index + 1}`} className="w-full h-full object-cover -m-1 border-none" />
-                            ))
+                            recipe.images.map((image, index) => {
+                                const widthClass = recipe.images.length === 1 ? "w-full" : "w-1/2"
+
+                                return (
+                                    <img
+                                        key={index}
+                                        src={image}
+                                        alt={`Recipe image ${index + 1}`}
+                                        className={`h-full object-cover border-none ${widthClass}`}
+                                    />
+                                )
+                            })
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center anybody-title text-lg md:text-xl xl:text-2xl text-canary bg-violet" role="status">No hay imágenes</div>
+                            <div className="w-full h-full flex items-center justify-center anybody-title text-lg md:text-xl xl:text-2xl text-canary bg-violet" role="status">
+                                No hay imágenes
+                            </div>
                         )}
                     </div>
 
-                    {/* title, author, date */}
+                    {/* <-- title, author, date --> */}
                     <div className="
-                        z-10 relative flex flex-col justify-center align-middle items-center text-center
+                        z-10 relative flex flex-col justify-center align-middle items-center text-center rounded-sm
                         gap-3 p-4 xs:p-6 w-3/4 sm:p-8 md:p-10 sm:w-2/3 lg:w-1/2
                         mx-16 -mt-4 sm:-mt-6 lg:-mt-8
                         bg-folly text-spring-bud
                         shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.5rem_0.5rem_0_0_rgba(0,0,0,0.8)]
                     ">
                         <h1 className="anybody-logo text-xl sm:text-2xl lg:text-3xl xl:text-4xl -mb-2 leading-tight sm:leading-tight lg:leading-tight xl:leading-tight">{recipe.title}</h1>
+
                         <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl underline decoration-4 underline-offset-4">@{author}</h2>
+
                         <time className="text-xs sm:text-sm lg:text-base xl:text-lg">{formatDate(recipe.date)}</time>
                     </div>
 
                     <div className='flex flex-col gap-3 xs:gap-4 lg:gap-6 py-6 xs:py-8 md:py-10 justify-center items-center px-8 md:px-12 xl:px-14 w-full'>
-                        {/* description */}
+                        {/* <-- description --> */}
                         {recipe.description && <p className="text-folly text-center text-base sm:text-lg lg:text-xl xl:text-2xl leading-tight sm:leading-tight lg:leading-tight xl:leading-tight">{recipe.description}</p>}
 
-                        {/* time, difficulty */}
+                        {/* <-- time, difficulty --> */}
                         {
                             (recipe.time || recipe.difficulty) && (
                                 <div className="flex flex-row anybody-title text-lg sm:text-xl lg:text-2xl xl:text-3xl text-folly gap-2">
@@ -184,18 +187,18 @@ function Recipe({
                             )
                         }
 
-                        {/* tags */}
+                        {/* <-- tags --> */}
                         {recipe.tags && recipe.tags.length > 0 && (
-                            <div className="flex flex-wrap justify-center gap-3 xs:gap-4 md:gap-6 text-spring-bud">
+                            <ul className="flex flex-wrap justify-center gap-3 xs:gap-4 md:gap-6 text-spring-bud">
                                 {recipe.tags.map((tag, index) => (
-                                    <h3 className="anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-folly shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]" key={index}>#{tag}</h3>
+                                    <li className="rounded-sm anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-folly shadow-[0.2rem_0.2rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]" key={index}>#{tag}</li>
                                 ))}
-                            </div>
+                            </ul>
                         )}
                     </div>
                 </section>
 
-                {/* ingredients */}
+                {/* <-- ingredients --> */}
                 {recipe.ingredients && recipe.ingredients.length > 0 && (
                     <section aria-labelledby='ingredients' className="flex flex-col justify-items-center items-center py-6 sm:py-8 gap-6 px-8 md:px-12 xl:px-14 w-full bg-folly">
                         <h2 id="ingredients" className="
@@ -204,11 +207,12 @@ function Recipe({
                     ">Ingredientes</h2>
 
                         <div className="columns-1 lg:columns-2 gap-6 text-center space-y-6">
-                            {/* Ingredientes principales */}
+
+                            {/* <-- main ingredients --> */}
                             {recipe.ingredients.some(ingredient => ingredient.main) && (
                                 <div className="flex flex-col items-center justify-center align-middle">
                                     <h3 className="
-                                        px-4 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl text-folly bg-spring-bud
+                                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
                                         shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
                                     ">Principales</h3>
                                     {recipe.ingredients
@@ -224,11 +228,11 @@ function Recipe({
                                 </div>
                             )}
 
-                            {/* Ingredientes de despensa */}
+                            {/* <-- pantry ingredients --> */}
                             {recipe.ingredients.some(ingredient => !ingredient.main) && (
                                 <div className="flex flex-col items-center justify-center align-middle">
                                     <h3 className="
-                                        px-4 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl text-folly bg-spring-bud
+                                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
                                         shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
                                     ">Despensa</h3>
                                     {recipe.ingredients
@@ -247,7 +251,7 @@ function Recipe({
                     </section>
                 )}
 
-                {/* steps */}
+                {/* <-- steps --> */}
                 {recipe.steps && recipe.steps.length > 0 && (
                     <section aria-labelledby='steps' className="flex flex-col justify-items-center items-center py-6 gap-6 px-8 md:px-12 xl:px-14 w-full">
                         <h2 id="steps" className="
@@ -258,7 +262,7 @@ function Recipe({
                         <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 xs:gap-8 space-y-6 items-center justify-center text-center text-spring-bud">
                             {recipe.steps.map((step, index) => (
                                 <div className="
-                                    break-inside-avoid
+                                    break-inside-avoid rounded-sm
                                     flex flex-col h-full p-4 xs:p-6 gap-3 w-full bg-folly 
                                     shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.5rem_0.5rem_0_0_rgba(0,0,0,0.8)]
                                 " key={index}>

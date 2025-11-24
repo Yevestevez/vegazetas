@@ -9,6 +9,8 @@ import logic from '../../../logic'
 import { useAppContext } from '../../../context'
 
 import Header from '../common/Header'
+import MiniCircleButton from '../common/MiniCircleButton'
+import CircleButton from '../../common/CircleButton'
 import Footer from '../../common/Footer'
 
 function SaveRecipe({
@@ -16,7 +18,7 @@ function SaveRecipe({
     onToRecipeClicked,
     onRecipeDeleted,
     onUserLoggedOut,
-    onLogoClicked,
+    // onLogoClicked,
     onSaveRecipeBackButtonClicked
 }) {
     const { alert, confirm } = useAppContext()
@@ -75,7 +77,7 @@ function SaveRecipe({
 
     const handleUserLoggedOut = () => onUserLoggedOut()
 
-    const handleLogoLinkCLick = () => onLogoClicked()
+    // const handleLogoLinkCLick = () => onLogoClicked()
 
     const handleRecipeFormSubmit = (event) => {
         event.preventDefault()
@@ -517,11 +519,11 @@ function SaveRecipe({
     const mainIngredients = (recipe.ingredients ?? []).filter(ingredient => ingredient.main)
     const pantryIngredients = (recipe.ingredients ?? []).filter(ingredient => !ingredient.main)
 
-    const difficultyTranslations = {
-        easy: 'Fácil',
-        medium: 'Media',
-        difficult: 'Difícil'
-    }
+    // const difficultyTranslations = {
+    //     easy: 'Fácil',
+    //     medium: 'Media',
+    //     difficult: 'Difícil'
+    // }
 
     // TailwindCSS common classes
     const inputClasses = `
@@ -543,22 +545,6 @@ function SaveRecipe({
         hover:drop-shadow-[1.4vw_1.4vw_0_rgba(0,0,0,0.7)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] hover:xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.7)]
         transition-transform duration-150 ease-out hover:-translate-y-1 hover:scale-105
     `
-
-    const footerButtonClasses = `
-        rounded-full flex items-center justify-center
-        h-[12vw] sm:h-[9vw] md:h-[8vw] lg:h-[7vw] xl:h-[3.5vw]
-        w-[12vw] sm:w-[9vw] md:w-[8vw] lg:w-[7vw] xl:w-[3.5vw]
-        bg-sgbus-green text-veronica
-        hover:bg-veronica hover:text-sgbus-green hover:outline-[0.1em] hover:outline-sgbus-green
-        text-[8vw] sm:text-[7vw] md:text-[6vw] lg:text-[5vw] xl:text-[2.5vw]
-        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)]
-        sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)]
-        lg:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)]
-        xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-        transition-all duration-100 ease-out
-        hover:-translate-y-1 hover:scale-105
-    `
-
     const textareaClasses = `
         flex items-center justify-center rounded-2xl min-h-auto resize-none box-border
         anybody text-center placeholder:italic
@@ -568,547 +554,525 @@ function SaveRecipe({
         focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.25vw]
     `
 
-    return <section className="flex flex-col min-h-screen w-full items-center xl:items-start pt-[21vw] sm:pt-[17vw] md:pt-[16vw] xl:pt-[0] overflow-hidden bg-folly">
+    const inputBase = `
+        w-full text-sm text-center py-1 px-4 rounded-full
+        placeholder:italic placeholder:opacity-70
+        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
+    `
+
+    const inputColor = {
+        springBud: `
+            text-folly bg-spring-bud placeholder:text-folly
+        `,
+        folly: `
+            text-spring-bud bg-folly placeholder:text-spring-bud
+        `
+    }
+
+    const btnColor = {
+        springBud: `
+            bg-spring-bud text-folly hover:outline hover:outline-spring-bud hover:bg-folly hover:text-spring-bud
+        `,
+        folly: `
+            bg-folly text-spring-bud hover:outline hover:outline-folly hover:bg-spring-bud hover:text-folly
+        `
+    }
+
+    return <div className="flex flex-col min-h-screen w-full items-center bg-folly">
         <Header
             variant='saveRecipe'
             onUserLoggedOut={handleUserLoggedOut}
-            onLogoClicked={handleLogoLinkCLick}
+        // onLogoClicked={handleLogoLinkCLick}
         />
 
-        <div className="flex flex-col xl:ml-[40vw] w-full xl:w-[35vw] mb-[30vw] sm:mb-[20vw] lg:mb-[16vw] xl:mb-[4vw]">
+        <main className="flex flex-col w-full max-w-7xl items-center
+        pt-14 xs:pt-24 lg:pt-36 xl:pt-40
+        pb-24 xs:pb-28 sm:pb-32
+        gap-2">
+
+            {/* <-- button group --> */}
+            <section
+                aria-labelledby="recipe-action-title"
+                className="
+                    z-20 w-full flex text-center items-center justify-center fixed left-0 top-16 xs:top-20
+                    py-4
+                    bg-spring-bud
+                    border-b-4 border-b-folly
+                    h-16
+                ">
+                <h2 id="recipe-actions-title" className="sr-only">
+                    Botonera de acciones y navegación de la receta
+                </h2>
+
+                <div className="flex justify-between px-8 md:px-12 xl:px-14 w-full max-w-7xl">
+                    <nav className='flex gap-3 xs:gap-4'>
+                        <MiniCircleButton to="/my-recipes" variant="saveRecipe" title="Atrás" className="pr-1">
+                            <FaChevronLeft />
+                        </MiniCircleButton>
+
+                        <MiniCircleButton onClick={(e) => {
+                            window.scrollTo({ top: 0, behavior: "smooth" })
+                            e.currentTarget.blur()
+                        }} variant="saveRecipe">
+                            <FaChevronUp />
+                        </MiniCircleButton>
+                    </nav>
+
+                    <div className='flex gap-3 xs:gap-4' role="toolbar" aria-label="Acciones de receta">
+                        <MiniCircleButton onClick={handleToRecipeClick} aria-label="Ver receta" variant="saveRecipe">
+                            <MdRemoveRedEye />
+                        </MiniCircleButton>
+
+                        <MiniCircleButton onClick={handleDeleteButtonClick} aria-label="Eliminar receta" variant="saveRecipe">
+                            <MdDelete />
+                        </MiniCircleButton>
+                    </div>
+                </div>
+            </section>
+
             <h1 className="
-                    flex justify-center text-center py-[6vw] xl:py-[2vw]
-                    anybody-logo text-[7vw] sm:text-[6vw] xl:text-[2.5vw] text-spring-bud
-                    drop-shadow-[0.15em_0.15em_0_rgba(0,0,0,0.8)] sm:drop-shadow-[0.12em_0.12em_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)]
+                    text-center anybody-logo text-2xl lg:text-3xl xl:text-4xl text-spring-bud
+                    drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)] pt-24
                 ">
                 {view === "update" ? "Edita tu receta" : "Crea tu nueva receta"}
             </h1>
 
-            <main className="flex flex-col items-center w-[80vw] xl:w-[28vw] mx-auto">
-                {/* ===== Recipe ===== */}
-                <form className="flex flex-col w-full gap-[6vw] xl:gap-[2vw] mb-[5vw] xl:mb-[3vw]" onSubmit={handleRecipeFormSubmit}>
-                    <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Título*</label>
+            <div
+                className="flex justify-center w-2/3 my-4 items-center border-t-2 border-spring-bud "
+                aria-hidden="true"
+            ></div>
+
+            {/* <-- recipe intro --> */}
+            <section
+                aria-labelledby='recipe-intro'
+                className="flex flex-col w-full items-center justify-center align-middle 
+                gap-8 px-8 md:px-12 xl:px-14 max-w-7xl
+            ">
+
+                <h2 id="recipe-intro" className="
+                        anybody-logo text-2xl sm:text-3xl xl:text-4xl text-spring-bud
+                        drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)
+                    ">Introducción</h2>
+
+                {/* <-- basic data --> */}
+                <section aria-labelledby="basic-data-title" className="flex flex-col w-full items-center justify-center text-center py-2 gap-2">
+                    <h3 id="basic-data-title" className="
+                         px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
+                        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
+                    ">Datos básicos</h3>
+
+                    <form className="flex flex-col w-full items-center justify-center text-center gap-2  text-spring-bud" onSubmit={handleRecipeFormSubmit}>
+
+                        <label className="text-base font-bold" htmlFor="title">Título*</label>
+                        <input
+                            type="text" name="title" required
+                            placeholder="Pon un título a tu receta"
+                            defaultValue={recipe.title} maxLength={50}
+                            title="Campo obligatorio. Máximo 50 caracteres"
+
+                            className={`${inputBase} ${inputColor.springBud} mb-2 truncate`}
+                        />
+
+                        <label className="text-base font-bold" htmlFor="title">Descripción</label>
+                        <textarea
+                            name="description" title="Máximo 500 caracteres" placeholder="Describe tu receta ¡cuéntanos más!"
+                            defaultValue={recipe.description} maxLength={500} wrap="soft"
+                            onInput={(e) => {
+                                e.target.style.height = 'auto';
+                                e.target.style.height = e.target.scrollHeight + 'px';
+                            }}
+
+                            className={`${inputBase} ${inputColor.springBud} rounded-lg leading-tight mb-2 px-3 `}
+                        />
+
+                        <div className="flex flex-row w-full justify-between gap-4">
+                            <div className="flex flex-col w-full gap-2">
+                                <label className="text-base font-bold" htmlFor="title">Tiempo</label>
+                                <input
+                                    type="number" name="time" title="Tiempo en minutos. Múltiplos de 5"
+                                    placeholder="En minutos" defaultValue={recipe.time || 5} min={5} max={9999} step={5}
+
+                                    className={`${inputBase} ${inputColor.springBud} truncate mb-2`}
+                                />
+                            </div>
+
+                            <div className="flex flex-col w-full gap-2">
+                                <label className="text-base font-bold" htmlFor="title">Dificultad</label>
+                                <select
+                                    name="difficulty" value={difficulty}
+                                    onChange={(e) => setDifficulty(e.target.value)}
+
+                                    className={`${inputBase} ${inputColor.springBud} flex items-center justify-center mb-2`}
+                                >
+                                    <option value="">- Selecciona -</option>
+                                    <option value="easy">Fácil</option>
+                                    <option value="medium">Media</option>
+                                    <option value="difficult">Difícil</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.springBud} mt-2`}>
+                            <MdSave />
+                        </CircleButton>
+                    </form>
+                </section>
+
+                {/* <-- images --> */}
+                <section aria-labelledby="images-title" className="flex flex-col w-full items-center justify-center text-center py-2 gap-2">
+                    <h3 id="images-title" className="
+                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
+                        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
+                    ">Imágenes</h3>
+
+                    <ul className="flex gap-6 w-full justify-center py-4">
+                        {(recipe.images ?? []).map((image, index) => (
+                            <li className="relative shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] w-1/2" key={index}>
+
+                                <MiniCircleButton type="button" onClick={(event) => handleDeleteImageButton(event, index)} variant="recipe" className="absolute right-2 top-2"><MdDelete /></MiniCircleButton>
+
+                                <img src={image} alt={`Image ${index}`} className=" object-cover aspect-square" />
+                            </li>
+                        ))}
+                    </ul>
+
+                    <form className="flex flex-col w-full items-center gap-2 text-spring-bud" onSubmit={handleImageFormSubmit}>
+                        <label className="text-base font-bold" htmlFor="image">URL de imagen</label>
+                        <input
+                            type="url" name="image" title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
+                            placeholder="Pega aquí la URL de la imagen"
+
+                            className={`${inputBase} ${inputColor.springBud} truncate`}
+                        />
+
+                        <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.springBud} mt-4`}>
+                            <MdSave />
+                        </CircleButton>
+                    </form>
+                </section>
+
+                {/* <-- tags -> */}
+                <section aria-labelledby="tags-title" className="flex flex-col w-full items-center justify-center text-center pt-2 pb-6 gap-2">
+                    <h3 id="tags-title" className="
+                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
+                        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
+                    ">Etiquetas</h3>
+
+                    <ul className="flex flex-wrap w-full justify-center gap-x-4 gap-y-2">
+                        {(recipe.tags ?? []).map((tag, index) => (
+                            <li className="flex flex-row items-center align-middle text-folly gap-2" key={index}>
+                                <span className="
+                                        rounded-sm anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-spring-bud shadow-[0.2rem_0.2rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]
+                                    ">#{tag}</span>
+
+                                <MiniCircleButton type="button" onClick={(event) => handleDeleteImageButton(event, index)} variant="recipe"><MdDelete /></MiniCircleButton>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <form
+                        className="flex flex-col w-full items-center justify-center text-center gap-2 text-spring-bud pt-2" onSubmit={handleTagFormSubmit}>
+
+                        <label className="text-base font-bold" htmlFor="tag">Etiquetas</label>
+                        <input
+                            type="text" name="tag" title="Solo letras minúsculas, números, guiones y guiones bajos. Sin espacios y máximo 30 caracteres" placeholder="Añade etiquetas a tu receta" pattern="^\s*[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\-_']{1,30}\s*$" maxLength={30} style={{ textTransform: 'lowercase' }}
+
+                            className={`${inputBase} ${inputColor.springBud} placeholder:normal-case mb-2`}
+                        />
+
+                        <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.springBud} mt-2`}>
+                            <MdSave />
+                        </CircleButton>
+                    </form>
+                </section>
+            </section>
+
+            {/* <-- ingredients --> */}
+            <section
+                aria-labelledby='ingredients'
+                className="flex flex-col w-full items-center justify-center align-middle py-6
+                gap-8 px-8 md:px-12 xl:px-14 max-w-7xl bg-spring-bud
+            ">
+                <h2 id="ingredients" className="
+                        anybody-logo text-2xl sm:text-3xl xl:text-4xl text-folly
+                        drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)
+                    ">Ingredientes</h2>
+
+                <div className="w-full">
+                    {/* <-- main ingredients --> */}
+                    {mainIngredients.length > 0 && (
+                        <section aria-labelledby="main-ingredients" className="flex flex-col w-full items-center justify-center text-center py-2 gap-2">
+                            <h3 id="main-ingredients" className="px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-spring-bud bg-folly
+                            shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]">Principales</h3>
+
+                            <ul className="flex flex-col w-full justify-center gap-2">
+                                {mainIngredients.map((ingredient, index) => (
+                                    <li key={index} className="flex items-center w-full gap-3 text-folly">
+                                        <MiniCircleButton type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)} variant="saveRecipe" className="shrink-0"><MdDelete /></MiniCircleButton>
+
+                                        <p className="text-start text-sm leading-tight w-full">
+                                            <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
+                                            {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    )}
+
+                    {/* <-- pantry ingredients --> */}
+                    {pantryIngredients.length > 0 && (
+                        <section aria-labelledby="pantry-ingredients" className="flex flex-col w-full items-center justify-center text-center py-2 gap-2">
+                            <h3 id="pantry-ingredients" className="px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-spring-bud bg-folly
+                            shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]">Despensa</h3>
+
+                            <ul className="flex flex-col w-full justify-center gap-2">
+                                {pantryIngredients.map((ingredient, index) => (
+                                    <li key={index} className="flex items-center w-full gap-3 text-folly">
+                                        <MiniCircleButton type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)} variant="saveRecipe" className="shrink-0"><MdDelete /></MiniCircleButton>
+
+                                        <p className="text-start text-sm leading-tight w-full">
+                                            <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
+                                            {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    )}
+                </div>
+
+                {/* <-- new ingredient --> */}
+                <form onSubmit={handleIngredientFormSubmit} className="flex flex-col w-full items-center justify-center text-center gap-2 text-folly">
+                    <h3 className="px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-spring-bud bg-folly
+                            shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]">Nuevo ingrediente</h3>
+
+                    <label className="text-base font-bold" htmlFor="name">Nombre*</label>
                     <input
-                        className={`${inputClasses} bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
+                        type="text" name="name" required title="Solo letras, números, espacios y caracteres especiales como -_'(),.%/+&. Máximo 50 caracteres"
+                        placeholder="Añade un nombre al ingrediente" maxLength={50} pattern="^\s*[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\s\-_'(),.%/+&]{1,50}\s*$"
+
+                        className={`${inputBase} ${inputColor.folly} mb-2`}
+                    />
+                    <div className="flex flex-row w-full justify-between gap-4 pb-2">
+                        <div className="flex flex-col w-full gap-2">
+                            <label className="text-base font-bold" htmlFor="quantity">Cantidad*</label>
+                            <input
+                                type="number" name="quantity" title="Introduce una cantidad entre 0 y 9999, hasta 2 decimales con punto (ej. 1.55)" placeholder="Número"
+                                min={0} max={9999} step={0.01} inputMode="decimal"
+
+                                className={`${inputBase} ${inputColor.folly}`}
+                            />
+                        </div>
+
+                        <div className="flex flex-col w-full gap-2">
+                            <label className="text-base font-bold" htmlFor="unit">Unidad*</label>
+                            <input
+                                type="text" name="unit" title="Solo letras, espacios y tildes. Máximo 20 caracteres" placeholder="g, uds, ml..."
+                                pattern="^\s*[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+\s*$" maxLength={20}
+
+                                className={`${inputBase} ${inputColor.folly}`}
+                            />
+                        </div>
+                    </div>
+
+                    <label className="text-base font-bold" htmlFor="annotation">Anotación</label>
+                    <input
+
                         type="text"
-                        name="title"
-                        placeholder="Pon un título a tu receta"
-                        defaultValue={recipe.title}
+                        name="annotation"
+                        placeholder="¿Necesitas alguna aclaración?"
                         maxLength={50}
-                        required
-                        title="Campo obligatorio. Máximo 50 caracteres"
+                        title="Máximo 50 caracteres"
+
+                        className={`${inputBase} ${inputColor.folly} mb-2`}
                     />
 
-                    <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Descripción</label>
+                    <div className="flex flex-row justify-around items-center gap-2 pt-2">
+                        <label className="text-base font-bold" htmlFor="main">¿Ingrediente principal?</label>
+                        <input
+                            className="size-4 accent-folly"
+                            type="checkbox"
+                            defaultChecked="true"
+                            name="main"
+                        />
+                    </div>
+
+                    <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.folly} mt-2`}>
+                        <MdSave />
+                    </CircleButton>
+                </form>
+            </section>
+
+            {/* <-- steps --> */}
+            <section
+                aria-labelledby='steps'
+                className="flex flex-col w-full items-center justify-center align-middle py-6
+                gap-8 px-8 md:px-12 xl:px-14 max-w-7xl text-spring-bud
+            ">
+                <h2 id="steps" className="
+                        anybody-logo text-2xl sm:text-3xl xl:text-4xl
+                        drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)
+                    ">Pasos</h2>
+
+                <ol className="flex flex-col items-center justify-center text-center ">
+                    {(recipe.steps ?? []).map((step, index) => (
+                        <li className="flex flex-col items-center w-full gap-2" key={index}>
+                            <h3 className="anybody-logo text-lg">{index + 1}</h3>
+
+                            {/* --> step edition form <-- */}
+                            {editStep === step.id ? (
+                                <form
+                                    onSubmit={handleEditStepFormSubmit}
+                                    className="flex flex-col w-full items-center gap-4"
+                                >
+                                    <label className="text-base font-bold" htmlFor="text">Instrucciones*</label>
+                                    <textarea
+                                        name="text" defaultValue={step.text} title="Máximo 800 caracteres" required wrap="soft" maxLength={800}
+                                        placeholder="Añade las instrucciones del paso"
+                                        onInput={(e) => {
+                                            e.target.style.height = 'auto';
+                                            e.target.style.height = e.target.scrollHeight + 'px';
+                                        }}
+
+                                        className={`${inputBase} ${inputColor.springBud} rounded-lg leading-tight mb-2 py-2 px-3`}
+                                    />
+
+                                    <label className="text-base font-bold" htmlFor="note">Nota</label>
+                                    <textarea
+                                        name="note" defaultValue={step.note} title="Máximo 500 caracteres" wrap="soft" maxLength={500}
+                                        placeholder="¿Necesitas aclarar algo?"
+                                        onInput={(e) => {
+                                            e.target.style.height = 'auto';
+                                            e.target.style.height = e.target.scrollHeight + 'px';
+                                        }}
+
+                                        className={`${inputBase} ${inputColor.springBud} rounded-lg leading-tight mb-2 py-2 px-3`}
+                                    />
+
+                                    <label className="text-base font-bold" htmlFor="image">Imagen</label>
+                                    <input
+                                        name="image" type="url" defaultValue={step.image} title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
+                                        placeholder="Pega aquí la url de la imagen"
+
+                                        className={`${inputBase} ${inputColor.springBud} mb-2`}
+                                    />
+
+                                    <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.springBud} mt-2`}>
+                                        <MdSave />
+                                    </CircleButton>
+                                </form>
+                            ) : (
+                                <>
+                                    {/* --> step <-- */}
+                                    <div className="text-sm leading-tight">
+                                        <strong>{step.text}</strong>
+                                    </div>
+                                    {step.note && (
+                                        <div className="italic text-xs leading-tight">
+                                            {step.note}
+                                        </div>
+                                    )}
+                                    {step.image && (
+                                        <img
+                                            src={step.image}
+                                            alt={`Image ${index + 1}`}
+                                            className="my-2 rounded-sm object-cover max-h-48"
+                                        />
+                                    )}
+                                </>
+                            )}
+
+                            {/* --> step buttons <-- */}
+                            <div className="flex flex-row w-full items-center justify-center gap-4 mt-2">
+                                <button
+                                    type="button" onClick={() => setEditStep(editStep === step.id ? null : step.id)}
+                                    className="text-xl transition-transform duration-150 ease-out cursor-pointer hover:-translate-y-1 hover:scale-105"
+                                >
+                                    {editStep === step.id ? <IoMdCloseCircle /> : <MdEdit />}
+                                </button>
+
+                                <div className="flex flex-row items-center justify-center gap-2 rounded-full">
+                                    <button
+                                        onClick={(event) => handleMoveStepUp(event, step.id)} disabled={index === 0}
+
+                                        className="text-xl transition-transform duration-150 ease-out cursor-pointer hover:-translate-y-1 hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed"
+                                    >
+                                        <FaChevronUp />
+                                    </button>
+                                    <button
+                                        onClick={(event) => handleMoveStepDown(event, step.id)} disabled={index === recipe.steps.length - 1}
+
+                                        className="text-xl transition-transform duration-150 ease-out cursor-pointer hover:-translate-y-1 hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed"
+                                    >
+                                        <FaChevronDown />
+                                    </button>
+                                </div>
+
+                                <button type="button" onClick={(event) => handleDeleteStepButton(event, step.id)}
+
+                                    className="text-xl transition-transform duration-150 ease-out cursor-pointer hover:-translate-y-1 hover:scale-105">
+                                    <MdDelete />
+                                </button>
+                            </div>
+
+                            <div
+                                className="flex justify-center w-full my-4 items-center border-t-2 border-spring-bud"
+                                aria-hidden="true"
+                            ></div>
+                        </li>
+                    ))}
+                </ol>
+
+                {/* <-- new step --> */}
+                <form
+                    onSubmit={handleStepFormSubmit}
+                    className="flex flex-col w-full items-center justify-center text-center gap-2">
+                    <h3 className="
+                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
+                        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]">Nuevo Paso</h3>
+
+                    <label className="text-base font-bold" htmlFor="text">Instrucciones*</label>
                     <textarea
-                        className={`${textareaClasses} w-full p-[4vw] xl:p-[2vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                        name="description"
-                        placeholder="Describe tu receta ¡cuéntanos más!"
-                        defaultValue={recipe.description}
-                        maxLength={500}
-                        title="Máximo 500 caracteres"
+                        name="text" title="Máximo 800 caracteres" required wrap="soft" maxLength={800}
+                        placeholder="Añade las instrucciones del paso"
                         onInput={(e) => {
                             e.target.style.height = 'auto';
                             e.target.style.height = e.target.scrollHeight + 'px';
                         }}
-                        wrap="soft"
+
+                        className={`${inputBase} ${inputColor.springBud} rounded-lg leading-tight mb-2 py-2 px-3`}
                     />
 
-                    <div className="flex flex-row w-full justify-between">
-                        <div className="flex flex-col gap-[5vw] xl:gap-[2vw]">
-                            <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Tiempo</label>
-                            <input
-                                className={`${inputClasses} w-[36vw] xl:w-[13vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                type="number"
-                                name="time"
-                                placeholder="En minutos"
-                                defaultValue={recipe.time || 5}
-                                min={5}
-                                max={9999}
-                                step={5}
-                                title="Tiempo en minutos. Múltiplos de 5"
-                            />
-                        </div>
+                    <label className="text-base font-bold" htmlFor="note">Nota</label>
+                    <textarea
+                        name="note" title="Máximo 500 caracteres" wrap="soft" maxLength={500}
+                        placeholder="¿Necesitas aclarar algo?"
+                        onInput={(e) => {
+                            e.target.style.height = 'auto';
+                            e.target.style.height = e.target.scrollHeight + 'px';
+                        }}
 
-                        <div className="flex flex-col gap-[5vw] xl:gap-[2vw]">
-                            <label className={`${labelClasses} text-spring-bud`} htmlFor="title">Dificultad</label>
-                            <select
-                                className={`flex items-center justify-center align-middle rounded-full p-[1vw] xl:p-[0.5vw] h-[8vw] xl:h-[2.5vw] anybody text-center min-w-0 truncate placeholder:italic focus:outline-[1vw] sm:focus:outline-[0.6vw] xl:focus:outline-[0.3vw] text-[4vw] sm:text-[3.5vw] xl:text-[1vw] placeholder:text-[4vw] sm:placeholder:text-[3.5vw] xl:placeholder:text-[1vw] drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)] w-[36vw] xl:w-[13vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud appearance-none`}
-                                name="difficulty"
-                                value={difficulty}
-                                onChange={(e) => setDifficulty(e.target.value)}
-                            >
-                                <option value="">-- Selecciona --</option>
-                                <option value="easy">Fácil</option>
-                                <option value="medium">Media</option>
-                                <option value="difficult">Difícil</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw] xl:text-[3vw] leading-[100%]`} type="submit"><MdSave /></button>
-                </form>
+                        className={`${inputBase} ${inputColor.springBud} rounded-lg leading-tight mb-2 py-2 px-3`}
+                    />
 
-                {/* ===== Images ===== */}
-                <form className="
-                        flex flex-col items-center my-[5vw] sm:my-[3vw] xl:my-[0vw] py-[5vw] xl:py-[2vw] gap-[5vw] sm:gap-[6vw] xl:gap-[2vw] w-[80vw] xl:w-[28vw] bg-spring-bud
-                        drop-shadow-[1.6vw_1.6vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
-                    " onSubmit={handleImageFormSubmit}>
-                    <label className={`${labelClasses} pb-[2vw] sm:pb-[1vw] text-folly`} htmlFor="image">Imágenes</label>
-
-                    <ul className="flex flex-wrap gap-[2vw] sm:gap-[3vw] xl:gap-[1vw] justify-center mt-[3vw] xl:mt-0">
-                        {(recipe.images ?? []).map((image, index) => (
-                            <li className="
-                                /* Layout */
-                                relative
-                            " key={index}>
-                                <button className="
-                                            absolute rounded-full p-[0.5vw] cursor-pointer
-                                            top-[2vw] sm:top-[1.5vw] xl:top-[0.8vw]
-                                            right-[2vw] sm:right-[1.5vw] xl:right-[0.8vw]
-                                            text-[5vw] sm:text-[4vw] xl:text-[1.5vw]
-                                            bg-folly text-spring-bud
-                                            drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.8)]
-                                            hover:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.7)] hover:sm:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.7)] hover:xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.7)]
-                                            transition-transform duration-150 ease-out
-                                            hover:-translate-y-1 hover:scale-105
-                                        " type="button" onClick={(event) => handleDeleteImageButton(event, index)}><MdDelete /></button>
-                                <img src={image} alt={`Image ${index}`} className="object-cover h-[30vw] sm:h-[25vw] xl:h-[15vw] w-[35vw] xl:w-[12vw]" />
-                            </li>
-                        ))}
-                    </ul>
-
+                    <label className="text-base font-bold" htmlFor="image">Imagen</label>
                     <input
-                        className={`${inputClasses} w-[70vw] xl:w-[24vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
-                        type="url"
-                        name="image"
-                        placeholder="Pega aquí la URL de la imagen"
-                        title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
+                        type="url" name="image" title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
+                        placeholder="Pega aquí la url de la imagen"
+
+                        className={`${inputBase} ${inputColor.springBud} mb-2`}
                     />
 
-                    <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw] xl:text-[3vw] leading-[100%]`} type="submit"><MdSave /></button>
+                    <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.springBud} mt-2`}>
+                        <MdSave />
+                    </CircleButton>
                 </form>
-
-                {/* ===== Tags ===== */}
-                <form
-                    className="
-                        flex flex-col items-center
-                        w-[80vw] xl:w-[28vw]
-                        gap-[5vw] sm:gap-[6vw] xl:gap-[2vw]
-                        my-[5vw] sm:my-[3vw] xl:my-[2vw]
-                        py-[5vw] xl:py-[2vw]
-                        bg-spring-bud
-                        drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
-                    " onSubmit={handleTagFormSubmit}>
-                    <label className={`${labelClasses} pb-[0.5vw] text-folly`} htmlFor="tag">Etiquetas</label>
-
-                    <ul className="flex flex-wrap mx-[6vw] xl:mx-[2vw] gap-[4vw] xl:gap-[0.5vw]">
-                        {(recipe.tags ?? []).map((tag, index) => (
-                            <li className="flex flex-row items-center gap-[1vw] xl:gap-[0.2vw] text-spring-bud" key={index}>
-                                <h3 className="
-                                        bg-folly anybody-title
-                                        flex items-center
-                                        pt-[1vw] sm:pt-[0.5vw] xl:pt-[0.2vw]
-                                        h-[6vw] sm:h-[5vw] xl:h-[2vw]
-                                        px-[2vw] sm:px-[1.2vw]
-                                        text-[3.5vw] sm:text-[3vw] xl:text-[1vw]
-                                        drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-                                    ">#{tag}</h3>
-                                <button className="
-                                        text-folly p-[0.5vw] cursor-pointer
-                                        text-[7vw] sm:text-[6vw] lg:text-[5vw] xl:text-[2vw]
-                                        transition-transform duration-150 ease-out
-                                        hover:drop-shadow-[0.8vw_0.8vw_0_rgba(0,0,0,0.8)] hover:xl:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.8)] hover:-translate-y-1 hover:scale-105
-                                    " type="button" onClick={(event) => handleDeleteTagButton(event, index)}><MdDelete /></button>
-                            </li>
-                        ))}
-                    </ul>
-
-                    <input
-                        className={`${inputClasses} w-[70vw] xl:w-[24vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly placeholder:normal-case`}
-                        type="text"
-                        name="tag"
-                        placeholder="Añade etiquetas a tu receta"
-                        title="Solo letras minúsculas, números, guiones y guiones bajos. Sin espacios y máximo 30 caracteres"
-                        pattern="^\s*[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\-_']{1,30}\s*$"
-                        style={{ textTransform: 'lowercase' }}
-                        maxLength={30}
-                    />
-                    <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw] xl:text-[3vw] leading-[100%]`} type="submit"><MdSave /></button>
-                </form>
-
-                {/* ===== Ingredients ===== */}
-                <form className="
-                        flex flex-col items-center bg-spring-bud
-                        w-[80vw] xl:w-[28vw]
-                        my-[5vw] sm:my-[3vw] xl:my-[1vw]
-                        py-[5vw] xl:py-[0vw]
-                        drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
-                    " onSubmit={handleIngredientFormSubmit}>
-                    <h2 className="anybody-title text-folly pt-[3vw] xl:pt-[2vw] text-[6vw] xl:text-[2vw]">Ingredientes</h2>
-
-                    <div>
-                        <div>
-                            {/* Main ingredients */}
-                            {mainIngredients.length > 0 && (
-                                <>
-                                    <h3 className="
-                                            w-[6em] mt-[6vw] xl:mt-[1.5vw] mb-[5vw] xl:mb-[2vw] mx-auto text-center
-                                            anybody-title text-spring-bud font-bold pt-[0.1vw] bg-folly
-                                            text-[4vw] sm:text-[3.5vw] xl:text-[1.2vw]
-                                            drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-                                        ">Principales</h3>
-                                    <ul className="flex flex-col items-start gap-[3vw] sm:gap-[4vw] xl:sm:gap-[1vw] w-full">
-                                        {mainIngredients.map((ingredient, index) => (
-                                            <li key={index} className="flex flex-row items-start gap-[2vw] xl:gap-[1vw] px-[5vw] xl:px-[2vw] w-full text-folly">
-                                                <button className="
-                                                            text-[5vw] sm:text-[4vw] xl:text-[1.4vw]
-                                                            self-start cursor-pointer transition-transform duration-150 ease-out
-                                                            hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)] hover:-translate-y-1 hover:scale-105
-                                                            " type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}><MdDelete />
-                                                </button>
-                                                <p className="text-left text-[4vw] sm:text-[3vw] xl:text-[1.2vw] leading-[110%]">
-                                                    <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
-                                                    {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
-                                                </p>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </>
-                            )}
-
-                            {/* Pantry ingredients */}
-                            {pantryIngredients.length > 0 && (
-                                <>
-                                    <h3 className="
-                                            w-[6em] mt-[6vw] xl:mt-[2vw] mb-[5vw] xl:mb-[2vw] mx-auto text-center
-                                            anybody-title text-spring-bud font-bold pt-[0.1vw] bg-folly
-                                            text-[4vw] sm:text-[3.5vw] xl:text-[1.2vw]
-                                            drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1vw_1vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.4vw_0.4vw_0_rgba(0,0,0,0.8)]
-                                        ">Despensa</h3>
-                                    <ul className="flex flex-col items-start gap-[3vw] sm:gap-[4vw] xl:sm:gap-[1vw] w-full">
-                                        {pantryIngredients.map((ingredient, index) => (
-                                            <li key={index} className="flex flex-row items-start gap-[2vw] xl:gap-[1vw] px-[5vw] xl:px-[2vw] w-full text-folly">
-                                                <button className="
-                                                            text-[5vw] sm:text-[4vw] xl:text-[1.2vw]
-                                                            self-start cursor-pointer transition-transform duration-150 ease-out
-                                                            hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)] hover:-translate-y-1 hover:scale-105
-                                                        " type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)}><MdDelete />
-                                                </button>
-                                                <p className="text-left text-[4vw] sm:text-[3vw] xl:text-[1.2vw] leading-[110%]">
-                                                    <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
-                                                    {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
-                                                </p>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* New ingredient */}
-                    <div className="
-                            flex flex-col py-[5vw] xl:py-[2vw] gap-[2vw] xl:gap-[1vw] w-[70vw] xl:w-[24vw] mt-[6vw] xl:mt-[2vw] mb-[1vw] xl:mb-[3vw] bg-folly
-                            drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
-                        ">
-                        <h3 className="flex justify-center anybody-title text-spring-bud text-[6vw] sm:text-[5vw] xl:text-[1.6vw]">Nuevo ingrediente</h3>
-
-                        <div className="flex flex-col w-full items-center gap-[6vw] xl:gap-[2vw]">
-                            <label className={`${labelClasses} text-spring-bud`} htmlFor="name">Nombre*</label>
-                            <input
-                                className={`${inputClasses} w-[60vw] xl:w-[20vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                type="text"
-                                name="name"
-                                placeholder="Añade un nombre al ingrediente"
-                                required
-                                maxLength={50}
-                                pattern="^\s*[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\s\-_'(),.%/+&]{1,50}\s*$"
-                                title="Solo letras, números, espacios y caracteres especiales como -_'(),.%/+&. Máximo 50 caracteres"
-                            />
-                            <div className="flex flex-row justify-between w-[60vw] xl:w-[20vw]">
-                                <div className="flex flex-col gap-[6vw] xl:gap-[2vw]">
-                                    <label className={`${labelClasses} text-spring-bud`} htmlFor="quantity">Cantidad*</label>
-                                    <input
-                                        className={`${inputClasses} w-[28vw] xl:w-[9vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                        type="number"
-                                        name="quantity"
-                                        placeholder="Número"
-                                        min={0}
-                                        max={9999}
-                                        step={0.01}
-                                        inputMode="decimal"
-                                        title="Introduce una cantidad entre 0 y 9999, hasta 2 decimales con punto (ej. 1.55)"
-                                    />
-                                </div>
-
-                                <div className="flex flex-col gap-[6vw] xl:gap-[2vw]">
-                                    <label className={`${labelClasses} text-spring-bud`} htmlFor="unit">Unidad*</label>
-                                    <input
-                                        className={`${inputClasses} w-[28vw] xl:w-[9vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                        type="text"
-                                        name="unit"
-                                        placeholder="g, uds, ml..."
-                                        pattern="^\s*[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+\s*$"
-                                        maxLength={20}
-                                        title="Solo letras, espacios y tildes. Máximo 20 caracteres"
-                                    />
-                                </div>
-                            </div>
-
-                            <label className={`${labelClasses} text-spring-bud`} htmlFor="annotation">Anotación</label>
-                            <input
-                                className={`${inputClasses} w-[60vw] xl:w-[20vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                type="text"
-                                name="annotation"
-                                placeholder="¿Necesitas alguna aclaración?"
-                                maxLength={50}
-                                title="Máximo 50 caracteres"
-                            />
-
-                            <div className="flex flex-row justify-around w-[60vw] xl:w-[20vw] items-center align-middle gap-[0.5vw]">
-                                <label className="flex items-center justify-center anybody text-center text-[5vw] sm:text-[4vw] xl:sm:text-[1.2vw] font-bold text-spring-bud" htmlFor="main">¿Ingrediente principal?</label>
-                                <input
-                                    className="w-[4vw] h-[4vw] xl:w-[1.5vw] xl:h-[1.5vw] accent-spring-bud"
-                                    type="checkbox"
-                                    defaultChecked="true"
-                                    name="main"
-                                />
-                            </div>
-                        </div>
-
-                        <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw] xl:text-[3vw] leading-[100%]`} type="submit"><MdSave /></button>
-                    </div>
-                </form>
-
-                {/* ===== Steps ===== */}
-                <div className="
-                        flex flex-col items-center bg-spring-bud w-[80vw] xl:w-[28vw] my-[5vw] sm:my-[3vw] xl:my-[1vw] py-[5vw] xl:py-[0vw]
-                        drop-shadow-[1.8vw_1.8vw_0_rgba(0,0,0,0.8)] sm:drop-shadow-[1.2vw_1.2vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
-                    ">
-                    <h2 className="anybody-title text-folly pt-[3vw] xl:pt-[2vw] xl:pb-[1vw] text-[6vw] xl:text-[2vw]">Pasos</h2>
-
-                    <ul className="flex flex-col items-center text-folly w-[70vw] xl:w-[24vw] justify-center text-center gap-[3vw] xl:gap-[0.5vw]">
-                        {(recipe.steps ?? []).map((step, index) => (
-                            <li className="flex flex-col items-center gap-[3vw] sm:gap-[4vw] xl:gap-[0.5vw] w-full" key={index}>
-                                <h3 className="anybody-logo text-[5vw] xl:text-[1.6vw]">{index + 1}</h3>
-
-                                {editStep === step.id ? (
-                                    <form
-                                        onSubmit={handleEditStepFormSubmit}
-                                        className="flex flex-col w-full items-center gap-[6vw] xl:gap-[2vw]"
-                                    >
-                                        <label className={`${labelClasses} text-folly`} htmlFor="text">Instrucciones*</label>
-                                        <textarea
-                                            name="text"
-                                            defaultValue={step.text}
-                                            className={`${textareaClasses} w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
-                                            placeholder="Añade las instrucciones del paso"
-                                            maxLength={800}
-                                            title="Máximo 800 caracteres"
-                                            onInput={(e) => {
-                                                e.target.style.height = 'auto';
-                                                e.target.style.height = e.target.scrollHeight + 'px';
-                                            }}
-                                            wrap="soft"
-                                            required
-                                        />
-
-                                        <label className={`${labelClasses} text-folly`} htmlFor="note">Nota</label>
-                                        <textarea
-                                            name="note"
-                                            defaultValue={step.note}
-                                            className={`${textareaClasses} w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
-                                            placeholder="¿Necesitas aclarar algo?"
-                                            maxLength={500}
-                                            title="Máximo 500 caracteres"
-                                            onInput={(e) => {
-                                                e.target.style.height = 'auto';
-                                                e.target.style.height = e.target.scrollHeight + 'px';
-                                            }}
-                                            wrap="soft"
-                                        />
-
-                                        <label className={`${labelClasses} text-folly`} htmlFor="image">Imagen</label>
-                                        <input
-                                            name="image"
-                                            type="url"
-                                            defaultValue={step.image}
-                                            placeholder="Pega aquí la url de la imagen"
-                                            title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
-                                            className={`${inputClasses} w-[60vw] xl:w-[20vw] bg-folly text-spring-bud focus:bg-spring-bud focus:text-folly focus:outline-folly`}
-                                        />
-
-                                        <button className={`${btnClasses} bg-folly text-spring-bud mx-auto text-[9vw] xl:text-[3vw] leading-[100%] mt-[2vw]`} type="submit"><MdSave /></button>
-                                    </form>
-                                ) : (
-                                    <>
-                                        <div className="text-[4vw] sm:text-[3.5vw] xl:text-[1.2vw] leading-[120%]">
-                                            <strong>{step.text}</strong>
-                                        </div>
-                                        {step.note && (
-                                            <div className="italic text-[3.5vw] sm:text-[3vw] xl:text-[1vw] leading-[120%]">
-                                                {step.note}
-                                            </div>
-                                        )}
-                                        {step.image && (
-                                            <img
-                                                src={step.image}
-                                                alt={`Image ${index + 1}`}
-                                                className="pt-[3vw] xl:pt-[1vw]"
-                                            />
-                                        )}
-                                    </>
-                                )}
-
-                                <div className="flex flex-row items-center justify-center gap-[3vw] xl:gap-[1vw] w-full">
-                                    <button
-                                        className="
-                                            text-[6vw] sm:text-[5vw] xl:text-[1.4vw] mt-[3vw] xl:mt-[0.5vw]
-                                            transition-transform duration-150 ease-out cursor-pointer
-                                            hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)] hover:-translate-y-1 hover:scale-105
-                                        "
-                                        type="button"
-                                        onClick={() => setEditStep(editStep === step.id ? null : step.id)}
-                                    >
-                                        {editStep === step.id ? <IoMdCloseCircle /> : <MdEdit />}
-                                    </button>
-
-                                    <div className="flex flex-row items-center justify-center gap-[1.5vw] xl:gap-[0.5vw] bg-folly text-spring-bud px-[2vw] py-[1vw] xl:px-[0.5vw] xl:py-[0.3vw] mt-[3vw] xl:mt-[0.5vw] rounded-full">
-                                        <button
-                                            onClick={(event) => handleMoveStepUp(event, step.id)}
-                                            disabled={index === 0}
-                                            className="
-                                                text-[5vw] sm:text-[4vw] xl:text-[1.4vw]
-                                                transition-transform duration-150 ease-out cursor-pointer
-                                                hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)] hover:-translate-y-1 hover:scale-105
-                                                disabled:opacity-30 disabled:cursor-not-allowed
-                                            "
-                                        >
-                                            <FaChevronUp />
-                                        </button>
-                                        <button
-                                            onClick={(event) => handleMoveStepDown(event, step.id)}
-                                            disabled={index === recipe.steps.length - 1}
-                                            className="
-                                                text-[5vw] sm:text-[4vw] xl:text-[1.4vw]
-                                                transition-transform duration-150 ease-out cursor-pointer
-                                                hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)] hover:-translate-y-1 hover:scale-105
-                                                disabled:opacity-30 disabled:cursor-not-allowed
-                                            "
-                                        >
-                                            <FaChevronDown />
-                                        </button>
-                                    </div>
-
-                                    <button className="
-                                                text-[6vw] sm:text-[5vw] xl:text-[1.4vw] mt-[3vw] xl:mt-[0.5vw]
-                                                transition-transform duration-150 ease-out cursor-pointer
-                                                hover:drop-shadow-[0.3vw_0.3vw_0_rgba(0,0,0,0.7)] hover:-translate-y-1 hover:scale-105
-                                            "
-                                        type="button"
-                                        onClick={(event) => handleDeleteStepButton(event, step.id)}>
-                                        <MdDelete />
-                                    </button>
-                                </div>
-
-                                <div className="bg-folly h-[0.5vw] xl:h-[0.2vw] mt-[4vw] xl:mt-[0.5vw] mb-[2vw] xl:mb-[0.5vw] w-[70vw] xl:w-[24vw]"></div>
-                            </li>
-                        ))}
-                    </ul>
-
-                    {/* New Step */}
-                    <form
-                        onSubmit={handleStepFormSubmit}
-                        className="
-                            flex flex-col py-[5vw] xl:py-[2vw] gap-[3vw] xl:gap-[0vw] w-[70vw] xl:w-[24vw] mt-[6vw] xl:mt-[1vw] mb-[1vw] xl:mb-[2.5vw] bg-folly
-                            drop-shadow-[1.5vw_1.5vw_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.6vw_0.6vw_0_rgba(0,0,0,0.8)]
-                        ">
-                        <h3 className="flex justify-center anybody-title text-spring-bud text-[6vw] sm:text-[5vw] xl:text-[2vw]">Nuevo Paso</h3>
-
-                        <div className="flex flex-col w-full items-center gap-[6vw] xl:gap-[2vw]" >
-                            <label className={`${labelClasses} text-spring-bud`} htmlFor="text">Instrucciones*</label>
-                            <textarea
-                                className={`${textareaClasses} w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                name="text"
-                                placeholder="Añade las instrucciones del paso"
-                                maxLength={800}
-                                title="Máximo 800 caracteres"
-                                onInput={(e) => {
-                                    e.target.style.height = 'auto';
-                                    e.target.style.height = e.target.scrollHeight + 'px';
-                                }}
-                                wrap="soft"
-                                required
-                            />
-                            <label className={`${labelClasses} text-spring-bud`} htmlFor="note">Nota</label>
-                            <textarea
-                                className={`${textareaClasses} w-[60vw] xl:w-[20vw] p-[4vw] xl:p-[1vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                name="note"
-                                placeholder="¿Necesitas aclarar algo?"
-                                maxLength={500}
-                                title="Máximo 500 caracteres"
-                                onInput={(e) => {
-                                    e.target.style.height = 'auto';
-                                    e.target.style.height = e.target.scrollHeight + 'px';
-                                }}
-                                wrap="soft"
-                            />
-                            <label className={`${labelClasses} text-spring-bud`} htmlFor="image">Imagen</label>
-                            <input
-                                className={`${inputClasses} w-[60vw] xl:w-[20vw] bg-spring-bud text-folly focus:bg-folly focus:text-spring-bud focus:outline-spring-bud`}
-                                type="url"
-                                name="image"
-                                placeholder="Pega aquí la url de la imagen"
-                                title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
-                            />
-                        </div>
-                        <button className={`${btnClasses} bg-spring-bud text-folly mx-auto text-[9vw] xl:text-[3vw] leading-[100%] mt-[2vw]`} type="submit"><MdSave /></button>
-                    </form>
-                </div>
-            </main>
-
-            {/* Buttons */}
-            <div className="fixed bottom-16 left-0 overflow-hidden flex xl:justify-end w-full xl:w-[40vw] px-[8vw] xl:px-0 -mb-[1px] xl:-mb-0 xl:h-[55vh] py-[5vw] sm:py-[3vw] xl:py-0 bg-veronica">
-                <div className="flex flex-row xl:flex-col justify-between xl:justify-center items-center xl:gap-[2vw] w-full xl:w-[20vw] h-full xl:pb-[2vw]">
-                    <div className="flex flex-row xl:flex-col gap-[4vw] xl:gap-[2vw]">
-                        <button
-                            className={`${footerButtonClasses} pr-[0.15em]`}
-                            onClick={handleSaveRecipeBackButton}
-                        >
-                            <FaChevronLeft />
-                        </button>
-
-                        <button
-                            className={`${footerButtonClasses} pb-[0.05em]`}
-                            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                        >
-                            <FaChevronUp />
-                        </button>
-                    </div>
-
-                    <div className="flex flex-row xl:flex-col gap-[4vw] xl:gap-[2vw]">
-                        <button
-                            className={footerButtonClasses}
-                            type="button"
-                            onClick={handleToRecipeClick}
-                        >
-                            <MdRemoveRedEye />
-                        </button>
-
-                        <button
-                            className={footerButtonClasses}
-                            type="button"
-                            onClick={handleDeleteButtonClick}
-                        >
-                            <MdDelete />
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </section>
+        </main>
 
         <Footer></Footer>
-    </section>
+    </div>
 }
 
 export default SaveRecipe
