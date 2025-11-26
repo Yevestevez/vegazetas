@@ -3,8 +3,9 @@ import CircleButton from "./CircleButton"
 function Confirm({ message, onCancel, onAccept }) {
     return <div className="fixed top-0 z-[100] flex items-center justify-center w-full h-full mx-auto bg-folly bg-opacity-70">
         <div className="
-            flex flex-col items-center justify-center mx-auto text-center
+            flex flex-col items-center justify-center text-center
             gap-4 xs:gap-8 p-4 xs:p-10 md:p-24 lg:p-48
+            mx-6 xs:mx-12 md:mx-16 lg:mx-24 xl:mx-36 max-w-7xl
             border-8 bg-folly border-spring-bud text-spring-bud
             shadow-[0.8rem_0.8rem_0_0_rgba(0,0,0,0.8)]">
             <p className="text-lg xs:text-2xl font-black leading-6 anybody">{message}</p>
