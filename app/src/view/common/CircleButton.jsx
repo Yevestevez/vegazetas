@@ -14,8 +14,8 @@ const SIZE_VARIANTS = {
     shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.6rem_0.6rem_0_0_rgba(0,0,0,0.8)]
   `,
   saveRecipe: `
-    size-14 xs:size-20 sm:size-22 md:size-24 xl:size-28
-    text-3xl xs:text-sm sm:text-base md:text-lg lg:text-xl
+    size-14 xs:size-16 sm:size-22 xl:size-24
+    text-3xl xs:text-4xl xl:text-5xl
     leading-tight sm:leading-tight md:leading-tight lg:leading-tight
     shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]
   `
