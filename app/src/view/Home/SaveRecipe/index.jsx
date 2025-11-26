@@ -595,7 +595,7 @@ function SaveRecipe({
 
                         <label className={labelBase} htmlFor="title">Título*</label>
                         <input
-                            type="text" name="title" required
+                            id="title" type="text" name="title" required
                             placeholder="Pon un título a tu receta"
                             defaultValue={recipe.title} maxLength={50}
                             title="Campo obligatorio. Máximo 50 caracteres"
@@ -603,9 +603,9 @@ function SaveRecipe({
                             className={`${inputBase} ${inputColor.springBud} mb-2 truncate`}
                         />
 
-                        <label className={labelBase} htmlFor="title">Descripción</label>
+                        <label className={labelBase} htmlFor="description">Descripción</label>
                         <textarea
-                            name="description" title="Máximo 500 caracteres" placeholder="Describe tu receta ¡cuéntanos más!"
+                            id="description" name="description" title="Máximo 500 caracteres" placeholder="Describe tu receta ¡cuéntanos más!"
                             defaultValue={recipe.description} maxLength={500} wrap="soft"
                             onInput={(e) => {
                                 e.target.style.height = 'auto';
@@ -617,9 +617,9 @@ function SaveRecipe({
 
                         <div className="flex flex-row w-full justify-between gap-4">
                             <div className="flex flex-col w-full gap-2">
-                                <label className={labelBase} htmlFor="title">Tiempo</label>
+                                <label className={labelBase} htmlFor="time">Tiempo</label>
                                 <input
-                                    type="number" name="time" title="Tiempo en minutos. Múltiplos de 5"
+                                    id="time" type="number" name="time" title="Tiempo en minutos. Múltiplos de 5"
                                     placeholder="En minutos" defaultValue={recipe.time || 5} min={5} max={9999} step={5}
 
                                     className={`${inputBase} ${inputColor.springBud} truncate mb-2`}
@@ -627,9 +627,9 @@ function SaveRecipe({
                             </div>
 
                             <div className="flex flex-col w-full gap-2">
-                                <label className={labelBase} htmlFor="title">Dificultad</label>
+                                <label className={labelBase} htmlFor="difficulty">Dificultad</label>
                                 <select
-                                    name="difficulty" value={difficulty}
+                                    id="difficulty" name="difficulty" value={difficulty}
                                     onChange={(e) => setDifficulty(e.target.value)}
 
                                     className={`${inputBase} ${inputColor.springBud} flex items-center justify-center mb-2`}
@@ -668,7 +668,7 @@ function SaveRecipe({
                     <form className="flex flex-col w-full mx-auto items-center gap-2 md:gap-4 text-spring-bud" onSubmit={handleImageFormSubmit}>
                         <label className={labelBase} htmlFor="image">URL de imagen</label>
                         <input
-                            type="url" name="image" title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
+                            id="image" type="url" name="image" title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
                             placeholder="Pega aquí la URL de la imagen"
 
                             className={`${inputBase} ${inputColor.springBud} truncate`}
@@ -703,7 +703,7 @@ function SaveRecipe({
 
                         <label className={labelBase} htmlFor="tag">Nueva etiqueta</label>
                         <input
-                            type="text" name="tag" title="Solo letras minúsculas, números, guiones y guiones bajos. Sin espacios y máximo 30 caracteres" placeholder="Añade etiquetas a tu receta" pattern="^\s*[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\-_']{1,30}\s*$" maxLength={30} style={{ textTransform: 'lowercase' }}
+                            id="tag" type="text" name="tag" title="Solo letras minúsculas, números, guiones y guiones bajos. Sin espacios y máximo 30 caracteres" placeholder="Añade etiquetas a tu receta" pattern="^\s*[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\-_']{1,30}\s*$" maxLength={30} style={{ textTransform: 'lowercase' }}
 
                             className={`${inputBase} ${inputColor.springBud} placeholder:normal-case mb-2`}
                         />
@@ -767,7 +767,7 @@ function SaveRecipe({
 
                     <label className={labelBase} htmlFor="name">Nombre*</label>
                     <input
-                        type="text" name="name" required title="Solo letras, números, espacios y caracteres especiales como -_'(),.%/+&. Máximo 50 caracteres"
+                        id="name" type="text" name="name" required title="Solo letras, números, espacios y caracteres especiales como -_'(),.%/+&. Máximo 50 caracteres" autocomplete="off"
                         placeholder="Añade un nombre al ingrediente" maxLength={50} pattern="^\s*[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\s\-_'(),.%/+&]{1,50}\s*$"
 
                         className={`${inputBase} ${inputColor.folly} mb-2`}
@@ -776,7 +776,7 @@ function SaveRecipe({
                         <div className="flex flex-col w-full gap-2">
                             <label className={`${labelBase} text-center`} htmlFor="quantity">Cantidad*</label>
                             <input
-                                type="number" name="quantity" title="Introduce una cantidad entre 0 y 9999, hasta 2 decimales con punto (ej. 1.55)" placeholder="Número"
+                                id="quantity" type="number" name="quantity" title="Introduce una cantidad entre 0 y 9999, hasta 2 decimales con punto (ej. 1.55)" placeholder="Número"
                                 min={0} max={9999} step={0.01} inputMode="decimal"
 
                                 className={`${inputBase} ${inputColor.folly}`}
@@ -786,7 +786,7 @@ function SaveRecipe({
                         <div className="flex flex-col w-full gap-2">
                             <label className={`${labelBase} text-center`} htmlFor="unit">Unidad*</label>
                             <input
-                                type="text" name="unit" title="Solo letras, espacios y tildes. Máximo 20 caracteres" placeholder="g, uds, ml..."
+                                id="unit" type="text" name="unit" title="Solo letras, espacios y tildes. Máximo 20 caracteres" placeholder="g, uds, ml..."
                                 pattern="^\s*[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+\s*$" maxLength={20}
 
                                 className={`${inputBase} ${inputColor.folly}`}
@@ -796,7 +796,7 @@ function SaveRecipe({
 
                     <label className={labelBase} htmlFor="annotation">Anotación</label>
                     <input
-                        type="text" name="annotation" title="Máximo 50 caracteres" maxLength={50}
+                        id="annotation" type="text" name="annotation" title="Máximo 50 caracteres" maxLength={50}
                         placeholder="¿Necesitas alguna aclaración?"
 
                         className={`${inputBase} ${inputColor.folly} mb-2`}
@@ -804,7 +804,7 @@ function SaveRecipe({
 
                     <div className="flex flex-row items-center gap-2 pt-2">
                         <label className={labelBase} htmlFor="main">¿Ingrediente principal?</label>
-                        <input type="checkbox" defaultChecked="true" name="main" className="size-4 accent-folly" />
+                        <input id="main" type="checkbox" defaultChecked="true" name="main" className="size-4 accent-folly" />
                     </div>
 
                     <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.folly} mt-2`}>
@@ -828,9 +828,9 @@ function SaveRecipe({
                                     onSubmit={handleEditStepFormSubmit}
                                     className="flex flex-col items-center gap-4"
                                 >
-                                    <label className={labelBase} htmlFor="text">Instrucciones*</label>
+                                    <label className={labelBase} htmlFor={`text-${step.id}`}>Instrucciones*</label>
                                     <textarea
-                                        name="text" defaultValue={step.text} title="Máximo 800 caracteres" required wrap="soft" maxLength={800}
+                                        id={`text-${step.id}`} name="text" defaultValue={step.text} title="Máximo 800 caracteres" required wrap="soft" maxLength={800}
                                         placeholder="Añade las instrucciones del paso"
                                         onInput={(e) => {
                                             e.target.style.height = 'auto';
@@ -840,9 +840,9 @@ function SaveRecipe({
                                         className={`${inputBase} ${inputColor.springBud} rounded-lg leading-tight mb-2 py-2 px-3`}
                                     />
 
-                                    <label className={labelBase} htmlFor="note">Nota</label>
+                                    <label className={labelBase} htmlFor={`note-${step.id}`}>Nota</label>
                                     <textarea
-                                        name="note" defaultValue={step.note} title="Máximo 500 caracteres" wrap="soft" maxLength={500}
+                                        id={`note-${step.id}`} name="note" defaultValue={step.note} title="Máximo 500 caracteres" wrap="soft" maxLength={500}
                                         placeholder="¿Necesitas aclarar algo?"
                                         onInput={(e) => {
                                             e.target.style.height = 'auto';
@@ -852,9 +852,9 @@ function SaveRecipe({
                                         className={`${inputBase} ${inputColor.springBud} rounded-lg leading-tight mb-2 py-2 px-3`}
                                     />
 
-                                    <label className={labelBase} htmlFor="image">Imagen</label>
+                                    <label className={labelBase} htmlFor={`image-${step.id}`}>Imagen</label>
                                     <input
-                                        name="image" type="url" defaultValue={step.image} title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
+                                        id={`image-${step.id}`} name="image" type="url" defaultValue={step.image} title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg"
                                         placeholder="Pega aquí la url de la imagen"
 
                                         className={`${inputBase} ${inputColor.springBud} mb-2`}
@@ -921,7 +921,7 @@ function SaveRecipe({
                     <div className="columns-1 lg:columns-2 gap-2 lg:gap-6 text-center w-full">
                         <label className={labelBase} htmlFor="text">Instrucciones*</label>
                         <textarea
-                            name="text" title="Máximo 800 caracteres" required wrap="soft" maxLength={800}
+                            id="text" name="text" title="Máximo 800 caracteres" required wrap="soft" maxLength={800}
                             placeholder="Añade las instrucciones del paso"
                             onInput={(e) => {
                                 e.target.style.height = 'auto';
@@ -933,7 +933,7 @@ function SaveRecipe({
 
                         <label className={labelBase} htmlFor="note">Nota</label>
                         <textarea
-                            name="note" title="Máximo 500 caracteres" wrap="soft" maxLength={500}
+                            id="note" name="note" title="Máximo 500 caracteres" wrap="soft" maxLength={500}
                             placeholder="¿Necesitas aclarar algo?"
                             onInput={(e) => {
                                 e.target.style.height = 'auto';
