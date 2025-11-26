@@ -6,7 +6,7 @@ const SIZE_VARIANTS = {
     size-16 xs:size-20 sm:size-22 md:size-24 xl:size-28
     text-sm xs:text-sm sm:text-base md:text-lg lg:text-xl
     leading-tight sm:leading-tight md:leading-tight lg:leading-tight
-    shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]
+    shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.5rem_0.5rem_0_0_rgba(0,0,0,0.8)]
   `,
   large: `
     size-20 xs:size-24 sm:size-28 lg:size-32
