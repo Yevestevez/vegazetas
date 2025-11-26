@@ -15,6 +15,8 @@ const startApi = () => {
 
     api.use(cors())
 
+    api.get('/health', (req, res) => res.status(200).send('ok'))
+
     api.get('/', (req, res) => res.send('Hello, API!'))
 
     api.use('/users', usersRouter)
