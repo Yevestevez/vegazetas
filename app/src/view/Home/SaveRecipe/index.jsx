@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { MdDelete, MdEdit, MdSave, MdRemoveRedEye } from 'react-icons/md'
+import { MdDelete, MdEdit, MdSave, MdRemoveRedEye, MdRocketLaunch, MdCancel } from 'react-icons/md'
 import { FaChevronUp, FaChevronDown, FaChevronLeft } from 'react-icons/fa'
 import { IoMdCloseCircle } from 'react-icons/io'
 
@@ -504,6 +504,30 @@ function SaveRecipe({
         })
     }
 
+    // const handlePublishButtonClick = () => {
+    //     alert('¡Receta publicada!')
+    // }
+
+    const handlePublishButtonClick = () => {
+        const message = recipe.published
+            ? '¿Quieres pasar esta receta a borrador?'
+            : '¿Quieres publicar esta receta?'
+
+        confirm(message, accepted => {
+            if (!accepted) return
+
+            logic.togglePublishRecipe(recipeId)
+                .then(({ published }) => {
+                    setRecipe(prev => ({ ...prev, published }))
+                    alert(published ? '¡Receta publicada!' : 'Receta guardada como borrador')
+                })
+                .catch(error => {
+                    alert(error.message)
+                    console.error(error)
+                })
+        })
+    }
+
     if (!recipe) return <p>Cargando receta...</p>
 
     const mainIngredients = (recipe.ingredients ?? []).filter(ingredient => ingredient.main)
@@ -579,13 +603,38 @@ function SaveRecipe({
                 {view === "update" ? "Edita tu receta" : "Crea tu nueva receta"}
             </h1>
 
+            {/* <-- Published status --> */}
+            <div className="flex flex-col py-2 gap-2">
+                <p className="text-spring-bud text-lg">
+                    {recipe.published ? (
+                        <>Tu receta está <strong>publicada</strong></>
+                    ) : (
+                        <>Tu receta es un <strong>borrador</strong></>
+                    )}
+                </p>
+
+                <div className="flex gap-4 items-center justify-center">
+                    <p className="text-spring-bud text-sm text-end leading-tight">
+                        {recipe.published ? (
+                            <>¿Quieres pasar esta <br /> receta a <strong>borrador</strong>?</>
+                        ) : (
+                            <>¿Quieres <strong>publicar</strong> <br /> tu receta?</>
+                        )}
+                    </p>
+
+                    <MiniCircleButton variant="recipe" onClick={handlePublishButtonClick} aria-label={recipe.published ? 'Pasar receta a borrador' : 'Publicar receta'}>
+                        {recipe.published ? <MdCancel /> : <MdRocketLaunch />}
+                    </MiniCircleButton>
+                </div>
+            </div>
+
             <div className="flex w-full my-4 lg:my-6 items-center border-t-2 border-spring-bud" aria-hidden="true"></div>
 
             {/* <-- recipe intro --> */}
             <section
                 aria-labelledby='recipe-intro' className={sectionBase}>
 
-                <h2 id="recipe-intro" className="anybody-logo text-2xl sm:text-3xl xl:text-4xl text-spring-bud drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)">Introducción</h2>
+                <h2 id="recipe-intro" className="pt-2 anybody-logo text-2xl sm:text-3xl xl:text-4xl text-spring-bud drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)">Introducción</h2>
 
                 {/* <-- basic data --> */}
                 <section aria-labelledby="basic-data-title" className="flex flex-col w-full items-center text-center py-2 gap-2">
@@ -767,7 +816,7 @@ function SaveRecipe({
 
                     <label className={labelBase} htmlFor="name">Nombre*</label>
                     <input
-                        id="name" type="text" name="name" required title="Solo letras, números, espacios y caracteres especiales como -_'(),.%/+&. Máximo 50 caracteres" autocomplete="off"
+                        id="name" type="text" name="name" required title="Solo letras, números, espacios y caracteres especiales como -_'(),.%/+&. Máximo 50 caracteres" autoComplete="off"
                         placeholder="Añade un nombre al ingrediente" maxLength={50} pattern="^\s*[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\s\-_'(),.%/+&]{1,50}\s*$"
 
                         className={`${inputBase} ${inputColor.folly} mb-2`}
@@ -957,10 +1006,10 @@ function SaveRecipe({
                     </CircleButton>
                 </form>
             </section>
-        </main>
+        </main >
 
         <Footer></Footer>
-    </div>
+    </div >
 }
 
 export default SaveRecipe

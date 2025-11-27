@@ -33,6 +33,7 @@ function MiniCircleButton({
   onClick,
   children,
   variant = 'recipeThumbnail',
+  'aria-label': ariaLabel,
   className
 }) {
   const btnClasses = clsx(
@@ -44,8 +45,8 @@ function MiniCircleButton({
     className
   )
 
-  if (to) return <Link to={to} aria-hidden="true" className={btnClasses}>{children}</Link>
-  return <button onClick={onClick} aria-hidden="true" className={btnClasses}>{children}</button>
+  if (to) return <Link to={to} aria-label={ariaLabel} className={btnClasses}>{children}</Link>
+  return <button onClick={onClick} aria-label={ariaLabel} className={btnClasses}>{children}</button>
 }
 
 export default MiniCircleButton

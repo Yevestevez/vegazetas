@@ -96,14 +96,18 @@ const recipe = new Schema({
     ],
     steps: [
         step
-    ]
+    ],
+    published: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 })
 
 const User = model('User', user)
 const Ingredient = model('Ingredient', ingredient)
 const Step = model('Step', step)
 const Recipe = model('Recipe', recipe)
-
 
 export {
     User,
