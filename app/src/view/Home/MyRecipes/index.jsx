@@ -59,7 +59,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
             <h1 className="anybody-logo text-veronica text-lg xs:text-xl sm:text-2xl xl:text-3xl drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)] pb-2">Tus recetas</h1>
             {myRecipes.length > 0 ? (
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
-                px-8 md:px-12 xl:px-14
+                px-8 xs:px-10 md:px-12 xl:px-14
                 gap-6 xs:gap-10 lg:gap-12 xl:gap-14">
                     {myRecipes.map(recipe => (
                         <RecipeThumbnail
