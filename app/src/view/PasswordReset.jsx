@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 
 import logic from '../logic'
 import { useAppContext } from '../context'
@@ -89,8 +88,8 @@ function PasswordReset({ onPasswordReseted }) {
                     theme="passwordReset"
                     id="password"
                     name="password"
-                    pattern="^(?!.*[\s])(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&-_+]{8,25}$"
-                    title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número y no contener espacios"
+                    pattern="^\S{8,25}$"
+                    title="Debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número, y no contener espacios."
                 />
 
                 <CircleButton type="submit" className="bg-spring-bud text-folly hover:outline hover:outline-spring-bud hover:bg-folly hover:text-spring-bud mt-4">Guardar</CircleButton>
