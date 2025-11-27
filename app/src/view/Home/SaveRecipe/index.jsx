@@ -604,8 +604,8 @@ function SaveRecipe({
             </h1>
 
             {/* <-- Published status --> */}
-            <div className="flex flex-col py-2 gap-2">
-                <p className="text-spring-bud text-lg">
+            <div className="flex flex-col py-2 gap-2 xs:gap-4 xl:gap-6">
+                <p className="text-spring-bud text-lg xs:text-xl xl:text-2xl">
                     {recipe.published ? (
                         <>Tu receta está <strong>publicada</strong></>
                     ) : (
@@ -614,7 +614,7 @@ function SaveRecipe({
                 </p>
 
                 <div className="flex gap-4 items-center justify-center">
-                    <p className="text-spring-bud text-sm text-end leading-tight">
+                    <p className="text-spring-bud text-sm xs:text-base xl:text-lg text-end leading-tight xs:leading-tight xl:leading-tight">
                         {recipe.published ? (
                             <>¿Quieres pasar esta <br /> receta a <strong>borrador</strong>?</>
                         ) : (
