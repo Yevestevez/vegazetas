@@ -1,5 +1,6 @@
 import { FaShareAlt } from "react-icons/fa"
 import { FaListUl } from "react-icons/fa6"
+import { MdRocketLaunch, MdVisibilityOff } from "react-icons/md"
 
 import { useAppContext } from '../../../context'
 
@@ -16,20 +17,43 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
         onRecipeThumbnailClick(recipe.id)
     }
 
-    return <article className="
-    flex flex-col w-full relative
-    drop-shadow-[0.4em_0.4em_0_rgba(0,0,0,0.8)] xs:drop-shadow-[0.6em_0.6em_0_rgba(0,0,0,0.8)]
-    transition-all duration-150 ease-out hover:scale-105
-    focus:outline focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105">
-        <header className="flex absolute top-0 right-0 z-20 p-4 xs:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4">
-            <MiniCircleButton>{<FaShareAlt onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
-                aria-label="Compartir receta" aria-hidden="true" />}</MiniCircleButton>
-            <MiniCircleButton>{<FaListUl onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
-                aria-label="Añadir a lista" aria-hidden="true" />}</MiniCircleButton>
+    return <article className={`
+                flex flex-col w-full relative
+                drop-shadow-[0.4em_0.4em_0_rgba(0,0,0,0.8)]
+                transition-all duration-150 ease-out hover:scale-105
+                focus:outline focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105
+                ${recipe.published ? 'opacity-100' : 'opacity-60 grayscale'}
+            `}>
+        <header className="z-20 flex absolute top-0 left-0 right-0 p-4 xs:p-6 xl:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 items-center justify-between">
+
+            <div className="flex items-center justify-start">
+                {recipe.published
+                    ? <MdRocketLaunch className="text-spring-bud text-2xl xs:text-3xl" title="Receta publicada" />
+                    : <MdVisibilityOff className="text-spring-bud text-xl xs:text-3xl" title="Receta en borrador" />
+                }
+            </div>
+
+            <div className="flex gap-3 xs:gap-4">
+                <MiniCircleButton>
+                    <FaShareAlt
+                        onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
+                        aria-label="Compartir receta"
+                        aria-hidden="true"
+                    />
+                </MiniCircleButton>
+
+                <MiniCircleButton>
+                    <FaListUl
+                        onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
+                        aria-label="Añadir a lista"
+                        aria-hidden="true"
+                    />
+                </MiniCircleButton>
+            </div>
         </header>
 
         <button
-            className="flex items-center justify-center cursor-pointer w-full"
+            className="flex items-center justify-center cursor-pointer w-full rounded-sm overflow-hidden"
             type="button"
             onClick={handleRecipeThumbnailClick}
         >
@@ -66,6 +90,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
             px-4 py-1 xs:py-2 sm:py-1
             anybody-title text-spring-bud bg-folly 
             text-sm xs:text-base sm:text-sm md:text-base lg:text-sm xl:md:text-base
+            rounded-sm overflow-hidden
         ">
             <time>{formatDate(recipe.date)}</time>
         </footer>

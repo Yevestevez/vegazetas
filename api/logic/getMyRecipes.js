@@ -12,7 +12,7 @@ const getMyRecipes = userId => {
             if (!user) throw new NotFoundError('user not found')
 
             return Recipe.find({ author: user._id })
-                .select('_id title images author date')
+                .select('_id title images author date published')
                 .select('-__v')
                 .populate('author', 'username')
                 .lean()
