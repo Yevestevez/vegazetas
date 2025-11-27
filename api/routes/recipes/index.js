@@ -6,6 +6,7 @@ import {
     deleteRecipeHandler,
     updateRecipeHandler,
     getRecipeByIdHandler,
+    togglePublishRecipeHandler,
 
     addIngredientToRecipeHandler,
     removeIngredientFromRecipeHandler,
@@ -31,6 +32,7 @@ router.delete('/:recipeId', deleteRecipeHandler)
 router.patch('/:recipeId', jsonBodyParser, updateRecipeHandler)
 router.get('/', getMyRecipesHandler)
 router.get('/:recipeId', getRecipeByIdHandler)
+router.patch('/:recipeId/publish', togglePublishRecipeHandler)
 
 router.post('/:recipeId/ingredients', jsonBodyParser, addIngredientToRecipeHandler)
 router.delete('/:recipeId/ingredients/:ingredientId', removeIngredientFromRecipeHandler)
