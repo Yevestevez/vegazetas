@@ -65,10 +65,10 @@ function Register({ onUserRegistered }) {
 
     const labelClasses = 'anybody text-xl font-bold text-sgbus-green'
 
-    return <div className="flex flex-col items-center justify-start md:justify-center w-full min-h-screen gap-2 xs:gap-4 py-6 xs:py-10 md:pt-0 bg-canary">
+    return <div className="flex flex-col items-center justify-start md:justify-center w-full min-h-screen gap-2 xs:gap-4 py-6 xs:py-10 lg:py-16 bg-canary">
         <LogoVegazetas to="/Landing" className="text-violet hover:text-folly"></LogoVegazetas>
 
-        <main className="flex flex-col items-center justify-center w-full max-w-7xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
+        <main className="flex flex-col items-center justify-center w-full max-w-7xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20 mb-10 xs:mb-0">
             <SectionTitle className="bg-violet text-canary">REGISTRO</SectionTitle>
 
             <form className="flex flex-col items-center justify-center w-full gap-2"
@@ -112,7 +112,7 @@ function Register({ onUserRegistered }) {
                             theme="register"
                             name="username"
                             maxLength={25}
-                            pattern="^[a-zA-Z0-9._\-]{1,25}$"
+                            pattern="^[a-zA-Z0-9._-]{1,25}$"
                             title="Solo minúsculas, números, guiones, guiones bajos o puntos, sin espacios. Máx. 25 caracteres"
                             required
                         />
@@ -129,8 +129,8 @@ function Register({ onUserRegistered }) {
                             id="password"
                             name="password"
                             autoComplete="current-password"
-                            pattern="^\S{8,25}$"
-                            title="Debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número, y no contener espacios."
+                            pattern="^(?!.*[\s])(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&-_+]{8,25}$"
+                            title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número y no contener espacios"
                         />
                     </div>
                 </div>
