@@ -112,7 +112,7 @@ function Register({ onUserRegistered }) {
                             theme="register"
                             name="username"
                             maxLength={25}
-                            pattern="^[a-zA-Z0-9._-]{1,25}$"
+                            pattern="^[a-zA-Z0-9._\-]{1,25}$"
                             title="Solo minúsculas, números, guiones, guiones bajos o puntos, sin espacios. Máx. 25 caracteres"
                             required
                         />
@@ -129,8 +129,8 @@ function Register({ onUserRegistered }) {
                             id="password"
                             name="password"
                             autoComplete="current-password"
-                            pattern="^(?!.*[\s])(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&-_+]{8,25}$"
-                            title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número y no contener espacios"
+                            pattern="^\S{8,25}$"
+                            title="Debe tener entre 8 y 25 caracteres, incluir al menos una letra y un número, y no contener espacios."
                         />
                     </div>
                 </div>
