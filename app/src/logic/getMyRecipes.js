@@ -1,7 +1,7 @@
 import { errors } from 'com'
 
 const getMyRecipes = () => {
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes`, {
+    return fetch(`${import.meta.env.VITE_API_URL}/recipes/my-recipes`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`

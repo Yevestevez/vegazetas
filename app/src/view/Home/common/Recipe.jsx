@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 
 import { FaChevronUp, FaChevronLeft } from "react-icons/fa"
 import { MdDelete, MdEdit } from "react-icons/md"
@@ -18,6 +18,7 @@ function Recipe({
     onRecipeDeleted,
 }) {
     const { alert, confirm } = useAppContext()
+    const navigate = useNavigate()
 
     const { id: recipeId } = useParams()
 
@@ -101,7 +102,10 @@ function Recipe({
 
                 <div className="flex justify-between px-8 md:px-12 xl:px-14 w-full max-w-7xl">
                     <nav className='flex gap-3 xs:gap-4'>
-                        <MiniCircleButton to="/my-recipes" variant="recipe" title="Atrás" className="pr-1">
+                        <MiniCircleButton onClick={() => {
+                            if (window.history.length > 2) navigate(-1);
+                            else navigate("/home");
+                        }} variant="recipe" title="Atrás" className="pr-1">
                             <FaChevronLeft />
                         </MiniCircleButton>
 

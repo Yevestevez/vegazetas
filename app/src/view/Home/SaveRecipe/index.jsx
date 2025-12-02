@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { MdDelete, MdEdit, MdSave, MdRemoveRedEye, MdRocketLaunch, MdCancel } from 'react-icons/md'
 import { FaChevronUp, FaChevronDown, FaChevronLeft } from 'react-icons/fa'
@@ -20,6 +20,7 @@ function SaveRecipe({
     onUserLoggedOut,
 }) {
     const { alert, confirm } = useAppContext()
+    const navigate = useNavigate()
     const { id: recipeId } = useParams()
 
     const [recipe, setRecipe] = useState(null)
@@ -575,7 +576,10 @@ function SaveRecipe({
 
                 <div className="flex justify-between px-8 md:px-12 xl:px-14 w-full max-w-7xl">
                     <nav className='flex gap-3 xs:gap-4'>
-                        <MiniCircleButton to="/my-recipes" variant="saveRecipe" title="Atrás" className="pr-1">
+                        <MiniCircleButton onClick={() => {
+                            if (window.history.length > 2) navigate(-1);
+                            else navigate("/home");
+                        }} variant="saveRecipe" title="Atrás" className="pr-1">
                             <FaChevronLeft />
                         </MiniCircleButton>
 

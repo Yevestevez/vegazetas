@@ -4,11 +4,11 @@ import logic from '../../../logic'
 import { useAppContext } from '../../../context'
 
 import Header from '../common/Header'
-import MyRecipeThumbnail from '../common/MyRecipeThumbnail'
+import RecipeThumbnail from '../common/RecipeThumbnail'
 import CircleButton from '../../common/CircleButton'
 import Footer from '../../common/Footer'
 
-function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClicked }) {
+function Discover({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClicked }) {
     const { alert } = useAppContext()
 
     const [myRecipes, setMyRecipes] = useState([])
@@ -44,7 +44,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
         onCreateRecipeClicked()
     }
 
-    return <div className="flex flex-col min-h-screen w-full items-center text-center bg-sgbus-green">
+    return <div className="flex flex-col min-h-screen w-full items-center text-center bg-hot-magenta">
         <Header
             variant="myRecipes"
             onUserLoggedOut={handleUserLoggedOut}
@@ -56,13 +56,14 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
         pb-24 xs:pb-28 sm:pb-32
         gap-2
         ">
-            <h1 className="anybody-logo text-veronica text-lg xs:text-xl sm:text-2xl xl:text-3xl drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)] pb-2">Tus recetas</h1>
+            <h1 className="anybody-logo text-aquamarine text-lg xs:text-xl sm:text-2xl xl:text-3xl drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)] pb-2">Descubre</h1>
+
             {myRecipes.length > 0 ? (
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
                 px-8 xs:px-10 md:px-12 xl:px-14
                 gap-8 xs:gap-10 lg:gap-12 xl:gap-14">
                     {myRecipes.map(recipe => (
-                        <MyRecipeThumbnail
+                        <RecipeThumbnail
                             key={recipe.id}
                             recipe={recipe}
                             onRecipeDeleted={handleRecipeDeleted}
@@ -84,4 +85,4 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
     </div >
 }
 
-export default MyRecipes
+export default Discover
