@@ -1,9 +1,8 @@
-fetch('http://localhost:8080/users/auth', {
-    method: 'POST',
+fetch('http://localhost:8080/recipes/69300b4826c169e343d5d7c1/author', {
+    method: 'GET',
     headers: {
-        'Content-Type': 'application/json'
-    },
-    body: '{"email":"edu@yeves.com","password":"a123123123"}'
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFiMDU5NmRmZTJlMDNjMjE5MWY3MWYiLCJpYXQiOjE3NjQ3NjMyNDZ9.sX_eOG9Fvp-3B9JmgEgnCZ1zdLxGXa-XymdplKA6lw0'
+    }
 })
     .then(res => {
         const { status } = res
