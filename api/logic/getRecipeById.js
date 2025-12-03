@@ -1,5 +1,4 @@
 import { User, Recipe } from '../data/models.js'
-
 import { validate, errors } from 'com'
 const { NotFoundError, SystemError, OwnershipError } = errors
 
@@ -18,17 +17,20 @@ const getRecipeById = (userId, recipeId) => {
         .then(recipe => {
             if (!recipe) throw new NotFoundError('recipe not found')
 
-            if (recipe.author.toString() !== userId) throw new OwnershipError('user is not author of recipe')
+            if (recipe.author.toString() === userId) {
+                recipe.own = true
+            } else {
+                if (!recipe.published) throw new OwnershipError('recipe not published')
+                recipe.own = false
+            }
 
             if (recipe._id) {
                 recipe.id = recipe._id.toString()
-
                 delete recipe._id
             }
 
             if (recipe.author._id) {
                 recipe.author = recipe.author._id.toString()
-
                 delete recipe.author._id
             }
 
@@ -47,8 +49,6 @@ const getRecipeById = (userId, recipeId) => {
                     delete step.__v
                 })
             }
-
-            recipe.own = userId === recipe.author
 
             return recipe
         })
