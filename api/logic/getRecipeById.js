@@ -6,33 +6,30 @@ const getRecipeById = (userId, recipeId) => {
     validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
 
+    // Comprobamos que el usuario existe
     return User.findById(userId).lean()
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
             if (!user) throw new NotFoundError('user not found')
 
-            return Recipe.findById(recipeId).select('-__v').lean()
+            return Recipe.findById(recipeId)
+                .select('-__v')
+                .populate('author', 'username')
+                .lean()
                 .catch(error => { throw new SystemError(error.message) })
         })
         .then(recipe => {
             if (!recipe) throw new NotFoundError('recipe not found')
 
-            if (recipe.author.toString() === userId) {
+            if (recipe.author._id.toString() === userId) {
                 recipe.own = true
             } else {
                 if (!recipe.published) throw new OwnershipError('recipe not published')
                 recipe.own = false
             }
 
-            if (recipe._id) {
-                recipe.id = recipe._id.toString()
-                delete recipe._id
-            }
-
-            if (recipe.author._id) {
-                recipe.author = recipe.author._id.toString()
-                delete recipe.author._id
-            }
+            recipe.id = recipe._id.toString()
+            delete recipe._id
 
             if (Array.isArray(recipe.ingredients)) {
                 recipe.ingredients.forEach(ingredient => {

@@ -23,28 +23,14 @@ function Recipe({
     const { id: recipeId } = useParams()
 
     const [recipe, setRecipe] = useState(null)
-    const [author, setAuthor] = useState(null)
 
     useEffect(() => {
         if (!recipeId) return
 
         logic.getRecipeById(recipeId)
-            .then(recipe => {
-                setRecipe(recipe)
-                return recipe.author
-            })
-            .then(authorId => {
-                logic.getUserUsername(authorId)
-                    .then(username => setAuthor(username))
-                    .catch(error => {
-                        alert('Error al obtener el autor')
-
-                        console.error(error)
-                    })
-            })
+            .then(recipe => setRecipe(recipe))
             .catch(error => {
                 alert('Error al cargar la receta')
-
                 console.error(error)
             })
     }, [recipeId])
@@ -167,7 +153,7 @@ function Recipe({
                     ">
                         <h1 className="anybody-logo text-xl sm:text-2xl lg:text-3xl xl:text-4xl -mb-2 leading-tight sm:leading-tight lg:leading-tight xl:leading-tight">{recipe.title}</h1>
 
-                        <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl underline decoration-4 underline-offset-4">@{author}</h2>
+                        <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl underline decoration-4 underline-offset-4">@{recipe.author.username}</h2>
 
                         <time className="text-xs sm:text-sm lg:text-base xl:text-lg">{formatDate(recipe.date)}</time>
                     </div>

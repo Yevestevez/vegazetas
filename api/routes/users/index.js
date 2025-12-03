@@ -1,6 +1,15 @@
 import { Router } from 'express'
-import { authenticateUserHandler, getUserNameHandler, registerUserHandler, getUserUsernameHandler, passwordRecoverHandler, passwordResetHandler } from './handlers/index.js'
+
 import jsonBodyParser from '../../middlewares/jsonBodyParser.js'
+
+import {
+    authenticateUserHandler,
+    getUserNameHandler,
+    registerUserHandler,
+    getUserUsernameHandler,
+    passwordRecoverHandler,
+    passwordResetHandler,
+} from './handlers/index.js'
 
 const router = new Router()
 

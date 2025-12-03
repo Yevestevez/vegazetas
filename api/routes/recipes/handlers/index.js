@@ -5,7 +5,6 @@ import deleteRecipeHandler from './deleteRecipeHandler.js'
 import updateRecipeHandler from './updateRecipeHandler.js'
 import getRecipeByIdHandler from './getRecipeByIdHandler.js'
 import togglePublishRecipeHandler from './togglePublishRecipeHandler.js'
-import getAuthorUsernameHandler from './getAuthorUsernameHandler.js'
 
 import addIngredientToRecipeHandler from './addIngredientToRecipeHandler.js'
 import removeIngredientFromRecipeHandler from './removeIngredientFromRecipeHandler.js'
@@ -21,7 +20,6 @@ import removeImageFromRecipeHandler from './removeImageFromRecipeHandler.js'
 import addTagToRecipeHandler from './addTagToRecipeHandler.js'
 import removeTagFromRecipeHandler from './removeTagFromRecipeHandler.js'
 
-
 export {
     createRecipeHandler,
     getMyRecipesHandler,
@@ -30,7 +28,6 @@ export {
     updateRecipeHandler,
     getRecipeByIdHandler,
     togglePublishRecipeHandler,
-    getAuthorUsernameHandler,
 
     addIngredientToRecipeHandler,
     removeIngredientFromRecipeHandler,
