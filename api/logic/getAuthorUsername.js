@@ -1,0 +1,18 @@
+import { User } from '../data/models.js'
+
+import { validate, errors } from 'com'
+const { NotFoundError, SystemError } = errors
+
+const getAuthorUsername = authorId => {
+    validate.id(authorId, 'authorId')
+
+    return User.findById(authorId)
+        .catch(error => { throw new SystemError(error.message) })
+        .then(user => {
+            if (!user) throw new NotFoundError('user not found')
+
+            return user.username
+        })
+}
+
+export default getAuthorUsername

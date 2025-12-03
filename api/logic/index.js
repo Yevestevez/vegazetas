@@ -2,6 +2,7 @@ import registerUser from './registerUser.js'
 import authenticateUser from './authenticateUser.js'
 import getUserName from './getUserName.js'
 import getUserUsername from './getUserUsername.js'
+import getAuthorUsername from './getAuthorUsername.js'
 import passwordRecover from './passwordRecover.js'
 import passwordReset from './passwordReset.js'
 
@@ -32,6 +33,7 @@ const logic = {
     authenticateUser,
     getUserName,
     getUserUsername,
+    getAuthorUsername,
     passwordRecover,
     passwordReset,
 
