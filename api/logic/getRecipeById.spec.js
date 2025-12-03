@@ -47,7 +47,7 @@ describe('getRecipeById', () => {
             })
             .then(recipe => {
                 expect(recipe.id).to.equal(recipeId)
-                expect(recipe.author).to.equal(userId)
+                expect(recipe.author.username).to.equal('testuser')
                 expect(recipe.own).to.equal(true)
             })
     })
@@ -62,22 +62,18 @@ describe('getRecipeById', () => {
             username: 'user123',
             password: '123123123'
         })
-            .then(() => {
-                // Recipe exists but userId is wrong
-                return Recipe.create({
-                    author: new ObjectId(),
-                    title: 'Test Recipe X',
-                    images: [],
-                    description: 'desc',
-                    ingredients: [],
-                    steps: [],
-                    published: true
-                })
-            })
-            .then(recipe => {
-                return getRecipeById(fakeUserId, recipe._id.toString())
-                    .catch(error => catchedError = error)
-            })
+            .then(() => Recipe.create({
+                author: new ObjectId(),
+                title: 'Test Recipe X',
+                images: [],
+                description: 'desc',
+                ingredients: [],
+                steps: [],
+                published: true
+            }))
+            .then(recipe => getRecipeById(fakeUserId, recipe._id.toString())
+                .catch(error => catchedError = error)
+            )
             .finally(() => {
                 expect(catchedError).to.be.instanceOf(NotFoundError)
                 expect(catchedError.message).to.equal('user not found')
@@ -145,6 +141,7 @@ describe('getRecipeById', () => {
             .then(recipe => {
                 expect(recipe.own).to.equal(false)
                 expect(recipe.id).to.equal(recipeId)
+                expect(recipe.author.username).to.equal('anauser')
             })
     })
 
