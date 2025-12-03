@@ -22,43 +22,37 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                 transition-all duration-150 ease-out hover:scale-105
                 focus:outline focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105
             `}>
-        <header className="z-20 flex absolute top-0 left-0 right-0 p-4 xs:p-6 xl:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 items-center justify-between">
+        <header className="z-20 flex absolute top-0 right-0 p-4 xs:p-6 xl:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 items-center justify-between">
 
-            <div className="flex items-center justify-start">
-                <MiniCircleButton>
-                    <FaStar
-                        onClick={() => alert('Añadir a recetas favoritas: funcionalidad en la parrilla')}
-                        aria-label="Añadir a recetas favoritas"
-                        aria-hidden="true"
-                        title=""
-                    />
-                </MiniCircleButton>
-            </div>
+            <MiniCircleButton
+                onClick={() => alert('Añadir a recetas favoritas: funcionalidad en la parrilla')}
+                aria-label="Añadir a recetas favoritas"
+                title="Añadir a favoritos"
+            >
+                <FaStar aria-hidden="true" />
+            </MiniCircleButton>
 
-            <div className="flex gap-3 xs:gap-4">
-                <MiniCircleButton>
-                    <FaShareAlt
-                        onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
-                        aria-label="Compartir receta"
-                        aria-hidden="true"
-                        title="Compartir receta"
-                    />
-                </MiniCircleButton>
+            <MiniCircleButton
+                onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
+                aria-label="Añadir a lista"
+                title="Añadir a lista"
+            >
+                <FaListUl aria-hidden="true" />
+            </MiniCircleButton>
 
-                <MiniCircleButton>
-                    <FaListUl
-                        onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
-                        aria-label="Añadir a lista"
-                        aria-hidden="true"
-                        title="Añadir receta a una lista"
-                    />
-                </MiniCircleButton>
-            </div>
+            <MiniCircleButton
+                onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
+                aria-label="Compartir receta"
+                title="Compartir receta"
+            >
+                <FaShareAlt aria-hidden="true" />
+            </MiniCircleButton>
         </header>
 
         <button
             className="flex items-center justify-center cursor-pointer w-full rounded-sm overflow-hidden"
             type="button"
+            aria-label="Ir a la receta" title="Ir a la receta"
             onClick={handleRecipeThumbnailClick}
         >
             <div className="w-full relative">
@@ -80,7 +74,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
                 p-6 pt-10 xs:p-10 xs:pt-14
                 anybody-logo text-hot-magenta break-words
                 text-2xl xs:text-4xl sm:text-2xl md:text-3xl lg:text-2xl xl:md:text-4xl
-                leading-tight xs:leading-tight sm:leading-tight md:leading-tight lg:leading-tight xl:leading-tight
+                leading-tight
                 drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)]
             ">
                     {recipe.title}

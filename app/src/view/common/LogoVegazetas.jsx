@@ -3,6 +3,8 @@ import clsx from 'clsx'
 
 function LogoVegazetas({
     to,
+    'aria-label': ariaLabel,
+    'title': title,
     className
 }) {
     const logoClasses = clsx(
@@ -31,8 +33,9 @@ function LogoVegazetas({
         </>
     )
 
-    if (to) return <Link to={to} className={logoBtnClasses}>{logoContent}</Link>
-    return <div className={logoClasses}>{logoContent}</div>
+    if (to) return <Link to={to} aria-label={ariaLabel} title={title} className={logoBtnClasses}>{logoContent}</Link>
+
+    return <div aria-label={ariaLabel} title={title} className={logoClasses}>{logoContent}</div>
 }
 
 export default LogoVegazetas

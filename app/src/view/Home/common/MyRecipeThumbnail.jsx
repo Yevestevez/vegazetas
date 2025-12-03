@@ -34,20 +34,16 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
             </div>
 
             <div className="flex gap-3 xs:gap-4">
-                <MiniCircleButton>
-                    <FaShareAlt
-                        onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
-                        aria-label="Compartir receta"
-                        aria-hidden="true"
-                    />
+                <MiniCircleButton
+                    onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
+                    aria-label="Añadir a lista" title="Añadir a lista">
+                    <FaListUl aria-hidden="true" />
                 </MiniCircleButton>
 
-                <MiniCircleButton>
-                    <FaListUl
-                        onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
-                        aria-label="Añadir a lista"
-                        aria-hidden="true"
-                    />
+                <MiniCircleButton
+                    onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
+                    aria-label="Compartir receta" title="Compartir receta">
+                    <FaShareAlt aria-hidden="true" />
                 </MiniCircleButton>
             </div>
         </header>
@@ -56,6 +52,7 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
             className="flex items-center justify-center cursor-pointer w-full rounded-sm overflow-hidden"
             type="button"
             onClick={handleRecipeThumbnailClick}
+            aria-label="Ir a la receta" title="Ir a la receta"
         >
             <div className="w-full relative">
                 {recipe.images && recipe.images.length > 0 ? (

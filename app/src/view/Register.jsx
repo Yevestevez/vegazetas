@@ -66,7 +66,7 @@ function Register({ onUserRegistered }) {
     const labelClasses = 'anybody text-xl font-bold text-sgbus-green'
 
     return <div className="flex flex-col items-center justify-start md:justify-center w-full min-h-screen gap-2 xs:gap-4 py-6 xs:py-10 lg:py-16 bg-canary">
-        <LogoVegazetas to="/Landing" className="text-violet hover:text-folly"></LogoVegazetas>
+        <LogoVegazetas to="/Landing" aria-label="Navegar a la Landing" title="Landing" className="text-violet hover:text-folly"></LogoVegazetas>
 
         <main className="flex flex-col items-center justify-center w-full max-w-7xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20 mb-10 xs:mb-0">
             <SectionTitle className="bg-violet text-canary">REGISTRO</SectionTitle>

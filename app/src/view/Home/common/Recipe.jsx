@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from "react-router-dom"
 
-import { FaChevronUp, FaChevronLeft } from "react-icons/fa"
+import { FaChevronUp, FaChevronLeft, FaStar, FaShareAlt } from "react-icons/fa"
+import { FaListUl } from "react-icons/fa6"
 import { MdDelete, MdEdit } from "react-icons/md"
 
 import { useAppContext } from '../../../context'
@@ -88,30 +89,67 @@ function Recipe({
 
                 <div className="flex justify-between px-8 md:px-12 xl:px-14 w-full max-w-7xl">
                     <nav className='flex gap-3 xs:gap-4'>
-                        <MiniCircleButton onClick={() => {
-                            if (window.history.length > 2) navigate(-1);
-                            else navigate("/home");
-                        }} variant="recipe" title="Atrás" className="pr-1">
+                        <MiniCircleButton
+                            onClick={() => {
+                                if (window.history.length > 2) navigate(-1);
+                                else navigate("/home");
+                            }}
+                            variant="recipe" title="Atrás" aria-label="Atrás" className="pr-1">
                             <FaChevronLeft />
                         </MiniCircleButton>
 
-                        <MiniCircleButton onClick={(e) => {
-                            window.scrollTo({ top: 0, behavior: "smooth" })
-                            e.currentTarget.blur()
-                        }} variant="recipe">
+                        <MiniCircleButton
+                            onClick={(e) => {
+                                window.scrollTo({ top: 0, behavior: "smooth" })
+                                e.currentTarget.blur()
+                            }}
+                            variant="recipe" title="Arriba" aria-label="Arriba">
                             <FaChevronUp />
                         </MiniCircleButton>
                     </nav>
 
-                    <div className='flex gap-3 xs:gap-4' role="toolbar" aria-label="Acciones de receta">
-                        <MiniCircleButton onClick={handleEditRecipeButton} aria-label="Editar receta" variant="recipe">
-                            <MdEdit />
-                        </MiniCircleButton>
+                    {recipe.own
+                        ? (
+                            <div className='flex gap-3 xs:gap-4' role="toolbar" aria-label="Acciones de receta">
+                                <MiniCircleButton onClick={handleEditRecipeButton} aria-label="Editar receta" title="Editar receta" variant="recipe">
+                                    <MdEdit aria-hidden="true" />
+                                </MiniCircleButton>
 
-                        <MiniCircleButton onClick={handleDeleteButtonClick} aria-label="Eliminar receta" variant="recipe">
-                            <MdDelete />
-                        </MiniCircleButton>
-                    </div>
+                                <MiniCircleButton onClick={handleDeleteButtonClick} aria-label="Eliminar receta" title="Eliminar receta" variant="recipe">
+                                    <MdDelete aria-hidden="true" />
+                                </MiniCircleButton>
+                            </div>
+                        ) : (
+                            <div className='flex gap-3 xs:gap-4' role="toolbar" aria-label="Acciones de receta">
+                                <MiniCircleButton
+                                    onClick={() => alert('Añadir a recetas favoritas: funcionalidad en la parrilla')}
+                                    aria-label="Añadir a recetas favoritas"
+                                    title="Añadir a favoritos"
+                                    variant="recipe"
+                                >
+                                    <FaStar aria-hidden="true" />
+                                </MiniCircleButton>
+
+                                <MiniCircleButton
+                                    onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
+                                    aria-label="Añadir a lista"
+                                    title="Añadir a lista"
+                                    variant="recipe"
+                                >
+                                    <FaListUl aria-hidden="true" />
+                                </MiniCircleButton>
+
+                                <MiniCircleButton
+                                    onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
+                                    aria-label="Compartir receta"
+                                    title="Compartir receta"
+                                    variant="recipe"
+                                    className="pr-1"
+                                >
+                                    <FaShareAlt aria-hidden="true" />
+                                </MiniCircleButton>
+                            </div>
+                        )}
                 </div>
             </section>
 
@@ -121,7 +159,6 @@ function Recipe({
                     <h2 className="sr-only">Presentación de la receta</h2>
 
                     {/* <-- images --> */}
-
                     <div className="w-full flex flex-row items-center justify-center overflow-hidden h-44 xs:h-56 sm:h-72 md:h-80 mt-16 xs:mt-12 lg:mt-0 xl:-mt-4 max-w-7xl">
                         {recipe.images.length > 0 ? (
                             recipe.images.map((image, index) => {
