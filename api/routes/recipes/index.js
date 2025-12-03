@@ -33,7 +33,7 @@ router.delete('/:recipeId', deleteRecipeHandler)
 router.patch('/:recipeId', jsonBodyParser, updateRecipeHandler)
 
 router.get('/my-recipes', getMyRecipesHandler)
-router.get('/discover', getPublishedRecipesHandler)
+router.get('/published-recipes', getPublishedRecipesHandler)
 router.get('/:recipeId', getRecipeByIdHandler)
 router.patch('/:recipeId/publish', togglePublishRecipeHandler)
 
