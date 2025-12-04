@@ -5,10 +5,9 @@ import { useAppContext } from '../../../context'
 
 import Header from '../common/Header'
 import RecipeThumbnail from '../common/RecipeThumbnail'
-import CircleButton from '../../common/CircleButton'
 import Footer from '../../common/Footer'
 
-function Discover({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClicked }) {
+function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
     const { alert } = useAppContext()
 
     const [publishedRecipes, setPublishedRecipes] = useState([])
@@ -38,15 +37,9 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClick
     const handleRecipeThumbnailClick = (recipeId) => onRecipeThumbnailClick(recipeId)
     const handleUserLoggedOut = () => onUserLoggedOut()
 
-    const handleCreateRecipeClick = event => {
-        event.preventDefault()
-
-        onCreateRecipeClicked()
-    }
-
     return <div className="flex flex-col min-h-screen w-full items-center text-center bg-hot-magenta">
         <Header
-            variant="myRecipes"
+            variant="discover"
             onUserLoggedOut={handleUserLoggedOut}
         />
 
