@@ -13,16 +13,20 @@ function Footer() {
                     href="https://linkedin.com/in/edu-yeves"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Abrir perfil de Linkedin de Edu Yeves"
+                    title="Linkedin"
                 >
-                    <FaLinkedin className="text-white hover:text-folly size-7 sm:size-8 transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:scale-105 active:scale-95 focus:scale-105" />
+                    <FaLinkedin aria-hidden="true" className="text-white hover:text-folly size-7 sm:size-8 transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:scale-105 active:scale-95 focus:scale-105" />
                 </a>
 
                 <a
                     href="https://github.com/Yevestevez"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Abrir perfil de GitHub de Edu Yeves"
+                    title="GitHub"
                 >
-                    <FaGithub className="text-white hover:text-folly size-7 sm:size-8 transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:scale-105 active:scale-95 focus:scale-105" />
+                    <FaGithub aria-hidden="true" className="text-white hover:text-folly size-7 sm:size-8 transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:scale-105 active:scale-95 focus:scale-105" />
                 </a>
             </nav>
         </footer>

@@ -7,6 +7,7 @@ import passwordReset from './passwordReset.js'
 
 import createRecipe from './createRecipe.js'
 import getMyRecipes from './getMyRecipes.js'
+import getPublishedRecipes from './getPublishedRecipes.js'
 import deleteRecipe from './deleteRecipe.js'
 import updateRecipe from './updateRecipe.js'
 import getRecipeById from './getRecipeById.js'
@@ -36,6 +37,7 @@ const logic = {
 
     createRecipe,
     getMyRecipes,
+    getPublishedRecipes,
     deleteRecipe,
     updateRecipe,
     getRecipeById,

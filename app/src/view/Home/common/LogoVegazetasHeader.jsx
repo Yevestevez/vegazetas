@@ -17,7 +17,7 @@ function LogoVegazetasHeader({ to, className }) {
         className
     )
 
-    if (to) return <Link to={to} className={logoBtnHeaderClasses}>Vegazetas</Link>
+    if (to) return <Link to={to} aria-label="Ir al menú" title="Menú" className={logoBtnHeaderClasses}>Vegazetas</Link>
     return <div className={logoHeaderClasses}>Vegazetas</div>
 }
 

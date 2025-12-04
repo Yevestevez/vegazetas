@@ -122,6 +122,8 @@ function Input({
                         ${currentTheme.icon.focusText}
                         ${currentTheme.icon.hover}
              `}
+
+                    title={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                     aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                     aria-pressed={showPassword}
                     aria-controls={id}

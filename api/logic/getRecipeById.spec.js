@@ -1,131 +1,199 @@
 import 'dotenv/config'
-
+import mongoose from 'mongoose'
 import { expect } from 'chai'
 
-import mongoose from 'mongoose'
 import { User, Recipe } from '../data/models.js'
-const { Types: { ObjectId } } = mongoose
+import getRecipeById from './getRecipeById.js'
 
 import { errors } from 'com'
 const { NotFoundError, OwnershipError } = errors
 
-import getRecipeById from './getRecipeById.js'
+const { Types: { ObjectId } } = mongoose
 
 describe('getRecipeById', () => {
     before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
 
-    beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
+    beforeEach(() => Promise.all([
+        User.deleteMany(),
+        Recipe.deleteMany()
+    ]))
 
-    it('succeeds on existing user and recipe', () => {
-        let createdRecipe
+    it('succeeds on own recipe', () => {
+        let userId
+        let recipeId
 
-        return User.create({ name: 'Frodo Baggins', email: 'frodo@baggins.com', username: 'frodobaggins', password: '123123123' })
+        return User.create({
+            name: 'Test User',
+            email: 'test@test.com',
+            username: 'testuser',
+            password: '123123123'
+        })
             .then(user => {
-                return Recipe.create({
-                    author: user.id,
-                    title: 'Calabaza hobbit gigante',
-                    description: 'La calabaza más grande de toda La Comarca',
-                    time: 150,
-                    difficulty: 'easy',
-                    tags: ['calabaza', 'shire', 'comarca', 'hobbit']
-                })
-                    .then(result => {
-                        createdRecipe = result
+                userId = user._id.toString()
 
-                        return getRecipeById(user._id.toString(), createdRecipe._id.toString())
-                    })
-                    .then(recipe => {
-                        expect(recipe.author).to.equal(user._id.toString())
-                        expect(recipe.title).to.equal('Calabaza hobbit gigante')
-                        expect(recipe.description).to.equal('La calabaza más grande de toda La Comarca')
-                        expect(recipe.time).to.equal(150)
-                        expect(recipe.difficulty).to.equal('easy')
-                        expect(recipe.tags).to.deep.equal(['calabaza', 'shire', 'comarca', 'hobbit'])
-                    })
+                return Recipe.create({
+                    author: user._id,
+                    title: 'My Recipe',
+                    images: [],
+                    description: 'desc',
+                    ingredients: [],
+                    steps: [],
+                    published: false
+                })
+            })
+            .then(recipe => {
+                recipeId = recipe._id.toString()
+                return getRecipeById(userId, recipeId)
+            })
+            .then(recipe => {
+                expect(recipe.id).to.equal(recipeId)
+                expect(recipe.author.username).to.equal('testuser')
+                expect(recipe.own).to.equal(true)
             })
     })
 
-    it('fails on wrong user', () => {
+    it('fails on non-existing user', () => {
+        const fakeUserId = new ObjectId().toString()
         let catchedError
 
-        return User.create({ name: 'Frodo Baggins', email: 'frodo@baggins.com', username: 'frodobaggins', password: '123123123' })
-            .then(user => {
-                return Recipe.create({
-                    author: user.id,
-                    title: 'Calabaza hobbit gigante',
-                    description: 'La calabaza más grande de toda La Comarca',
-                    time: 150,
-                    difficulty: 'easy',
-                    tags: ['calabaza', 'shire', 'comarca', 'hobbit']
-                })
-                    .then(recipe => {
-                        return getRecipeById(new ObjectId().toString(), recipe._id.toString())
-                    })
-                    .catch(error => catchedError = error)
-                    .finally(() => {
-                        expect(catchedError).to.be.instanceOf(NotFoundError)
-                        expect(catchedError.message).to.equal('user not found')
-                    })
+        return User.create({
+            name: 'User',
+            email: 'u@u.com',
+            username: 'user123',
+            password: '123123123'
+        })
+            .then(() => Recipe.create({
+                author: new ObjectId(),
+                title: 'Test Recipe X',
+                images: [],
+                description: 'desc',
+                ingredients: [],
+                steps: [],
+                published: true
+            }))
+            .then(recipe => getRecipeById(fakeUserId, recipe._id.toString())
+                .catch(error => catchedError = error)
+            )
+            .finally(() => {
+                expect(catchedError).to.be.instanceOf(NotFoundError)
+                expect(catchedError.message).to.equal('user not found')
             })
     })
 
-    it('fails on wrong recipe', () => {
+    it('fails on non-existing recipe', () => {
+        let userId
+        const fakeRecipeId = new ObjectId().toString()
         let catchedError
 
-        return User.create({ name: 'Frodo Baggins', email: 'frodo@baggins.com', username: 'frodobaggins', password: '123123123' })
+        return User.create({
+            name: 'User',
+            email: 'u@u.com',
+            username: 'user123',
+            password: '123123123'
+        })
             .then(user => {
-                return Recipe.create({
-                    author: user.id,
-                    title: 'Calabaza hobbit gigante',
-                    description: 'La calabaza más grande de toda La Comarca',
-                    time: 150,
-                    difficulty: 'easy',
-                    tags: ['calabaza', 'shire', 'comarca', 'hobbit']
-                })
-                    .then(recipe => {
-                        return getRecipeById(user._id.toString(), new ObjectId().toString())
-                    })
+                userId = user._id.toString()
+                return getRecipeById(userId, fakeRecipeId)
                     .catch(error => catchedError = error)
-                    .finally(() => {
-                        expect(catchedError).to.be.instanceOf(NotFoundError)
-                        expect(catchedError.message).to.equal('recipe not found')
-                    })
+            })
+            .finally(() => {
+                expect(catchedError).to.be.instanceOf(NotFoundError)
+                expect(catchedError.message).to.equal('recipe not found')
             })
     })
 
-    it('fails on wrong recipe author', () => {
+    it('succeeds on accessing another user’s published recipe', () => {
+        let userA, userB, recipeId
+
+        return User.create({
+            name: 'Ana',
+            email: 'ana@a.com',
+            username: 'anauser',
+            password: '123123123'
+        })
+            .then(user => {
+                userA = user
+
+                return User.create({
+                    name: 'Bob',
+                    email: 'bob@b.com',
+                    username: 'bobuser',
+                    password: '123123123'
+                })
+            })
+            .then(user => {
+                userB = user
+
+                return Recipe.create({
+                    author: userA._id,
+                    title: 'Published Recipe',
+                    images: [],
+                    description: 'desc',
+                    ingredients: [],
+                    steps: [],
+                    published: true
+                })
+            })
+            .then(recipe => {
+                recipeId = recipe._id.toString()
+                return getRecipeById(userB._id.toString(), recipeId)
+            })
+            .then(recipe => {
+                expect(recipe.own).to.equal(false)
+                expect(recipe.id).to.equal(recipeId)
+                expect(recipe.author.username).to.equal('anauser')
+            })
+    })
+
+    it('fails when accessing an unpublished recipe from another user', () => {
+        let authorId, otherUserId, recipeId
         let catchedError
-        let frodo
-        let sam
 
-        return User.create({ name: 'Frodo Baggins', email: 'frodo@baggins.com', username: 'frodobaggins', password: '123123123' })
+        return User.create({
+            name: 'Author',
+            email: 'author@a.com',
+            username: 'authoruser',
+            password: '123123123'
+        })
             .then(user => {
-                frodo = user
+                authorId = user._id.toString()
 
-                return User.create({ name: 'Sam Gamgee', email: 'sam@Gamgee.com', username: 'samgamgee', password: '123123123' })
-            })
-            .then(user2 => {
-                sam = user2
-                return Recipe.create({
-                    author: sam.id,
-                    title: 'Calabaza hobbit gigante',
-                    description: 'La calabaza más grande de toda La Comarca',
-                    time: 150,
-                    difficulty: 'easy',
-                    tags: ['calabaza', 'shire', 'comarca', 'hobbit']
+                return User.create({
+                    name: 'Viewer',
+                    email: 'viewer@v.com',
+                    username: 'vieweruser',
+                    password: '123123123'
                 })
-                    .then(recipe => {
-                        return getRecipeById(frodo._id.toString(), recipe._id.toString())
-                    })
+            })
+            .then(user => {
+                otherUserId = user._id.toString()
+
+                return Recipe.create({
+                    author: authorId,
+                    title: 'Private Recipe',
+                    images: [],
+                    description: 'desc',
+                    ingredients: [],
+                    steps: [],
+                    published: false
+                })
+            })
+            .then(recipe => {
+                recipeId = recipe._id.toString()
+
+                return getRecipeById(otherUserId, recipeId)
                     .catch(error => catchedError = error)
-                    .finally(() => {
-                        expect(catchedError).to.be.instanceOf(OwnershipError)
-                        expect(catchedError.message).to.equal('user is not author of recipe')
-                    })
+            })
+            .finally(() => {
+                expect(catchedError).to.be.instanceOf(OwnershipError)
+                expect(catchedError.message).to.equal('recipe not published')
             })
     })
 
-    afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
+    afterEach(() => Promise.all([
+        User.deleteMany(),
+        Recipe.deleteMany()
+    ]))
 
     after(() => mongoose.disconnect())
 })

@@ -1,7 +1,7 @@
 import { errors } from 'com'
 
-const getMyRecipes = () => {
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/my-recipes`, {
+const getPublishedRecipes = () => {
+    return fetch(`${import.meta.env.VITE_API_URL}/recipes/published-recipes`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`
@@ -13,7 +13,7 @@ const getMyRecipes = () => {
 
             if (status === 200)
                 return res.json()
-                    .then(myRecipes => myRecipes)
+                    .then(publishedRecipes => publishedRecipes)
 
             return res.json()
                 .then(body => {
@@ -26,4 +26,4 @@ const getMyRecipes = () => {
         })
 }
 
-export default getMyRecipes
+export default getPublishedRecipes

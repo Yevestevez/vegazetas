@@ -3,6 +3,7 @@ import { Router } from 'express'
 import {
     createRecipeHandler,
     getMyRecipesHandler,
+    getPublishedRecipesHandler,
     deleteRecipeHandler,
     updateRecipeHandler,
     getRecipeByIdHandler,
@@ -30,7 +31,9 @@ const router = new Router()
 router.post('/', jsonBodyParser, createRecipeHandler)
 router.delete('/:recipeId', deleteRecipeHandler)
 router.patch('/:recipeId', jsonBodyParser, updateRecipeHandler)
-router.get('/', getMyRecipesHandler)
+
+router.get('/my-recipes', getMyRecipesHandler)
+router.get('/published-recipes', getPublishedRecipesHandler)
 router.get('/:recipeId', getRecipeByIdHandler)
 router.patch('/:recipeId/publish', togglePublishRecipeHandler)
 

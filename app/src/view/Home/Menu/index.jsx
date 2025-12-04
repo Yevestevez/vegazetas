@@ -43,10 +43,7 @@ function Menu({ onUserLoggedOut, onCreateRecipeClicked }) {
                     alert('Funcionalidad burbujeando en la olla')
                 }}>Lista de la compra</MenuButton>
 
-                <MenuButton variant="even" className="bg-aquamarine text-dark-orange opacity-50" onClick={(event) => {
-                    event.preventDefault()
-                    alert('Funcionalidad cociendose a fuego lento')
-                }}>Descubre</MenuButton>
+                <MenuButton to="/discover" variant="even" className="bg-aquamarine text-hot-magenta">Descubre</MenuButton>
 
                 <MenuButton className="bg-dark-orange text-veronica opacity-50" onClick={(event) => {
                     event.preventDefault()

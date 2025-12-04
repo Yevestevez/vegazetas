@@ -1,4 +1,4 @@
-fetch('http://localhost:8080/recipes/my-recipes', {
+fetch('http://localhost:8080/recipes/published-recipes', {
     method: 'GET',
     headers: {
         Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFiMDU5NmRmZTJlMDNjMjE5MWY3MWUiLCJpYXQiOjE3NjQ3NDc4MjN9.tmTCtOqV-XSAtgFxynbjhP1gjo5mprGGJwIcaqwq1Ew'
