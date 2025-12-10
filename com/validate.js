@@ -56,7 +56,7 @@ const validate = {
 
     description(description) {
         if (typeof description !== 'string') throw new ValidationError('invalid description type, must be a string')
-        if (description.length < 1 || description.length > 500) throw new ValidationError('invalid description length, must be between 1 and 500 characters')
+        if (description.length > 500) throw new ValidationError('invalid description length, must be 500 characters maximum')
     },
 
     time(time) {
