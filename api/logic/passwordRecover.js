@@ -19,22 +19,27 @@ const passwordRecover = (email) => {
             // Paso 2: generar token JWT con userId y expiración de 15 minutos
             const token = jwt.sign(
                 { sub: user.id },
-                process.env.JWT_SECRET, // clave secreta
-                { expiresIn: '15m' } // duración del token
+                process.env.JWT_SECRET,
+                { expiresIn: '15m' }
             )
 
             return { user, token }
         })
         .then(({ user, token }) => {
-            // Paso 3: crear el transporter de pruebas (Ethereal)
-            return createMailTransporter()
+            // Paso 3: crear transporter según entorno
+            return createMailTransporter()   // en dev: Ethereal, en prod: Resend
                 .catch(error => { throw new SystemError(error.message) })
                 .then(transporter => {
-                    const resetLink = `${process.env.FRONTEND_URL}/password-reset/${token}`
 
-                    // Paso 4: enviar correo con enlace
+                    const frontendBase = process.env.FRONTEND_URL.replace(/\/$/, '') // quita slash final
+                    const resetLink = `${frontendBase}/password-reset/${token}`
+
+                    // Paso 4: enviar correo
                     return transporter.sendMail({
-                        from: `"Vegazetas" <${process.env.EMAIL_USER}>`,
+                        from: `"Vegazetas" <${process.env.MAIL_FROM}>`,
+                        // En desarrollo EMAIL_FROM = una dirección Ethereal
+                        // En producción EMAIL_FROM = dominio verificado en Resend
+
                         to: user.email,
                         subject: 'Recuperar contraseña Vegazetas',
                         text: `Haz click en el siguiente enlace para cambiar tu contraseña: ${resetLink}`,
@@ -44,15 +49,20 @@ const passwordRecover = (email) => {
                 })
         })
         .then(info => {
+
+            // DEBUG SOLO EN DESARROLLO
             if (process.env.NODE_ENV === 'development') {
                 const previewUrl = nodemailer.getTestMessageUrl(info)
                 if (previewUrl) {
-                    console.log('📨 Vista previa (Ethereal):', previewUrl)
+                    console.log('Vista previa (Ethereal):', previewUrl)
                 } else {
-                    console.log('📭 No se pudo generar la vista previa del correo.')
+                    console.log('No se pudo generar la vista previa del correo.')
                 }
-            } else if (process.env.NODE_ENV === 'production') {
-                console.log('✅ Correo real enviado correctamente.')
+            }
+
+            // En producción Resend no genera preview
+            if (process.env.NODE_ENV === 'production') {
+                console.log('Email enviado mediante Resend SMTP.')
             }
         })
 }
