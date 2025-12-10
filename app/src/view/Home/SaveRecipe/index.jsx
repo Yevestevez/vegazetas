@@ -81,13 +81,13 @@ function SaveRecipe({
 
         const form = event.target
         const title = form.title.value.trim()
-        const description = form.description.value.trim() || undefined
+        const rawDescription = form.description.value.trim()
+        const description = rawDescription === '' ? null : rawDescription
         const time = parseFloat(form.time.value.trim()) || undefined
         let difficulty = form.difficulty.value.trim().toLowerCase() || undefined
 
         if (!title) {
             alert('Añade un título a tu receta')
-
             return
         }
 
@@ -95,16 +95,25 @@ function SaveRecipe({
             'fácil': 'easy',
             'media': 'medium',
             'difícil': 'difficult',
-
             'facil': 'easy',
             'dificil': 'difficult',
-
             'easy': 'easy',
             'medium': 'medium',
             'difficult': 'difficult'
         }
 
         difficulty = difficultyMap[difficulty] || undefined
+
+        const hasChanges =
+            title !== recipe.title ||
+            description !== (recipe.description ?? null) ||
+            time !== recipe.time ||
+            difficulty !== recipe.difficulty
+
+        if (!hasChanges) {
+            alert('No hay cambios que guardar')
+            return
+        }
 
         logic.updateRecipe(recipe.id, title, description, time, difficulty)
             .then(() => {
@@ -116,7 +125,8 @@ function SaveRecipe({
                     difficulty
                 }))
 
-                form.reset()
+                alert('Receta actualizada')
+                // form.reset()
             })
             .catch(error => {
                 alert(error.message)
@@ -505,10 +515,6 @@ function SaveRecipe({
         })
     }
 
-    // const handlePublishButtonClick = () => {
-    //     alert('¡Receta publicada!')
-    // }
-
     const handlePublishButtonClick = () => {
         const message = recipe.published
             ? '¿Quieres pasar esta receta a borrador?'
@@ -580,24 +586,24 @@ function SaveRecipe({
                             if (window.history.length > 2) navigate(-1);
                             else navigate("/home");
                         }} variant="saveRecipe" title="Atrás" className="pr-1">
-                            <FaChevronLeft />
+                            <FaChevronLeft aria-hidden="true" />
                         </MiniCircleButton>
 
                         <MiniCircleButton onClick={(e) => {
                             window.scrollTo({ top: 0, behavior: "smooth" })
                             e.currentTarget.blur()
-                        }} variant="saveRecipe">
-                            <FaChevronUp />
+                        }} variant="saveRecipe" title="Arriba" aria-label="Arriba">
+                            <FaChevronUp aria-hidden="true" />
                         </MiniCircleButton>
                     </nav>
 
                     <div className='flex gap-3 xs:gap-4' role="toolbar" aria-label="Acciones de receta">
-                        <MiniCircleButton onClick={handleToRecipeClick} aria-label="Ver receta" variant="saveRecipe">
-                            <MdRemoveRedEye />
+                        <MiniCircleButton onClick={handleToRecipeClick} aria-label="Ver receta" title="Ver receta" variant="saveRecipe">
+                            <MdRemoveRedEye aria-hidden="true" />
                         </MiniCircleButton>
 
-                        <MiniCircleButton onClick={handleDeleteButtonClick} aria-label="Eliminar receta" variant="saveRecipe">
-                            <MdDelete />
+                        <MiniCircleButton onClick={handleDeleteButtonClick} aria-label="Eliminar receta" title="Eliminar receta" variant="saveRecipe">
+                            <MdDelete aria-hidden="true" />
                         </MiniCircleButton>
                     </div>
                 </div>
@@ -626,8 +632,8 @@ function SaveRecipe({
                         )}
                     </p>
 
-                    <MiniCircleButton variant="recipe" onClick={handlePublishButtonClick} aria-label={recipe.published ? 'Pasar receta a borrador' : 'Publicar receta'}>
-                        {recipe.published ? <MdCancel /> : <MdRocketLaunch />}
+                    <MiniCircleButton variant="recipe" onClick={handlePublishButtonClick} aria-label={recipe.published ? 'Pasar receta a borrador' : 'Publicar receta'} title={recipe.published ? 'Pasar receta a borrador' : 'Publicar receta'}>
+                        {recipe.published ? <MdCancel aria-hidden="true" /> : <MdRocketLaunch aria-hidden="true" />}
                     </MiniCircleButton>
                 </div>
             </div>
@@ -640,11 +646,13 @@ function SaveRecipe({
 
                 <h2 id="recipe-intro" className="pt-2 anybody-logo text-2xl sm:text-3xl xl:text-4xl text-spring-bud drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)">Introducción</h2>
 
+                <p className="text-spring-bud text-base lg:text-lg leading-tight text-center font-semibold">Preséntanos a tu receta, puedes añadir etiquetas y hasta dos imágenes.</p>
+
                 {/* <-- basic data --> */}
                 <section aria-labelledby="basic-data-title" className="flex flex-col w-full items-center text-center py-2 gap-2">
                     <h3 id="basic-data-title" className={`${h3Base} text-folly bg-spring-bud`}>Datos básicos</h3>
 
-                    <form className="flex flex-col w-full items-center gap-2 md:gap-4 text-spring-bud" onSubmit={handleRecipeFormSubmit}>
+                    <form className="flex flex-col w-full items-center gap-2 md:gap-4 text-spring-bud" key={JSON.stringify(recipe)} onSubmit={handleRecipeFormSubmit}>
 
                         <label className={labelBase} htmlFor="title">Título*</label>
                         <input
@@ -670,7 +678,7 @@ function SaveRecipe({
 
                         <div className="flex flex-row w-full justify-between gap-4">
                             <div className="flex flex-col w-full gap-2">
-                                <label className={labelBase} htmlFor="time">Tiempo</label>
+                                <label className={labelBase} htmlFor="time">Tiempo (min)</label>
                                 <input
                                     id="time" type="number" name="time" title="Tiempo en minutos. Múltiplos de 5"
                                     placeholder="En minutos" defaultValue={recipe.time || 5} min={5} max={9999} step={5}
@@ -685,7 +693,7 @@ function SaveRecipe({
                                     id="difficulty" name="difficulty" value={difficulty}
                                     onChange={(e) => setDifficulty(e.target.value)}
 
-                                    className={`${inputBase} ${inputColor.springBud} flex items-center justify-center mb-2`}
+                                    className={`${inputBase} ${inputColor.springBud} text-center px-0 mb-2`}
                                 >
                                     <option value="">- Selecciona -</option>
                                     <option value="easy">Fácil</option>
@@ -695,8 +703,8 @@ function SaveRecipe({
                             </div>
                         </div>
 
-                        <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.springBud} mt-2`}>
-                            <MdSave />
+                        <CircleButton type="submit" variant="saveRecipe" title="Guardar" aria-label="Guardar" className={`${btnColor.springBud} mt-2`}>
+                            <MdSave aria-hidden="true" />
                         </CircleButton>
                     </form>
                 </section>
@@ -707,7 +715,7 @@ function SaveRecipe({
                 <section aria-labelledby="images-title" className="flex flex-col w-full mx-auto py-2 gap-4">
                     <h3 id="images-title" className={`${h3Base} text-folly bg-spring-bud`}>Imágenes</h3>
 
-                    <ul className="flex gap-6 w-full py-4 justify-center">
+                    <ul className="flex gap-6 w-full justify-center">
                         {(recipe.images ?? []).map((image, index) => (
                             <li className="relative shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] w-1/2" key={index}>
 
@@ -727,8 +735,8 @@ function SaveRecipe({
                             className={`${inputBase} ${inputColor.springBud} truncate`}
                         />
 
-                        <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.springBud} mt-4`}>
-                            <MdSave />
+                        <CircleButton type="submit" variant="saveRecipe" aria-label="Guardar" title="Guardar" className={`${btnColor.springBud} mt-4`}>
+                            <MdSave aria-hidden="true" />
                         </CircleButton>
                     </form>
                 </section>
@@ -746,7 +754,7 @@ function SaveRecipe({
                                         rounded-sm anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-spring-bud shadow-[0.2rem_0.2rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]
                                     ">#{tag}</span>
 
-                                <MiniCircleButton type="button" onClick={(event) => handleDeleteTagButton(event, index)} variant="recipe"><MdDelete /></MiniCircleButton>
+                                <MiniCircleButton type="button" title="Eliminar etiqueta" aria-label="Eliminar etiqueta" onClick={(event) => handleDeleteTagButton(event, index)} variant="recipe"><MdDelete aria-hidden="true" /></MiniCircleButton>
                             </li>
                         ))}
                     </ul>
@@ -761,8 +769,8 @@ function SaveRecipe({
                             className={`${inputBase} ${inputColor.springBud} placeholder:normal-case mb-2`}
                         />
 
-                        <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.springBud} mt-2`}>
-                            <MdSave />
+                        <CircleButton type="submit" variant="saveRecipe" aria-label="Guardar" title="Guardar" className={`${btnColor.springBud} mt-2`}>
+                            <MdSave aria-hidden="true" />
                         </CircleButton>
                     </form>
                 </section>
@@ -771,6 +779,8 @@ function SaveRecipe({
             {/* <-- ingredients --> */}
             <section aria-labelledby='ingredients' className={`${sectionBase} bg-spring-bud py-8 md:py-10`}>
                 <h2 id="ingredients" className="anybody-logo text-2xl sm:text-3xl xl:text-4xl text-folly drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)">Ingredientes</h2>
+
+                <p className="text-folly text-base lg:text-lg leading-tight text-center font-semibold">Añade ingredientes a tu receta, puedes elegir entre ingredientes <strong>principales</strong> o de <strong>despensa</strong> (sal, pimienta...).</p>
 
                 <div className="columns-1 lg:columns-2 gap-6 space-y-6">
                     {/* <-- main ingredients --> */}
@@ -781,7 +791,7 @@ function SaveRecipe({
                             <ul className="flex flex-col gap-2">
                                 {mainIngredients.map((ingredient, index) => (
                                     <li key={index} className="flex items-center gap-3 xs:gap-4 text-folly">
-                                        <MiniCircleButton type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)} variant="saveRecipe" className="shrink-0"><MdDelete /></MiniCircleButton>
+                                        <MiniCircleButton type="button" aria-label="Eliminar ingrediente" title="Eliminar ingrediente" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)} variant="saveRecipe" className="shrink-0"><MdDelete aria-hidden="true" /></MiniCircleButton>
 
                                         <p className="text-sm sm:text-base leading-tight">
                                             <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
@@ -801,7 +811,7 @@ function SaveRecipe({
                             <ul className="flex flex-col gap-2">
                                 {pantryIngredients.map((ingredient, index) => (
                                     <li key={index} className="flex items-center gap-3 xs:gap-4 text-folly">
-                                        <MiniCircleButton type="button" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)} variant="saveRecipe" className="shrink-0"><MdDelete /></MiniCircleButton>
+                                        <MiniCircleButton type="button" aria-label="Eliminar ingrediente" title="Eliminar ingrediente" onClick={(event) => handleDeleteIngredientButton(event, ingredient.id)} variant="saveRecipe" className="shrink-0"><MdDelete aria-hidden="true" /></MiniCircleButton>
 
                                         <p className="text-sm sm:text-base leading-tight">
                                             <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
@@ -860,8 +870,8 @@ function SaveRecipe({
                         <input id="main" type="checkbox" defaultChecked="true" name="main" className="size-4 accent-folly" />
                     </div>
 
-                    <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.folly} mt-2`}>
-                        <MdSave />
+                    <CircleButton type="submit" variant="saveRecipe" aria-label="Guardar" title="Guardar" className={`${btnColor.folly} mt-2`}>
+                        <MdSave aria-hidden="true" />
                     </CircleButton>
                 </form>
             </section>
@@ -869,6 +879,8 @@ function SaveRecipe({
             {/* <-- steps --> */}
             <section aria-labelledby='steps' className={`${sectionBase} py-6 text-spring-bud`}>
                 <h2 id="steps" className="anybody-logo text-2xl sm:text-3xl xl:text-4xl mx-auto drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)">Pasos</h2>
+
+                <p className="text-base lg:text-lg leading-tight text-center font-semibold">Añade los pasos necesarios para tu receta, también puedes <strong>editarlos y ordenarlos</strong> con los botones de cada paso.</p>
 
                 <ol className="columns-1 lg:columns-2 lg:gap-6">
                     {(recipe.steps ?? []).map((step, index) => (
@@ -913,8 +925,8 @@ function SaveRecipe({
                                         className={`${inputBase} ${inputColor.springBud} mb-2`}
                                     />
 
-                                    <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.springBud} mt-2`}>
-                                        <MdSave />
+                                    <CircleButton type="submit" variant="saveRecipe" aria-label="Guardar" title="Guardar" className={`${btnColor.springBud} mt-2`}>
+                                        <MdSave aria-hidden="true" />
                                     </CircleButton>
                                 </form>
                             ) : (
@@ -940,22 +952,22 @@ function SaveRecipe({
 
                             {/* --> step buttons <-- */}
                             <div className="flex flex-row mx-auto gap-4 mt-2">
-                                <button type="button" onClick={() => setEditStep(editStep === step.id ? null : step.id)} className={`${stepButton}`}>
-                                    {editStep === step.id ? <IoMdCloseCircle /> : <MdEdit />}
+                                <button type="button" aria-label={editStep === step.id ? "Cancelar" : "Editar paso"} title={editStep === step.id ? "Cancelar" : "Editar paso"} onClick={() => setEditStep(editStep === step.id ? null : step.id)} className={`${stepButton}`}>
+                                    {editStep === step.id ? <IoMdCloseCircle aria-hidden="true" /> : <MdEdit aria-hidden="true" />}
                                 </button>
 
                                 <div className="flex flex-row  gap-2 rounded-full">
-                                    <button onClick={(event) => handleMoveStepUp(event, step.id)} disabled={index === 0} className={`${stepButton} disabled:opacity-30 disabled:cursor-not-allowed`}>
-                                        <FaChevronUp />
+                                    <button aria-label="Subir paso" title="Subir paso" onClick={(event) => handleMoveStepUp(event, step.id)} disabled={index === 0} className={`${stepButton} disabled:opacity-30 disabled:cursor-not-allowed`}>
+                                        <FaChevronUp aria-hidden="true" />
                                     </button>
 
-                                    <button onClick={(event) => handleMoveStepDown(event, step.id)} disabled={index === recipe.steps.length - 1} className={`${stepButton} disabled:opacity-30 disabled:cursor-not-allowed`}>
-                                        <FaChevronDown />
+                                    <button aria-label="Bajar paso" title="Bajar paso" onClick={(event) => handleMoveStepDown(event, step.id)} disabled={index === recipe.steps.length - 1} className={`${stepButton} disabled:opacity-30 disabled:cursor-not-allowed`}>
+                                        <FaChevronDown aria-hidden="true" />
                                     </button>
                                 </div>
 
-                                <button type="button" onClick={(event) => handleDeleteStepButton(event, step.id)} className={`${stepButton}`}>
-                                    <MdDelete />
+                                <button type="button" aria-label="Eliminar paso" title="Eliminar paso" onClick={(event) => handleDeleteStepButton(event, step.id)} className={`${stepButton}`}>
+                                    <MdDelete aria-hidden="true" />
                                 </button>
                             </div>
 
@@ -1005,11 +1017,38 @@ function SaveRecipe({
                         className={`${inputBase} ${inputColor.springBud} mb-2`}
                     />
 
-                    <CircleButton type="submit" variant="saveRecipe" className={`${btnColor.springBud} mt-2`}>
-                        <MdSave />
+                    <CircleButton type="submit" aria-label="Guardar" title="Guardar" variant="saveRecipe" className={`${btnColor.springBud} mt-2`}>
+                        <MdSave aria-hidden="true" />
                     </CircleButton>
                 </form>
             </section>
+
+            <div className="flex w-full my-4 lg:my-6 items-center border-t-2 border-spring-bud" aria-hidden="true"></div>
+
+            {/* <-- Published status --> */}
+            <div className="flex flex-col py-2 gap-2 xs:gap-4 xl:gap-6">
+                <p className="text-spring-bud text-lg xs:text-xl xl:text-2xl">
+                    {recipe.published ? (
+                        <>Tu receta está <strong>publicada</strong></>
+                    ) : (
+                        <>Tu receta es un <strong>borrador</strong></>
+                    )}
+                </p>
+
+                <div className="flex gap-4 items-center justify-center">
+                    <p className="text-spring-bud text-sm xs:text-base xl:text-lg text-end leading-tight xs:leading-tight xl:leading-tight">
+                        {recipe.published ? (
+                            <>¿Quieres pasar esta <br /> receta a <strong>borrador</strong>?</>
+                        ) : (
+                            <>¿Quieres <strong>publicar</strong> <br /> tu receta?</>
+                        )}
+                    </p>
+
+                    <MiniCircleButton variant="recipe" onClick={handlePublishButtonClick} aria-label={recipe.published ? 'Pasar receta a borrador' : 'Publicar receta'} title={recipe.published ? 'Pasar receta a borrador' : 'Publicar receta'}>
+                        {recipe.published ? <MdCancel aria-hidden="true" /> : <MdRocketLaunch aria-hidden="true" />}
+                    </MiniCircleButton>
+                </div>
+            </div>
         </main >
 
         <Footer></Footer>

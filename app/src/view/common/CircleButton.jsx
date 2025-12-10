@@ -26,6 +26,8 @@ function CircleButton({
   onClick,
   children,
   variant = 'large',
+  'aria-label': ariaLabel,
+  'title': title,
   className
 }) {
   const btnClasses = clsx(
@@ -38,8 +40,8 @@ function CircleButton({
     className
   )
 
-  if (to) return <Link to={to} className={btnClasses}>{children}</Link>
-  return <button onClick={onClick} className={btnClasses}>{children}</button>
+  if (to) return <Link to={to} aria-label={ariaLabel} title={title} className={btnClasses}>{children}</Link>
+  return <button onClick={onClick} aria-label={ariaLabel} title={title} className={btnClasses}>{children}</button>
 }
 
 export default CircleButton
