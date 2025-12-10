@@ -33,10 +33,11 @@ export function createTestMailTransporter() {
 export function createRealMailTransporter() {
     try {
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: process.env.MAIL_HOST,        // smtp.resend.com
+            port: Number(process.env.MAIL_PORT), // 587 recomendado
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
+                user: process.env.MAIL_USER,    // "resend"
+                pass: process.env.MAIL_PASS     // contraseña SMTP de Resend
             }
         })
 
