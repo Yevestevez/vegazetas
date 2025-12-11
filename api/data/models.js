@@ -19,7 +19,11 @@ const user = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    favorites: [{
+        type: ObjectId,
+        ref: 'Recipe'
+    }]
 })
 
 const ingredient = new Schema({
