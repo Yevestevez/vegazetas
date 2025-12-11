@@ -4,6 +4,7 @@ import getUserName from './getUserName.js'
 import getUserUsername from './getUserUsername.js'
 import passwordRecover from './passwordRecover.js'
 import passwordReset from './passwordReset.js'
+import toggleFavoriteRecipe from './toggleFavoriteRecipe.js'
 
 import createRecipe from './createRecipe.js'
 import getMyRecipes from './getMyRecipes.js'
@@ -34,6 +35,7 @@ const logic = {
     getUserUsername,
     passwordRecover,
     passwordReset,
+    toggleFavoriteRecipe,
 
     createRecipe,
     getMyRecipes,

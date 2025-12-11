@@ -1,4 +1,4 @@
-import { User, Recipe } from '../data/models.js'
+import { Recipe, User } from '../data/models.js'
 import { validate, errors } from 'com'
 
 const { NotFoundError, SystemError } = errors
@@ -7,22 +7,27 @@ const toggleFavoriteRecipe = (userId, recipeId) => {
     validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
 
-    return Recipe.exists({ _id: recipeId })
-        .then(exists => {
-            if (!exists) throw new NotFoundError('Recipe not found')
+    return Promise.all([
+        User.findById(userId),
+        Recipe.findById(recipeId)
+    ])
+        .then(([user, recipe]) => {
+            if (!user) throw new NotFoundError('User not found')
+            if (!recipe) throw new NotFoundError('Recipe not found')
 
-            return User.findById(userId).then(user => {
-                if (!user) throw new NotFoundError('User not found')
+            if (!Array.isArray(user.favorites)) user.favorites = []
 
-                const isFav = user.favorites?.includes(recipeId)
-                const update = isFav ? { $pull: { favorites: recipeId } }
-                    : { $addToSet: { favorites: recipeId } }
+            if (user.favorites.includes(recipeId)) {
+                user.favorites.pull(recipeId)
+            } else {
+                user.favorites.push(recipeId)
+            }
 
-                return User.updateOne({ _id: userId }, update)
-            })
+            return user.save()
         })
         .catch(error => {
-            if (error instanceof NotFoundError) throw error
+            if (error instanceof NotFoundError)
+                throw error
             throw new SystemError(error.message)
         })
 }
