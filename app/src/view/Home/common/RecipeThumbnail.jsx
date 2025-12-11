@@ -7,8 +7,14 @@ import formatDate from '../../helper/formatDate'
 
 import MiniCircleButton from "./MiniCircleButton"
 
-function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
+function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick }) {
     const { alert } = useAppContext()
+
+    const handleToggleFavoriteClick = (event) => {
+        event.preventDefault()
+
+        onToggleFavoriteClick()
+    }
 
     const handleRecipeThumbnailClick = event => {
         event.preventDefault()
@@ -25,11 +31,11 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
         <header className="z-20 flex absolute top-0 right-0 p-4 xs:p-6 xl:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 items-center justify-between">
 
             <MiniCircleButton
-                onClick={() => alert('Añadir a recetas favoritas: funcionalidad en la parrilla')}
+                onClick={handleToggleFavoriteClick}
                 aria-label="Añadir a recetas favoritas"
                 title="Añadir a favoritos"
             >
-                <FaStar aria-hidden="true" />
+                <FaStar aria-hidden="true" style={{ opacity: recipe.isFavorite ? 1 : 0.3 }} />
             </MiniCircleButton>
 
             <MiniCircleButton

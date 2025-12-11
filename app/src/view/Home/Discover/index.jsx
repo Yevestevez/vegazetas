@@ -32,6 +32,12 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
         }
     }
 
+    const handleToggleFavorite = (recipeId) => {
+        logic.toggleFavoriteRecipe(recipeId)
+            .then(() => loadPublishedRecipes()) // asegura estado real
+            .catch(console.error)
+    }
+
     const handleRecipeDeleted = () => loadPublishedRecipes()
     const handleRecipeUpdated = () => loadPublishedRecipes()
     const handleRecipeThumbnailClick = (recipeId) => onRecipeThumbnailClick(recipeId)
@@ -62,6 +68,7 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
                             onRecipeDeleted={handleRecipeDeleted}
                             onRecipeUpdated={handleRecipeUpdated}
                             onRecipeThumbnailClick={handleRecipeThumbnailClick}
+                            onToggleFavoriteClick={() => handleToggleFavorite(recipe.id)}
                         />
                     ))}
                 </div>

@@ -20,10 +20,11 @@ const user = new Schema({
         type: String,
         required: true
     },
-    favorites: [{
-        type: ObjectId,
-        ref: 'Recipe'
-    }]
+    favorites: {
+        type: [ObjectId],
+        ref: 'Recipe',
+        default: []
+    }
 })
 
 const ingredient = new Schema({

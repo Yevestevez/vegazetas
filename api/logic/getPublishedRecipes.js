@@ -3,13 +3,15 @@ import { User, Recipe } from '../data/models.js'
 import { validate, errors } from 'com'
 const { NotFoundError, SystemError } = errors
 
-const getRecipes = userId => {
+const getPublishedRecipes = userId => {
     validate.id(userId, 'userId')
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
             if (!user) throw new NotFoundError('user not found')
+
+            const favorites = user.favorites || []
 
             return Recipe.find({
                 author: { $ne: user._id },
@@ -33,6 +35,8 @@ const getRecipes = userId => {
                         }
 
                         recipe.own = userId === recipe.author.id
+
+                        recipe.isFavorite = favorites.includes(recipe.id)
                     })
 
                     return recipes
@@ -40,4 +44,4 @@ const getRecipes = userId => {
         })
 }
 
-export default getRecipes
+export default getPublishedRecipes
