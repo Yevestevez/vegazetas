@@ -100,7 +100,7 @@ function Recipe({
                 <div className="flex justify-between px-8 md:px-12 xl:px-14 w-full max-w-7xl">
 
                     {/* Navegación atrás/arriba */}
-                    <nav className='flex gap-3 xs:gap-4'>
+                    <nav className='flex gap-2 xs:gap-4'>
                         <MiniCircleButton
                             onClick={() => {
                                 if (window.history.length > 2) navigate(-1)
@@ -120,7 +120,7 @@ function Recipe({
                     </nav>
 
                     {/* Acciones receta */}
-                    <div className='flex gap-3 xs:gap-4' role="toolbar" aria-label="Acciones de receta">
+                    <div className='flex gap-2 xs:gap-4' role="toolbar" aria-label="Acciones de receta">
 
                         {/* Favoritos */}
                         <MiniCircleButton
@@ -155,7 +155,7 @@ function Recipe({
 
                         {/* Editar/Borrar si es propio */}
                         {recipe.own && (
-                            <>
+                            <div className="flex pl-1 xs:pl-8 gap-2 xs:gap-4">
                                 <MiniCircleButton
                                     onClick={handleEditRecipeButton}
                                     aria-label="Editar receta"
@@ -173,7 +173,7 @@ function Recipe({
                                 >
                                     <MdDelete aria-hidden="true" />
                                 </MiniCircleButton>
-                            </>
+                            </div>
                         )}
 
                     </div>
