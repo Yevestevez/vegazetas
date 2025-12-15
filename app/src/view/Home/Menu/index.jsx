@@ -23,10 +23,7 @@ function Menu({ onUserLoggedOut, onCreateRecipeClicked }) {
 
                 <MenuButton to="/my-recipes" className="bg-veronica text-sgbus-green">Mis recetas</MenuButton>
 
-                <MenuButton variant="even" className="bg-coquelicot text-aquamarine opacity-50" onClick={(event) => {
-                    event.preventDefault()
-                    alert('Funcionalidad cociendose a fuego lento')
-                }}>Las favoritas</MenuButton>
+                <MenuButton to="/favorites" variant="even" className="bg-coquelicot text-aquamarine">Las favoritas</MenuButton>
 
                 <MenuButton className="bg-folly text-spring-bud opacity-50" onClick={(event) => {
                     event.preventDefault()
