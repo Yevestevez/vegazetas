@@ -1,6 +1,7 @@
 import createRecipeHandler from './createRecipeHandler.js'
 import getMyRecipesHandler from './getMyRecipesHandler.js'
 import getPublishedRecipesHandler from './getPublishedRecipesHandler.js'
+import getFavoritesRecipesHandler from './getFavoritesRecipesHandler.js'
 import deleteRecipeHandler from './deleteRecipeHandler.js'
 import updateRecipeHandler from './updateRecipeHandler.js'
 import getRecipeByIdHandler from './getRecipeByIdHandler.js'
@@ -24,6 +25,7 @@ export {
     createRecipeHandler,
     getMyRecipesHandler,
     getPublishedRecipesHandler,
+    getFavoritesRecipesHandler,
     deleteRecipeHandler,
     updateRecipeHandler,
     getRecipeByIdHandler,

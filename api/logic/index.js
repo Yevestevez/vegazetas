@@ -9,6 +9,7 @@ import toggleFavoriteRecipe from './toggleFavoriteRecipe.js'
 import createRecipe from './createRecipe.js'
 import getMyRecipes from './getMyRecipes.js'
 import getPublishedRecipes from './getPublishedRecipes.js'
+import getFavoritesRecipes from './getFavoritesRecipes.js'
 import deleteRecipe from './deleteRecipe.js'
 import updateRecipe from './updateRecipe.js'
 import getRecipeById from './getRecipeById.js'
@@ -40,6 +41,7 @@ const logic = {
     createRecipe,
     getMyRecipes,
     getPublishedRecipes,
+    getFavoritesRecipes,
     deleteRecipe,
     updateRecipe,
     getRecipeById,
