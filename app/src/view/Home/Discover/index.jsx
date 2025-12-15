@@ -52,7 +52,6 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
 
         logic.toggleFavoriteRecipe(recipeId)
             .catch(error => {
-                // revert on error
                 setPublishedRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, isFavorite: prevIsFavorite } : r))
                 console.error(error)
                 alert(error.message)

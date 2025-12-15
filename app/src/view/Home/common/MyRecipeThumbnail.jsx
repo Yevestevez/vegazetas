@@ -1,4 +1,4 @@
-import { FaShareAlt } from "react-icons/fa"
+import { FaShareAlt, FaStar } from "react-icons/fa"
 import { FaListUl } from "react-icons/fa6"
 import { MdRocketLaunch, MdVisibilityOff } from "react-icons/md"
 
@@ -8,13 +8,19 @@ import formatDate from '../../helper/formatDate'
 
 import MiniCircleButton from "./MiniCircleButton"
 
-function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
+function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick }) {
     const { alert } = useAppContext()
 
     const handleRecipeThumbnailClick = event => {
         event.preventDefault()
 
         onRecipeThumbnailClick(recipe.id)
+    }
+
+    const handleToggleFavoriteClick = (event) => {
+        event.preventDefault()
+
+        onToggleFavoriteClick()
     }
 
     return <article className={`
@@ -34,6 +40,14 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick }) {
             </div>
 
             <div className="flex gap-3 xs:gap-4">
+                <MiniCircleButton
+                    onClick={handleToggleFavoriteClick}
+                    aria-label="Añadir a recetas favoritas"
+                    title="Añadir a favoritos"
+                >
+                    <FaStar aria-hidden="true" style={{ opacity: recipe.isFavorite ? 1 : 0.3 }} />
+                </MiniCircleButton>
+
                 <MiniCircleButton
                     onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
                     aria-label="Añadir a lista" title="Añadir a lista">

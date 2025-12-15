@@ -44,6 +44,35 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
         onCreateRecipeClicked()
     }
 
+    const handleToggleFavorite = (recipeId) => {
+        const recipe = myRecipes.find(r => r.id === recipeId)
+
+        if (!recipe) {
+            logic.toggleFavoriteRecipe(recipeId)
+                .then(() => loadMyRecipes())
+                .catch(error => {
+                    console.error(error)
+                    alert(error.message)
+                })
+
+            return
+        }
+
+        const prevIsFavorite = recipe.isFavorite
+
+        setMyRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, isFavorite: !r.isFavorite } : r))
+
+        logic.toggleFavoriteRecipe(recipeId)
+            .catch(error => {
+                setMyRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, isFavorite: prevIsFavorite } : r))
+                console.error(error)
+                alert(error.message)
+            })
+
+        alert(prevIsFavorite ? 'Receta eliminada de favoritos' : 'Receta añadida a favoritos')
+    }
+
+
     return <div className="flex flex-col min-h-screen w-full items-center text-center bg-sgbus-green">
         <Header
             variant="myRecipes"
@@ -51,10 +80,10 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
         />
 
         <main className="
-        flex flex-col w-full max-w-7xl overflow-hidden
-        pt-20 xs:pt-24 lg:pt-36 xl:pt-40
-        pb-24 xs:pb-28 sm:pb-32
-        gap-2
+            flex flex-col w-full max-w-7xl overflow-hidden
+            pt-20 xs:pt-24 lg:pt-36 xl:pt-40
+            pb-24 xs:pb-28 sm:pb-32
+            gap-2
         ">
             <h1 className="anybody-logo text-veronica text-lg xs:text-xl sm:text-2xl xl:text-3xl drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)] pb-2">Tus recetas</h1>
             {myRecipes.length > 0 ? (
@@ -68,6 +97,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
                             onRecipeDeleted={handleRecipeDeleted}
                             onRecipeUpdated={handleRecipeUpdated}
                             onRecipeThumbnailClick={handleRecipeThumbnailClick}
+                            onToggleFavoriteClick={() => handleToggleFavorite(recipe.id)}
                         />
                     ))}
                 </div>
