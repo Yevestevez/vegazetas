@@ -87,6 +87,7 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
                         <RecipeThumbnail
                             key={recipe.id}
                             recipe={recipe}
+                            variant={'discover'}
                             onRecipeDeleted={handleRecipeDeleted}
                             onRecipeUpdated={handleRecipeUpdated}
                             onRecipeThumbnailClick={handleRecipeThumbnailClick}

@@ -7,7 +7,18 @@ import formatDate from '../../helper/formatDate'
 
 import MiniCircleButton from "./MiniCircleButton"
 
-function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick }) {
+const VARIANTS = {
+    discover: {
+        bgColor: 'bg-aquamarine',
+        textColor: 'text-hot-magenta'
+    },
+    favorites: {
+        bgColor: 'bg-coquelicot',
+        textColor: 'text-aquamarine'
+    }
+}
+
+function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick, variant = 'discover' }) {
     const { alert } = useAppContext()
 
     const handleToggleFavoriteClick = (event) => {
@@ -21,6 +32,8 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
 
         onRecipeThumbnailClick(recipe.id)
     }
+
+    const currentVariant = VARIANTS[variant]
 
     return <article className={`
                 flex flex-col w-full relative
@@ -72,17 +85,18 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
                         />
                     </>
                 ) : (
-                    <div className="w-full bg-aquamarine aspect-square" />
+                    <div className={`${currentVariant.bgColor} w-full aspect-square`} />
                 )}
 
-                <h2 className="
+                <h2 className={`
+                ${currentVariant.textColor}
                 z-10 absolute inset-0 flex items-center justify-center text-center
                 p-6 pt-10 xs:p-10 xs:pt-14
-                anybody-logo text-hot-magenta break-words
+                anybody-logo break-words
                 text-2xl xs:text-4xl sm:text-2xl md:text-3xl lg:text-2xl xl:md:text-4xl
                 leading-tight
                 drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)]
-            ">
+            `}>
                     {recipe.title}
                 </h2>
             </div>

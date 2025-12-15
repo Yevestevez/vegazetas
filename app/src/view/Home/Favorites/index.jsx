@@ -65,9 +65,9 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
     const handleRecipeThumbnailClick = (recipeId) => onRecipeThumbnailClick(recipeId)
     const handleUserLoggedOut = () => onUserLoggedOut()
 
-    return <div className="flex flex-col min-h-screen w-full items-center text-center bg-hot-magenta">
+    return <div className="flex flex-col min-h-screen w-full items-center text-center bg-aquamarine">
         <Header
-            variant="discover"
+            variant="favorites"
             onUserLoggedOut={handleUserLoggedOut}
         />
 
@@ -77,7 +77,7 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
         pb-24 xs:pb-28 sm:pb-32
         gap-2
         ">
-            <h1 className="anybody-logo text-aquamarine text-lg xs:text-xl sm:text-2xl xl:text-3xl drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)] pb-2">Descubre</h1>
+            <h1 className="anybody-logo text-coquelicot text-lg xs:text-xl sm:text-2xl xl:text-3xl drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)] pb-2">Las Favoritas</h1>
 
             {publishedRecipes.length > 0 ? (
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
@@ -87,6 +87,7 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
                         <RecipeThumbnail
                             key={recipe.id}
                             recipe={recipe}
+                            variant={'favorites'}
                             onRecipeDeleted={handleRecipeDeleted}
                             onRecipeUpdated={handleRecipeUpdated}
                             onRecipeThumbnailClick={handleRecipeThumbnailClick}
