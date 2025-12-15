@@ -1,5 +1,6 @@
 import { FaShareAlt, FaStar } from "react-icons/fa"
 import { FaListUl } from "react-icons/fa6"
+import { MdRocketLaunch, MdVisibilityOff } from "react-icons/md"
 
 import { useAppContext } from '../../../context'
 
@@ -40,32 +41,46 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
                 drop-shadow-[0.4em_0.4em_0_rgba(0,0,0,0.8)]
                 transition-all duration-150 ease-out hover:scale-105
                 focus:outline focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105
+                ${recipe.published ? 'opacity-100' : 'opacity-60 grayscale'}
             `}>
-        <header className="z-20 flex absolute top-0 right-0 p-4 xs:p-6 xl:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 items-center justify-between">
+        <header className="z-20 flex absolute top-0 left-0 right-0 p-4 xs:p-6 xl:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 items-center justify-between">
 
-            <MiniCircleButton
-                onClick={handleToggleFavoriteClick}
-                aria-label="Añadir a recetas favoritas"
-                title="Añadir a favoritos"
-            >
-                <FaStar aria-hidden="true" style={{ opacity: recipe.isFavorite ? 1 : 0.3 }} />
-            </MiniCircleButton>
+            <div className="flex items-center justify-start">
+                {recipe.own &&
+                    <div className="flex items-center justify-start">
+                        {recipe.published
+                            ? <MdRocketLaunch className="text-spring-bud text-2xl xs:text-3xl" title="Receta publicada" />
+                            : <MdVisibilityOff className="text-spring-bud text-xl xs:text-3xl" title="Receta en borrador" />
+                        }
+                    </div>
+                }
+            </div>
 
-            <MiniCircleButton
-                onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
-                aria-label="Añadir a lista"
-                title="Añadir a lista"
-            >
-                <FaListUl aria-hidden="true" />
-            </MiniCircleButton>
+            <div className="flex gap-3 xs:gap-4">
+                <MiniCircleButton
+                    onClick={handleToggleFavoriteClick}
+                    aria-label="Añadir a recetas favoritas"
+                    title="Añadir a favoritos"
+                >
+                    <FaStar aria-hidden="true" style={{ opacity: recipe.isFavorite ? 1 : 0.3 }} />
+                </MiniCircleButton>
 
-            <MiniCircleButton
-                onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
-                aria-label="Compartir receta"
-                title="Compartir receta"
-            >
-                <FaShareAlt aria-hidden="true" />
-            </MiniCircleButton>
+                <MiniCircleButton
+                    onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
+                    aria-label="Añadir a lista"
+                    title="Añadir a lista"
+                >
+                    <FaListUl aria-hidden="true" />
+                </MiniCircleButton>
+
+                <MiniCircleButton
+                    onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
+                    aria-label="Compartir receta"
+                    title="Compartir receta"
+                >
+                    <FaShareAlt aria-hidden="true" />
+                </MiniCircleButton>
+            </div>
         </header>
 
         <button
