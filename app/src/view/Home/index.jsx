@@ -10,6 +10,7 @@ import MyRecipes from './MyRecipes'
 import Recipe from './common/Recipe'
 import SaveRecipe from './SaveRecipe'
 import Discover from './Discover'
+import Favorites from './Favorites'
 
 function Home({ onUserLoggedOut }) {
     const { alert } = useAppContext()
@@ -77,7 +78,14 @@ function Home({ onUserLoggedOut }) {
                 element={<Discover
                     onRecipeThumbnailClick={handleRecipeThumbnailClick}
                     onUserLoggedOut={handleUserLoggedOut}
-                    onCreateRecipeClicked={handleCreateRecipeClick}
+                />}
+            />
+
+            <Route
+                path="/favorites"
+                element={<Favorites
+                    onRecipeThumbnailClick={handleRecipeThumbnailClick}
+                    onUserLoggedOut={handleUserLoggedOut}
                 />}
             />
 
