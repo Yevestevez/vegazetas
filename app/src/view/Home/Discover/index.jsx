@@ -33,9 +33,32 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
     }
 
     const handleToggleFavorite = (recipeId) => {
+        const recipe = publishedRecipes.find(r => r.id === recipeId)
+
+        if (!recipe) {
+            logic.toggleFavoriteRecipe(recipeId)
+                .then(() => loadPublishedRecipes())
+                .catch(error => {
+                    console.error(error)
+                    alert(error.message)
+                })
+
+            return
+        }
+
+        const prevIsFavorite = recipe.isFavorite
+
+        setPublishedRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, isFavorite: !r.isFavorite } : r))
+
         logic.toggleFavoriteRecipe(recipeId)
-            .then(() => loadPublishedRecipes()) // asegura estado real
-            .catch(console.error)
+            .catch(error => {
+                // revert on error
+                setPublishedRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, isFavorite: prevIsFavorite } : r))
+                console.error(error)
+                alert(error.message)
+            })
+
+        alert(prevIsFavorite ? 'Receta eliminada de favoritos' : 'Receta añadida a favoritos')
     }
 
     const handleRecipeDeleted = () => loadPublishedRecipes()

@@ -11,7 +11,7 @@ const getPublishedRecipes = userId => {
         .then(user => {
             if (!user) throw new NotFoundError('user not found')
 
-            const favorites = user.favorites || []
+            const favorites = (user.favorites || []).map(fav => fav.toString())
 
             return Recipe.find({
                 author: { $ne: user._id },

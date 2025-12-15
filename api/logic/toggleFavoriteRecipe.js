@@ -17,7 +17,10 @@ const toggleFavoriteRecipe = (userId, recipeId) => {
 
             if (!Array.isArray(user.favorites)) user.favorites = []
 
-            if (user.favorites.includes(recipeId)) {
+            // ensure comparison works regardless of ObjectId/string types
+            const favoritesAsStrings = (user.favorites || []).map(fav => fav.toString())
+
+            if (favoritesAsStrings.includes(recipeId)) {
                 user.favorites.pull(recipeId)
             } else {
                 user.favorites.push(recipeId)

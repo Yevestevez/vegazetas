@@ -63,6 +63,18 @@ function Recipe({
         })
     }
 
+    const handleToggleFavoriteClick = () => {
+        logic.toggleFavoriteRecipe(recipe.id)
+            .then(() => logic.getRecipeById(recipeId))
+            .then(freshRecipe => setRecipe(freshRecipe))
+            .catch(error => {
+                alert(error.message)
+                console.error(error)
+            })
+
+        alert(recipe.isFavorite ? 'Receta eliminada de favoritos' : 'Receta añadida a favoritos')
+    }
+
     const difficultyMap = {
         easy: "fácil",
         medium: "media",
@@ -79,8 +91,97 @@ function Recipe({
 
         <main className="flex flex-col w-full max-w-7xl overflow-hidden pt-14 xs:pt-24 lg:pt-36 xl:pt-40 pb-24 xs:pb-28 sm:pb-32 gap-2 bg-spring-bud">
 
+            {/* Botonera */}
+            <section aria-labelledby="recipe-action-title" className="z-20 w-full flex text-center items-center justify-center fixed left-0 top-16 xs:top-20 py-4 bg-folly border-b-4 border-b-spring-bud h-16">
+                <h2 id="recipe-actions-title" className="sr-only">
+                    Botonera de acciones y navegación de la receta
+                </h2>
+
+                <div className="flex justify-between px-8 md:px-12 xl:px-14 w-full max-w-7xl">
+
+                    {/* Navegación atrás/arriba */}
+                    <nav className='flex gap-3 xs:gap-4'>
+                        <MiniCircleButton
+                            onClick={() => {
+                                if (window.history.length > 2) navigate(-1)
+                                else navigate("/home")
+                            }}
+                            variant="recipe" title="Atrás" aria-label="Atrás" className="pr-1"
+                        >
+                            <FaChevronLeft />
+                        </MiniCircleButton>
+
+                        <MiniCircleButton
+                            onClick={(e) => { window.scrollTo({ top: 0, behavior: "smooth" }); e.currentTarget.blur() }}
+                            variant="recipe" title="Arriba" aria-label="Arriba"
+                        >
+                            <FaChevronUp />
+                        </MiniCircleButton>
+                    </nav>
+
+                    {/* Acciones receta */}
+                    <div className='flex gap-3 xs:gap-4' role="toolbar" aria-label="Acciones de receta">
+
+                        {/* Favoritos */}
+                        <MiniCircleButton
+                            onClick={handleToggleFavoriteClick}
+                            aria-label={recipe.isFavorite ? "Eliminar de favoritos" : "Añadir a favoritos"}
+                            title={recipe.isFavorite ? "Eliminar de favoritos" : "Añadir a favoritos"}
+                            variant="recipe"
+                        >
+                            <FaStar aria-hidden="true" style={{ opacity: recipe.isFavorite ? 1 : 0.3 }} />
+                        </MiniCircleButton>
+
+                        {/* Lista */}
+                        <MiniCircleButton
+                            onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
+                            aria-label="Añadir a lista"
+                            title="Añadir a lista"
+                            variant="recipe"
+                        >
+                            <FaListUl aria-hidden="true" />
+                        </MiniCircleButton>
+
+                        {/* Compartir */}
+                        <MiniCircleButton
+                            onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
+                            aria-label="Compartir receta"
+                            title="Compartir receta"
+                            variant="recipe"
+                            className="pr-1"
+                        >
+                            <FaShareAlt aria-hidden="true" />
+                        </MiniCircleButton>
+
+                        {/* Editar/Borrar si es propio */}
+                        {recipe.own && (
+                            <>
+                                <MiniCircleButton
+                                    onClick={handleEditRecipeButton}
+                                    aria-label="Editar receta"
+                                    title="Editar receta"
+                                    variant="recipe"
+                                >
+                                    <MdEdit aria-hidden="true" />
+                                </MiniCircleButton>
+
+                                <MiniCircleButton
+                                    onClick={handleDeleteButtonClick}
+                                    aria-label="Eliminar receta"
+                                    title="Eliminar receta"
+                                    variant="recipe"
+                                >
+                                    <MdDelete aria-hidden="true" />
+                                </MiniCircleButton>
+                            </>
+                        )}
+
+                    </div>
+                </div>
+            </section>
+
             {/* <-- button group --> */}
-            <section
+            {/* <section
                 aria-labelledby="recipe-action-title"
                 className="z-20 w-full flex text-center items-center justify-center fixed left-0 top-16 xs:top-20 py-4 bg-folly border-b-4 border-b-spring-bud h-16">
                 <h2 id="recipe-actions-title" className="sr-only">
@@ -92,7 +193,7 @@ function Recipe({
                         <MiniCircleButton
                             onClick={() => {
                                 if (window.history.length > 2) navigate(-1);
-                                else navigate("/home");
+                                else navigate("/home")
                             }}
                             variant="recipe" title="Atrás" aria-label="Atrás" className="pr-1">
                             <FaChevronLeft />
@@ -151,7 +252,7 @@ function Recipe({
                             </div>
                         )}
                 </div>
-            </section>
+            </section> */}
 
             {/* <-- recipe --> */}
             <article aria-labelledby="recipe-title" className="flex flex-col gap-3 xs:gap-4">

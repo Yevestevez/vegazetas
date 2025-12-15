@@ -4,6 +4,7 @@ import { expect } from 'chai'
 
 import { User, Recipe } from '../data/models.js'
 import getRecipeById from './getRecipeById.js'
+import toggleFavoriteRecipe from './toggleFavoriteRecipe.js'
 
 import { errors } from 'com'
 const { NotFoundError, OwnershipError } = errors
@@ -142,6 +143,55 @@ describe('getRecipeById', () => {
                 expect(recipe.own).to.equal(false)
                 expect(recipe.id).to.equal(recipeId)
                 expect(recipe.author.username).to.equal('anauser')
+            })
+    })
+
+    it('reflects favorite flag after toggling', () => {
+        let authorId, viewerId, recipeId
+
+        return User.create({
+            name: 'Author',
+            email: 'author2@a.com',
+            username: 'authoruser2',
+            password: '123123123'
+        })
+            .then(author => {
+                authorId = author._id.toString()
+
+                return User.create({
+                    name: 'Viewer',
+                    email: 'viewer2@v.com',
+                    username: 'vieweruser2',
+                    password: '123123123'
+                })
+            })
+            .then(viewer => {
+                viewerId = viewer._id.toString()
+
+                return Recipe.create({
+                    author: authorId,
+                    title: 'Published Recipe Fav Test',
+                    images: [],
+                    description: 'desc',
+                    ingredients: [],
+                    steps: [],
+                    published: true
+                })
+            })
+            .then(recipe => {
+                recipeId = recipe._id.toString()
+
+                return toggleFavoriteRecipe(viewerId, recipeId)
+            })
+            .then(() => getRecipeById(viewerId, recipeId))
+            .then(recipe => {
+                expect(recipe.isFavorite).to.equal(true)
+
+                return toggleFavoriteRecipe(viewerId, recipeId)
+            })
+            .then(() => getRecipeById(viewerId, recipeId))
+            .then(recipe => {
+                expect(recipe.isFavorite).to.equal(false)
             })
     })
 
