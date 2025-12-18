@@ -3,7 +3,7 @@ import { User, Recipe } from '../data/models.js'
 import { validate, errors } from 'com'
 const { NotFoundError, SystemError } = errors
 
-const getPublishedRecipes = userId => {
+const getFavoritesRecipes = userId => {
     validate.id(userId, 'userId')
 
     return User.findById(userId)
@@ -14,8 +14,11 @@ const getPublishedRecipes = userId => {
             const favorites = (user.favorites || []).map(fav => fav.toString())
 
             return Recipe.find({
-                author: { $ne: user._id },
-                published: true
+                _id: { $in: favorites },
+                $or: [
+                    { published: true },
+                    { author: userId }
+                ]
             })
                 .select('_id title images author date published')
                 .select('-__v')
@@ -44,4 +47,4 @@ const getPublishedRecipes = userId => {
         })
 }
 
-export default getPublishedRecipes
+export default getFavoritesRecipes

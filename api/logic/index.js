@@ -4,10 +4,12 @@ import getUserName from './getUserName.js'
 import getUserUsername from './getUserUsername.js'
 import passwordRecover from './passwordRecover.js'
 import passwordReset from './passwordReset.js'
+import toggleFavoriteRecipe from './toggleFavoriteRecipe.js'
 
 import createRecipe from './createRecipe.js'
 import getMyRecipes from './getMyRecipes.js'
 import getPublishedRecipes from './getPublishedRecipes.js'
+import getFavoritesRecipes from './getFavoritesRecipes.js'
 import deleteRecipe from './deleteRecipe.js'
 import updateRecipe from './updateRecipe.js'
 import getRecipeById from './getRecipeById.js'
@@ -34,10 +36,12 @@ const logic = {
     getUserUsername,
     passwordRecover,
     passwordReset,
+    toggleFavoriteRecipe,
 
     createRecipe,
     getMyRecipes,
     getPublishedRecipes,
+    getFavoritesRecipes,
     deleteRecipe,
     updateRecipe,
     getRecipeById,

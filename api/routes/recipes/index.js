@@ -4,6 +4,7 @@ import {
     createRecipeHandler,
     getMyRecipesHandler,
     getPublishedRecipesHandler,
+    getFavoritesRecipesHandler,
     deleteRecipeHandler,
     updateRecipeHandler,
     getRecipeByIdHandler,
@@ -34,6 +35,7 @@ router.patch('/:recipeId', jsonBodyParser, updateRecipeHandler)
 
 router.get('/my-recipes', getMyRecipesHandler)
 router.get('/published-recipes', getPublishedRecipesHandler)
+router.get('/favorites-recipes', getFavoritesRecipesHandler)
 router.get('/:recipeId', getRecipeByIdHandler)
 router.patch('/:recipeId/publish', togglePublishRecipeHandler)
 

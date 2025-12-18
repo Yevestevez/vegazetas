@@ -19,6 +19,11 @@ const user = new Schema({
     password: {
         type: String,
         required: true
+    },
+    favorites: {
+        type: [ObjectId],
+        ref: 'Recipe',
+        default: []
     }
 })
 

@@ -1,0 +1,38 @@
+import { Recipe, User } from '../data/models.js'
+import { validate, errors } from 'com'
+
+const { NotFoundError, SystemError } = errors
+
+const toggleFavoriteRecipe = (userId, recipeId) => {
+    validate.id(userId, 'userId')
+    validate.id(recipeId, 'recipeId')
+
+    return Promise.all([
+        User.findById(userId),
+        Recipe.findById(recipeId)
+    ])
+        .then(([user, recipe]) => {
+            if (!user) throw new NotFoundError('User not found')
+            if (!recipe) throw new NotFoundError('Recipe not found')
+
+            if (!Array.isArray(user.favorites)) user.favorites = []
+
+            // ensure comparison works regardless of ObjectId/string types
+            const favoritesAsStrings = (user.favorites || []).map(fav => fav.toString())
+
+            if (favoritesAsStrings.includes(recipeId)) {
+                user.favorites.pull(recipeId)
+            } else {
+                user.favorites.push(recipeId)
+            }
+
+            return user.save()
+        })
+        .catch(error => {
+            if (error instanceof NotFoundError)
+                throw error
+            throw new SystemError(error.message)
+        })
+}
+
+export default toggleFavoriteRecipe

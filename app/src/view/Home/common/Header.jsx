@@ -29,13 +29,19 @@ const VARIANTS = {
         logoutBtn: 'text-sgbus-green',
         borderBottom: 'border-b-4 border-b-sgbus-green'
     },
-
     discover: {
         headerBg: 'bg-aquamarine',
         logoColor: 'text-hot-magenta hover:text-folly',
         profileImgColor: 'text-hot-magenta',
         logoutBtn: 'text-hot-magenta',
         borderBottom: 'border-b-4 border-b-hot-magenta'
+    },
+    favorites: {
+        headerBg: 'bg-coquelicot',
+        logoColor: 'text-aquamarine hover:text-folly',
+        profileImgColor: 'text-aquamarine',
+        logoutBtn: 'text-aquamarine',
+        borderBottom: 'border-b-4 border-b-aquamarine'
     }
 }
 
