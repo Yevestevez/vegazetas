@@ -1,143 +1,113 @@
-<img src="./images/vegazeta-logo.png" alt="Vegazetas logo" height="100">
+<p align="center">
+  <img src="./doc/images/vegazeta-logo.png" alt="Vegazetas" height="100">
+</p>
 
-<br>
+<h1 align="center">Vegazetas</h1>
 
-# Vegazetas
+<p align="center">Español · <a href="./README-EN.md">English</a></p>
 
-## Introduction
+<p align="center">
+  <strong>Una forma colorida de crear, organizar y compartir recetas veganas.</strong>
+  <br>
+  Diseñado y desarrollado artesanalmente de principio a fin: desde Figma hasta el despliegue.
+</p>
 
-**Vegazetas** is a web application (SPA) that allows users to **create, view, edit, and delete recipes**. It features a very colorful, eye-catching, and simple interface, providing a comfortable and easy user experience—both for creating recipes and for viewing them while cooking.
+<p align="center">
+  <a href="https://vegazetas.netlify.app/">Explorar Vegazetas</a>
+</p>
 
-The app includes several sections and functionalities. For access, it has **sign-up**, **log-in**, and **password recovery** via an email link. Once logged in, users can navigate through the **menu** and use the **create recipe** button.
+<p align="center">
+  <a href="https://github.com/Yevestevez">GitHub</a> ·
+  <a href="https://www.linkedin.com/in/edu-yeves/">LinkedIn</a>
+</p>
 
-Currently, it offers the **My Recipes** section, which displays a list of the user's recipes as thumbnails and allows direct navigation to the **recipe view** when one is selected. From the recipe view, users can delete the recipe or navigate to the edit section.
+---
 
-In the **edit** section, users can modify recipe fields, as well as add or remove images, tags, ingredients, and steps. Steps can be edited and reordered. All recipe fields will be described in more detail in the [Data Model](#data-model) section.
+**Versión de referencia: v1.0.0**, correspondiente al estado actual de producción. Todavía no se ha creado una etiqueta ni una publicación.
 
-In **future versions**, new features will be implemented, such as:
-- Recipe filtering by ingredients, tags, and titles
-- Viewing recipes from other users and a like button to save them to a new "Favorites" section
-- Sharing recipes via link
-- Recipe list section
-- Links to external recipes
-- Draft/private recipe creation, to publish them later
-- User profile modification and account deletion
-- Automatic generation of an editable shopping list based on recipe ingredients
-- Menu planning calendar
-- Cooking mode: button to prevent screen from turning off on mobile or tablet while cooking
-- Adjust servings (x2, x3...) to user preference
-- Adjustable font size in recipes
-- Fully responsive app (already has basic responsiveness)
-- And much more!
+## Sobre el proyecto
 
-<br>
+Vegazetas es una aplicación web para guardar recetas veganas propias y descubrir las que publica la comunidad. La experiencia gira en torno a una interfaz expresiva y alegre, pensada para que crear y consultar recetas resulte sencillo.
 
-## Functional
+Es un proyecto full-stack diseñado y desarrollado íntegramente por mí: desde el diseño UX/UI en Figma y la aplicación de una sola página hasta la API REST, la base de datos y el despliegue. El proyecto también incluye pruebas automatizadas para la lógica de negocio de la API.
 
-### Use Cases
+## Funcionalidades
 
-User
+- Registro, inicio y cierre de sesión, y recuperación de contraseña.
+- Creación, edición y eliminación de recetas.
+- Recetas veganas con descripción, tiempo, dificultad, etiquetas, imágenes, ingredientes y pasos.
+- Edición y reordenación de los pasos de preparación.
+- Publicación de recetas para que otras personas puedan descubrirlas.
+- Secciones para consultar las recetas propias, explorar recetas publicadas y guardar favoritas.
 
-- Sign-up
-- Log-in
-- Password recovery via email
-- Log-out
-- Recipe creation
-- Recipe editing
-    - Editing and reordering steps
-- Recipe deletion
-- Viewing selected recipe
-- Viewing "my recipes"
+## Tecnologías
 
-### UXUI Design
+| Área | Tecnologías |
+| --- | --- |
+| Frontend | React, React Router, Tailwind CSS, Vite |
+| Backend | Node.js, Express |
+| Datos | MongoDB, Mongoose |
+| Calidad | Mocha, Chai, c8, ESLint |
 
-[Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214)
+## Organización y datos
 
-## Technical
+- [`app/`](./app/): interfaz React; incluye su [README](./app/README.md).
+- [`api/`](./api/): API Express y acceso a MongoDB; incluye su [README](./api/README.md).
+- [`com/`](./com/): validaciones y errores compartidos.
+- [`doc/`](./doc/): documentación técnica e imágenes.
 
-### Structure
+El modelo incluye usuarios con favoritos y recetas con autor, imágenes, descripción, tiempo, dificultad, etiquetas, ingredientes, pasos y estado de publicación. Ingredientes y pasos se almacenan dentro de la receta. Los detalles están en el [estado actual](./doc/ESTADO-ACTUAL.md).
 
-- App
-- API
-- DB
+## Puesta en marcha
 
-### Packages
+Necesitas Node.js, npm y una instancia de MongoDB. La aplicación y la API se ejecutan por separado.
 
-- app
-- api
-- com
-- doc (documentation)
+1. Configura las variables de entorno:
+   - En `api/.env`, define `MONGO_URL`, `PORT` y `JWT_SECRET`. Para recuperación de contraseña, configura también `FRONTEND_URL`, `MAIL_FROM` y `NODE_ENV=development` en desarrollo; en producción se necesita `RESEND_API_KEY`.
+   - En `app/.env`, define `VITE_API_URL` con la URL de la API.
+2. Instala y ejecuta la API en una terminal:
 
-### Technologies
+   ```bash
+   cd api
+   npm install
+   npm start
+   ```
 
-- HTML/CSS/JS
-- React
-- Node/Express
+3. Instala y ejecuta la aplicación en otra terminal:
 
-### Data Model
+   ```bash
+   cd app
+   npm install
+   npm run dev
+   ```
 
-**User**
-- id *(ObjectId)*
-- name *(string)*
-- email *(string)*
-- username *(string)*
-- password *(string) - bcrypt*
+### Pruebas y calidad
 
-**Ingredient**
-- id *(ObjectId)*
-- name *(string)*
-- quantity *(num)*
-- unit *(string)*
-- annotation *(string)*
-- main *(boolean (default: true))*
+La API cuenta con pruebas automatizadas para sus lógicas de negocio, escritas con Mocha y Chai. Desde `api/`, ejecútalas con:
 
-**Step**
-- id *(ObjectId)*
-- text *(string)*
-- note *(string)*
-- image *(string)*
-- order *(number)*
+```bash
+npm test
+```
 
-**Recipe**
-- id *(ObjectId)*
-- author *(ObjectId - **User**)*
-- [images] *(strings array)*
-- title *(string)*
-- date *(Date (default: Date.now))*
-- description *(string)*
-- time *(number)*
-- difficulty *(string)*
-- [tags] *(strings array)*
-- [ingredients] *(**ingredients** array)*
-- [steps] *(**steps** array)*
+Antes de ejecutarlas, configura `SPEC_MONGO_URL` con una base de MongoDB **aislada y desechable**: las pruebas borran usuarios y recetas.
 
-### UI Components
+Desde `app/`, puedes comprobar el lint y generar la compilación de producción:
 
-```sh
-App
- |- Landing
- |- Register
- |- Login
- |- PasswordReset
- |- Home
-    |- Menu
-        |- Header (Menu)
-    |- MyRecipes
-        |- Header (common)
-        |- [RecipeThumbnail]
-    |- Recipe:id
-        |- Header (common)
-    |- SaveRecipe:id (create/update recipe)
-        |- Header (common)
-    # |- Favorites
-    # |- Lists
-    # |- Menus
-    # |- Shopping list
-    # |- Discover
-    # |- Links
-    # |- Profile (edit, delete...)
- ```
+```bash
+npm run lint
+npm run build
+```
 
-### Coverage
+Para el inventario técnico, variables y limitaciones conocidas, consulta el [estado actual](./doc/ESTADO-ACTUAL.md). La evolución prevista está en el [plan de refactorización](./doc/PLAN-REFACTORIZACION.md).
 
-![Code Coverage](./images/vegazetas-test-coverage-082025.jpg)
+La [captura histórica de cobertura](./doc/images/vegazetas-test-coverage-082025.jpg) es de agosto de 2025 y no representa necesariamente la cobertura actual.
+
+## Evolución del proyecto
+
+El proyecto está preparando una base más mantenible, segura y accesible para seguir creciendo. Los detalles están en el [plan de refactorización](./doc/PLAN-REFACTORIZACION.md).
+
+Una vez consolidada esa base, se podrán valorar filtros, recetas compartidas, listas, gestión del perfil, planificación de menús, modo cocina y ajustes de visualización. Son ideas, no funcionalidades comprometidas.
+
+## Diseño
+
+Consulta el [prototipo de Vegazetas en Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214).
