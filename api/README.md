@@ -14,6 +14,7 @@ Create a `.env` file:
 
 ```env
 PORT=3000
+NODE_ENV=development
 MONGO_URL=mongodb://127.0.0.1:27017/vegazetas
 JWT_SECRET=replace-with-a-long-random-secret
 FRONTEND_URL=http://localhost:5173
@@ -28,7 +29,7 @@ npm start
 
 Use `npm run watch` to restart the service when files change. The health check is available at `http://localhost:3000/health`. The frontend's `VITE_API_URL` must match the API URL.
 
-Password recovery uses Ethereal for email previews outside production. In production, set `RESEND_API_KEY` and configure `MAIL_FROM` for Resend.
+Set `NODE_ENV=development` to use Ethereal email previews for password recovery. In production, set `NODE_ENV=production`, `RESEND_API_KEY`, and `MAIL_FROM` for Resend.
 
 ## Tests
 
@@ -77,7 +78,7 @@ try {
     $env:SPEC_MONGO_URL = 'mongodb://127.0.0.1:' + $Matches[1] + '/vegazetas_disposable'
     $env:NODE_ENV = 'test'
     $env:JWT_SECRET = 'local-disposable-test-secret'
-    npm test -- --ignore 'logic/passwordRecover.spec.js'
+    npm test
     if ($LASTEXITCODE -ne 0) { throw 'API tests failed' }
 }
 finally {
@@ -91,7 +92,13 @@ finally {
 }
 ```
 
-The password-recovery suite is excluded because it contacts Ethereal. This is
-not the complete `npm test` suite; isolating email remains to be agreed. The
-`mongo:8` tag can change over time, so record the actual MongoDB version when
-comparing results.
+The regular suite uses a simulated mail transporter and does not contact
+Ethereal. The `mongo:8` tag can change over time, so record the actual MongoDB
+version when comparing results.
+
+To run the optional Ethereal integration test, replace the `npm test` line in
+the preceding block with `npm run test-mail-integration`. This test contacts
+Ethereal and requires internet access. It only accepts a local
+`SPEC_MONGO_URL` ending in `/vegazetas_disposable`; use the disposable
+container above, not an existing local database. It creates a synthetic user
+and deletes that user afterwards. It does not send mail through Resend.

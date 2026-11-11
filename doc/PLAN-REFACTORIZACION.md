@@ -11,11 +11,17 @@ Decisiones acordadas:
 - Mantener React y Vite; usar componentes funcionales de React y POO de forma
   pragmática en servicios, repositorios y dominio cuando aporte claridad.
 - Mantener MongoDB y migrar por módulos, en sprints pequeños y verificables.
+- Usar Vitest para pruebas unitarias y de integración, y Playwright para
+  pruebas en navegador. Migrar las pruebas existentes sin perder cobertura y
+  utilizar bases de prueba desechables, separadas de producción.
 - Actualizar todas las dependencias y runtimes, incluidos React, Vite y Node,
   a sus últimas versiones disponibles, verificando compatibilidad y migraciones.
 - Trabajar con `main` para producción, `dev` para integración y ramas de
-  características. Llegar a `main` mediante PR y los tests que se acuerden para
-  CI/CD; solicitar aprobación antes de operaciones de escritura en Git.
+  características. Llegar a `main` mediante PR y las comprobaciones acordadas;
+  solicitar aprobación antes de operaciones de escritura en Git.
+- Implantar CI/CD con GitHub Actions después de terminar la refactorización,
+  no durante ella. Hasta entonces, ejecutar las comprobaciones pertinentes
+  localmente. Evaluar después si aportan valor hooks ligeros como Husky.
 - Usar versionado semántico para el producto completo. El punto de partida
   acordado es `v1.0.0`, correspondiente al estado actual de producción; no
   implica que ya se haya creado una etiqueta o publicación.
@@ -114,13 +120,15 @@ bases compartidas ni de producción.
 
 ### Sprint 2: caracterización y calidad reproducible
 
+- Migrar las pruebas existentes de Mocha a Vitest, preservando sus escenarios
+  y evitando que las suites concurrentes compartan datos que se eliminan.
+- Preparar Playwright para los flujos de navegador que se prioricen.
 - Añadir pruebas centradas en los flujos y contratos existentes, incluidas
   autenticación/autorización y acceso a recetas propias y publicadas.
 - Cubrir los flujos de UI prioritarios y documentar cómo se ejecutan;
   introducir únicamente las herramientas de prueba necesarias y acordadas.
-- Establecer comprobaciones reproducibles de lint, compilación y pruebas para
-  los paquetes afectados; acordar CI/CD y las comprobaciones requeridas para
-  las PR hacia `main`.
+- Establecer comprobaciones locales reproducibles de lint, compilación y
+  pruebas para los paquetes afectados.
 
 **Aceptación:** las pruebas elegidas se ejecutan sobre datos aislados y
 detectan regresiones en los flujos acordados; los comandos y sus dependencias
@@ -219,6 +227,19 @@ las versiones objetivo se han comprobado o sus bloqueos están registrados y
 aceptados; los demás riesgos y limitaciones están registrados y aceptados. La
 refactorización se cierra antes de planificar nuevas funcionalidades.
 
+## Después de la refactorización: CI/CD
+
+- Diseñar flujos de GitHub Actions para las PR y las ramas acordadas, con
+  instalación reproducible, lint, tipos, compilación y pruebas de Vitest y
+  Playwright. Las pruebas que escriban usarán una base aislada y desechable.
+- Acordar qué comprobaciones serán obligatorias en las PR hacia `main` y,
+  si procede, `dev`. Ajustar frecuencia y alcance para controlar el tiempo y
+  el coste de ejecución.
+- Definir por separado despliegue, permisos, secretos, aprobaciones y reversión;
+  no habilitar publicaciones o despliegues automáticos sin autorización.
+- Evaluar si Husky u otros hooks locales aportan valor para comprobaciones
+  rápidas. Son opcionales y no sustituyen las comprobaciones de CI.
+
 ## Condiciones para cada entrega
 
 1. Alcance y cambios visibles acordados antes de implementarlos.
@@ -233,8 +254,8 @@ refactorización se cierra antes de planificar nuevas funcionalidades.
 ## Decisiones aún pendientes
 
 - Ubicación real de los despliegues y procedimiento de acceso a cada entorno.
-- Herramientas concretas de tests, CI y validación, elegidas tras medir la
-  línea base y teniendo en cuenta el coste de mantenimiento.
+- Detalles de CI/CD, comprobaciones obligatorias y posible uso de hooks,
+  decididos después de la refactorización teniendo en cuenta su coste.
 - Estructura definitiva de carpetas, contratos compartidos y estrategia de
   transición de `com`.
 - Cambios específicos de autenticación y objetivos medibles de accesibilidad y

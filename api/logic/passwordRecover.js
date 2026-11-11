@@ -7,7 +7,7 @@ import { errors, validate } from 'com'
 
 const { NotFoundError, SystemError } = errors
 
-const passwordRecover = (email) => {
+const passwordRecover = (email, createTransporter = createMailTransporter) => {
     validate.email(email)
 
     // Paso 1: buscar al usuario por email
@@ -27,7 +27,7 @@ const passwordRecover = (email) => {
         })
         .then(({ user, token }) => {
             // Paso 3: crear transporter según entorno
-            return createMailTransporter()
+            return createTransporter()
                 .catch(error => { throw new SystemError(error.message) })
                 .then(async transporter => {
 

@@ -107,7 +107,8 @@ servicios externos.
 - Los archivos `*.test.js` y `api/test/` son scripts separados; no forman parte
   del comando `npm test`. Algunos usan `MONGO_URL` o `TEST_MONGO_URL`: revisar
   cada script y su efecto antes de ejecutarlo.
-- La prueba de recuperación de contraseña usa Ethereal. El script
+- La suite normal de recuperación de contraseña usa un proveedor simulado.
+  La prueba de integración con Ethereal es opcional y separada. El script
   `test-coverage` genera cobertura de las suites seleccionadas; las imágenes
   o informes históricos no son una medida actual.
 - En `app` existen `npm run lint` y `npm run build`; no se ha identificado una
@@ -129,10 +130,15 @@ entornos desplegados.
 | `app`: `npm run lint`                                       | Falla: 6 errores y 6 advertencias. Hay una importación `useLocation` sin usar en `Home/index.jsx`, cinco errores de `__dirname` en `vite.config.js` y seis advertencias por dependencias de `useEffect`. Pendiente decidir su tratamiento. |
 | `app`: `npm run build -- --outDir <directorio-temporal>`    | Correcto con Vite `4.5.14`; salida en un directorio temporal separado para no sobrescribir `app/dist`. Se transformaron 117 módulos.                                                                                                       |
 | `api`: `npm test -- --ignore logic/passwordRecover.spec.js` | 78 pruebas correctas de 21 suites, con MongoDB `8.3.13` en un contenedor local desechable y `SPEC_MONGO_URL` establecido explícitamente a su puerto de localhost. El contenedor se eliminó después.                                        |
-| `api`: `npm test` completo                                  | No ejecutado: la suite de recuperación excluida usa un servicio de correo externo; queda pendiente acordar su aislamiento. Las suites escriben y borran datos en `SPEC_MONGO_URL`.                                                         |
+| `api`: `npm test` completo                                  | 83 pruebas correctas tras aislar el correo, con MongoDB local desechable. Las suites escriben y borran datos en `SPEC_MONGO_URL`.                                                                                                         |
 | `com`: `npm test`                                           | No ejecutado: el script declarado solo informa que no hay pruebas y termina con error.                                                                                                                                                     |
 | Frontend                                                    | No hay un script de pruebas automatizadas en su `package.json`; quedan pendientes los flujos de registro, sesión, recetas, publicación y favoritos.                                                                                        |
 | HTTP y persistencia                                         | Las suites configuradas prueban lógica con MongoDB, no sustituyen pruebas de integración HTTP. La autorización y los contratos necesitan caracterización adicional.                                                                        |
+
+Después de aislar el correo, `npm test` pasó con **83 pruebas** en otro
+contenedor local desechable. `npm run test-mail-integration` también pasó con
+datos ficticios y Ethereal; se comprobó que rechaza una conexión remota de
+MongoDB. Ambos contenedores se eliminaron al finalizar.
 
 ### Dependencias directas
 
@@ -182,9 +188,9 @@ La [descarga oficial de Node](https://nodejs.org/en/download) ofrecía la versi�
 `26.13.0` en la fecha de consulta; no se ha ejecutado el proyecto con ella.
 Siguen pendientes las pruebas de compatibilidad completas y la decisión sobre
 el orden de actualización.
-También faltan detalles de los despliegues reales, el acuerdo para aislar el
-correo y un procedimiento de recuperación aplicable al despliegue real.
-El procedimiento local para repetir las 21 suites sin correo está en
+También faltan detalles de los despliegues reales y un procedimiento de
+recuperación aplicable al despliegue real.
+El procedimiento local para repetir las suites con correo simulado está en
 [`api/README.md`](../api/README.md); se ha ejecutado y ha restaurado las
 variables de entorno del proceso al terminar.
 

@@ -1,68 +1,145 @@
 import 'dotenv/config'
+import assert from 'node:assert/strict'
 import { expect } from 'chai'
 import mongoose from 'mongoose'
+import jwt from 'jsonwebtoken'
 import { User } from '../data/models.js'
 import { errors } from 'com'
-import bcrypt from 'bcryptjs'
 import passwordRecover from './passwordRecover.js'
 
-const { NotFoundError } = errors
+const { NotFoundError, SystemError } = errors
+const testEnv = {
+    JWT_SECRET: 'local-disposable-test-secret',
+    FRONTEND_URL: 'http://localhost:5173/',
+    MAIL_FROM: 'noreply@example.invalid'
+}
 
 describe('passwordRecover', function () {
-    this.timeout(10000)
+    const previousEnv = {}
 
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
-
-    beforeEach(() => User.deleteMany())
-
-    it('succeeds on existing user and sends email with token link', done => {
-        let consoleOutput = ''
-        const originalConsoleLog = console.log
-        console.log = (...args) => { consoleOutput += args.join(' ') + '\n' }
-
-        bcrypt.hash('123123123', 10)
-            .then(hash => {
-                return User.create({
-                    name: 'Ana Pérez',
-                    email: 'ana@perez.com',
-                    username: 'anaperez',
-                    password: hash
-                })
-            })
-            .then(user => {
-                return passwordRecover('ana@perez.com')
-                    .then(() => {
-                        console.log = originalConsoleLog // restaurar console.log
-
-                        return User.findOne({ email: 'ana@perez.com' })
-                    })
-                    .then(() => {
-                        // Validar que consoleOutput tiene el link de Ethereal
-                        const previewUrlMatch = consoleOutput.match(/https:\/\/ethereal.email\/message\/[^\s]+/)
-                        expect(previewUrlMatch).to.exist
-                        const previewUrl = previewUrlMatch[0]
-                        expect(previewUrl).to.include('ethereal.email/message/')
-
-                        done()
-                    })
-            })
-            .catch(error => {
-                console.log = originalConsoleLog
-                done(error)
-            })
+    before(async () => {
+        for (const key of [...Object.keys(testEnv), 'NODE_ENV']) {
+            previousEnv[key] = process.env[key]
+        }
+        Object.assign(process.env, testEnv)
+        await mongoose.connect(process.env.SPEC_MONGO_URL)
     })
 
-    it('fails on non existing user', done => {
-        passwordRecover('nonexistent@email.com')
-            .then(() => done(new Error('Should have thrown')))
-            .catch(error => {
-                expect(error).to.be.instanceOf(NotFoundError)
-                expect(error.message).to.equal('user not found')
-                done()
-            })
+    beforeEach(async () => {
+        process.env.NODE_ENV = 'development'
+        await User.deleteMany()
+    })
+
+    const createUser = () => User.create({
+        name: 'Test User',
+        email: 'user@example.invalid',
+        username: 'testuser',
+        password: 'synthetic-only'
+    })
+
+    const recoverWithSimulatedTransport = async (email, createTransporter) => {
+        const originalLog = console.log
+        try {
+            console.log = () => {}
+            await passwordRecover(email, createTransporter)
+        } finally {
+            console.log = originalLog
+        }
+    }
+
+    const assertRecoveryMessage = (message, user) => {
+        expect(message.to).to.equal(user.email)
+        expect(message.subject).to.equal('Recuperar contraseña Vegazetas')
+        const match = message.html.match(/href="([^"]+)"/)
+        expect(match).not.to.be.null
+        const link = new URL(match[1])
+        expect(link.origin + link.pathname).to.equal('http://localhost:5173/password-reset')
+        const payload = jwt.verify(link.searchParams.get('token'), testEnv.JWT_SECRET)
+        expect(payload.sub).to.equal(user.id)
+        expect(payload.exp - payload.iat).to.equal(15 * 60)
+    }
+
+    it('sends a recovery link through the development transporter', async () => {
+        const user = await createUser()
+        let message
+        const createTransporter = async () => ({
+            sendMail: async mail => {
+                message = mail
+                return {}
+            }
+        })
+
+        await recoverWithSimulatedTransport(user.email, createTransporter)
+
+        assertRecoveryMessage(message, user)
+        expect(message.from).to.equal('"Vegazetas" <noreply@example.invalid>')
+        expect(message.text).to.include('/password-reset?token=')
+    })
+
+    it('sends a recovery link through the production transporter', async () => {
+        process.env.NODE_ENV = 'production'
+        const user = await createUser()
+        let message
+        const createTransporter = async () => ({
+            emails: {
+                send: async mail => {
+                    message = mail
+                }
+            }
+        })
+
+        await recoverWithSimulatedTransport(user.email, createTransporter)
+
+        assertRecoveryMessage(message, user)
+        expect(message.from).to.equal('noreply@example.invalid')
+    })
+
+    it('fails on non existing user without creating a transporter', async () => {
+        let transporterCreated = false
+        const createTransporter = async () => {
+            transporterCreated = true
+        }
+
+        await assert.rejects(passwordRecover('missing@example.invalid', createTransporter), error => {
+            expect(error).to.be.instanceOf(NotFoundError)
+            expect(error.message).to.equal('user not found')
+            return true
+        })
+        expect(transporterCreated).to.be.false
+    })
+
+    it('surfaces transporter creation failures', async () => {
+        const user = await createUser()
+        const createTransporter = async () => { throw new Error('mail unavailable') }
+
+        await assert.rejects(passwordRecover(user.email, createTransporter), error => {
+            expect(error).to.be.instanceOf(SystemError)
+            expect(error.message).to.equal('mail unavailable')
+            return true
+        })
+    })
+
+    it('surfaces delivery failures', async () => {
+        const user = await createUser()
+        const createTransporter = async () => ({
+            sendMail: async () => { throw new Error('delivery failed') }
+        })
+
+        await assert.rejects(passwordRecover(user.email, createTransporter), {
+            message: 'delivery failed'
+        })
     })
 
     afterEach(() => User.deleteMany())
 
-    after(() => mongoose.disconnect())
+    after(async () => {
+        try {
+            await mongoose.disconnect()
+        } finally {
+            for (const key of Object.keys(previousEnv)) {
+                if (previousEnv[key] === undefined) delete process.env[key]
+                else process.env[key] = previousEnv[key]
+            }
+        }
+    })
 })
