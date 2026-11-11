@@ -4,6 +4,8 @@
 
 <h1 align="center">Vegazetas</h1>
 
+<p align="center"><a href="./README.md">Español</a> · English</p>
+
 <p align="center">
   <strong>A colourful place to create, organise and share vegan recipes.</strong>
   <br>
@@ -15,11 +17,13 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Yevestevez/vegazetas">GitHub</a> ·
+  <a href="https://github.com/Yevestevez">GitHub</a> ·
   <a href="https://www.linkedin.com/in/edu-yeves/">LinkedIn</a>
 </p>
 
 ---
+
+**Reference version: v1.0.0**, corresponding to the current production baseline. No Git tag or release has been created yet.
 
 ## About
 
@@ -45,12 +49,21 @@ I designed and built the entire full-stack project myself: from UX/UI in Figma a
 | Data | MongoDB, Mongoose |
 | Quality | Mocha, Chai, c8, ESLint |
 
+## Structure and data
+
+- [`app/`](./app/): React interface; see its [README](./app/README.md).
+- [`api/`](./api/): Express API and MongoDB access; see its [README](./api/README.md).
+- [`com/`](./com/): shared validation and errors.
+- [`doc/`](./doc/): technical documentation and images.
+
+The model includes users with favourites and recipes with an author, images, description, time, difficulty, tags, ingredients, steps and publication status. Ingredients and steps are embedded in recipes. See the [current-state documentation](./doc/ESTADO-ACTUAL.md) for details.
+
 ## Getting started
 
 You will need Node.js, npm and a MongoDB instance. Run the app and API separately.
 
 1. Configure environment variables:
-   - In `api/.env`, set `MONGO_URL` and `PORT`.
+   - In `api/.env`, set `MONGO_URL`, `PORT` and `JWT_SECRET`. Password recovery also requires `FRONTEND_URL`, `MAIL_FROM` and `NODE_ENV`; production requires `RESEND_API_KEY`.
    - In `app/.env`, set `VITE_API_URL` to the API URL.
 2. Install and start the API in one terminal:
 
@@ -76,12 +89,22 @@ The API includes automated tests for its business logic, written with Mocha and 
 npm test
 ```
 
+Before running the tests, set `SPEC_MONGO_URL` to an **isolated, disposable** MongoDB database: the tests delete users and recipes.
+
 From `app/`, run the linter and create a production build:
 
 ```bash
 npm run lint
 npm run build
 ```
+
+See the [current-state documentation](./doc/ESTADO-ACTUAL.md) for the technical inventory, variables and known limitations, and the [refactoring plan](./doc/PLAN-REFACTORIZACION.md) for the planned evolution. Both are currently in Spanish.
+
+The [historical coverage screenshot](./doc/images/vegazetas-test-coverage-082025.jpg) is from August 2025 and does not necessarily reflect current coverage.
+
+## Future ideas
+
+After refactoring, ideas to consider include recipe filters, sharing links, lists and external links, profile editing and account deletion, shopping lists, menu planning, cooking mode, adjustable servings and font size, and responsive design improvements. These are ideas, not committed features.
 
 ## Design
 
