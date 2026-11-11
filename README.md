@@ -4,6 +4,8 @@
 
 <h1 align="center">Vegazetas</h1>
 
+<p align="center">Español · <a href="./README-EN.md">English</a></p>
+
 <p align="center">
   <strong>Una forma colorida de crear, organizar y compartir recetas veganas.</strong>
   <br>
@@ -15,11 +17,13 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Yevestevez/vegazetas">GitHub</a> ·
+  <a href="https://github.com/Yevestevez">GitHub</a> ·
   <a href="https://www.linkedin.com/in/edu-yeves/">LinkedIn</a>
 </p>
 
 ---
+
+**Versión de referencia: v1.0.0**, correspondiente al estado actual de producción. Todavía no se ha creado una etiqueta ni una publicación.
 
 ## Sobre el proyecto
 
@@ -45,12 +49,21 @@ Es un proyecto full-stack diseñado y desarrollado íntegramente por mí: desde 
 | Datos | MongoDB, Mongoose |
 | Calidad | Mocha, Chai, c8, ESLint |
 
+## Organización y datos
+
+- [`app/`](./app/): interfaz React; incluye su [README](./app/README.md).
+- [`api/`](./api/): API Express y acceso a MongoDB; incluye su [README](./api/README.md).
+- [`com/`](./com/): validaciones y errores compartidos.
+- [`doc/`](./doc/): documentación técnica e imágenes.
+
+El modelo incluye usuarios con favoritos y recetas con autor, imágenes, descripción, tiempo, dificultad, etiquetas, ingredientes, pasos y estado de publicación. Ingredientes y pasos se almacenan dentro de la receta. Los detalles están en el [estado actual](./doc/ESTADO-ACTUAL.md).
+
 ## Puesta en marcha
 
 Necesitas Node.js, npm y una instancia de MongoDB. La aplicación y la API se ejecutan por separado.
 
 1. Configura las variables de entorno:
-   - En `api/.env`, define `MONGO_URL` y `PORT`.
+   - En `api/.env`, define `MONGO_URL`, `PORT` y `JWT_SECRET`. Para recuperación de contraseña, configura también `FRONTEND_URL`, `MAIL_FROM` y `NODE_ENV`; en producción se necesita `RESEND_API_KEY`.
    - En `app/.env`, define `VITE_API_URL` con la URL de la API.
 2. Instala y ejecuta la API en una terminal:
 
@@ -76,12 +89,22 @@ La API cuenta con pruebas automatizadas para sus lógicas de negocio, escritas c
 npm test
 ```
 
+Antes de ejecutarlas, configura `SPEC_MONGO_URL` con una base de MongoDB **aislada y desechable**: las pruebas borran usuarios y recetas.
+
 Desde `app/`, puedes comprobar el lint y generar la compilación de producción:
 
 ```bash
 npm run lint
 npm run build
 ```
+
+Para el inventario técnico, variables y limitaciones conocidas, consulta el [estado actual](./doc/ESTADO-ACTUAL.md). La evolución prevista está en el [plan de refactorización](./doc/PLAN-REFACTORIZACION.md).
+
+La [captura histórica de cobertura](./doc/images/vegazetas-test-coverage-082025.jpg) es de agosto de 2025 y no representa necesariamente la cobertura actual.
+
+## Ideas futuras
+
+Después de la refactorización se podrán valorar filtros de recetas, enlaces para compartir, listas y enlaces externos, edición del perfil y eliminación de cuenta, lista de la compra, planificación de menús, modo cocina, ajuste de raciones y tamaño de letra, y mejoras de diseño adaptable. Son ideas, no funcionalidades comprometidas.
 
 ## Diseño
 
