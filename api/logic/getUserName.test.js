@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import getUserName from './getUserName.js'
+import { getUserName } from '../modules/users/getUserName/composition.ts'
 
 mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {

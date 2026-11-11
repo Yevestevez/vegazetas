@@ -18,7 +18,7 @@ su funcionamiento en todos los escenarios.
 | Directorio        | Responsabilidad actual                                                                                                     |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | [`app/`](../app/) | SPA React 18 con React Router, Vite y Tailwind CSS, escrita en JavaScript y JSX.                                           |
-| [`api/`](../api/) | API Express en JavaScript con módulos ES, Mongoose y MongoDB.                                                              |
+| [`api/`](../api/) | API Express en JavaScript y TypeScript con módulos ES, Mongoose y MongoDB.                                                 |
 | [`com/`](../com/) | Paquete local compartido de validaciones y clases de error; lo consumen `app` y `api` mediante `file:../com`.              |
 | [`doc/`](./)      | Documentación e imágenes. Parte de la documentación anterior es histórica y puede no reflejar las funciones más recientes. |
 
@@ -35,17 +35,19 @@ para poder migrar a TypeScript.
 2. Las funciones de [`app/src/logic/`](../app/src/logic/) validan datos y usan
    `fetch` contra `VITE_API_URL`. El inicio de sesión guarda el JWT en
    `sessionStorage`.
-3. [`api/index.js`](../api/index.js) conecta Mongoose a MongoDB, crea Express
-   y monta los routers de usuarios y recetas. Las rutas delegan en handlers
-   que llaman a funciones de [`api/logic/`](../api/logic/).
-4. La lógica accede directamente a modelos Mongoose de
+3. [`api/index.js`](../api/index.js) conecta Mongoose a MongoDB y arranca la
+   aplicación Express, que monta los routers de usuarios y recetas. La mayoría
+   de rutas delega en handlers y funciones de [`api/logic/`](../api/logic/).
+4. La mayoría de esa lógica accede directamente a modelos Mongoose de
    [`api/data/models.js`](../api/data/models.js). El middleware de errores
    traduce clases de `com` a respuestas HTTP.
 
 Ya existe una separación entre rutas, handlers, lógica y modelos. La mayoría
 de las funciones de negocio consultan Mongoose directamente; la consulta del
-nombre de usuario es el primer corte con un repositorio independiente en
-TypeScript. La verificación del JWT se repite en los handlers.
+nombre de usuario es el primer corte con ruta, controlador, caso de uso y
+repositorio independientes en TypeScript. El router de usuarios que integra
+ese módulo sigue en JavaScript. La verificación del JWT se repite en los
+handlers.
 
 ## Datos
 
@@ -264,9 +266,28 @@ Playwright. El lint con Node 26 pasó con las seis advertencias anteriores. El
 Node global del equipo permanece en `24.22.1`; los README explican cómo
 seleccionar Node 26 solo para una sesión de PowerShell.
 
+Después se migró el corte `GET /users/name` completo a TypeScript y se
+actualizó Express a `5.3.0`, con `@types/express` `5.0.6`. Se preservó el
+comportamiento anterior de validación cuando el middleware JSON no procesa un
+cuerpo; se comprobó el arranque real, la ruta de salud y que un puerto ocupado
+se notifica como fallo de arranque.
+Con cada una de las tres versiones de Node pasaron los tipos y **103 pruebas
+Vitest en 26 archivos**; con Node 26 pasaron las **tres pruebas Playwright**.
+`npm audit` de la API no informó de vulnerabilidades en esa ejecución. Estas
+pruebas no cubren todos los contratos de las demás rutas.
+
+La consulta posterior de `npm outdated --depth=0` aún muestra actualizaciones
+pendientes: en la API, Mongoose 9, Nodemailer, Resend y los tipos de Node; en el
+frontend, React y sus tipos, React Router, React Icons, ESLint y sus plugins, y
+Tailwind. Deben abordarse por grupos compatibles. Los tipos de Node siguen en
+la línea 24: los de la 26 podrían permitir usar API ausentes en las versiones
+22 y 24 admitidas, mientras que los actuales tampoco garantizan compatibilidad
+de tipos con la 22. Hay que decidir esa política, no solo subir el número.
+
 ### Dependencias directas
 
-Versiones instaladas obtenidas con `npm ls --depth=0`. Las versiones más
+Inventario histórico anterior a los cambios descritos arriba: versiones
+instaladas obtenidas con `npm ls --depth=0`. Las versiones más
 recientes corresponden al resultado de `npm outdated --depth=0` en esa fecha:
 `=` indica que la dependencia no apareció como desactualizada. Esto no verifica
 compatibilidad ni representa necesariamente las versiones desplegadas;
@@ -309,10 +330,10 @@ compatibilidad ni representa necesariamente las versiones desplegadas;
 | tailwindcss                 | 3.4.19    | 4.3.5   |
 | vite                        | 4.5.14    | 8.3.8   |
 
-La [descarga oficial de Node](https://nodejs.org/en/download) ofrecía la versión
-`26.13.0` en la fecha de consulta; no se ha ejecutado el proyecto con ella.
-Siguen pendientes las pruebas de compatibilidad completas y la decisión sobre
-el orden de actualización.
+En la consulta inicial, la [descarga oficial de Node](https://nodejs.org/en/download)
+ofrecía la versión `26.13.0`; los resultados posteriores se describen arriba.
+Siguen pendientes pruebas de compatibilidad más amplias y la decisión sobre el
+orden de las actualizaciones restantes.
 También faltan detalles de los despliegues reales y un procedimiento de
 recuperación aplicable al despliegue real.
 El procedimiento local para repetir las suites con correo simulado está en

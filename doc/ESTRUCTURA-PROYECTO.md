@@ -17,7 +17,6 @@ vegazetas/
 │   │   ├── models.js                # Modelos Mongoose
 │   │   └── populate.js              # Script de datos
 │   ├── logic/                       # Casos de uso y suites existentes
-│   │   ├── getUserName.js           # Puente temporal al módulo TypeScript
 │   │   ├── getUserName.spec.js
 │   │   └── ...
 │   ├── middlewares/
@@ -26,7 +25,10 @@ vegazetas/
 │   ├── modules/
 │   │   └── users/
 │   │       └── getUserName/         # Primer corte migrado
+│   │           ├── composition.ts    # Composición del caso de uso
 │   │           ├── getUserName.ts
+│   │           ├── getUserNameHandler.ts
+│   │           ├── getUserNameRoutes.ts
 │   │           └── userNameRepository.ts
 │   ├── routes/
 │   │   ├── users/
@@ -97,9 +99,11 @@ vegazetas/
 └── README-EN.md
 ```
 
-La API actual mezcla JavaScript con el primer módulo TypeScript. Su caso de
-uso y repositorio son funciones, no clases; se conectan mediante un puente
-temporal en `logic/`.
+La API actual mezcla JavaScript con el primer módulo TypeScript. La ruta y el
+controlador de nombre de usuario usan el caso de uso y el repositorio mediante
+una composición explícita. Son funciones, no clases: en este corte el
+repositorio realiza una única consulta y una clase no simplificaría sus
+dependencias. El router de usuarios que integra el módulo sigue en JavaScript.
 
 ## Propuesta orientativa tras la refactorización
 

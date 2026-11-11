@@ -26,13 +26,15 @@
     "com": "file:../com",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
-    "express": "^4.21.2",
+    "express": "^5.3.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.2",
     "nodemailer": "^10.2.1",
     "resend": "^6.6.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.19.2",
     "@vitest/coverage-v8": "^5.1.0",
     "typescript": "^7.0.2",

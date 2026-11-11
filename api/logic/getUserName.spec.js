@@ -8,7 +8,7 @@ const { Types: { ObjectId } } = mongoose;
 import { errors } from 'com'
 const { NotFoundError, SystemError } = errors
 
-import getUserName from './getUserName.js'
+import { getUserName } from '../modules/users/getUserName/composition.ts'
 
 describe('getUserName', () => {
     beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))

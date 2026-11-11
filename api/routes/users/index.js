@@ -1,10 +1,10 @@
 import { Router } from 'express'
 
 import jsonBodyParser from '../../middlewares/jsonBodyParser.js'
+import getUserNameRouter from '../../modules/users/getUserName/getUserNameRoutes.ts'
 
 import {
     authenticateUserHandler,
-    getUserNameHandler,
     registerUserHandler,
     getUserUsernameHandler,
     passwordRecoverHandler,
@@ -15,7 +15,7 @@ import {
 const router = new Router()
 
 router.post('/auth', jsonBodyParser, authenticateUserHandler)
-router.get('/name', getUserNameHandler)
+router.use(getUserNameRouter)
 router.get('/username', getUserUsernameHandler)
 router.post('/', jsonBodyParser, registerUserHandler)
 

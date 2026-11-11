@@ -142,9 +142,9 @@ bases compartidas ni de producción.
 ### Sprint 2: caracterización y calidad reproducible — en curso
 
 **Hecho:** migradas las 22 suites de Mocha a Vitest, sin ejecución paralela
-sobre las colecciones compartidas. Tras sustituir `dotenv` pasan
-93 pruebas en 25 archivos; la integración opcional de Ethereal pasa por
-separado. La selección explícita de archivos evita ejecutar scripts manuales
+sobre las colecciones compartidas. Pasan 103 pruebas en 26 archivos; la
+integración opcional de Ethereal pasó por separado antes de actualizar Express.
+La selección explícita de archivos evita ejecutar scripts manuales
 por accidente. Playwright ejecuta tres pruebas locales de registro, sesión y
 credenciales incorrectas en Chromium, con una base de pruebas independiente.
 
@@ -195,11 +195,19 @@ contrato migrado pasan. Queda documentado qué partes siguen en JavaScript.
 
 ### Sprint 4: primer módulo vertical de API — en curso
 
-**Hecho:** separada la creación de la aplicación del arranque; el caso de uso
-de nombre de usuario y su repositorio se han migrado a TypeScript. El caso de
-uso recibe el repositorio como dependencia, compuesto en el puente temporal.
-La ruta y el handler siguen en JavaScript. Las pruebas HTTP caracterizan el
-contrato actual, incluidos los errores de autenticación.
+**Hecho:** separada la creación de la aplicación del arranque; ruta, controlador,
+caso de uso y repositorio de nombre de usuario están en TypeScript. La
+composición conecta el repositorio con el caso de uso, que se inyecta en el
+controlador; el router de usuarios que integra el módulo sigue en JavaScript.
+Se eliminó el puente anterior de `logic/`. El corte usa funciones: una clase
+no simplificaría el repositorio de una única consulta ni el controlador actual.
+Las pruebas HTTP caracterizan el contrato, incluidos los errores de
+autenticación; no se han cambiado intencionadamente sus respuestas.
+
+La API usa Express 5. El middleware JSON mantiene la respuesta anterior cuando
+no se procesa un cuerpo, y el arranque propaga los errores de escucha. Quedan
+flujos de otras rutas por caracterizar; la actualización no demuestra por sí
+sola la compatibilidad completa de la API.
 
 - Separar creación de la aplicación, composición de dependencias y arranque.
 - Elegir un caso de uso de usuarios de alcance reducido y migrarlo de extremo
@@ -290,9 +298,10 @@ de navegador bloquean peticiones a orígenes externos. La integración opcional
 de Ethereal sí requiere acceso a internet.
 
 Se ha adelantado el primer corte de `GET /users/name` de los sprints 3 y 4.
-Antes de extender el
-patrón, revisar la estructura, el puente temporal con JavaScript y el contrato
-de errores de autenticación caracterizado por las pruebas.
+Antes de extender el patrón, revisar la estructura con la persona responsable
+y decidir si se modificará el contrato de errores de autenticación, actualmente
+caracterizado por las pruebas. Ampliar también las pruebas HTTP de recetas y
+otros flujos afectados por la actualización de Express.
 
 ## Después de la refactorización: CI/CD
 

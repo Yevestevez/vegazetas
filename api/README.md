@@ -56,7 +56,12 @@ The API is gradually adopting TypeScript. Node runs the type-strippable
 TypeScript files directly; no separate compilation step is needed at startup.
 Run `npm run typecheck` to check the migrated TypeScript modules. Existing
 JavaScript and the shared `com` package remain in place and are not fully
-type-checked.
+type-checked. The `GET /users/name` router, handler, use case, composition and
+repository are TypeScript; the rest of the user router remains JavaScript.
+
+The API uses Express 5. Its JSON middleware retains the previous empty-object
+behavior for requests without a parsed body, so existing validation responses
+remain unchanged. Other routes still need broader HTTP characterization.
 
 ## Tests
 
@@ -67,8 +72,8 @@ database containing data you need to keep. Tests validate that
 without credentials or query parameters; this check alone cannot prove that
 the server is disposable.
 
-`npm test` runs the 22 logic suites and the favorites and user-name HTTP
-regressions sequentially. `npm run test-favorite-security` runs only the favorites test.
+`npm test` runs the 22 logic suites, HTTP regressions and JSON compatibility
+checks sequentially. `npm run test-favorite-security` runs only the favorites test.
 `npm run test-coverage` covers the regular suite and produces text and HTML
 reports; `npm run test-inspect` starts it with a debugger.
 

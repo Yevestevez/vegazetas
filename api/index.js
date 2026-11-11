@@ -9,7 +9,10 @@ const connectToDb = () => mongoose.connect(process.env.MONGO_URL)
 
 const startApi = () => {
     const api = createApp()
-    api.listen(process.env.PORT, () => console.log(`API running on ${process.env.PORT}`))
+    api.listen(process.env.PORT, error => {
+        if (error) throw error
+        console.log(`API running on ${process.env.PORT}`)
+    })
 }
 
 connectToDb()
