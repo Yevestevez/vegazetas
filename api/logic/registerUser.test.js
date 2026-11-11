@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import 'dotenv/config'
+import '../config/loadEnv.js'
 import registerUser from './registerUser.js'
 
 mongoose.connect(process.env.TEST_MONGO_URL)

@@ -7,6 +7,9 @@ const rootDir = fileURLToPath(new URL('.', import.meta.url))
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    target: ['chrome87', 'edge88', 'firefox78', 'safari14']
+  },
   resolve: {
     alias: {
       '@': path.resolve(rootDir, './src'),

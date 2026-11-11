@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import 'dotenv/config'
+import '../config/loadEnv.js'
 import { User } from '../data/models.js'
 import { createMailTransporter } from '../util/mailer.js'
 import nodemailer from 'nodemailer'

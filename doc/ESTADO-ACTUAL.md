@@ -227,6 +227,26 @@ vulnerabilidades en dependencias de desarrollo existentes: una moderada en
 esbuild y una alta en Vite. El cambio no actualizó esas dependencias; queda
 pendiente su actualización coordinada.
 
+Tras retirar `dotenv`, la API carga el archivo `.env` opcional del directorio
+de trabajo mediante `process.loadEnvFile`: las variables existentes del proceso
+tienen prioridad y los errores de lectura distintos de archivo ausente se
+notifican. Se comprobó sin mostrar valores que el archivo local se interpreta
+igual que con `dotenv` para sus variables actuales. Pasaron **93 pruebas de
+Vitest**, incluida la prioridad de las variables y los casos de archivo ausente
+y error de lectura; la integración opcional con Ethereal también pasó. Los dos
+scripts de actualización se ejecutaron en modo de simulación contra una base
+local desechable distinta, sin actualizar recetas.
+
+El frontend se actualizó a Vite `8.3.8` y `@vitejs/plugin-react` `6.3.0`, que
+requieren Node `^20.19.0 || >=22.12.0`. Se conservan explícitamente los
+anteriores objetivos de compilación de navegadores; no se ha probado cada
+versión objetivo. Pasaron la compilación, lint con las seis advertencias
+preexistentes y las tres pruebas de Playwright tanto con el servidor de
+desarrollo como con la compilación de producción. `npm audit` no informó de
+vulnerabilidades en API ni frontend en esa ejecución. Vite 8 cambia el
+empaquetador y la transformación de código; los flujos no cubiertos por las
+pruebas siguen necesitando validación.
+
 ### Dependencias directas
 
 Versiones instaladas obtenidas con `npm ls --depth=0`. Las versiones más

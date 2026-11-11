@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import addStepToRecipe from './addStepToRecipe.js'
-import 'dotenv/config'
+import '../config/loadEnv.js'
 
 mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {

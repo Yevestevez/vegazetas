@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import updateStep from './updateStep.js'
-import 'dotenv/config'
+import '../config/loadEnv.js'
 
 mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {

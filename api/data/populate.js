@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { User, Ingredient, Step, Recipe } from './models.js'
 
-import 'dotenv/config'
+import '../config/loadEnv.js'
 
 import bcrypt from 'bcryptjs'
 

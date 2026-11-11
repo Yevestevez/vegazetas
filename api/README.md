@@ -22,6 +22,11 @@ FRONTEND_URL=http://localhost:5173
 MAIL_FROM=noreply@example.com
 ```
 
+The API uses Node's native environment-file loader. It reads `.env` from the
+current working directory when present, without overriding variables already
+set in the process. A missing file is allowed; other read errors are reported.
+The same loader is used by the existing tests and manual scripts.
+
 Start the API:
 
 ```sh

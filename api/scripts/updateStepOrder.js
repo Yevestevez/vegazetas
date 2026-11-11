@@ -1,8 +1,6 @@
-import dotenv from 'dotenv'
+import '../config/loadEnv.js'
 import mongoose from 'mongoose'
 import { Recipe } from '../data/models.js'
-
-dotenv.config()
 
 const mode = process.argv[2]  // "dev" o "prod" node scripts/updateStepOrder.js prod o node scripts/updateStepOrder.js dev
 const isDryRun = process.argv.includes('--dry') // node scripts/updateStepOrder.js dev --dry

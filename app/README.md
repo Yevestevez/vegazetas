@@ -4,7 +4,9 @@ The Vegazetas frontend is a React single-page app built with Vite. It lets users
 
 ## Run locally
 
-Install [Node.js](https://nodejs.org/) and npm, then from this directory:
+Install [Node.js](https://nodejs.org/) 20.19 or later on the 20.x line, or
+22.12 or later, and npm. The API separately requires Node 22.18 or later.
+Then from this directory:
 
 ```sh
 npm install
@@ -23,6 +25,9 @@ npm run dev
 ```
 
 Vite serves the app at `http://localhost:5173` by default. The API and its MongoDB database must also be running.
+The build retains the previous browser targets: Chrome 87, Edge 88, Firefox 78
+and Safari 14. These targets do not by themselves guarantee support for every
+application feature or browser.
 
 ## Scripts
 

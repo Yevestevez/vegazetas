@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import 'dotenv/config'
+import '../config/loadEnv.js'
 import getFavoritesRecipes from './getFavoritesRecipes.js'
 
 mongoose.connect(process.env.MONGO_URL)

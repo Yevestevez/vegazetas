@@ -142,8 +142,8 @@ bases compartidas ni de producción.
 ### Sprint 2: caracterización y calidad reproducible — en curso
 
 **Hecho:** migradas las 22 suites de Mocha a Vitest, sin ejecución paralela
-sobre las colecciones compartidas. Tras el primer corte arquitectónico pasan
-90 pruebas en 24 archivos; la integración opcional de Ethereal pasa por
+sobre las colecciones compartidas. Tras sustituir `dotenv` pasan
+93 pruebas en 25 archivos; la integración opcional de Ethereal pasa por
 separado. La selección explícita de archivos evita ejecutar scripts manuales
 por accidente. Playwright ejecuta tres pruebas locales de registro, sesión y
 credenciales incorrectas en Chromium, con una base de pruebas independiente.
@@ -172,6 +172,9 @@ están documentados. Los fallos de la línea base tienen una decisión registrad
 los módulos migrados de la API. Node ejecuta directamente TypeScript con
 sintaxis eliminable y requiere la versión `22.18.0` o posterior. JavaScript
 y el paquete `com` siguen en uso; no están completamente comprobados por tipos.
+La API carga `.env` con Node y ya no depende de `dotenv`. El frontend usa Vite
+8 y su plugin React compatible; en la última comprobación sus dependencias no
+presentaron avisos de `npm audit`.
 
 - Acordar configuración de TypeScript, módulos, compilación y convivencia con
   JavaScript en API y frontend, verificando compatibilidad con Node y Vite.
@@ -321,5 +324,3 @@ de errores de autenticación caracterizado por las pruebas.
   transición de `com`.
 - Cambios específicos de autenticación y objetivos medibles de accesibilidad y
   rendimiento tras la revisión inicial.
-- Evaluar la sustitución de `dotenv` por la carga nativa de archivos de entorno
-  de Node, comprobando antes el arranque, las pruebas y los scripts manuales.

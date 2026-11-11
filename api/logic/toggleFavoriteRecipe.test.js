@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import 'dotenv/config'
+import '../config/loadEnv.js'
 
 import toggleFavoriteRecipe from './toggleFavoriteRecipe.js'
 

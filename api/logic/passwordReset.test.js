@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import 'dotenv/config'
+import '../config/loadEnv.js'
 import passwordReset from "./passwordReset.js";
 
 mongoose.connect(process.env.MONGO_URL)
