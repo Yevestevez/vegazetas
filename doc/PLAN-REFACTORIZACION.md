@@ -14,8 +14,15 @@ Decisiones acordadas:
 - Usar Vitest para pruebas unitarias y de integración, y Playwright para
   pruebas en navegador. Migrar las pruebas existentes sin perder cobertura y
   utilizar bases de prueba desechables, separadas de producción.
-- Actualizar todas las dependencias y runtimes, incluidos React, Vite y Node,
-  a sus últimas versiones disponibles, verificando compatibilidad y migraciones.
+- Al incorporar o actualizar librerías y herramientas, instalar siempre la
+  versión estable más reciente compatible con las demás dependencias y
+  runtimes, verificando requisitos, migraciones y pruebas. Documentar la
+  versión elegida y el bloqueo si la última estable no es compatible; las
+  instalaciones reproducibles respetan el lockfile. No usar versiones
+  preliminares sin acuerdo.
+- Completar la actualización de todas las dependencias según esta política;
+  actualizar los runtimes, incluido Node, a versiones compatibles,
+  preferentemente LTS, y coordinar su cambio en los despliegues.
 - Trabajar con `main` para producción, `dev` para integración y ramas de
   características. Llegar a `main` mediante PR y las comprobaciones acordadas;
   solicitar aprobación antes de operaciones de escritura en Git.

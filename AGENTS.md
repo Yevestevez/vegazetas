@@ -12,9 +12,15 @@
 - Nombra variables, funciones, clases y demás identificadores en inglés, con
   nombres breves y descriptivos. Prioriza código comprensible, reutilizable y
   escalable, sin añadir abstracciones innecesarias.
-- El objetivo es actualizar todas las dependencias y runtimes, incluidos Node,
-  React y Vite, a sus últimas versiones disponibles. Comprueba compatibilidad,
-  cambios incompatibles y pruebas; comunica cualquier bloqueo.
+- Al incorporar o actualizar cualquier librería o herramienta, comprueba su
+  última versión estable e instala la más reciente compatible con las demás
+  dependencias y runtimes del proyecto. Revisa requisitos de motor y pares,
+  cambios incompatibles y pruebas. Si la última estable no es compatible,
+  documenta el bloqueo y la versión elegida; no uses versiones preliminares
+  sin acuerdo. Las instalaciones reproducibles deben respetar el lockfile.
+- Completa la actualización de todas las dependencias según esta política, y
+  actualiza los runtimes, incluido Node, a versiones compatibles,
+  preferentemente LTS. Comunica cualquier bloqueo y coordina los despliegues.
 - Trabaja por ramas: `main` representa producción, `dev` integra el desarrollo
   y se usan ramas de características. Los cambios llegan a `main` únicamente
   mediante PR y las comprobaciones acordadas.
