@@ -4,8 +4,10 @@ The Vegazetas frontend is a React single-page app built with Vite. It lets users
 
 ## Run locally
 
-Install [Node.js](https://nodejs.org/) 20.19 or later on the 20.x line, or
-22.12 or later, and npm. The API separately requires Node 22.18 or later.
+Install [Node.js](https://nodejs.org/) 22.23.4 or later on the 22.x line, or
+24.22.1 or later on the 24.x line, and npm. Keep the chosen LTS line updated
+with its latest security patches. npm rejects unsupported engines during
+installation; this does not enforce the runtime when starting the app.
 Then from this directory:
 
 ```sh

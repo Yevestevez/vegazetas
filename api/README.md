@@ -4,8 +4,11 @@ The API is an Express service backed by MongoDB. It handles users, authenticatio
 
 ## Run locally
 
-Install [Node.js](https://nodejs.org/) 22.18.0 or later and npm, and make
-sure MongoDB is available. From this directory, install dependencies:
+Install [Node.js](https://nodejs.org/) 22.23.4 or later on the 22.x line, or
+24.22.1 or later on the 24.x line, and npm. Keep the chosen LTS line updated
+with its latest security patches, and make sure MongoDB is available. npm
+rejects unsupported engines during installation; this does not enforce the
+runtime when starting the API. From this directory, install dependencies:
 
 ```sh
 npm install

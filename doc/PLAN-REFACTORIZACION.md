@@ -170,7 +170,10 @@ están documentados. Los fallos de la línea base tienen una decisión registrad
 
 **Hecho:** configuración inicial de TypeScript y comprobación de tipos para
 los módulos migrados de la API. Node ejecuta directamente TypeScript con
-sintaxis eliminable y requiere la versión `22.18.0` o posterior. JavaScript
+sintaxis eliminable. La API y el frontend admiten las líneas Node 22 y 24 LTS
+según los mínimos de sus paquetes; npm rechaza otros motores en la instalación.
+Es necesario mantener actualizados los parches y revisar el soporte de cada
+línea, ya que el rango no garantiza por sí solo un runtime seguro. JavaScript
 y el paquete `com` siguen en uso; no están completamente comprobados por tipos.
 La API carga `.env` con Node y ya no depende de `dotenv`. El frontend usa Vite
 8 y su plugin React compatible; en la última comprobación sus dependencias no

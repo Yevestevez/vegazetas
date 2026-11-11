@@ -214,9 +214,9 @@ de salud y una petición autenticada, usando datos ficticios en el contenedor
 de pruebas. Las rutas y handlers siguen en JavaScript; la lógica de nombre
 de usuario y su repositorio son TypeScript. El paquete `com` sigue en
 JavaScript y las partes no migradas no están completamente comprobadas por
-tipos. La API requiere Node `22.18.0` o posterior para ejecutar TypeScript
-directamente sin compilación. `npm audit` no informó de vulnerabilidades en
-esa ejecución.
+tipos. La ejecución directa de TypeScript requiere Node `22.18.0` o posterior;
+la política actual del proyecto es más restrictiva y se indica abajo.
+`npm audit` no informó de vulnerabilidades en esa ejecución.
 
 La primera suite Playwright pasó con **tres pruebas** en Chromium headless,
 contra el frontend y la API locales y una base desechable distinta de la usada
@@ -238,7 +238,7 @@ scripts de actualización se ejecutaron en modo de simulación contra una base
 local desechable distinta, sin actualizar recetas.
 
 El frontend se actualizó a Vite `8.3.8` y `@vitejs/plugin-react` `6.3.0`, que
-requieren Node `^20.19.0 || >=22.12.0`. Se conservan explícitamente los
+como dependencias requieren Node `^20.19.0 || >=22.12.0`. Se conservan explícitamente los
 anteriores objetivos de compilación de navegadores; no se ha probado cada
 versión objetivo. Pasaron la compilación, lint con las seis advertencias
 preexistentes y las tres pruebas de Playwright tanto con el servidor de
@@ -246,6 +246,14 @@ desarrollo como con la compilación de producción. `npm audit` no informó de
 vulnerabilidades en API ni frontend en esa ejecución. Vite 8 cambia el
 empaquetador y la transformación de código; los flujos no cubiertos por las
 pruebas siguen necesitando validación.
+
+La política del proyecto para API y frontend limita Node a `^22.23.4` o
+`^24.22.1`, las líneas LTS compatibles con las versiones comunicadas de
+Netlify y Render. Cada paquete activa `engine-strict` para que npm rechace
+motores incompatibles durante la instalación; esto no comprueba el runtime al
+arrancar ni instala parches de seguridad. La prueba local usó Node `24.22.1`;
+las versiones desplegadas siguen sin verificarse desde esta sesión. Revisar
+las versiones y el soporte de ambas líneas antes de desplegar.
 
 ### Dependencias directas
 
