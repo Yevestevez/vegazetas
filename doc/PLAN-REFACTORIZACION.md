@@ -96,7 +96,24 @@ abandonar React.
 Cada sprint puede dividirse si resulta demasiado grande; el orden refleja
 dependencias, no fechas.
 
-### Sprint 1: línea base y protección de datos
+### Sprint 1: línea base y protección de datos — completado
+
+Se cerró el sprint con los siguientes resultados:
+
+- Línea base documentada de rutas, contratos, dependencias, pruebas, lint y
+  compilación. Las versiones de los despliegues fueron comunicadas, pero no
+  verificadas directamente desde esta sesión.
+- MongoDB de pruebas aislado y desechable; actualmente se reutiliza el
+  contenedor dedicado documentado en el [README de la API](../api/README.md).
+- Copia y restauración ensayadas entre destinos locales separados con datos
+  ficticios, comprobando documentos, referencias e índices.
+- Correo simulado en la suite habitual; integración con Ethereal separada.
+- Corregida la exposición del hash de contraseña en la respuesta de favoritos
+  y añadida una prueba HTTP. No se ha confirmado su despliegue.
+
+**Seguimiento pendiente:** seis advertencias de dependencias de efectos en
+React y validación del procedimiento de recuperación para el entorno real de
+Atlas. El ensayo local no demuestra la recuperación de producción.
 
 - Inventariar los despliegues reales, configuraciones y versiones en uso, sin
   registrar secretos. Revisar la base de pruebas remota y la local antes de
@@ -118,7 +135,15 @@ una restauración en un destino separado; la línea base identifica comandos,
 resultados y fallos preexistentes. No se ejecutan pruebas destructivas contra
 bases compartidas ni de producción.
 
-### Sprint 2: caracterización y calidad reproducible
+### Sprint 2: caracterización y calidad reproducible — en curso
+
+**Hecho:** migradas las 22 suites de Mocha a Vitest, sin ejecución paralela
+sobre las colecciones compartidas. Pasan 84 pruebas en 23 archivos, también
+con cobertura; la integración opcional de Ethereal pasa por separado. La
+selección explícita de archivos evita ejecutar scripts manuales por accidente.
+
+**Pendiente:** preparar Playwright, caracterizar los contratos y flujos
+prioritarios y completar las comprobaciones locales de los paquetes afectados.
 
 - Migrar las pruebas existentes de Mocha a Vitest, preservando sus escenarios
   y evitando que las suites concurrentes compartan datos que se eliminan.
@@ -134,7 +159,7 @@ bases compartidas ni de producción.
 detectan regresiones en los flujos acordados; los comandos y sus dependencias
 están documentados. Los fallos de la línea base tienen una decisión registrada.
 
-### Sprint 3: cimientos de TypeScript y paquete compartido
+### Sprint 3: cimientos de TypeScript y paquete compartido — pendiente
 
 - Acordar configuración de TypeScript, módulos, compilación y convivencia con
   JavaScript en API y frontend, verificando compatibilidad con Node y Vite.
@@ -150,7 +175,7 @@ están documentados. Los fallos de la línea base tienen una decisión registrad
 comandos de desarrollo y compilación siguen funcionando y las pruebas del
 contrato migrado pasan. Queda documentado qué partes siguen en JavaScript.
 
-### Sprint 4: primer módulo vertical de API
+### Sprint 4: primer módulo vertical de API — pendiente
 
 - Separar creación de la aplicación, composición de dependencias y arranque.
 - Elegir un caso de uso de usuarios de alcance reducido y migrarlo de extremo
@@ -162,7 +187,7 @@ contrato migrado pasan. Queda documentado qué partes siguen en JavaScript.
 de éxito y error y comprobación de tipos; el resto de rutas sigue operativo.
 La estructura se revisa antes de repetirla.
 
-### Sprint 5: usuarios y sesión
+### Sprint 5: usuarios y sesión — pendiente
 
 - Migrar progresivamente registro, autenticación, datos de usuario,
   recuperación de contraseña y favoritos a la estructura validada.
@@ -175,7 +200,7 @@ La estructura se revisa antes de repetirla.
 incluidas credenciales erróneas y accesos no autorizados; los cambios
 acordados en seguridad y compatibilidad están documentados.
 
-### Sprint 6: recetas y persistencia
+### Sprint 6: recetas y persistencia — pendiente
 
 - Migrar recetas por operaciones o subáreas pequeñas: consulta y listado,
   creación/edición/eliminación, publicación, favoritos y elementos anidados.
@@ -189,7 +214,7 @@ incluidos permisos y datos existentes; los endpoints antiguos siguen siendo
 compatibles o sus cambios están acordados. No quedan accesos nuevos a Mongoose
 fuera de la frontera definida.
 
-### Sprint 7: frontend por flujos
+### Sprint 7: frontend por flujos — pendiente
 
 - Migrar progresivamente a TypeScript: base compartida y sesión, después
   listados, detalle y edición de recetas. Mantener React y Vite.
@@ -204,7 +229,7 @@ fuera de la frontera definida.
 funciones existentes y dispone de comprobaciones de accesibilidad acordadas;
 el código aún no migrado continúa funcionando.
 
-### Sprint 8: cierre, seguridad y accesibilidad
+### Sprint 8: cierre, seguridad y accesibilidad — pendiente
 
 - Completar la eliminación de puentes temporales y JavaScript pendiente
   incluido en el alcance; actualizar documentación de instalación,
@@ -226,6 +251,27 @@ de migración dentro del alcance acordado; pasan las comprobaciones definidas;
 las versiones objetivo se han comprobado o sus bloqueos están registrados y
 aceptados; los demás riesgos y limitaciones están registrados y aceptados. La
 refactorización se cierra antes de planificar nuevas funcionalidades.
+
+## Validación local y siguiente corte
+
+Las pruebas de Vitest y las futuras pruebas de navegador con Playwright pueden
+ejecutarse localmente, sin esperar a CI/CD ni desplegar. Playwright todavía no
+está preparado ni se ha probado en este proyecto; su instalación inicial puede
+requerir acceso a internet para descargar los navegadores.
+
+Para pruebas de extremo a extremo, arrancar el frontend y la API locales con
+datos ficticios y conectar la API mediante `MONGO_URL` a una base de pruebas
+aislada y desechable, nunca a producción. `SPEC_MONGO_URL` es la conexión
+separada que usan las suites actuales de Vitest. Evitar ejecuciones
+concurrentes que borren datos compartidos y sustituir servicios externos cuando
+el flujo no los esté probando. La integración opcional de Ethereal sí requiere
+acceso a internet.
+
+Como siguiente paso se propone caracterizar `GET /users/name` con pruebas HTTP
+de éxito, errores y autenticación, y después abordar ese recorrido como primer
+corte de arquitectura y TypeScript. Esto adelantaría trabajo de los sprints 3
+y 4 mientras queda pendiente Playwright en el sprint 2; el cambio de orden se
+debe acordar antes de aplicarlo.
 
 ## Después de la refactorización: CI/CD
 
