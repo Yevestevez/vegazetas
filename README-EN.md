@@ -63,7 +63,7 @@ The model includes users with favourites and recipes with an author, images, des
 You will need Node.js, npm and a MongoDB instance. Run the app and API separately.
 
 1. Configure environment variables:
-   - In `api/.env`, set `MONGO_URL`, `PORT` and `JWT_SECRET`. Password recovery also requires `FRONTEND_URL`, `MAIL_FROM` and `NODE_ENV`; production requires `RESEND_API_KEY`.
+   - In `api/.env`, set `MONGO_URL`, `PORT` and `JWT_SECRET`. Password recovery also requires `FRONTEND_URL`, `MAIL_FROM` and `NODE_ENV=development` in development; production requires `RESEND_API_KEY`.
    - In `app/.env`, set `VITE_API_URL` to the API URL.
 2. Install and start the API in one terminal:
 
@@ -102,9 +102,11 @@ See the [current-state documentation](./doc/ESTADO-ACTUAL.md) for the technical 
 
 The [historical coverage screenshot](./doc/images/vegazetas-test-coverage-082025.jpg) is from August 2025 and does not necessarily reflect current coverage.
 
-## Future ideas
+## Project direction
 
-After refactoring, ideas to consider include recipe filters, sharing links, lists and external links, profile editing and account deletion, shopping lists, menu planning, cooking mode, adjustable servings and font size, and responsive design improvements. These are ideas, not committed features.
+The project is preparing a more maintainable, secure and accessible foundation for future growth. See the [refactoring plan](./doc/PLAN-REFACTORIZACION.md) for details.
+
+Once that foundation is established, ideas to consider include filters, recipe sharing, lists, profile management, menu planning, cooking mode and display adjustments. These are ideas, not committed features.
 
 ## Design
 
