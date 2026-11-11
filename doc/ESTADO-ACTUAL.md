@@ -15,12 +15,12 @@ su funcionamiento en todos los escenarios.
 
 ## Estructura y tecnologías
 
-| Directorio | Responsabilidad actual |
-| --- | --- |
-| [`app/`](../app/) | SPA React 18 con React Router, Vite y Tailwind CSS, escrita en JavaScript y JSX. |
-| [`api/`](../api/) | API Express en JavaScript con módulos ES, Mongoose y MongoDB. |
-| [`com/`](../com/) | Paquete local compartido de validaciones y clases de error; lo consumen `app` y `api` mediante `file:../com`. |
-| [`doc/`](./) | Documentación e imágenes. Parte de la documentación anterior es histórica y puede no reflejar las funciones más recientes. |
+| Directorio        | Responsabilidad actual                                                                                                     |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [`app/`](../app/) | SPA React 18 con React Router, Vite y Tailwind CSS, escrita en JavaScript y JSX.                                           |
+| [`api/`](../api/) | API Express en JavaScript con módulos ES, Mongoose y MongoDB.                                                              |
+| [`com/`](../com/) | Paquete local compartido de validaciones y clases de error; lo consumen `app` y `api` mediante `file:../com`.              |
+| [`doc/`](./)      | Documentación e imágenes. Parte de la documentación anterior es histórica y puede no reflejar las funciones más recientes. |
 
 Cada aplicación tiene su propio `package.json` y `package-lock.json`; no hay
 un gestor de workspaces definido en la raíz. Los archivos `.node-version`
@@ -80,18 +80,18 @@ validado un contrato OpenAPI.
 La guía básica de instalación está en el [README principal](../README.md).
 No se deben guardar credenciales en el repositorio.
 
-| Variable | Uso en el código |
-| --- | --- |
-| `MONGO_URL` | Conexión de la API. |
-| `PORT` | Puerto de escucha de la API. |
-| `JWT_SECRET` | Firma y verificación de tokens. |
-| `FRONTEND_URL`, `MAIL_FROM` | Enlace y remitente de recuperación de contraseña. |
-| `NODE_ENV` | Selección del transporte y rama de envío de correo. En desarrollo debe establecerse explícitamente a `development` para usar la rama Ethereal. |
-| `RESEND_API_KEY` | Proveedor Resend en producción. |
-| `SPEC_MONGO_URL` | Base de datos usada por las pruebas `*.spec.js`. Debe ser exclusiva y desechable. |
-| `TEST_MONGO_URL` | Usada por varios scripts de prueba manuales y por `data/populate.js`. |
-| `MONGO_URL_PROD` | Usada por los scripts de actualización cuando se ejecutan en modo producción. |
-| `VITE_API_URL` | URL de la API en el frontend. |
+| Variable                    | Uso en el código                                                                                                                               |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `MONGO_URL`                 | Conexión de la API.                                                                                                                            |
+| `PORT`                      | Puerto de escucha de la API.                                                                                                                   |
+| `JWT_SECRET`                | Firma y verificación de tokens.                                                                                                                |
+| `FRONTEND_URL`, `MAIL_FROM` | Enlace y remitente de recuperación de contraseña.                                                                                              |
+| `NODE_ENV`                  | Selección del transporte y rama de envío de correo. En desarrollo debe establecerse explícitamente a `development` para usar la rama Ethereal. |
+| `RESEND_API_KEY`            | Proveedor Resend en producción.                                                                                                                |
+| `SPEC_MONGO_URL`            | Base de datos usada por las pruebas `*.spec.js`. Debe ser exclusiva y desechable.                                                              |
+| `TEST_MONGO_URL`            | Usada por varios scripts de prueba manuales y por `data/populate.js`.                                                                          |
+| `MONGO_URL_PROD`            | Usada por los scripts de actualización cuando se ejecutan en modo producción.                                                                  |
+| `VITE_API_URL`              | URL de la API en el frontend.                                                                                                                  |
 
 El correo de desarrollo utiliza Ethereal y requiere acceso a la red; el de
 producción utiliza Resend. No se han validado aquí las credenciales ni los
@@ -117,6 +117,162 @@ servicios externos.
 No se ejecutaron pruebas ni compilaciones para este inventario. En particular,
 no se ejecutaron pruebas de la API para evitar escribir en una base compartida
 sin confirmar su aislamiento.
+
+## Línea base local del sprint 1
+
+Comprobaciones realizadas el 11 de noviembre de 2026 en Windows, con
+Node `24.22.1` y npm `11.19.1`. Describen esta instalación local, no los
+entornos desplegados.
+
+| Comprobación                                                | Resultado                                                                                                                                                                                                                                  |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `app`: `npm run lint`                                       | Falla: 6 errores y 6 advertencias. Hay una importación `useLocation` sin usar en `Home/index.jsx`, cinco errores de `__dirname` en `vite.config.js` y seis advertencias por dependencias de `useEffect`. Pendiente decidir su tratamiento. |
+| `app`: `npm run build -- --outDir <directorio-temporal>`    | Correcto con Vite `4.5.14`; salida en un directorio temporal separado para no sobrescribir `app/dist`. Se transformaron 117 módulos.                                                                                                       |
+| `api`: `npm test -- --ignore logic/passwordRecover.spec.js` | 78 pruebas correctas de 21 suites, con MongoDB `8.3.13` en un contenedor local desechable y `SPEC_MONGO_URL` establecido explícitamente a su puerto de localhost. El contenedor se eliminó después.                                        |
+| `api`: `npm test` completo                                  | No ejecutado: la suite de recuperación excluida usa un servicio de correo externo; queda pendiente acordar su aislamiento. Las suites escriben y borran datos en `SPEC_MONGO_URL`.                                                         |
+| `com`: `npm test`                                           | No ejecutado: el script declarado solo informa que no hay pruebas y termina con error.                                                                                                                                                     |
+| Frontend                                                    | No hay un script de pruebas automatizadas en su `package.json`; quedan pendientes los flujos de registro, sesión, recetas, publicación y favoritos.                                                                                        |
+| HTTP y persistencia                                         | Las suites configuradas prueban lógica con MongoDB, no sustituyen pruebas de integración HTTP. La autorización y los contratos necesitan caracterización adicional.                                                                        |
+
+### Dependencias directas
+
+Versiones instaladas obtenidas con `npm ls --depth=0`. Las versiones más
+recientes corresponden al resultado de `npm outdated --depth=0` en esa fecha:
+`=` indica que la dependencia no apareció como desactualizada. Esto no verifica
+compatibilidad ni representa necesariamente las versiones desplegadas;
+`com` es el paquete local.
+
+| API                       | Instalada | Última  |
+| ------------------------- | --------- | ------- |
+| bcryptjs                  | 3.0.3     | =       |
+| c8                        | 10.1.3    | 12.0.0  |
+| chai                      | 5.3.3     | 6.3.0   |
+| com                       | 1.0.0     | local   |
+| cors                      | 2.8.6     | =       |
+| crypto                    | 1.0.1     | =       |
+| dotenv                    | 16.6.1    | 18.0.10 |
+| express                   | 4.22.3    | 5.3.0   |
+| jsonwebtoken              | 9.0.3     | =       |
+| mocha                     | 11.8.0    | 12.0.3  |
+| mongoose                  | 8.24.7    | 9.12.1  |
+| monocart-coverage-reports | 2.13.2    | 3.2.1   |
+| nodemailer                | 10.2.1    | 10.5.0  |
+| resend                    | 6.35.0    | 6.38.0  |
+
+| Frontend                    | Instalada | Última  |
+| --------------------------- | --------- | ------- |
+| @types/react                | 18.3.31   | 19.3.0  |
+| @types/react-dom            | 18.3.7    | 19.3.0  |
+| @vitejs/plugin-react        | 4.7.0     | 6.3.0   |
+| autoprefixer                | 10.6.2    | =       |
+| clsx                        | 2.1.1     | =       |
+| com                         | 1.0.0     | local   |
+| eslint                      | 8.57.1    | 10.14.0 |
+| eslint-plugin-react-hooks   | 4.6.2     | 7.1.1   |
+| eslint-plugin-react-refresh | 0.4.26    | 0.5.7   |
+| postcss                     | 8.5.32    | =       |
+| react                       | 18.3.1    | 19.3.1  |
+| react-dom                   | 18.3.1    | 19.3.1  |
+| react-icons                 | 4.12.0    | 5.7.0   |
+| react-router-dom            | 7.18.4    | 7.18.5  |
+| tailwindcss                 | 3.4.19    | 4.3.5   |
+| vite                        | 4.5.14    | 8.3.8   |
+
+La [descarga oficial de Node](https://nodejs.org/en/download) ofrecía la versión
+`26.13.0` en la fecha de consulta; no se ha ejecutado el proyecto con ella.
+Siguen pendientes las pruebas de compatibilidad completas y la decisión sobre
+el orden de actualización.
+También faltan detalles de los despliegues reales, el acuerdo para aislar el
+correo y un procedimiento de recuperación aplicable al despliegue real.
+El procedimiento local para repetir las 21 suites sin correo está en
+[`api/README.md`](../api/README.md); se ha ejecutado y ha restaurado las
+variables de entorno del proceso al terminar.
+
+#### Compatibilidad inicial de las actualizaciones
+
+Requisitos consultados en los metadatos de npm para las versiones anteriores;
+cumplirlos no garantiza que la aplicación funcione sin cambios:
+
+- Vite `8.3.8` y su plugin React `6.3.0` requieren Node `^20.19.0` o
+  `>=22.12.0`; el plugin requiere Vite `^8.0.0`. Deben actualizarse juntos.
+  Vite 8 cambia las herramientas internas a Rolldown y Oxc; revisar también
+  las migraciones intermedias desde la versión 4
+  ([guía](https://vite.dev/guide/migration)).
+- ESLint `10.14.0` requiere Node `^20.19.0`, `^22.13.0` o `>=24`.
+  `eslint-plugin-react-refresh` `0.5.7` requiere ESLint 9 o 10, por lo que su
+  actualización no debe separarse de la de ESLint.
+- React DOM `19.3.1` requiere React `^19.3.1`; actualizar ambos y sus tipos de
+  forma coordinada. La [guía de React 19](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)
+  exige la transformación JSX moderna. El proyecto ya usa `createRoot` y
+  React 18.3, pero falta comprobar los demás cambios y flujos.
+- Mongoose `9.12.1` requiere Node `>=20.19.0`; Express `5.3.0` requiere
+  Node `>=18`. Las guías de [Mongoose 9](https://mongoosejs.com/docs/migrating_to_9.html)
+  y [Express 5](https://expressjs.com/en/guide/migrating-5.html) recogen
+  cambios incompatibles que deben contrastarse con el código y los contratos.
+- Tailwind 4 modifica su integración con PostCSS y eleva los requisitos de
+  navegador; consultar la [guía de actualización](https://tailwindcss.com/docs/upgrade-guide)
+  antes de cambiar la configuración o el estilo.
+
+Node local `24.22.1` cumple esos requisitos de motor, pero se desconocen los
+runtimes reales de Netlify y Render. Como orden orientativo, primero verificar
+esos runtimes y la línea base; después actualizar en grupos compatibles y
+comprobar cada corte. La elección definitiva depende de las pruebas, el soporte
+de navegadores y las migraciones documentadas.
+
+### Entornos y protección de datos
+
+Según la persona responsable, el frontend está en Netlify, la API en Render y
+MongoDB se gestiona en MongoDB Atlas; quedan por confirmar las configuraciones
+y versiones desplegadas. El clúster es gratuito y, según la persona
+responsable, no se muestran copias. Puede existir una base remota de pruebas,
+pero su destino y aislamiento no se han verificado; se ha usado en su lugar
+una instancia local desechable.
+
+Se ha decidido partir de una base de producción vacía, inicialmente con el
+esquema actual, sin migrar ni copiar los datos existentes. Cambiar la conexión
+supondrá perder el acceso a las cuentas y recetas anteriores. La base actual
+no se ha borrado ni se ha cambiado la conexión desplegada; ambas operaciones
+requieren concretar y autorizar su ejecución.
+Se ha elegido crear la nueva base en el clúster de Atlas existente y mantener
+las pruebas en Docker. Según la persona responsable, se ha creado la base
+`vegazetas_prod` con la colección `users`; se ha elegido ese nombre como
+duradero. No se ha verificado mediante conexión ni se ha eliminado. La variable
+`MONGO_URL` de la configuración
+local apunta a una dirección local, no a Atlas; esto no determina qué conexión
+usa Render. Se ha acordado aplazar el cambio de conexión de Render hasta el
+despliegue; antes habrá que preparar y comprobar la reversión.
+
+Docker Desktop se puso en marcha para las pruebas locales. `mongodump`,
+`mongorestore` y `mongosh` no se encontraron en el PATH de Windows; la imagen
+local `mongo:8` incluye `mongodump` y `mongorestore` `100.20.0`. No se ha
+conectado a Atlas. El script `api/data/populate.js` también borra datos de
+`TEST_MONGO_URL` y no debe ejecutarse sin verificar el destino.
+
+La [documentación de Atlas para clústeres gratuitos](https://www.mongodb.com/docs/atlas/backup/cloud-backup/free-cluster-backup/)
+describe una suscripción opcional de copias en vista previa privada y con
+coste; puede no estar disponible en todos los clústeres.
+[mongodump](https://www.mongodb.com/docs/database-tools/mongodump/) es otra
+opción para copias manuales. No se ha creado ninguna copia de la base actual;
+la decisión posterior de empezar desde cero sustituyó el plan de copiarla.
+
+#### Ensayo local de recuperación
+
+Se ensayó `mongodump --db vegazetas_recovery_test --archive=... --gzip` y
+`mongorestore --archive=... --gzip` con MongoDB `8.3.13` y herramientas
+`100.20.0`. El origen y el destino fueron contenedores distintos, nuevos,
+sin conexión de red y con datos exclusivamente ficticios. El archivo se
+transfirió entre ellos a través de un directorio temporal local.
+
+La restauración recuperó un usuario y una receta; se comprobaron los
+recuentos, la referencia al autor, campos anidados y los tres índices únicos
+de correo, nombre de usuario y título. Se eliminaron los dos contenedores y
+el archivo temporal tras la prueba.
+
+Esto comprueba una restauración local básica, no una copia consistente de
+Atlas ni la recuperación de producción. Antes de usar este procedimiento con
+datos reales hay que verificar versiones y permisos, cómo obtener una copia
+consistente, almacenamiento privado y el destino de restauración separado;
+no incluir credenciales en comandos o archivos versionados.
 
 ## Puntos a estudiar antes de la migración
 

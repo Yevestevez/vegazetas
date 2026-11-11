@@ -19,10 +19,12 @@ Decisiones acordadas:
 - Usar versionado semántico para el producto completo. El punto de partida
   acordado es `v1.0.0`, correspondiente al estado actual de producción; no
   implica que ya se haya creado una etiqueta o publicación.
-- Preservar los datos de producción como opción inicial. Se admiten
-  interrupciones; una pérdida o transformación destructiva de datos requiere
-  una decisión explícita antes de ejecutarla, aunque los datos sean recuperables
-  o prescindibles.
+- Partir de una base de producción vacía sin migrar ni copiar los datos
+  actuales; se perderá el acceso a las cuentas y recetas existentes al cambiar
+  la aplicación. Mantener el esquema actual inicialmente. No borrar la base
+  actual ni cambiar la conexión desplegada hasta concretar y autorizar cada
+  operación. Se aplaza el cambio de conexión hasta el despliegue. Proteger los
+  nuevos datos de producción por defecto.
 - Corregir problemas existentes de seguridad y accesibilidad cuando sea
   necesario; acordar previamente los cambios de comportamiento.
 - No hay fechas obligatorias. Se comienza el siguiente sprint cuando el
@@ -74,9 +76,10 @@ No es un árbol definitivo; se concretará al diseñar el primer corte vertical.
 - **Compartido:** decidir cómo migrar `com` y sus consumidores, y qué contratos
   conviene compartir sin acoplar la API a la UI. Durante la transición debe
   seguir funcionando tanto en Node como en Vite.
-- **Datos:** mantener Mongoose y los documentos actuales como punto de partida.
-  Cambiar esquemas o índices solo cuando exista una razón contrastada y un
-  procedimiento de migración, copia y reversión.
+- **Datos:** mantener Mongoose y el esquema actual como punto de partida para
+  una base vacía. Cambiar esquemas o índices solo cuando exista una razón
+  contrastada y un procedimiento adecuado para los datos en uso, incluida su
+  protección y reversión.
 
 El ejemplo de API inspira sus capas, no el cambio a SQL ni la adopción de
 Prisma. El ejemplo de frontend inspira la organización funcional, no exige
@@ -95,8 +98,9 @@ dependencias, no fechas.
 - Inventariar versiones actuales y últimas versiones disponibles de Node y
   dependencias; estudiar requisitos de motor, compatibilidad y cambios
   incompatibles antes de decidir el orden de actualización.
-- Definir y verificar con una restauración de prueba el procedimiento de
-  copia de seguridad y recuperación de producción, sin modificar sus datos.
+- Definir y verificar con datos de prueba y una restauración en un destino
+  separado el procedimiento de copia y recuperación para los nuevos datos de
+  producción. No es necesario copiar ni restaurar los datos actuales.
 - Registrar rutas, contratos, flujos principales, resultados de lint/build y
   pruebas disponibles. Identificar huecos en registro, sesión, recetas,
   publicación y favoritos.
