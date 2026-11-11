@@ -37,7 +37,7 @@ vegazetas/
 │   │   │   └── index.js
 │   │   └── index.js
 │   ├── scripts/                     # Scripts de actualización de datos
-│   ├── test/                        # Pruebas HTTP y scripts manuales
+│   ├── test/                        # Pruebas HTTP, soporte E2E y scripts manuales
 │   ├── util/
 │   │   └── mailer.js
 │   ├── app.js                       # Creación de la aplicación Express
@@ -48,6 +48,7 @@ vegazetas/
 │   ├── vitest.config.js
 │   └── README.md
 ├── app/                             # Frontend React y Vite
+│   ├── e2e/                         # Pruebas de navegador con Playwright
 │   ├── public/
 │   ├── src/
 │   │   ├── logic/                   # Acceso a la API y sesión
@@ -74,6 +75,7 @@ vegazetas/
 │   ├── index.html
 │   ├── package.json
 │   ├── package-lock.json
+│   ├── playwright.config.js
 │   ├── vite.config.js
 │   ├── eslint.config.js
 │   └── README.md
@@ -190,7 +192,7 @@ claridad, `GetUserName` o `UserController` podrían ser clases. El contrato del
 repositorio podría ser una interfaz TypeScript. Son opciones de diseño, no una
 obligación de convertir todos los archivos o funciones en clases.
 
-Playwright y los flujos de GitHub Actions todavía no están configurados. La
-ubicación y formato de una futura documentación OpenAPI también quedan por
-decidir. Véase el [plan](./PLAN-REFACTORIZACION.md) para el estado y los
-criterios de cada sprint.
+Playwright ya dispone de una primera suite local; los flujos de GitHub Actions
+todavía no están configurados. La ubicación y formato de una futura
+documentación OpenAPI también quedan por decidir. Véase el
+[plan](./PLAN-REFACTORIZACION.md) para el estado y los criterios de cada sprint.

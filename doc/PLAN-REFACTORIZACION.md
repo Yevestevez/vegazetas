@@ -145,10 +145,12 @@ bases compartidas ni de producción.
 sobre las colecciones compartidas. Tras el primer corte arquitectónico pasan
 90 pruebas en 24 archivos; la integración opcional de Ethereal pasa por
 separado. La selección explícita de archivos evita ejecutar scripts manuales
-por accidente.
+por accidente. Playwright ejecuta tres pruebas locales de registro, sesión y
+credenciales incorrectas en Chromium, con una base de pruebas independiente.
 
-**Pendiente:** preparar Playwright, caracterizar los contratos y flujos
-prioritarios y completar las comprobaciones locales de los paquetes afectados.
+**Pendiente:** ampliar la caracterización de contratos y flujos prioritarios,
+incluidas recetas, y completar las comprobaciones locales de los paquetes
+afectados.
 
 - Migrar las pruebas existentes de Mocha a Vitest, preservando sus escenarios
   y evitando que las suites concurrentes compartan datos que se eliminan.
@@ -270,21 +272,19 @@ refactorización se cierra antes de planificar nuevas funcionalidades.
 
 ## Validación local y siguiente corte
 
-Las pruebas de Vitest y las futuras pruebas de navegador con Playwright pueden
-ejecutarse localmente, sin esperar a CI/CD ni desplegar. Playwright todavía no
-está preparado ni se ha probado en este proyecto; su instalación inicial puede
-requerir acceso a internet para descargar los navegadores.
+Las pruebas de Vitest y las pruebas de navegador con Playwright se ejecutan
+localmente, sin esperar a CI/CD ni desplegar. La instalación inicial de
+Playwright puede requerir acceso a internet para descargar los navegadores.
 
-Para pruebas de extremo a extremo, arrancar el frontend y la API locales con
-datos ficticios y conectar la API mediante `MONGO_URL` a una base de pruebas
-aislada y desechable, nunca a producción. `SPEC_MONGO_URL` es la conexión
-separada que usan las suites actuales de Vitest. Evitar ejecuciones
-concurrentes que borren datos compartidos y sustituir servicios externos cuando
-el flujo no los esté probando. La integración opcional de Ethereal sí requiere
-acceso a internet.
+Playwright arranca el frontend y una API locales con datos ficticios; la API
+de prueba conecta directamente a la base aislada indicada por `E2E_MONGO_URL`.
+`SPEC_MONGO_URL` es la conexión separada que usan las suites actuales de
+Vitest. Ambos destinos deben ser desechables, nunca de producción. Las pruebas
+de navegador bloquean peticiones a orígenes externos. La integración opcional
+de Ethereal sí requiere acceso a internet.
 
-Se ha adelantado el primer corte de `GET /users/name` de los sprints 3 y 4
-mientras Playwright queda pendiente en el sprint 2. Antes de extender el
+Se ha adelantado el primer corte de `GET /users/name` de los sprints 3 y 4.
+Antes de extender el
 patrón, revisar la estructura, el puente temporal con JavaScript y el contrato
 de errores de autenticación caracterizado por las pruebas.
 
@@ -321,3 +321,5 @@ de errores de autenticación caracterizado por las pruebas.
   transición de `com`.
 - Cambios específicos de autenticación y objetivos medibles de accesibilidad y
   rendimiento tras la revisión inicial.
+- Evaluar la sustitución de `dotenv` por la carga nativa de archivos de entorno
+  de Node, comprobando antes el arranque, las pruebas y los scripts manuales.

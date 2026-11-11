@@ -153,8 +153,9 @@ servicios externos.
 - Las suites solo aceptan la URI local documentada y conectan directamente;
   esta validación no demuestra por sí sola que la base sea desechable. Se
   reutiliza un contenedor dedicado y sus datos pueden borrarse en cada prueba.
-- En `app` existen `npm run lint` y `npm run build`; no se ha identificado una
-  suite automatizada de frontend configurada en su `package.json`.
+- En `app` existen `npm run lint`, `npm run build` y `npm run test:e2e`. La
+  suite Playwright prueba registro, sesión y credenciales incorrectas con
+  Chromium y servicios locales; todavía no cubre los flujos de recetas.
 - No se ha identificado configuración de CI versionada en `.github/`.
 
 No se ejecutaron pruebas ni compilaciones para este inventario. En particular,
@@ -216,6 +217,15 @@ JavaScript y las partes no migradas no están completamente comprobadas por
 tipos. La API requiere Node `22.18.0` o posterior para ejecutar TypeScript
 directamente sin compilación. `npm audit` no informó de vulnerabilidades en
 esa ejecución.
+
+La primera suite Playwright pasó con **tres pruebas** en Chromium headless,
+contra el frontend y la API locales y una base desechable distinta de la usada
+por Vitest. Se comprobó el rechazo de una URI remota y la limpieza de los
+usuarios sintéticos. El lint del frontend sigue pasando con seis advertencias
+preexistentes. Al instalar Playwright, `npm audit` del frontend informó de dos
+vulnerabilidades en dependencias de desarrollo existentes: una moderada en
+esbuild y una alta en Vite. El cambio no actualizó esas dependencias; queda
+pendiente su actualización coordinada.
 
 ### Dependencias directas
 

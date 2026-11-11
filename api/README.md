@@ -123,6 +123,10 @@ test suites may erase it, and interrupted tests may leave data behind. Stop it
 with `docker stop vegazetas-test-mongodb` when not needed; the next run starts
 it again.
 
+The [frontend browser tests](../app/README.md#browser-tests) reuse this
+container with a separate `vegazetas_e2e_disposable` database and an isolated
+local API process. They must never be pointed at production or shared data.
+
 To run the optional Ethereal integration test, replace the `npm test` line in
 the preceding block with `npm run test-mail-integration`. This test contacts
 Ethereal and requires internet access. It only accepts a local
