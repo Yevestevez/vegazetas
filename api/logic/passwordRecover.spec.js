@@ -1,8 +1,10 @@
 import '../config/loadEnv.js'
 import assert from 'node:assert/strict'
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
+import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 import { User } from '../data/models.js'
 import { errors } from 'com'
 import passwordRecover from './passwordRecover.js'
@@ -92,6 +94,48 @@ describe('passwordRecover', function () {
 
         assertRecoveryMessage(message, user)
         expect(message.from).to.equal('noreply@example.invalid')
+    })
+
+    test('formats the development recovery email with Nodemailer without sending it', async () => {
+        const user = await createUser()
+        const transporter = nodemailer.createTransport({ streamTransport: true, buffer: true })
+        let delivery
+        const createTransporter = async () => ({
+            sendMail: async mail => {
+                delivery = await transporter.sendMail(mail)
+                return delivery
+            }
+        })
+
+        await recoverWithSimulatedTransport(user.email, createTransporter)
+
+        expect(delivery.envelope.to).toEqual([user.email])
+        expect(delivery.message.toString()).toContain('Content-Type: multipart/alternative')
+        expect(delivery.message.toString()).toContain('/password-reset?token')
+    })
+
+    test('builds the production recovery request with Resend without sending it', async () => {
+        process.env.NODE_ENV = 'production'
+        const user = await createUser()
+        const fetchMock = vi.fn(async () => new Response('{"id":"test-message"}', {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        }))
+        vi.stubGlobal('fetch', fetchMock)
+
+        try {
+            await recoverWithSimulatedTransport(user.email, async () => new Resend('re_test_only'))
+
+            expect(fetchMock).toHaveBeenCalledOnce()
+            const [url, options] = fetchMock.mock.calls[0]
+            expect(new URL(url).pathname).toBe('/emails')
+            expect(options.method).toBe('POST')
+            const message = JSON.parse(options.body)
+            assertRecoveryMessage(message, user)
+            expect(message.from).toBe('noreply@example.invalid')
+        } finally {
+            vi.unstubAllGlobals()
+        }
     })
 
     test('fails on non existing user without creating a transporter', async () => {

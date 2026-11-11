@@ -149,7 +149,7 @@ bases compartidas ni de producción.
 ### Sprint 2: caracterización y calidad reproducible — en curso
 
 **Hecho:** migradas las 22 suites de Mocha a Vitest, sin ejecución paralela
-sobre las colecciones compartidas. Pasan 103 pruebas en 26 archivos; la
+sobre las colecciones compartidas. Pasan 105 pruebas en 26 archivos; la
 integración opcional de Ethereal pasó por separado antes de actualizar Express.
 La selección explícita de archivos evita ejecutar scripts manuales
 por accidente. Playwright ejecuta tres pruebas locales de registro, sesión y

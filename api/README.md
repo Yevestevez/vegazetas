@@ -77,6 +77,10 @@ checks sequentially. `npm run test-favorite-security` runs only the favorites te
 `npm run test-coverage` covers the regular suite and produces text and HTML
 reports; `npm run test-inspect` starts it with a debugger.
 
+The recovery tests also exercise Nodemailer's in-memory transport and the
+Resend SDK with a mocked HTTP response. They do not prove delivery by either
+provider or contact external mail services.
+
 ### Reusable local test container on Windows
 
 With Docker Desktop running, create the dedicated container once:

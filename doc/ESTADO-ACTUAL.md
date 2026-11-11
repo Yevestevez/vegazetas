@@ -276,13 +276,27 @@ Vitest en 26 archivos**; con Node 26 pasaron las **tres pruebas Playwright**.
 `npm audit` de la API no informó de vulnerabilidades en esa ejecución. Estas
 pruebas no cubren todos los contratos de las demás rutas.
 
-La consulta posterior de `npm outdated --depth=0` aún muestra actualizaciones
-pendientes: en la API, Mongoose 9, Nodemailer, Resend y los tipos de Node; en el
-frontend, React y sus tipos, React Router, React Icons, ESLint y sus plugins, y
-Tailwind. Deben abordarse por grupos compatibles. Los tipos de Node siguen en
-la línea 24: los de la 26 podrían permitir usar API ausentes en las versiones
-22 y 24 admitidas, mientras que los actuales tampoco garantizan compatibilidad
-de tipos con la 22. Hay que decidir esa política, no solo subir el número.
+Después se actualizaron Nodemailer a `10.5.0`, Resend a `6.38.0` y React Router
+a `7.18.5`; se retiró la dependencia obsoleta `crypto` de npm, no utilizada por
+el código, manteniendo el módulo nativo `node:crypto`. Las pruebas de
+recuperación ejercitan Nodemailer con transporte en memoria y el SDK de Resend
+con HTTP simulado: no demuestran entrega real. En Node 22, 24 y 26 pasaron
+los tipos, **105 pruebas Vitest**, compilación y **tres pruebas Playwright**
+por versión. El lint pasó con las seis advertencias anteriores; `npm audit`
+no informó de vulnerabilidades en API ni frontend. No se ha modificado
+producción.
+
+**Riesgo pendiente:** el flujo actual no comprueba el campo `error` devuelto
+por el SDK de Resend. Si el proveedor devuelve un error sin rechazar la
+promesa, la API puede responder como si hubiera enviado el correo. Corregirlo
+requiere acordar y probar el cambio de comportamiento.
+
+Quedan actualizaciones pendientes: en la API, Mongoose 9 y los tipos de Node;
+en el frontend, React y sus tipos, React Icons, ESLint y sus plugins, y Tailwind.
+Deben abordarse por grupos compatibles. Los tipos de Node siguen en la línea
+24: los de la 26 podrían permitir usar API ausentes en las versiones 22 y 24
+admitidas, mientras que los actuales tampoco garantizan compatibilidad de tipos
+con la 22. Hay que decidir esa política, no solo subir el número.
 
 ### Dependencias directas
 
