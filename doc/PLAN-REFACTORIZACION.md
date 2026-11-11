@@ -30,8 +30,9 @@ Decisiones acordadas:
   no durante ella. Hasta entonces, ejecutar las comprobaciones pertinentes
   localmente. Evaluar después si aportan valor hooks ligeros como Husky.
 - Usar versionado semántico para el producto completo. El punto de partida
-  acordado es `v1.0.0`, correspondiente al estado actual de producción; no
-  implica que ya se haya creado una etiqueta o publicación.
+  acordado es `v1.0.0`, correspondiente al estado actual de producción.
+  La refactorización se identifica como `v2.0.0`, aún en desarrollo y sin
+  desplegar. Esto no implica que existan etiquetas ni publicaciones.
 - Partir de una base de producción vacía sin migrar ni copiar los datos
   actuales; se perderá el acceso a las cuentas y recetas existentes al cambiar
   la aplicación. Mantener el esquema actual inicialmente. No borrar la base
@@ -56,7 +57,9 @@ Punto de partida y riesgos conocidos: [estado actual](./ESTADO-ACTUAL.md).
   requieran migración.
 
 Un sprint no exige una versión propia. La refactorización no implica por sí sola
-un cambio de versión mayor. Las etiquetas y publicaciones requieren autorización.
+un cambio de versión mayor; se ha acordado `v2.0.0` para esta entrega. Consultar
+el [historial de versiones](./HISTORIAL-VERSIONES.md). Las etiquetas y
+publicaciones requieren autorización.
 
 ## Principios de trabajo
 

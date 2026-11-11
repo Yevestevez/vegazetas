@@ -23,7 +23,7 @@
 
 ---
 
-**Versión de referencia: v1.0.0**, correspondiente al estado actual de producción. Todavía no se ha creado una etiqueta ni una publicación.
+**Versión: v2.0.0** — refactorización en desarrollo, todavía no desplegada. La referencia de producción sigue siendo v1.0.0. Consulta el [historial de versiones](./doc/HISTORIAL-VERSIONES.md).
 
 ## Sobre el proyecto
 
@@ -47,7 +47,7 @@ Es un proyecto full-stack diseñado y desarrollado íntegramente por mí: desde 
 | Frontend | React, React Router, Tailwind CSS, Vite |
 | Backend | Node.js, Express |
 | Datos | MongoDB, Mongoose |
-| Calidad | Mocha, Chai, c8, ESLint |
+| Calidad | Vitest, Playwright, ESLint |
 
 ## Organización y datos
 
@@ -60,7 +60,10 @@ El modelo incluye usuarios con favoritos y recetas con autor, imágenes, descrip
 
 ## Puesta en marcha
 
-Necesitas Node.js, npm y una instancia de MongoDB. La aplicación y la API se ejecutan por separado.
+Necesitas Node.js, npm y una instancia de MongoDB. Se admiten Node 22 desde
+`22.23.5`, Node 24 desde `24.22.3` y Node 26 desde `26.13.1`, cada uno dentro
+de su propia versión mayor; `.node-version` indica `26.13.1`. La aplicación y la
+API se ejecutan por separado.
 
 1. Configura las variables de entorno:
    - En `api/.env`, define `MONGO_URL`, `PORT` y `JWT_SECRET`. Para recuperación de contraseña, configura también `FRONTEND_URL`, `MAIL_FROM` y `NODE_ENV=development` en desarrollo; en producción se necesita `RESEND_API_KEY`.
@@ -83,13 +86,13 @@ Necesitas Node.js, npm y una instancia de MongoDB. La aplicación y la API se ej
 
 ### Pruebas y calidad
 
-La API cuenta con pruebas automatizadas para sus lógicas de negocio, escritas con Mocha y Chai. Desde `api/`, ejecútalas con:
+La API cuenta con pruebas de lógica e integración con Vitest. Desde `api/`, ejecútalas con:
 
 ```bash
 npm test
 ```
 
-Antes de ejecutarlas, configura `SPEC_MONGO_URL` con una base de MongoDB **aislada y desechable**: las pruebas borran usuarios y recetas.
+Antes de ejecutarlas, configura `SPEC_MONGO_URL` con una base de MongoDB **aislada y desechable**: las pruebas borran usuarios y recetas. Consulta las [instrucciones de pruebas de la API](./api/README.md#tests).
 
 Desde `app/`, puedes comprobar el lint y generar la compilación de producción:
 
@@ -97,6 +100,9 @@ Desde `app/`, puedes comprobar el lint y generar la compilación de producción:
 npm run lint
 npm run build
 ```
+
+Las pruebas de navegador con Playwright se ejecutan localmente con una base
+de pruebas distinta. Consulta los [preparativos y comandos](./app/README.md#browser-tests).
 
 Para el inventario técnico, variables y limitaciones conocidas, consulta el [estado actual](./doc/ESTADO-ACTUAL.md). La evolución prevista está en el [plan de refactorización](./doc/PLAN-REFACTORIZACION.md).
 

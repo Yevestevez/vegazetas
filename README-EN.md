@@ -23,7 +23,7 @@
 
 ---
 
-**Reference version: v1.0.0**, corresponding to the current production baseline. No Git tag or release has been created yet.
+**Version: v2.0.0** — refactoring in progress, not yet deployed. The production baseline remains v1.0.0. See the [version history](./doc/HISTORIAL-VERSIONES.md) (in Spanish).
 
 ## About
 
@@ -47,7 +47,7 @@ I designed and built the entire full-stack project myself: from UX/UI in Figma a
 | Frontend | React, React Router, Tailwind CSS, Vite |
 | Backend | Node.js, Express |
 | Data | MongoDB, Mongoose |
-| Quality | Mocha, Chai, c8, ESLint |
+| Quality | Vitest, Playwright, ESLint |
 
 ## Structure and data
 
@@ -60,7 +60,10 @@ The model includes users with favourites and recipes with an author, images, des
 
 ## Getting started
 
-You will need Node.js, npm and a MongoDB instance. Run the app and API separately.
+You will need Node.js, npm and a MongoDB instance. Supported versions are Node
+22 from `22.23.5`, Node 24 from `24.22.3` and Node 26 from `26.13.1`, each
+within its own major version; `.node-version` specifies `26.13.1`. Run the app
+and API separately.
 
 1. Configure environment variables:
    - In `api/.env`, set `MONGO_URL`, `PORT` and `JWT_SECRET`. Password recovery also requires `FRONTEND_URL`, `MAIL_FROM` and `NODE_ENV=development` in development; production requires `RESEND_API_KEY`.
@@ -83,13 +86,13 @@ You will need Node.js, npm and a MongoDB instance. Run the app and API separatel
 
 ### Tests and quality
 
-The API includes automated tests for its business logic, written with Mocha and Chai. Run them from `api/`:
+The API includes logic and integration tests with Vitest. Run them from `api/`:
 
 ```bash
 npm test
 ```
 
-Before running the tests, set `SPEC_MONGO_URL` to an **isolated, disposable** MongoDB database: the tests delete users and recipes.
+Before running the tests, set `SPEC_MONGO_URL` to an **isolated, disposable** MongoDB database: the tests delete users and recipes. See the [API test instructions](./api/README.md#tests).
 
 From `app/`, run the linter and create a production build:
 
@@ -97,6 +100,9 @@ From `app/`, run the linter and create a production build:
 npm run lint
 npm run build
 ```
+
+Playwright browser tests run locally with a separate test database. See the
+[setup and commands](./app/README.md#browser-tests).
 
 See the [current-state documentation](./doc/ESTADO-ACTUAL.md) for the technical inventory, variables and known limitations, and the [refactoring plan](./doc/PLAN-REFACTORIZACION.md) for the planned evolution. Both are currently in Spanish.
 

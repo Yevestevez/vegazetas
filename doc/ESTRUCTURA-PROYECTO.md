@@ -91,6 +91,7 @@ vegazetas/
 │   ├── images/
 │   ├── ESTADO-ACTUAL.md
 │   ├── ESTRUCTURA-PROYECTO.md
+│   ├── HISTORIAL-VERSIONES.md
 │   └── PLAN-REFACTORIZACION.md
 ├── .gitignore
 ├── .node-version
