@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom'
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
 import logic from '../../logic'
 import { useAppContext } from '../../context'

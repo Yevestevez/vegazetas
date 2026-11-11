@@ -75,6 +75,37 @@ El detalle de métodos y rutas está en
 [`recipes/index.js`](../api/routes/recipes/index.js). No se ha generado ni
 validado un contrato OpenAPI.
 
+### Contratos observados en los handlers
+
+Este resumen procede de la lectura del código; aún faltan pruebas HTTP que
+confirmen sus respuestas y errores.
+
+| Operación | Entrada principal | Respuesta de éxito |
+| --- | --- | --- |
+| `POST /users` | `name`, `email`, `username`, `password` | `201`, sin cuerpo |
+| `POST /users/auth` | `email`, `password` | `200`, token JWT como cadena JSON |
+| `GET /users/name`, `GET /users/username` | Token de sesión | `200`, nombre o nombre de usuario como cadena JSON |
+| `POST /users/password/recover` | `email` | `200`, objeto con mensaje |
+| `POST /users/password/reset/:token` | Token en la ruta y `newPassword` | `204`, sin cuerpo |
+| `PATCH /users/favorites/:recipeId` | Token de sesión e ID de receta | `200`, documento de usuario serializado sin `password` |
+| `POST /recipes` | Token y campos de receta | `201`, ID como cadena JSON |
+| `GET /recipes/my-recipes`, `/published-recipes`, `/favorites-recipes` | Token | `200`, lista de recetas |
+| `GET /recipes/:recipeId` | Token e ID | `200`, receta con `own` e `isFavorite` |
+| `PATCH /recipes/:recipeId` | Token, ID y campos editables | `204`, sin cuerpo |
+| `DELETE /recipes/:recipeId` | Token e ID | `204`, sin cuerpo |
+| `PATCH /recipes/:recipeId/publish` | Token e ID | `200`, objeto con `published` |
+| Operaciones de ingredientes, pasos, imágenes y etiquetas | Token, ID y datos del elemento | `201` al añadir; `204` al modificar o eliminar. Las altas de ingrediente y paso devuelven un ID JSON. |
+
+Los handlers protegidos extraen el token de `Authorization` y verifican el JWT.
+El middleware traduce errores propios a `400`, `401`, `403`, `404`, `409` o
+`500`; otros errores se convierten en `500`. Esto no garantiza que un token
+inválido o ausente produzca `401`: hay que caracterizarlo por HTTP.
+
+**Corrección local pendiente de despliegue:** la respuesta de alternancia de
+favoritos incluía el campo `password` con el hash. Se ha eliminado ese campo
+sin cambiar los demás ni la contraseña almacenada. Una prueba HTTP con datos
+ficticios comprobó el problema antes de la corrección y su ausencia después.
+
 ## Configuración y ejecución
 
 La guía básica de instalación está en el [README principal](../README.md).
@@ -99,18 +130,19 @@ servicios externos.
 
 ## Pruebas y calidad
 
-- En `api`, `npm test` ejecuta Mocha sobre `logic/*.spec.js`; hay 22 archivos
-  de ese tipo. Son pruebas de lógica con MongoDB real, no únicamente unitarias.
+- En `api`, `npm test` ejecuta secuencialmente 22 suites de Mocha en
+  `logic/*.spec.js` y una prueba HTTP de Vitest. Usan MongoDB real, no son
+  únicamente unitarias; la migración completa a Vitest sigue pendiente.
 - **Precaución:** varias suites borran todos los usuarios y recetas de la base
   configurada en `SPEC_MONGO_URL` antes y después de cada prueba. Nunca apuntar
   esa variable a una base de desarrollo compartida o de producción.
-- Los archivos `*.test.js` y `api/test/` son scripts separados; no forman parte
+- Los archivos `*.test.js` y los demás scripts de `api/test/` no forman parte
   del comando `npm test`. Algunos usan `MONGO_URL` o `TEST_MONGO_URL`: revisar
   cada script y su efecto antes de ejecutarlo.
 - La suite normal de recuperación de contraseña usa un proveedor simulado.
   La prueba de integración con Ethereal es opcional y separada. El script
-  `test-coverage` genera cobertura de las suites seleccionadas; las imágenes
-  o informes históricos no son una medida actual.
+  `test-coverage` genera cobertura de las suites Mocha, no de la prueba de
+  Vitest; los informes históricos no son una medida actual.
 - En `app` existen `npm run lint` y `npm run build`; no se ha identificado una
   suite automatizada de frontend configurada en su `package.json`.
 - No se ha identificado configuración de CI versionada en `.github/`.
@@ -133,12 +165,30 @@ entornos desplegados.
 | `api`: `npm test` completo                                  | 83 pruebas correctas tras aislar el correo, con MongoDB local desechable. Las suites escriben y borran datos en `SPEC_MONGO_URL`.                                                                                                         |
 | `com`: `npm test`                                           | No ejecutado: el script declarado solo informa que no hay pruebas y termina con error.                                                                                                                                                     |
 | Frontend                                                    | No hay un script de pruebas automatizadas en su `package.json`; quedan pendientes los flujos de registro, sesión, recetas, publicación y favoritos.                                                                                        |
-| HTTP y persistencia                                         | Las suites configuradas prueban lógica con MongoDB, no sustituyen pruebas de integración HTTP. La autorización y los contratos necesitan caracterización adicional.                                                                        |
+| HTTP y persistencia                                         | Hay una prueba HTTP para favoritos; la mayor parte de las suites prueba lógica con MongoDB. La autorización y los demás contratos necesitan caracterización adicional.                                                                      |
 
 Después de aislar el correo, `npm test` pasó con **83 pruebas** en otro
 contenedor local desechable. `npm run test-mail-integration` también pasó con
 datos ficticios y Ethereal; se comprobó que rechaza una conexión remota de
 MongoDB. Ambos contenedores se eliminaron al finalizar.
+
+Tras corregir la respuesta de favoritos, `npm test` pasó con **83 pruebas de
+Mocha y una prueba HTTP de Vitest**, secuencialmente y en un contenedor local
+desechable. La corrección aún no se ha desplegado.
+
+Posteriormente se corrigieron los seis errores de lint: `npm run lint` pasa con
+seis advertencias de dependencias de `useEffect`. La compilación antes y después
+produjo los mismos archivos con hashes SHA-256 idénticos. No se modificaron los
+efectos: sus funciones y `alert` pueden cambiar de identidad entre renders, por
+lo que añadir dependencias sin revisar podría repetir solicitudes. Queda
+pendiente resolverlas con pruebas de los flujos.
+
+Tras instalar Vitest, `npm audit` de la API informó de siete vulnerabilidades
+en dependencias de desarrollo: una baja, cinco moderadas y una alta. La alta
+afecta a `serialize-javascript`. `npm audit --omit=dev` no informó de
+vulnerabilidades en dependencias de producción en esa ejecución. No se han
+aplicado correcciones automáticas; queda pendiente revisarlas durante la
+migración de las herramientas.
 
 ### Dependencias directas
 
@@ -164,6 +214,7 @@ compatibilidad ni representa necesariamente las versiones desplegadas;
 | monocart-coverage-reports | 2.13.2    | 3.2.1   |
 | nodemailer                | 10.2.1    | 10.5.0  |
 | resend                    | 6.35.0    | 6.38.0  |
+| vitest                    | 5.1.0     | =       |
 
 | Frontend                    | Instalada | Última  |
 | --------------------------- | --------- | ------- |
@@ -219,18 +270,21 @@ cumplirlos no garantiza que la aplicación funcione sin cambios:
   navegador; consultar la [guía de actualización](https://tailwindcss.com/docs/upgrade-guide)
   antes de cambiar la configuración o el estilo.
 
-Node local `24.22.1` cumple esos requisitos de motor, pero se desconocen los
-runtimes reales de Netlify y Render. Como orden orientativo, primero verificar
-esos runtimes y la línea base; después actualizar en grupos compatibles y
-comprobar cada corte. La elección definitiva depende de las pruebas, el soporte
-de navegadores y las migraciones documentadas.
+Node local `24.22.1` y las versiones de Render y Netlify comunicadas por la
+persona responsable cumplen esos requisitos de motor. Esto no sustituye las
+pruebas en los entornos desplegados. Como orden orientativo, actualizar en
+grupos compatibles y comprobar cada corte. La elección definitiva depende de
+las pruebas, el soporte de navegadores y las migraciones documentadas.
 
 ### Entornos y protección de datos
 
-Según la persona responsable, el frontend está en Netlify, la API en Render y
-MongoDB se gestiona en MongoDB Atlas; quedan por confirmar las configuraciones
-y versiones desplegadas. El clúster es gratuito y, según la persona
-responsable, no se muestran copias. Puede existir una base remota de pruebas,
+Según la persona responsable, el frontend está en Netlify con Node `22.23.4`
+para la compilación, la API en Render con Node `24.22.1` y el clúster de
+MongoDB Atlas usa `8.0.37`. Son versiones comunicadas, no verificadas desde
+esta sesión. Se mantiene la versión de Netlify por ahora. Quedan por confirmar
+otras configuraciones y no se ha comprobado el estado de seguridad de esos
+despliegues. El clúster es gratuito y, según la persona responsable, no se
+muestran copias. Puede existir una base remota de pruebas,
 pero su destino y aislamiento no se han verificado; se ha usado en su lugar
 una instancia local desechable.
 
@@ -279,6 +333,34 @@ Atlas ni la recuperación de producción. Antes de usar este procedimiento con
 datos reales hay que verificar versiones y permisos, cómo obtener una copia
 consistente, almacenamiento privado y el destino de restauración separado;
 no incluir credenciales en comandos o archivos versionados.
+
+#### Procedimiento previsto para los nuevos datos de producción
+
+Este procedimiento es una propuesta para después del cambio de conexión a
+`vegazetas_prod`; no se ha ejecutado ni validado contra Atlas.
+
+1. Identificar y verificar origen, permisos de lectura, versión y destino
+   privado de la copia. No mostrar credenciales en comandos, registros o
+   documentación. La carpeta ignorada por Git no es, por sí sola, un
+   mecanismo de protección de acceso o cifrado.
+2. Acordar la interrupción y detener **todas** las escrituras mientras se
+   ejecuta `mongodump` para esa base. MongoDB advierte que una copia con
+   escrituras concurrentes puede no corresponder a un instante coherente.
+   Comprobar la finalización antes de reanudar las escrituras.
+3. Guardar el archivo de copia con acceso restringido y registrar fecha,
+   versión y resultado sin incluir datos ni secretos. Definir su conservación
+   y una segunda ubicación segura antes de depender de él.
+4. Verificar por separado el destino de ensayo, sus permisos y compatibilidad
+   de versión; restaurar con `mongorestore` solo en ese destino. Comparar
+   recuentos, índices y consultas representativas, y comprobar los flujos
+   acordados sin exponer datos reales.
+5. Para una recuperación real, acordar expresamente destino, interrupción y
+   momento de restauración. Conservar evidencia del resultado y del alcance
+   de datos que podrían perderse. Volver a la conexión anterior no recupera
+   automáticamente los datos creados en la base nueva.
+
+Referencias: [copias consistentes](https://www.mongodb.com/docs/database-tools/mongodump/mongodump-examples/)
+y [restauración y compatibilidad](https://www.mongodb.com/docs/database-tools/mongorestore/).
 
 ## Puntos a estudiar antes de la migración
 

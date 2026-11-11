@@ -13,7 +13,11 @@ export default (req, res, next) => {
             userId,
             recipeId,
         )
-            .then(result => res.status(200).json(result))
+            .then(result => {
+                const user = result.toJSON()
+                delete user.password
+                res.status(200).json(user)
+            })
             .catch(error => next(error))
     } catch (error) {
         next(error)

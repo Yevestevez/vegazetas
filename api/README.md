@@ -41,6 +41,11 @@ npm test
 
 The tests clear user and recipe collections; never point `SPEC_MONGO_URL` at a database containing data you need to keep.
 
+During the transition to Vitest, `npm test` runs the existing Mocha suites and
+the favorites HTTP regression test in Vitest, sequentially. `npm run
+test-favorite-security` runs only that Vitest test. The existing
+`test-inspect` and `test-coverage` scripts still cover only the Mocha suites.
+
 ### Isolated local baseline on Windows
 
 With Docker Desktop running, execute the following from the `api` directory.
