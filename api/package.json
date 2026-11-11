@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
   "scripts": {
     "start": "node index.js",
     "watch": "node --watch index.js",
@@ -12,7 +15,8 @@
     "test-favorite-security": "vitest run test/toggleFavoriteRecipe.spec.js",
     "test-mail-integration": "vitest run --mode ethereal",
     "test-inspect": "vitest run --inspect-brk",
-    "test-coverage": "vitest run --coverage"
+    "test-coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +34,9 @@
     "resend": "^6.6.0"
   },
   "devDependencies": {
+    "@types/node": "^24.19.2",
     "@vitest/coverage-v8": "^5.1.0",
+    "typescript": "^7.0.2",
     "vitest": "^5.1.0"
   }
 }

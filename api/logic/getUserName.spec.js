@@ -6,7 +6,7 @@ import { User } from '../data/models.js'
 const { Types: { ObjectId } } = mongoose;
 
 import { errors } from 'com'
-const { NotFoundError } = errors
+const { NotFoundError, SystemError } = errors
 
 import getUserName from './getUserName.js'
 
@@ -31,6 +31,13 @@ describe('getUserName', () => {
                 expect(catchedError).to.be.instanceOf(NotFoundError)
                 expect(catchedError.message).to.equal('user not found')
             })
+    })
+
+    test('wraps a database cast failure as a system error', async () => {
+        const error = await getUserName('z'.repeat(24)).then(() => null, caughtError => caughtError)
+
+        expect(error).toBeInstanceOf(SystemError)
+        expect(error.message).toContain('Cast to ObjectId failed')
     })
 
     afterEach(() => User.deleteMany())

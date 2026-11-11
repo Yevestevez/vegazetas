@@ -4,7 +4,7 @@ export default defineConfig(({ mode }) => ({
     test: {
         include: mode === 'ethereal'
             ? ['test/passwordRecover.ethereal.spec.js']
-            : ['logic/*.spec.js', 'test/toggleFavoriteRecipe.spec.js'],
+            : ['logic/*.spec.js', 'test/toggleFavoriteRecipe.spec.js', 'test/getUserName.spec.js'],
         fileParallelism: false,
         setupFiles: ['test/setup.js'],
         coverage: {

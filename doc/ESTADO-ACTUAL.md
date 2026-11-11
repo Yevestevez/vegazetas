@@ -42,9 +42,10 @@ para poder migrar a TypeScript.
    [`api/data/models.js`](../api/data/models.js). El middleware de errores
    traduce clases de `com` a respuestas HTTP.
 
-Ya existe una separación entre rutas, handlers, lógica y modelos, pero no una
-capa de repositorios independiente: las funciones de negocio consultan
-Mongoose directamente. La verificación del JWT se repite en los handlers.
+Ya existe una separación entre rutas, handlers, lógica y modelos. La mayoría
+de las funciones de negocio consultan Mongoose directamente; la consulta del
+nombre de usuario es el primer corte con un repositorio independiente en
+TypeScript. La verificación del JWT se repite en los handlers.
 
 ## Datos
 
@@ -77,8 +78,8 @@ validado un contrato OpenAPI.
 
 ### Contratos observados en los handlers
 
-Este resumen procede de la lectura del código; aún faltan pruebas HTTP que
-confirmen sus respuestas y errores.
+Este resumen procede principalmente de la lectura del código; aún faltan
+pruebas HTTP para la mayoría de las respuestas y errores.
 
 | Operación | Entrada principal | Respuesta de éxito |
 | --- | --- | --- |
@@ -100,6 +101,12 @@ Los handlers protegidos extraen el token de `Authorization` y verifican el JWT.
 El middleware traduce errores propios a `400`, `401`, `403`, `404`, `409` o
 `500`; otros errores se convierten en `500`. Esto no garantiza que un token
 inválido o ausente produzca `401`: hay que caracterizarlo por HTTP.
+
+Las pruebas HTTP de `GET /users/name` confirman `200` con el nombre como
+cadena JSON, `404` para un usuario inexistente y `400` para un ID de longitud
+inválida. Un token con firma inválida o una cabecera ausente producen `500`
+con `SystemError`, no `401`. Se conserva ese contrato por ahora; queda
+pendiente acordar su corrección y revisar la exposición del mensaje de error.
 
 **Corrección local pendiente de despliegue:** la respuesta de alternancia de
 favoritos incluía el campo `password` con el hash. Se ha eliminado ese campo
@@ -131,7 +138,7 @@ servicios externos.
 ## Pruebas y calidad
 
 - En `api`, `npm test` ejecuta secuencialmente con Vitest 22 suites en
-  `logic/*.spec.js` y una prueba HTTP. Usan MongoDB real, no son únicamente
+  `logic/*.spec.js` y dos suites HTTP. Usan MongoDB real, no son únicamente
   unitarias. La configuración selecciona explícitamente las suites permitidas.
 - **Precaución:** varias suites borran todos los usuarios y recetas de la base
   configurada en `SPEC_MONGO_URL` antes y después de cada prueba. Nunca apuntar
@@ -198,6 +205,17 @@ integración opcional con Ethereal pasó por separado. Se verificó el rechazo d
 una URI remota. Las pruebas utilizaron el contenedor dedicado reutilizable,
 MongoDB `8.3.13`, con datos desechables. Después del cambio, `npm audit` y
 `npm audit --omit=dev` no informaron de vulnerabilidades en la API.
+
+Después del primer corte de `GET /users/name`, `npm test` pasó con **90
+pruebas en 24 archivos** y `npm run typecheck` pasó para los módulos
+TypeScript. También se comprobó el arranque real con Node `24.22.1`, la ruta
+de salud y una petición autenticada, usando datos ficticios en el contenedor
+de pruebas. Las rutas y handlers siguen en JavaScript; la lógica de nombre
+de usuario y su repositorio son TypeScript. El paquete `com` sigue en
+JavaScript y las partes no migradas no están completamente comprobadas por
+tipos. La API requiere Node `22.18.0` o posterior para ejecutar TypeScript
+directamente sin compilación. `npm audit` no informó de vulnerabilidades en
+esa ejecución.
 
 ### Dependencias directas
 

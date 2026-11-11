@@ -4,7 +4,8 @@ The API is an Express service backed by MongoDB. It handles users, authenticatio
 
 ## Run locally
 
-Install [Node.js](https://nodejs.org/) and npm, and make sure MongoDB is available. From this directory, install dependencies:
+Install [Node.js](https://nodejs.org/) 22.18.0 or later and npm, and make
+sure MongoDB is available. From this directory, install dependencies:
 
 ```sh
 npm install
@@ -31,6 +32,12 @@ Use `npm run watch` to restart the service when files change. The health check i
 
 Set `NODE_ENV=development` to use Ethereal email previews for password recovery. In production, set `NODE_ENV=production`, `RESEND_API_KEY`, and `MAIL_FROM` for Resend.
 
+The API is gradually adopting TypeScript. Node runs the type-strippable
+TypeScript files directly; no separate compilation step is needed at startup.
+Run `npm run typecheck` to check the migrated TypeScript modules. Existing
+JavaScript and the shared `com` package remain in place and are not fully
+type-checked.
+
 ## Tests
 
 The Vitest suites clear user and recipe collections. They require a dedicated,
@@ -40,8 +47,8 @@ database containing data you need to keep. Tests validate that
 without credentials or query parameters; this check alone cannot prove that
 the server is disposable.
 
-`npm test` runs the 22 logic suites and the favorites HTTP regression
-sequentially. `npm run test-favorite-security` runs only the favorites test.
+`npm test` runs the 22 logic suites and the favorites and user-name HTTP
+regressions sequentially. `npm run test-favorite-security` runs only the favorites test.
 `npm run test-coverage` covers the regular suite and produces text and HTML
 reports; `npm run test-inspect` starts it with a debugger.
 

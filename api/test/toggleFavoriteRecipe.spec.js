@@ -1,11 +1,9 @@
 import 'dotenv/config'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
-import express from 'express'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
+import createApp from '../app.js'
 import { Recipe, User } from '../data/models.js'
-import errorHandler from '../middlewares/errorHandler.js'
-import { usersRouter } from '../routes/index.js'
 
 describe('PATCH /users/favorites/:recipeId', () => {
     const secret = 'local-disposable-test-secret'
@@ -18,9 +16,7 @@ describe('PATCH /users/favorites/:recipeId', () => {
         process.env.JWT_SECRET = secret
         await mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true })
 
-        const app = express()
-        app.use('/users', usersRouter)
-        app.use(errorHandler)
+        const app = createApp()
         server = await new Promise((resolve, reject) => {
             const listener = app.listen(0, '127.0.0.1', () => resolve(listener))
             listener.once('error', reject)

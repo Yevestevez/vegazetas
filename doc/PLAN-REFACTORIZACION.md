@@ -33,8 +33,9 @@ Decisiones acordadas:
   nuevos datos de producción por defecto.
 - Corregir problemas existentes de seguridad y accesibilidad cuando sea
   necesario; acordar previamente los cambios de comportamiento.
-- No hay fechas obligatorias. Se comienza el siguiente sprint cuando el
-  resultado del anterior esté revisado y aceptado.
+- No hay fechas obligatorias. Los sprints pueden solaparse cuando se acuerde
+  expresamente; sus criterios de aceptación siguen pendientes hasta revisarlos
+  y aceptarlos.
 - La integridad de las bases de pruebas no necesita preservarse; aun así, hay
   que identificar y aislar el destino para proteger producción y otros datos.
 
@@ -91,6 +92,9 @@ El ejemplo de API inspira sus capas, no el cambio a SQL ni la adopción de
 Prisma. El ejemplo de frontend inspira la organización funcional, no exige
 abandonar React.
 
+Para visualizar la estructura actual y una posible organización futura,
+consulta el [esquema del proyecto](./ESTRUCTURA-PROYECTO.md).
+
 ## Sprints propuestos
 
 Cada sprint puede dividirse si resulta demasiado grande; el orden refleja
@@ -138,9 +142,10 @@ bases compartidas ni de producción.
 ### Sprint 2: caracterización y calidad reproducible — en curso
 
 **Hecho:** migradas las 22 suites de Mocha a Vitest, sin ejecución paralela
-sobre las colecciones compartidas. Pasan 84 pruebas en 23 archivos, también
-con cobertura; la integración opcional de Ethereal pasa por separado. La
-selección explícita de archivos evita ejecutar scripts manuales por accidente.
+sobre las colecciones compartidas. Tras el primer corte arquitectónico pasan
+90 pruebas en 24 archivos; la integración opcional de Ethereal pasa por
+separado. La selección explícita de archivos evita ejecutar scripts manuales
+por accidente.
 
 **Pendiente:** preparar Playwright, caracterizar los contratos y flujos
 prioritarios y completar las comprobaciones locales de los paquetes afectados.
@@ -159,7 +164,12 @@ prioritarios y completar las comprobaciones locales de los paquetes afectados.
 detectan regresiones en los flujos acordados; los comandos y sus dependencias
 están documentados. Los fallos de la línea base tienen una decisión registrada.
 
-### Sprint 3: cimientos de TypeScript y paquete compartido — pendiente
+### Sprint 3: cimientos de TypeScript y paquete compartido — en curso
+
+**Hecho:** configuración inicial de TypeScript y comprobación de tipos para
+los módulos migrados de la API. Node ejecuta directamente TypeScript con
+sintaxis eliminable y requiere la versión `22.18.0` o posterior. JavaScript
+y el paquete `com` siguen en uso; no están completamente comprobados por tipos.
 
 - Acordar configuración de TypeScript, módulos, compilación y convivencia con
   JavaScript en API y frontend, verificando compatibilidad con Node y Vite.
@@ -175,7 +185,13 @@ están documentados. Los fallos de la línea base tienen una decisión registrad
 comandos de desarrollo y compilación siguen funcionando y las pruebas del
 contrato migrado pasan. Queda documentado qué partes siguen en JavaScript.
 
-### Sprint 4: primer módulo vertical de API — pendiente
+### Sprint 4: primer módulo vertical de API — en curso
+
+**Hecho:** separada la creación de la aplicación del arranque; el caso de uso
+de nombre de usuario y su repositorio se han migrado a TypeScript. El caso de
+uso recibe el repositorio como dependencia, compuesto en el puente temporal.
+La ruta y el handler siguen en JavaScript. Las pruebas HTTP caracterizan el
+contrato actual, incluidos los errores de autenticación.
 
 - Separar creación de la aplicación, composición de dependencias y arranque.
 - Elegir un caso de uso de usuarios de alcance reducido y migrarlo de extremo
@@ -267,11 +283,10 @@ concurrentes que borren datos compartidos y sustituir servicios externos cuando
 el flujo no los esté probando. La integración opcional de Ethereal sí requiere
 acceso a internet.
 
-Como siguiente paso se propone caracterizar `GET /users/name` con pruebas HTTP
-de éxito, errores y autenticación, y después abordar ese recorrido como primer
-corte de arquitectura y TypeScript. Esto adelantaría trabajo de los sprints 3
-y 4 mientras queda pendiente Playwright en el sprint 2; el cambio de orden se
-debe acordar antes de aplicarlo.
+Se ha adelantado el primer corte de `GET /users/name` de los sprints 3 y 4
+mientras Playwright queda pendiente en el sprint 2. Antes de extender el
+patrón, revisar la estructura, el puente temporal con JavaScript y el contrato
+de errores de autenticación caracterizado por las pruebas.
 
 ## Después de la refactorización: CI/CD
 
