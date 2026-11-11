@@ -4,10 +4,22 @@ The Vegazetas frontend is a React single-page app built with Vite. It lets users
 
 ## Run locally
 
-Install [Node.js](https://nodejs.org/) 22.23.4 or later on the 22.x line, or
-24.22.1 or later on the 24.x line, and npm. Keep the chosen LTS line updated
-with its latest security patches. npm rejects unsupported engines during
-installation; this does not enforce the runtime when starting the app.
+Install [Node.js](https://nodejs.org/) 22.23.5 or later on the 22.x line,
+24.22.3 or later on the 24.x line, or 26.13.1 or later on the 26.x line, and
+npm. The project's `.node-version` selects 26.13.1. Keep the chosen LTS line
+updated with its latest security patches and review its support status. npm
+rejects unsupported engines during installation; this does not enforce the
+runtime when starting the app.
+
+On Windows with nvm-windows, after installing Node 26.13.1, the following
+selects it only for the current PowerShell process without changing the
+shared nvm symlink:
+
+```powershell
+$env:PATH = "$env:NVM_HOME\v26.13.1;$env:PATH"
+node --version
+```
+
 Then from this directory:
 
 ```sh

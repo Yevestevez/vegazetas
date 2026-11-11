@@ -170,8 +170,8 @@ están documentados. Los fallos de la línea base tienen una decisión registrad
 
 **Hecho:** configuración inicial de TypeScript y comprobación de tipos para
 los módulos migrados de la API. Node ejecuta directamente TypeScript con
-sintaxis eliminable. La API y el frontend admiten las líneas Node 22 y 24 LTS
-según los mínimos de sus paquetes; npm rechaza otros motores en la instalación.
+sintaxis eliminable. La API y el frontend admiten las líneas Node 22, 24 y 26
+LTS según los mínimos de sus paquetes; npm rechaza otros motores en la instalación.
 Es necesario mantener actualizados los parches y revisar el soporte de cada
 línea, ya que el rango no garantiza por sí solo un runtime seguro. JavaScript
 y el paquete `com` siguen en uso; no están completamente comprobados por tipos.

@@ -24,7 +24,7 @@ su funcionamiento en todos los escenarios.
 
 Cada aplicación tiene su propio `package.json` y `package-lock.json`; no hay
 un gestor de workspaces definido en la raíz. Los archivos `.node-version`
-indican Node 24.22.1. El frontend ya utiliza Vite: no hace falta incorporarlo
+indican Node 26.13.1. El frontend ya utiliza Vite: no hace falta incorporarlo
 para poder migrar a TypeScript.
 
 ## Recorrido de una petición
@@ -247,13 +247,22 @@ vulnerabilidades en API ni frontend en esa ejecución. Vite 8 cambia el
 empaquetador y la transformación de código; los flujos no cubiertos por las
 pruebas siguen necesitando validación.
 
-La política del proyecto para API y frontend limita Node a `^22.23.4` o
-`^24.22.1`, las líneas LTS compatibles con las versiones comunicadas de
-Netlify y Render. Cada paquete activa `engine-strict` para que npm rechace
-motores incompatibles durante la instalación; esto no comprueba el runtime al
-arrancar ni instala parches de seguridad. La prueba local usó Node `24.22.1`;
-las versiones desplegadas siguen sin verificarse desde esta sesión. Revisar
-las versiones y el soporte de ambas líneas antes de desplegar.
+La política actual para API y frontend admite Node `^22.23.5`, `^24.22.3` o
+`^26.13.1`, con `26.13.1` como versión recomendada localmente. Cada paquete
+activa `engine-strict` para que npm rechace motores incompatibles durante la
+instalación; esto no comprueba el runtime al arrancar ni instala parches de
+seguridad. Las versiones comunicadas de Netlify (`22.23.4`) y Render (`24.22.1`)
+quedan por debajo de los nuevos mínimos: hay que verificar y coordinar su
+actualización antes de desplegar. No se han modificado esos entornos. También
+debe revisarse el soporte de las líneas y actualizar sus parches periódicamente.
+
+Con Node `22.23.5`, `24.22.3` y `26.13.1` se comprobaron localmente, en cada
+versión, la comprobación de motores de npm, tipos de la API, **93 pruebas Vitest**,
+compilación del frontend y **tres pruebas Playwright**. Se reutilizó el
+contenedor MongoDB desechable y se mantuvieron separadas las bases de Vitest y
+Playwright. El lint con Node 26 pasó con las seis advertencias anteriores. El
+Node global del equipo permanece en `24.22.1`; los README explican cómo
+seleccionar Node 26 solo para una sesión de PowerShell.
 
 ### Dependencias directas
 
@@ -336,8 +345,9 @@ cumplirlos no garantiza que la aplicación funcione sin cambios:
   antes de cambiar la configuración o el estilo.
 
 Node local `24.22.1` y las versiones de Render y Netlify comunicadas por la
-persona responsable cumplen esos requisitos de motor. Esto no sustituye las
-pruebas en los entornos desplegados. Como orden orientativo, actualizar en
+persona responsable cumplían esos requisitos de las dependencias, pero no
+cumplen los nuevos mínimos del proyecto. Esto no sustituye las pruebas en los
+entornos desplegados. Como orden orientativo, actualizar en
 grupos compatibles y comprobar cada corte. La elección definitiva depende de
 las pruebas, el soporte de navegadores y las migraciones documentadas.
 
@@ -346,7 +356,8 @@ las pruebas, el soporte de navegadores y las migraciones documentadas.
 Según la persona responsable, el frontend está en Netlify con Node `22.23.4`
 para la compilación, la API en Render con Node `24.22.1` y el clúster de
 MongoDB Atlas usa `8.0.37`. Son versiones comunicadas, no verificadas desde
-esta sesión. Se mantiene la versión de Netlify por ahora. Quedan por confirmar
+esta sesión. No se ha modificado la versión de Netlify ni la de Render; ambas
+requieren coordinación antes del despliegue. Quedan por confirmar
 otras configuraciones y no se ha comprobado el estado de seguridad de esos
 despliegues. El clúster es gratuito y, según la persona responsable, no se
 muestran copias. Puede existir una base remota de pruebas,

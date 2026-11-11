@@ -4,11 +4,23 @@ The API is an Express service backed by MongoDB. It handles users, authenticatio
 
 ## Run locally
 
-Install [Node.js](https://nodejs.org/) 22.23.4 or later on the 22.x line, or
-24.22.1 or later on the 24.x line, and npm. Keep the chosen LTS line updated
-with its latest security patches, and make sure MongoDB is available. npm
-rejects unsupported engines during installation; this does not enforce the
-runtime when starting the API. From this directory, install dependencies:
+Install [Node.js](https://nodejs.org/) 22.23.5 or later on the 22.x line,
+24.22.3 or later on the 24.x line, or 26.13.1 or later on the 26.x line, and
+npm. The project's `.node-version` selects 26.13.1. Keep the chosen LTS line
+updated with its latest security patches, review its support status, and make
+sure MongoDB is available. npm rejects unsupported engines during installation;
+this does not enforce the runtime when starting the API.
+
+On Windows with nvm-windows, after installing Node 26.13.1, the following
+selects it only for the current PowerShell process without changing the
+shared nvm symlink:
+
+```powershell
+$env:PATH = "$env:NVM_HOME\v26.13.1;$env:PATH"
+node --version
+```
+
+From this directory, install dependencies:
 
 ```sh
 npm install
