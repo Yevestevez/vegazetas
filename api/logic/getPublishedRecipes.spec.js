@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import mongoose from 'mongoose'
 import { User, Recipe } from '../data/models.js'
@@ -12,11 +12,11 @@ const { NotFoundError } = errors
 import getPublishedRecipes from './getPublishedRecipes.js'
 
 describe('getPublishedRecipes', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it('succeeds returning only published recipes from other users', () => {
+    test('succeeds returning only published recipes from other users', () => {
         const frodo = new User({ name: 'Frodo', email: 'frodo@shire.com', username: 'Frodo', password: '123123123' })
         const sam = new User({ name: 'Sam', email: 'sam@shire.com', username: 'Sam', password: '123123123' })
         const merry = new User({ name: 'Merry', email: 'merry@shire.com', username: 'Merry', password: '123123123' })
@@ -95,7 +95,7 @@ describe('getPublishedRecipes', () => {
             })
     })
 
-    it('fails on non-existing user', () => {
+    test('fails on non-existing user', () => {
         let caughtError
 
         const sam = new User({ name: 'Sam', email: 'sam@shire.com', username: 'Sam', password: '123123123' })
@@ -122,5 +122,5 @@ describe('getPublishedRecipes', () => {
 
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

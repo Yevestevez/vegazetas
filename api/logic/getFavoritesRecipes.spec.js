@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import mongoose from 'mongoose'
 import { User, Recipe } from '../data/models.js'
@@ -12,11 +12,11 @@ const { NotFoundError } = errors
 import getFavoritesRecipes from './getFavoritesRecipes.js'
 
 describe('getFavoritesRecipes', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it('succeeds returning favorite recipes respecting visibility rules', () => {
+    test('succeeds returning favorite recipes respecting visibility rules', () => {
         const frodo = new User({ name: 'Frodo', email: 'frodo@shire.com', username: 'Frodo', password: '123123123' })
         const sam = new User({ name: 'Sam', email: 'sam@shire.com', username: 'Sam', password: '123123123' })
 
@@ -96,7 +96,7 @@ describe('getFavoritesRecipes', () => {
             })
     })
 
-    it('fails on non-existing user', () => {
+    test('fails on non-existing user', () => {
         let caughtError
 
         return getFavoritesRecipes(new ObjectId().toString())
@@ -109,5 +109,5 @@ describe('getFavoritesRecipes', () => {
 
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

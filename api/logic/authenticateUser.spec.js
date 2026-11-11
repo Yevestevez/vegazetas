@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import mongoose from 'mongoose'
 import { User } from '../data/models.js'
@@ -12,11 +12,11 @@ import bcrypt from 'bcryptjs'
 import authenticateUser from './authenticateUser.js'
 
 describe('authenticateUser', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => User.deleteMany())
 
-    it('succeeds on existing user', () => {
+    test('succeeds on existing user', () => {
         return bcrypt.hash('a123123123', 10)
             .then(hash => User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: hash }))
             .then(() => authenticateUser('ana@perez.com', 'a123123123'))
@@ -33,7 +33,7 @@ describe('authenticateUser', () => {
             .then(match => expect(match).to.be.true)
     })
 
-    it('fails on wrong email', () => {
+    test('fails on wrong email', () => {
         let catchedError
 
         return bcrypt.hash('a123123123', 10)
@@ -46,7 +46,7 @@ describe('authenticateUser', () => {
             })
     })
 
-    it('fails on wrong password', () => {
+    test('fails on wrong password', () => {
         let catchedError
 
         return bcrypt.hash('a123123123', 10)
@@ -61,5 +61,5 @@ describe('authenticateUser', () => {
 
     afterEach(() => User.deleteMany())
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

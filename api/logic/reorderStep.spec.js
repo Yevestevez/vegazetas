@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import mongoose from 'mongoose'
 import { User, Recipe } from '../data/models.js'
 const { Types: { ObjectId } } = mongoose
@@ -11,11 +11,11 @@ const { NotFoundError, OwnershipError } = errors
 import reorderStep from './reorderStep.js'
 
 describe('reorderStep', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it('moves step up correctly', () => {
+    test('moves step up correctly', () => {
         let userId, recipeId, step1Id
 
         return User.create({ name: 'Luna Lovegood', email: 'luna@hogwarts.com', username: 'lunalovegood', password: 'a123123123' })
@@ -49,7 +49,7 @@ describe('reorderStep', () => {
             })
     })
 
-    it('moves step down correctly', () => {
+    test('moves step down correctly', () => {
         let userId, recipeId, step0Id
 
         return User.create({ name: 'Luna Lovegood', email: 'luna@hogwarts.com', username: 'lunalovegood', password: 'a123123123' })
@@ -83,7 +83,7 @@ describe('reorderStep', () => {
             })
     })
 
-    it('does nothing if moving up the first step', () => {
+    test('does nothing if moving up the first step', () => {
         let userId, recipeId, step0Id
 
         return User.create({ name: 'Luna Lovegood', email: 'luna@hogwarts.com', username: 'lunalovegood', password: 'a123123123' })
@@ -116,7 +116,7 @@ describe('reorderStep', () => {
             })
     })
 
-    it('fails if user is not author', () => {
+    test('fails if user is not author', () => {
         let lunaId, hermioneId, recipeId, stepId
         return Promise.all([
             User.create({ name: 'Luna', email: 'luna@hogwarts.com', username: 'luna', password: '123' }),
@@ -145,7 +145,7 @@ describe('reorderStep', () => {
             })
     })
 
-    it('fails if user does not exist', () => {
+    test('fails if user does not exist', () => {
         let fakeUserId = new ObjectId().toString()
         let recipeId, stepId
 
@@ -169,7 +169,7 @@ describe('reorderStep', () => {
             })
     })
 
-    it('fails if recipe does not exist', () => {
+    test('fails if recipe does not exist', () => {
         let userId, fakeRecipeId = new ObjectId().toString()
 
         return User.create({ name: 'Severus Snape', email: 'snape@hogwarts.com', username: 'snape', password: 'a123123123' })
@@ -183,7 +183,7 @@ describe('reorderStep', () => {
             })
     })
 
-    it('fails if step does not exist', () => {
+    test('fails if step does not exist', () => {
         let userId, recipeId, fakeStepId = new ObjectId().toString()
 
         return User.create({ name: 'Ginny Weasley', email: 'ginny@hogwarts.com', username: 'ginny', password: 'a123123123' })
@@ -207,5 +207,5 @@ describe('reorderStep', () => {
 
 
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import mongoose from 'mongoose'
 import { User, Recipe } from '../data/models.js'
@@ -12,11 +12,11 @@ const { NotFoundError } = errors
 import createRecipe from './createRecipe.js'
 
 describe('createRecipe', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it('succeeds on existing user', () => {
+    test('succeeds on existing user', () => {
         let newRecipeId
 
         return User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: 'a123123123' })
@@ -51,7 +51,7 @@ describe('createRecipe', () => {
             })
     })
 
-    it('fails on wrong user', () => {
+    test('fails on wrong user', () => {
         let catchedError
 
         return User.create({ name: 'Ana Pérez', email: 'ana@perez.com', username: 'anaperez', password: 'a123123123' })
@@ -75,5 +75,5 @@ describe('createRecipe', () => {
 
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

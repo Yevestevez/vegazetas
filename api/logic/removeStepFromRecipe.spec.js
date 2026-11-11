@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import mongoose from 'mongoose'
 import { User, Recipe } from '../data/models.js'
@@ -12,11 +12,11 @@ const { NotFoundError, OwnershipError } = errors
 import removeStepFromRecipe from './removeStepFromRecipe.js'
 
 describe('removeStepFromRecipe', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it('succeeds on existing user, recipe and step', () => {
+    test('succeeds on existing user, recipe and step', () => {
         let step0
         let step1
 
@@ -68,7 +68,7 @@ describe('removeStepFromRecipe', () => {
             })
     })
 
-    it('reorders remaining steps after one is removed', () => {
+    test('reorders remaining steps after one is removed', () => {
         let step0, step1, step2
         let userId, recipeId
 
@@ -112,7 +112,7 @@ describe('removeStepFromRecipe', () => {
             })
     })
 
-    it('fails on wrong user', () => {
+    test('fails on wrong user', () => {
         let catchedError
         let step
 
@@ -142,7 +142,7 @@ describe('removeStepFromRecipe', () => {
             })
     })
 
-    it('fails on wrong recipe', () => {
+    test('fails on wrong recipe', () => {
         let catchedError
         let step
 
@@ -172,7 +172,7 @@ describe('removeStepFromRecipe', () => {
             })
     })
 
-    it('fails on wrong step', () => {
+    test('fails on wrong step', () => {
         let catchedError
         let step
 
@@ -202,7 +202,7 @@ describe('removeStepFromRecipe', () => {
             })
     })
 
-    it('fails on wrong recipe author', () => {
+    test('fails on wrong recipe author', () => {
         let catchedError
         let step
 
@@ -251,5 +251,5 @@ describe('removeStepFromRecipe', () => {
 
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

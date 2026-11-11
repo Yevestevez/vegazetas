@@ -1,13 +1,11 @@
 import 'dotenv/config'
 import { randomUUID } from 'node:crypto'
-import { expect } from 'chai'
+import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import mongoose from 'mongoose'
 import { User } from '../data/models.js'
 import passwordRecover from '../logic/passwordRecover.js'
 
-describe('passwordRecover with Ethereal', function () {
-    this.timeout(30000)
-
+describe('passwordRecover with Ethereal', () => {
     const testEnv = {
         NODE_ENV: 'development',
         JWT_SECRET: 'local-disposable-test-secret',
@@ -17,25 +15,14 @@ describe('passwordRecover with Ethereal', function () {
     const previousEnv = {}
     let userId
 
-    before(async () => {
+    beforeAll(async () => {
         const uri = process.env.SPEC_MONGO_URL
-        if (!uri) throw new Error('SPEC_MONGO_URL must point to a disposable local database')
-        let url
-        try {
-            url = new URL(uri)
-        } catch {
-            throw new Error('SPEC_MONGO_URL must be a valid MongoDB URI')
-        }
-        if (url.protocol !== 'mongodb:' || url.hostname !== '127.0.0.1' || !url.port ||
-            url.pathname !== '/vegazetas_disposable' || url.username || url.password || url.search || url.hash) {
-            throw new Error('SPEC_MONGO_URL must point to the documented disposable local database')
-        }
         for (const key of Object.keys(testEnv)) previousEnv[key] = process.env[key]
         Object.assign(process.env, testEnv)
         await mongoose.connect(uri, { directConnection: true })
-    })
+    }, 30000)
 
-    it('sends a recovery email and returns an Ethereal preview', async () => {
+    test('sends a recovery email and returns an Ethereal preview', async () => {
         const id = randomUUID()
         const user = await User.create({
             name: 'Test User',
@@ -55,9 +42,9 @@ describe('passwordRecover with Ethereal', function () {
         }
 
         expect(output).to.match(/https:\/\/ethereal\.email\/message\/[^\s]+/)
-    })
+    }, 30000)
 
-    after(async () => {
+    afterAll(async () => {
         try {
             if (userId) await User.deleteOne({ _id: userId })
         } finally {
@@ -70,5 +57,5 @@ describe('passwordRecover with Ethereal', function () {
                 }
             }
         }
-    })
+    }, 30000)
 })

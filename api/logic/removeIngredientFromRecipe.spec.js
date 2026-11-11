@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import mongoose from 'mongoose'
 import { User, Recipe } from '../data/models.js'
@@ -12,11 +12,11 @@ const { NotFoundError, OwnershipError } = errors
 import removeIngredientFromRecipe from './removeIngredientFromRecipe.js'
 
 describe('removeIngredientFromRecipe', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it('succeeds on existing user, recipe and ingredient', () => {
+    test('succeeds on existing user, recipe and ingredient', () => {
         let ingredient0
         let ingredient1
 
@@ -74,7 +74,7 @@ describe('removeIngredientFromRecipe', () => {
             })
     })
 
-    it('fails on wrong user', () => {
+    test('fails on wrong user', () => {
         let catchedError
         let ingredient
 
@@ -104,7 +104,7 @@ describe('removeIngredientFromRecipe', () => {
             })
     })
 
-    it('fails on wrong recipe', () => {
+    test('fails on wrong recipe', () => {
         let catchedError
         let ingredient
 
@@ -134,7 +134,7 @@ describe('removeIngredientFromRecipe', () => {
             })
     })
 
-    it('fails on wrong ingredient', () => {
+    test('fails on wrong ingredient', () => {
         let catchedError
         let ingredient
 
@@ -164,7 +164,7 @@ describe('removeIngredientFromRecipe', () => {
             })
     })
 
-    it('fails on wrong recipe author', () => {
+    test('fails on wrong recipe author', () => {
         let catchedError
         let ingredient
 
@@ -213,5 +213,5 @@ describe('removeIngredientFromRecipe', () => {
 
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

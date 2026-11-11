@@ -130,9 +130,9 @@ servicios externos.
 
 ## Pruebas y calidad
 
-- En `api`, `npm test` ejecuta secuencialmente 22 suites de Mocha en
-  `logic/*.spec.js` y una prueba HTTP de Vitest. Usan MongoDB real, no son
-  únicamente unitarias; la migración completa a Vitest sigue pendiente.
+- En `api`, `npm test` ejecuta secuencialmente con Vitest 22 suites en
+  `logic/*.spec.js` y una prueba HTTP. Usan MongoDB real, no son únicamente
+  unitarias. La configuración selecciona explícitamente las suites permitidas.
 - **Precaución:** varias suites borran todos los usuarios y recetas de la base
   configurada en `SPEC_MONGO_URL` antes y después de cada prueba. Nunca apuntar
   esa variable a una base de desarrollo compartida o de producción.
@@ -141,8 +141,11 @@ servicios externos.
   cada script y su efecto antes de ejecutarlo.
 - La suite normal de recuperación de contraseña usa un proveedor simulado.
   La prueba de integración con Ethereal es opcional y separada. El script
-  `test-coverage` genera cobertura de las suites Mocha, no de la prueba de
-  Vitest; los informes históricos no son una medida actual.
+  `test-coverage` genera cobertura de las suites habituales de Vitest; los
+  informes históricos no son una medida actual.
+- Las suites solo aceptan la URI local documentada y conectan directamente;
+  esta validación no demuestra por sí sola que la base sea desechable. Se
+  reutiliza un contenedor dedicado y sus datos pueden borrarse en cada prueba.
 - En `app` existen `npm run lint` y `npm run build`; no se ha identificado una
   suite automatizada de frontend configurada en su `package.json`.
 - No se ha identificado configuración de CI versionada en `.github/`.
@@ -187,8 +190,14 @@ Tras instalar Vitest, `npm audit` de la API informó de siete vulnerabilidades
 en dependencias de desarrollo: una baja, cinco moderadas y una alta. La alta
 afecta a `serialize-javascript`. `npm audit --omit=dev` no informó de
 vulnerabilidades en dependencias de producción en esa ejecución. No se han
-aplicado correcciones automáticas; queda pendiente revisarlas durante la
-migración de las herramientas.
+aplicado correcciones automáticas en esa ejecución.
+
+Tras migrar las 22 suites a Vitest y retirar Mocha y c8, se comprobaron
+**84 pruebas en 23 archivos**, tanto con `npm test` como con cobertura. La
+integración opcional con Ethereal pasó por separado. Se verificó el rechazo de
+una URI remota. Las pruebas utilizaron el contenedor dedicado reutilizable,
+MongoDB `8.3.13`, con datos desechables. Después del cambio, `npm audit` y
+`npm audit --omit=dev` no informaron de vulnerabilidades en la API.
 
 ### Dependencias directas
 

@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import mongoose from 'mongoose'
 import { User, Recipe } from '../data/models.js'
 const { Types: { ObjectId } } = mongoose
@@ -11,11 +11,11 @@ const { NotFoundError, OwnershipError, ValidationError } = errors
 import updateStep from './updateStep.js'
 
 describe('updateStep', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it('updates step fields correctly', () => {
+    test('updates step fields correctly', () => {
         let userId, recipeId, stepId
 
         return User.create({ name: 'Neville', email: 'neville@hogwarts.com', username: 'neville', password: 'a123123123' })
@@ -44,7 +44,7 @@ describe('updateStep', () => {
             })
     })
 
-    it('allows clearing note and image fields', () => {
+    test('allows clearing note and image fields', () => {
         let userId, recipeId, stepId
 
         return User.create({ name: 'Neville', email: 'neville@hogwarts.com', username: 'neville', password: 'a123123123' })
@@ -73,7 +73,7 @@ describe('updateStep', () => {
             })
     })
 
-    it('fails if user does not exist', () => {
+    test('fails if user does not exist', () => {
         const fakeUserId = new ObjectId().toString()
         let recipeId, stepId
 
@@ -96,7 +96,7 @@ describe('updateStep', () => {
             })
     })
 
-    it('fails if step does not exist', () => {
+    test('fails if step does not exist', () => {
         let userId, recipeId
         const fakeStepId = new ObjectId().toString()
 
@@ -119,7 +119,7 @@ describe('updateStep', () => {
             })
     })
 
-    it('fails if user is not the author', () => {
+    test('fails if user is not the author', () => {
         let user1Id, user2Id, recipeId, stepId
 
         return Promise.all([
@@ -148,7 +148,7 @@ describe('updateStep', () => {
             })
     })
 
-    it('fails if image is not a valid URL', () => {
+    test('fails if image is not a valid URL', () => {
         let userId, recipeId, stepId
 
         return User.create({ name: 'Fred', email: 'fred@hogwarts.com', username: 'fred', password: 'a123123123' })
@@ -173,5 +173,5 @@ describe('updateStep', () => {
     })
 
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

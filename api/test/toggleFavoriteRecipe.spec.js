@@ -16,7 +16,7 @@ describe('PATCH /users/favorites/:recipeId', () => {
     beforeAll(async () => {
         previousSecret = process.env.JWT_SECRET
         process.env.JWT_SECRET = secret
-        await mongoose.connect(process.env.SPEC_MONGO_URL)
+        await mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true })
 
         const app = express()
         app.use('/users', usersRouter)

@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import mongoose from 'mongoose'
 import { User, Recipe } from '../data/models.js'
@@ -12,11 +12,11 @@ const { NotFoundError, OwnershipError } = errors
 import removeTagFromRecipe from './removeTagFromRecipe.js'
 
 describe('removeTagFromRecipe', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    it('succeeds on existing user, recipe and tag', () => {
+    test('succeeds on existing user, recipe and tag', () => {
         const index = 0
 
         return User.create({ name: 'Draco Malfoy', email: 'draco@malfoy.com', username: 'dracomalfoy', password: '123123123' })
@@ -54,7 +54,7 @@ describe('removeTagFromRecipe', () => {
             })
     })
 
-    it('fails on wrong user', () => {
+    test('fails on wrong user', () => {
         let catchedError
         const index = 0
 
@@ -83,7 +83,7 @@ describe('removeTagFromRecipe', () => {
             })
     })
 
-    it('fails on wrong recipe', () => {
+    test('fails on wrong recipe', () => {
         let catchedError
         const index = 0
 
@@ -112,7 +112,7 @@ describe('removeTagFromRecipe', () => {
             })
     })
 
-    it('fails on not found tag', () => {
+    test('fails on not found tag', () => {
         let catchedError
         const index = 3
 
@@ -141,7 +141,7 @@ describe('removeTagFromRecipe', () => {
             })
     })
 
-    it('fails on wrong recipe author', () => {
+    test('fails on wrong recipe author', () => {
         let catchedError
         const index = 0
 
@@ -188,5 +188,5 @@ describe('removeTagFromRecipe', () => {
 
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

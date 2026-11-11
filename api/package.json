@@ -8,11 +8,11 @@
     "start": "node index.js",
     "watch": "node --watch index.js",
     "inspect": "node --inspect-brk index.js",
-    "test": "mocha logic/*.spec.js && vitest run test/toggleFavoriteRecipe.spec.js",
+    "test": "vitest run",
     "test-favorite-security": "vitest run test/toggleFavoriteRecipe.spec.js",
-    "test-mail-integration": "mocha test/passwordRecover.ethereal.spec.js",
-    "test-inspect": "mocha --inspect-brk logic/*.spec.js",
-    "test-coverage": "c8 --experimental-monocart --reporter=html --reporter=text mocha logic/*.spec.js --timeout 2000"
+    "test-mail-integration": "vitest run --mode ethereal",
+    "test-inspect": "vitest run --inspect-brk",
+    "test-coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "",
@@ -30,10 +30,7 @@
     "resend": "^6.6.0"
   },
   "devDependencies": {
-    "c8": "^10.1.3",
-    "chai": "^5.2.0",
-    "mocha": "^11.1.0",
-    "monocart-coverage-reports": "^2.12.2",
+    "@vitest/coverage-v8": "^5.1.0",
     "vitest": "^5.1.0"
   }
 }

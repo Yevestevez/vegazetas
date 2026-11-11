@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import mongoose from 'mongoose'
 import { User } from '../data/models.js'
@@ -11,17 +11,17 @@ const { NotFoundError } = errors
 import getUserName from './getUserName.js'
 
 describe('getUserName', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => User.deleteMany())
 
-    it('succeeds on existing user', () => {
+    test('succeeds on existing user', () => {
         return User.create({ name: 'Hermione Granger', email: 'hermione@granger.com', username: 'hermionegranger', password: '123123123' })
             .then(user => getUserName(user._id.toString()))
             .then(name => expect(name).to.equal('Hermione Granger'))
     })
 
-    it('fails on wrong user id', () => {
+    test('fails on wrong user id', () => {
         let catchedError
 
         return User.create({ name: 'Hermione Granger', email: 'hermione@granger.com', username: 'hermionegranger', password: '123123123' })
@@ -35,5 +35,5 @@ describe('getUserName', () => {
 
     afterEach(() => User.deleteMany())
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

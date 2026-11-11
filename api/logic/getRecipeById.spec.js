@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import mongoose from 'mongoose'
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import { User, Recipe } from '../data/models.js'
 import getRecipeById from './getRecipeById.js'
@@ -12,14 +12,14 @@ const { NotFoundError, OwnershipError } = errors
 const { Types: { ObjectId } } = mongoose
 
 describe('getRecipeById', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => Promise.all([
         User.deleteMany(),
         Recipe.deleteMany()
     ]))
 
-    it('succeeds on own recipe', () => {
+    test('succeeds on own recipe', () => {
         let userId
         let recipeId
 
@@ -53,7 +53,7 @@ describe('getRecipeById', () => {
             })
     })
 
-    it('fails on non-existing user', () => {
+    test('fails on non-existing user', () => {
         const fakeUserId = new ObjectId().toString()
         let catchedError
 
@@ -81,7 +81,7 @@ describe('getRecipeById', () => {
             })
     })
 
-    it('fails on non-existing recipe', () => {
+    test('fails on non-existing recipe', () => {
         let userId
         const fakeRecipeId = new ObjectId().toString()
         let catchedError
@@ -103,7 +103,7 @@ describe('getRecipeById', () => {
             })
     })
 
-    it('succeeds on accessing another user’s published recipe', () => {
+    test('succeeds on accessing another user’s published recipe', () => {
         let userA, userB, recipeId
 
         return User.create({
@@ -146,7 +146,7 @@ describe('getRecipeById', () => {
             })
     })
 
-    it('reflects favorite flag after toggling', () => {
+    test('reflects favorite flag after toggling', () => {
         let authorId, viewerId, recipeId
 
         return User.create({
@@ -195,7 +195,7 @@ describe('getRecipeById', () => {
             })
     })
 
-    it('fails when accessing an unpublished recipe from another user', () => {
+    test('fails when accessing an unpublished recipe from another user', () => {
         let authorId, otherUserId, recipeId
         let catchedError
 
@@ -245,5 +245,5 @@ describe('getRecipeById', () => {
         Recipe.deleteMany()
     ]))
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import mongoose from 'mongoose'
 import { User, Recipe } from '../data/models.js'
@@ -12,11 +12,11 @@ const { NotFoundError } = errors
 import addTagToRecipe from './addTagToRecipe.js'
 
 describe('addTagToRecipe', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL));
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }));
 
     beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]));
 
-    it('succeeds on existing user and recipe', () => {
+    test('succeeds on existing user and recipe', () => {
         return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
             .then(user => {
                 return Recipe.create({
@@ -43,7 +43,7 @@ describe('addTagToRecipe', () => {
             })
     })
 
-    it('fails on wrong user', () => {
+    test('fails on wrong user', () => {
         let catchedError
 
         return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
@@ -68,7 +68,7 @@ describe('addTagToRecipe', () => {
             })
     })
 
-    it('fails on wrong recipe', () => {
+    test('fails on wrong recipe', () => {
         let catchedError
 
         return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
@@ -95,5 +95,5 @@ describe('addTagToRecipe', () => {
 
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]));
 
-    after(() => mongoose.disconnect());
+    afterAll(() => mongoose.disconnect());
 })

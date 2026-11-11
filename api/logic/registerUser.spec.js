@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 
 import mongoose from 'mongoose'
 import { User } from '../data/models.js'
@@ -12,11 +12,11 @@ import bcrypt from 'bcryptjs'
 import registerUser from './registerUser.js'
 
 describe('registerUser', () => {
-    before(() => mongoose.connect(process.env.SPEC_MONGO_URL))
+    beforeAll(() => mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true }))
 
     beforeEach(() => User.deleteMany())
 
-    it('succeeds on new user', () => {
+    test('succeeds on new user', () => {
         return registerUser('Ana Pérez', 'ana@perez.com', 'anaperez', 'a123123123')
             .then(result => {
                 expect(result).to.be.undefined
@@ -33,7 +33,7 @@ describe('registerUser', () => {
             })
     })
 
-    it('fails on existing user', () => {
+    test('fails on existing user', () => {
         let catchedError
 
         return bcrypt.hash('a123123123', 10)
@@ -50,5 +50,5 @@ describe('registerUser', () => {
 
     afterEach(() => User.deleteMany())
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

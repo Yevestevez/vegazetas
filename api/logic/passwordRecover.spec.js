@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import assert from 'node:assert/strict'
-import { expect } from 'chai'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
 import { User } from '../data/models.js'
@@ -17,12 +17,12 @@ const testEnv = {
 describe('passwordRecover', function () {
     const previousEnv = {}
 
-    before(async () => {
+    beforeAll(async () => {
         for (const key of [...Object.keys(testEnv), 'NODE_ENV']) {
             previousEnv[key] = process.env[key]
         }
         Object.assign(process.env, testEnv)
-        await mongoose.connect(process.env.SPEC_MONGO_URL)
+        await mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true })
     })
 
     beforeEach(async () => {
@@ -59,7 +59,7 @@ describe('passwordRecover', function () {
         expect(payload.exp - payload.iat).to.equal(15 * 60)
     }
 
-    it('sends a recovery link through the development transporter', async () => {
+    test('sends a recovery link through the development transporter', async () => {
         const user = await createUser()
         let message
         const createTransporter = async () => ({
@@ -76,7 +76,7 @@ describe('passwordRecover', function () {
         expect(message.text).to.include('/password-reset?token=')
     })
 
-    it('sends a recovery link through the production transporter', async () => {
+    test('sends a recovery link through the production transporter', async () => {
         process.env.NODE_ENV = 'production'
         const user = await createUser()
         let message
@@ -94,7 +94,7 @@ describe('passwordRecover', function () {
         expect(message.from).to.equal('noreply@example.invalid')
     })
 
-    it('fails on non existing user without creating a transporter', async () => {
+    test('fails on non existing user without creating a transporter', async () => {
         let transporterCreated = false
         const createTransporter = async () => {
             transporterCreated = true
@@ -108,7 +108,7 @@ describe('passwordRecover', function () {
         expect(transporterCreated).to.be.false
     })
 
-    it('surfaces transporter creation failures', async () => {
+    test('surfaces transporter creation failures', async () => {
         const user = await createUser()
         const createTransporter = async () => { throw new Error('mail unavailable') }
 
@@ -119,7 +119,7 @@ describe('passwordRecover', function () {
         })
     })
 
-    it('surfaces delivery failures', async () => {
+    test('surfaces delivery failures', async () => {
         const user = await createUser()
         const createTransporter = async () => ({
             sendMail: async () => { throw new Error('delivery failed') }
@@ -132,7 +132,7 @@ describe('passwordRecover', function () {
 
     afterEach(() => User.deleteMany())
 
-    after(async () => {
+    afterAll(async () => {
         try {
             await mongoose.disconnect()
         } finally {
