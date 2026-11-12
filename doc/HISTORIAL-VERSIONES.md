@@ -19,8 +19,8 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
 2. **Pruebas y seguridad iniciales:** se aisló el correo de la suite habitual
    y se dejó Ethereal como integración opcional. Se corrigió la respuesta de
    favoritos para no devolver el hash de contraseña y se añadió una prueba HTTP.
-   También se corrigieron los errores de lint; permanecen seis advertencias de
-   efectos de React.
+   También se corrigieron los errores de lint; en ese momento permanecían seis
+   advertencias de efectos de React.
 3. **Migración a Vitest:** se migraron las 22 suites de Mocha y se retiraron
    las herramientas anteriores de prueba y cobertura. Las suites se ejecutan
    secuencialmente sobre un MongoDB local desechable y reutilizable.
@@ -67,6 +67,9 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
     actuales. Posteriormente la consulta pasó a devolver `401` genérico ante
     credenciales inválidas y a ocultar detalles de fallos internos; el frontend
     cierra la sesión ante ese `401`. El despliegue debe coordinarse.
+13. **Efectos del menú y recetas:** se estabilizaron los callbacks y se
+    corrigieron tres advertencias de dependencias, sin recargar al mostrar
+    avisos ni descartar cambios en el editor. Quedan tres avisos en las listas.
 
 ### Estado y pendientes
 

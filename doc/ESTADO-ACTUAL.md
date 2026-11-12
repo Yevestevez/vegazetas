@@ -155,6 +155,12 @@ MongoDB desechable reutilizado. El lint dirigido pasó con tres advertencias de
 dependencias de efectos; no se ejecutó la suite completa ni se revisó con
 tecnologías de asistencia.
 
+En el corte siguiente se estabilizaron los callbacks usados por los efectos
+del menú y de las vistas de receta. Con Node 26.13.1 pasaron 16 pruebas
+Playwright y la compilación; el lint pasó con tres advertencias restantes en
+las listas. Las pruebas comprueban que los avisos no repiten las consultas ni
+descartan una edición sin guardar. No se revisó con tecnologías de asistencia.
+
 **Despliegue pendiente:** el contrato de autenticación de las dos rutas cambia.
 Para evitar que el frontend anterior ignore el nuevo error, desplegar primero el
 frontend que lo reconoce y después la API. Para revertir, restaurar primero la

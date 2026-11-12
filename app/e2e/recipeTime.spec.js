@@ -6,13 +6,16 @@ const recipeUrl = `http://127.0.0.1:32123/recipes/${recipeId}`
 test.describe('optional recipe time', () => {
   let recipe
   let updates
+  let reads
 
   test.beforeEach(async ({ page }) => {
     recipe = { id: recipeId, title: 'Test recipe', author: { username: 'testuser' }, difficulty: 'easy', date: '2026-01-01', images: [], tags: [], ingredients: [], steps: [] }
     updates = []
+    reads = 0
     await page.addInitScript(() => { sessionStorage.token = 'test-token' })
     await page.route(recipeUrl, async route => {
       if (route.request().method() === 'GET') {
+        reads++
         await route.fulfill({ json: recipe })
       } else if (route.request().method() === 'PATCH') {
         const body = route.request().postDataJSON()
@@ -66,5 +69,37 @@ test.describe('optional recipe time', () => {
     await expect(page.getByText('Dificultad: fácil')).toBeVisible()
     await expect(page.getByText('0', { exact: true })).toHaveCount(0)
     await expect(page.getByText('0 min')).toHaveCount(0)
+  })
+
+  test('keeps unsaved edits without reloading the recipe when an alert is shown', async ({ page }) => {
+    await page.goto(`/update-recipe/${recipeId}`)
+    const title = page.getByLabel('Título*')
+    const time = page.getByLabel('Tiempo (min)')
+    await expect(title).toHaveValue('Test recipe')
+    recipe.title = 'Changed on server'
+    await title.fill(' ')
+    await time.fill('42')
+
+    await page.getByRole('region', { name: 'Datos básicos' }).getByRole('button', { name: 'Guardar' }).click()
+    await expect(page.getByText('Añade un título a tu receta')).toBeVisible()
+    await page.getByRole('button', { name: 'Aceptar' }).click()
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))))
+
+    expect(reads).toBe(1)
+    await expect(title).toHaveValue(' ')
+    await expect(time).toHaveValue('42')
+    expect(updates).toHaveLength(0)
+  })
+
+  test('does not reload the recipe when an unrelated alert is shown', async ({ page }) => {
+    await page.goto(`/recipe/${recipeId}`)
+    await expect(page.getByText('Test recipe', { exact: true })).toBeVisible()
+
+    await page.getByRole('button', { name: 'Añadir a lista' }).click()
+    await expect(page.getByText('Añadir a lista: funcionalidad en el horno')).toBeVisible()
+    await page.getByRole('button', { name: 'Aceptar' }).click()
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))))
+
+    expect(reads).toBe(1)
   })
 })

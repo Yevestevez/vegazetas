@@ -45,8 +45,6 @@ function Home({ onUserLoggedOut }) {
 
     const handleLogoLinkClick = () => navigate('/menu')
 
-    const handleUserLoggedOut = () => onUserLoggedOut()
-
     const handleRecipeDeleted = () => navigate('/my-recipes')
 
     const handleRecipeBackButton = () => navigate('/my-recipes')
@@ -59,7 +57,7 @@ function Home({ onUserLoggedOut }) {
                 path="/menu"
                 element={<Menu
                     onMyRecipesClicked={handleMyRecipesLinkClick}
-                    onUserLoggedOut={handleUserLoggedOut}
+                    onUserLoggedOut={onUserLoggedOut}
                     onCreateRecipeClicked={handleCreateRecipeClick}
                 />}
             />
@@ -68,7 +66,7 @@ function Home({ onUserLoggedOut }) {
                 path="/my-recipes"
                 element={<MyRecipes
                     onRecipeThumbnailClick={handleRecipeThumbnailClick}
-                    onUserLoggedOut={handleUserLoggedOut}
+                    onUserLoggedOut={onUserLoggedOut}
                     onCreateRecipeClicked={handleCreateRecipeClick}
                 />}
             />
@@ -77,7 +75,7 @@ function Home({ onUserLoggedOut }) {
                 path="/discover"
                 element={<Discover
                     onRecipeThumbnailClick={handleRecipeThumbnailClick}
-                    onUserLoggedOut={handleUserLoggedOut}
+                    onUserLoggedOut={onUserLoggedOut}
                 />}
             />
 
@@ -85,14 +83,14 @@ function Home({ onUserLoggedOut }) {
                 path="/favorites"
                 element={<Favorites
                     onRecipeThumbnailClick={handleRecipeThumbnailClick}
-                    onUserLoggedOut={handleUserLoggedOut}
+                    onUserLoggedOut={onUserLoggedOut}
                 />}
             />
 
             <Route
                 path="/recipe/:id"
                 element={<Recipe
-                    onUserLoggedOut={handleUserLoggedOut}
+                    onUserLoggedOut={onUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
                     onEditRecipeClicked={handleRecipeEditClick}
                     onRecipeDeleted={handleRecipeDeleted}
@@ -106,7 +104,7 @@ function Home({ onUserLoggedOut }) {
                     view="create"
                     onToRecipeClicked={handleToRecipeClick}
                     onRecipeDeleted={handleRecipeDeleted}
-                    onUserLoggedOut={handleUserLoggedOut}
+                    onUserLoggedOut={onUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
                     onSaveRecipeBackButtonClicked={handleSaveRecipeBackButton}
                 />}
@@ -118,7 +116,7 @@ function Home({ onUserLoggedOut }) {
                     view="update"
                     onToRecipeClicked={handleToRecipeClick}
                     onRecipeDeleted={handleRecipeDeleted}
-                    onUserLoggedOut={handleUserLoggedOut}
+                    onUserLoggedOut={onUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
                     onSaveRecipeBackButtonClicked={handleSaveRecipeBackButton}
                 />}

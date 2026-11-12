@@ -40,7 +40,7 @@ function SaveRecipe({
             })
 
         return () => { active = false }
-    }, [recipeId])
+    }, [recipeId, alert, onUserLoggedOut])
 
     const [difficulty, setDifficulty] = useState(recipe?.difficulty || "")
     useEffect(() => {

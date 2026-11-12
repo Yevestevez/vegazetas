@@ -8,8 +8,6 @@ import Footer from '../../common/Footer'
 function Menu({ onUserLoggedOut, onCreateRecipeClicked }) {
     const { alert } = useAppContext()
 
-    const handleUserLoggedOut = () => onUserLoggedOut()
-
     const handleCreateRecipeClick = event => {
         event.preventDefault()
 
@@ -17,7 +15,7 @@ function Menu({ onUserLoggedOut, onCreateRecipeClicked }) {
     }
 
     return <div className="flex flex-col min-h-screen min-w-screen items-center bg-spring-bud gap-6 xs:gap-8 xl:gap-12">
-        <MenuHeader onUserLoggedOut={handleUserLoggedOut} />
+        <MenuHeader onUserLoggedOut={onUserLoggedOut} />
         <main className="flex flex-col items-center w-full px-8 xs:px-12 sm:px-14 gap-8 xl:gap-12 pb-24 pt-44 sm:pt-48 md:pt-32 lg:pt-40 xl:pt-48 max-w-7xl">
             <nav className="grid grid-cols-1 md:grid-cols-2 w-full gap-6 xs:gap-8 md:gap-10 [&>:last-child]:md:col-span-2 [&>:last-child]:md:flex [&>:last-child]:md:justify-center">
 

@@ -39,7 +39,7 @@ function Recipe({
             })
 
         return () => { active = false }
-    }, [recipeId])
+    }, [recipeId, alert, onUserLoggedOut])
 
     const handleUserLoggedOut = () => onUserLoggedOut()
 

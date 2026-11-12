@@ -39,7 +39,7 @@ function Header({ onUserLoggedOut }) {
         }
 
         return () => { active = false }
-    }, [])
+    }, [alert, onUserLoggedOut])
 
     const handleLogoutButtonClick = () => {
         confirm('¿Quieres cerrar sesión?', accepted => {

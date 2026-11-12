@@ -99,6 +99,25 @@ test.describe('authentication', () => {
     expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBe('test-token')
   })
 
+  test('does not reload the user name when an unrelated alert is shown', async ({ page }) => {
+    let reads = 0
+    await page.route(`${apiUrl}/users/name`, route => {
+      reads++
+      return route.fulfill({ json: 'Test User' })
+    })
+    await page.goto('/landing')
+    await page.evaluate(() => { sessionStorage.token = 'test-token' })
+    await page.goto('/menu')
+    await expect(page.getByText('Test User', { exact: true })).toBeVisible()
+
+    await page.getByRole('button', { name: '¡Listas y más listas!' }).click()
+    await expect(page.getByText('Funcionalidad en el horno')).toBeVisible()
+    await page.getByRole('button', { name: 'Aceptar' }).click()
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))))
+
+    expect(reads).toBe(1)
+  })
+
   for (const path of ['recipe', 'update-recipe']) {
     test(`signs out when loading ${path} with an invalid token`, async ({ page }) => {
       await page.goto('/landing')

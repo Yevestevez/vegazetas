@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
 import logic from './logic'
@@ -18,19 +18,19 @@ function App() {
 
     const handleUserRegistered = () => navigate('/login')
     const handleUserLoggedIn = () => navigate('/')
-    const handleUserLoggedOut = () => navigate('/login')
+    const handleUserLoggedOut = useCallback(() => navigate('/login'), [navigate])
     const handlePasswordReseted = () => navigate('/login')
 
     // alert y confirm
     const [alertMessage, setAlertMessage] = useState(null)
     const [confirmMessage, setConfirmMessage] = useState('')
-    const alert = (message, options = {}) => {
+    const alert = useCallback((message, options = {}) => {
         setAlertMessage({
             text: message,
             isWakingServer: options.isWakingServer || false,
         })
         return () => setAlertMessage(null)
-    }
+    }, [])
     const confirm = (message, callback) => {
         setConfirmMessage(message)
         App.confirmCallback = callback
