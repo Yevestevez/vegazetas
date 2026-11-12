@@ -1,14 +1,21 @@
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
-import { descriptionSchema, difficultySchema, errors, imageSchema, timeSchema, titleSchema, validate } from 'com'
+import {
+    descriptionSchema, difficultySchema, errors, imageSchema, noteSchema,
+    stepNoteUpdateSchema, textSchema, timeSchema, titleSchema, validate
+} from 'com'
 import createApp from '../app.js'
 import { User } from '../data/models.js'
 import addImageToRecipe from '../logic/addImageToRecipe.js'
+import addStepToRecipe from '../logic/addStepToRecipe.js'
 import createRecipe from '../logic/createRecipe.js'
 import updateRecipe from '../logic/updateRecipe.js'
+import updateStep from '../logic/updateStep.js'
 import addImageInApp from '../../app/src/logic/addImageToRecipe.js'
+import addStepInApp from '../../app/src/logic/addStepToRecipe.js'
 import createRecipeInApp from '../../app/src/logic/createRecipe.js'
 import updateRecipeInApp from '../../app/src/logic/updateRecipe.js'
+import updateStepInApp from '../../app/src/logic/updateStep.js'
 
 describe('shared recipe field validation', () => {
     afterEach(() => {
@@ -184,6 +191,85 @@ describe('shared recipe field validation', () => {
             expect(JSON.parse(options.body).time).toBe(0)
         }
     })
+
+    test.each(['a', 'x'.repeat(800), '🍎'.repeat(400)])('accepts step text without changing it', text => {
+        expect(textSchema.parse(text)).toBe(text)
+        expect(validate.text(text)).toBeUndefined()
+    })
+
+    test.each([
+        [null, 'invalid text type, must be a string'],
+        ['', 'invalid text length, must be between 1 and 800 characters'],
+        ['🍎'.repeat(401), 'invalid text length, must be between 1 and 800 characters']
+    ])('rejects invalid step text %s with its existing error', (text, message) => {
+        expect(textSchema.safeParse(text).success).toBe(false)
+        expect(() => validate.text(text)).toThrowError(errors.ValidationError)
+        expect(() => validate.text(text)).toThrowError(message)
+    })
+
+    test.each(['a', 'x'.repeat(500), '🍎'.repeat(250)])('accepts a step note without changing it', note => {
+        expect(noteSchema.parse(note)).toBe(note)
+        expect(stepNoteUpdateSchema.parse(note)).toBe(note)
+        expect(validate.note(note)).toBeUndefined()
+        expect(validate.noteForUpdate(note)).toBeUndefined()
+    })
+
+    test('preserves different empty note rules for direct creation and update validation', () => {
+        expect(() => validate.note('')).toThrowError('invalid note length, must be between 1 and 500 characters')
+        expect(stepNoteUpdateSchema.parse('')).toBe('')
+        expect(validate.noteForUpdate('')).toBeUndefined()
+    })
+
+    test.each([
+        [null, 'invalid note type, must be a string', 'invalid note type, must be a string'],
+        ['🍎'.repeat(251), 'invalid note length, must be between 1 and 500 characters', 'invalid note length, must be 500 characters maximum']
+    ])('preserves distinct step note errors for %s', (note, createMessage, updateMessage) => {
+        expect(noteSchema.safeParse(note).success).toBe(false)
+        expect(stepNoteUpdateSchema.safeParse(note).success).toBe(false)
+        expect(() => validate.note(note)).toThrowError(errors.ValidationError)
+        expect(() => validate.note(note)).toThrowError(createMessage)
+        expect(() => validate.noteForUpdate(note)).toThrowError(errors.ValidationError)
+        expect(() => validate.noteForUpdate(note)).toThrowError(updateMessage)
+    })
+
+    test('rejects invalid step text and notes in both consumers before I/O', () => {
+        const id = 'a'.repeat(24)
+        const textMessage = 'invalid text length, must be between 1 and 800 characters'
+        const createNoteMessage = 'invalid note length, must be between 1 and 500 characters'
+        const updateNoteMessage = 'invalid note length, must be 500 characters maximum'
+        const note = '🍎'.repeat(251)
+
+        expect(() => addStepToRecipe(id, id, '')).toThrowError(textMessage)
+        expect(() => addStepInApp(id, '')).toThrowError(textMessage)
+        expect(() => updateStep(id, id, id, '')).toThrowError(textMessage)
+        expect(() => updateStepInApp(id, id, '')).toThrowError(textMessage)
+        expect(() => addStepToRecipe(id, id, 'valid', note)).toThrowError(createNoteMessage)
+        expect(() => addStepInApp(id, 'valid', note)).toThrowError(createNoteMessage)
+        expect(() => updateStep(id, id, id, 'valid', note)).toThrowError(updateNoteMessage)
+        expect(() => updateStepInApp(id, id, 'valid', note)).toThrowError(updateNoteMessage)
+    })
+
+    test('preserves empty notes when creating and updating steps', async () => {
+        const id = 'a'.repeat(24)
+        const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
+        vi.stubGlobal('sessionStorage', { token: 'test-token' })
+        const fetchMock = vi.fn((_url, options) => Promise.resolve({
+            status: options.method === 'POST' ? 201 : 204,
+            json: async () => 'step-id'
+        }))
+        vi.stubGlobal('fetch', fetchMock)
+
+        await expect(addStepToRecipe(id, id, 'valid', '')).rejects.toThrow('user not found')
+        await expect(updateStep(id, id, id, 'valid', '')).rejects.toThrow('user not found')
+        await addStepInApp(id, 'valid', '')
+        await updateStepInApp(id, id, 'valid', '')
+
+        expect(findUser).toHaveBeenCalledTimes(2)
+        expect(fetchMock).toHaveBeenCalledTimes(2)
+        for (const [, options] of fetchMock.mock.calls) {
+            expect(JSON.parse(options.body).note).toBe('')
+        }
+    })
 })
 
 describe('recipe HTTP validation', () => {
@@ -232,6 +318,24 @@ describe('recipe HTTP validation', () => {
             error: 'ValidationError',
             message: 'invalid image syntax, must be a valid URL'
         })
+    })
+
+    test.each([
+        ['POST', '', { text: 'valid', note: 'x'.repeat(501) }, 'invalid note length, must be between 1 and 500 characters'],
+        ['PATCH', '/bbbbbbbbbbbbbbbbbbbbbbbb', { text: 'valid', note: 'x'.repeat(501) }, 'invalid note length, must be 500 characters maximum'],
+        ['PATCH', '/bbbbbbbbbbbbbbbbbbbbbbbb', { text: 'valid', note: null }, 'invalid note type, must be a string'],
+        ['POST', '', { text: '' }, 'invalid text length, must be between 1 and 800 characters']
+    ])('preserves HTTP validation on step %s', async (method, stepPath, body, message) => {
+        const id = 'a'.repeat(24)
+        const token = jwt.sign({ sub: id }, secret)
+        const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes/${id}/steps${stepPath}`, {
+            method,
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        })
+
+        expect(response.status).toBe(400)
+        expect(await response.json()).toEqual({ error: 'ValidationError', message })
     })
 
     afterAll(async () => {

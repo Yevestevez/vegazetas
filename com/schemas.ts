@@ -19,3 +19,14 @@ export const difficultySchema = z.string({ error: 'invalid difficulty type, must
 export const timeSchema = z.number({ error: 'invalid time type, must be a number' })
     .refine(Number.isInteger, 'invalid time type, must be a number')
     .refine(time => time >= 5, 'invalid time, minimum 5 minutes')
+
+export const textSchema = z.string({ error: 'invalid text type, must be a string' })
+    .refine(text => text.length >= 1 && text.length <= 800,
+        'invalid text length, must be between 1 and 800 characters')
+
+export const noteSchema = z.string({ error: 'invalid note type, must be a string' })
+    .refine(note => note.length >= 1 && note.length <= 500,
+        'invalid note length, must be between 1 and 500 characters')
+
+export const stepNoteUpdateSchema = z.string({ error: 'invalid note type, must be a string' })
+    .refine(note => note.length <= 500, 'invalid note length, must be 500 characters maximum')

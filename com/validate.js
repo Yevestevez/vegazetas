@@ -1,5 +1,8 @@
 import errors from './errors/index.js'
-import { descriptionSchema, difficultySchema, imageSchema, tagSchema, timeSchema, titleSchema } from './schemas.ts'
+import {
+    descriptionSchema, difficultySchema, imageSchema, noteSchema, stepNoteUpdateSchema,
+    tagSchema, textSchema, timeSchema, titleSchema
+} from './schemas.ts'
 const { ValidationError } = errors
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -76,13 +79,15 @@ const validate = {
 
     // Step
     text(text) {
-        if (typeof text !== 'string') throw new ValidationError('invalid text type, must be a string')
-        if (text.length < 1 || text.length > 800) throw new ValidationError('invalid text length, must be between 1 and 800 characters')
+        validateField(textSchema, text)
     },
 
     note(note) {
-        if (typeof note !== 'string') throw new ValidationError('invalid note type, must be a string')
-        if (note.length < 1 || note.length > 500) throw new ValidationError('invalid note length, must be between 1 and 500 characters')
+        validateField(noteSchema, note)
+    },
+
+    noteForUpdate(note) {
+        validateField(stepNoteUpdateSchema, note)
     },
 
     direction(direction) {

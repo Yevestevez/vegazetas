@@ -77,6 +77,21 @@ validaciones se comprobaron en Node 22.23.5, 24.22.3 y 26.13.1. En Node
 advertencias previas. No se ejecutaron la suite completa ni las pruebas de
 navegador.
 
+## Quinto corte: texto y notas de pasos
+
+`textSchema` y `noteSchema` conservan los límites anteriores, medidos en
+unidades UTF-16. Para la edición, `stepNoteUpdateSchema` conserva la regla
+distinta: permite la nota vacía y mantiene su propio mensaje para notas largas.
+La API y el frontend usan la misma validación para editar, sin modificar las
+condiciones ni el orden de validación.
+
+Pasan 100 pruebas Vitest en cuatro archivos: 90 de validación y HTTP, y 10 de
+creación y edición de pasos con MongoDB. Las pruebas de persistencia borran
+usuarios y recetas; se ejecutaron secuencialmente en el contenedor dedicado
+verificado. Los esquemas se comprobaron en Node 22.23.5, 24.22.3 y 26.13.1.
+En Node 26.13.1 pasan tipos y compilación; el lint mantiene seis advertencias
+previas. No se ejecutaron la suite completa ni las pruebas de navegador.
+
 ## Pendiente
 
 - Caracterizar y migrar más validaciones en cortes pequeños, incluyendo
