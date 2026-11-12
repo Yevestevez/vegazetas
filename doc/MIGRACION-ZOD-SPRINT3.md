@@ -108,6 +108,24 @@ comprobaron en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan tipos
 y compilación; el lint mantiene seis advertencias previas. No se ejecutaron
 la suite completa ni las pruebas de navegador.
 
+## Séptimo corte: unidad y anotación de ingredientes
+
+`unitSchema` y `annotationSchema` conservan la validación anterior, incluidos
+los límites medidos en unidades UTF-16 y los mensajes. El validador de unidad
+acepta `undefined`, `null`, `false` y `NaN` porque la expresión regular los
+convierte en texto; en cambio, rechaza la cadena vacía y el cero. La anotación
+acepta esos valores falsos y la cadena vacía. Esto describe solo la validación,
+no garantiza cómo Mongoose guarda esos valores. Los consumidores siguen
+omitiendo la validación de la anotación cuando es falsa. Cualquier cambio de
+estas reglas requiere una decisión aparte.
+
+Pasan 161 pruebas Vitest en cuatro archivos: 158 de validación y HTTP y tres de
+persistencia de ingredientes. Estas últimas borran usuarios y recetas y se
+ejecutaron secuencialmente en el contenedor MongoDB desechable verificado. Los
+esquemas se comprobaron en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1
+pasan tipos y compilación; el lint mantiene seis advertencias previas. No se
+ejecutaron la suite completa ni las pruebas de navegador.
+
 ## Pendiente
 
 - Caracterizar y migrar más validaciones en cortes pequeños, incluyendo

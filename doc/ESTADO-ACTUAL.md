@@ -29,9 +29,9 @@ para poder migrar a TypeScript.
 
 Actualización del 12 de noviembre: `com` incorpora Zod para la validación de
 etiquetas, títulos, descripciones, imágenes, dificultades y tiempos de recetas,
-texto y notas de pasos, y cantidad e indicador principal de ingredientes. Hay
-que instalar también sus dependencias; los demás validadores siguen en
-JavaScript. El alcance y las pruebas están en
+texto y notas de pasos, y cantidad, indicador principal, unidad y anotación de
+ingredientes. Hay que instalar también sus dependencias; los demás validadores
+siguen en JavaScript. El alcance y las pruebas están en
 [la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
 
 ## Recorrido de una petición

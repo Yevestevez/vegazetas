@@ -42,3 +42,17 @@ export const quantitySchema = z.custom<number>(
     }, 'invalid quantity, maximum 2 decimal places allowed')
 
 export const mainSchema = z.boolean({ error: 'main must be a boolean (true or false)' })
+
+// Preserve the legacy validators' acceptance of falsy non-string values.
+const optionalText = (message: string) => z.union([
+    z.string(), z.undefined(), z.null(), z.literal(false), z.literal(0), z.literal(0n), z.nan()
+], { error: message })
+
+export const unitSchema = optionalText('invalid unit type, must be a string')
+    .refine(unit => !unit || (typeof unit === 'string' && unit.length <= 20),
+        'invalid unit length, must be between 1 and 20 characters')
+    .refine(unit => /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(String(unit)), 'invalid unit syntax')
+
+export const annotationSchema = optionalText('invalid annotation type, must be a string')
+    .refine(annotation => !annotation || (typeof annotation === 'string' && annotation.length <= 300),
+        'invalid annotation length, max 300 characters')

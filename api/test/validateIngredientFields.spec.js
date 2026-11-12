@@ -1,6 +1,6 @@
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
-import { errors, mainSchema, quantitySchema, validate } from 'com'
+import { annotationSchema, errors, mainSchema, quantitySchema, unitSchema, validate } from 'com'
 import createApp from '../app.js'
 import { User } from '../data/models.js'
 import addIngredientToRecipe from '../logic/addIngredientToRecipe.js'
@@ -69,6 +69,69 @@ describe('shared ingredient field validation', () => {
         expect(findUser).toHaveBeenCalledOnce()
         expect(JSON.parse(fetchMock.mock.calls[0][1].body).main).toBe(main)
     })
+
+    test.each(['g', 'cucharadas', 'á'.repeat(20), ' ', undefined, null, false, NaN])('accepts the existing unit value %s without changing it', unit => {
+        expect(unitSchema.parse(unit)).toBe(unit)
+        expect(validate.unit(unit)).toBeUndefined()
+    })
+
+    test.each([
+        [true, 'invalid unit type, must be a string'],
+        [1, 'invalid unit type, must be a string'],
+        [Symbol('unit'), 'invalid unit type, must be a string'],
+        ['a'.repeat(21), 'invalid unit length, must be between 1 and 20 characters'],
+        ['🍎'.repeat(11), 'invalid unit length, must be between 1 and 20 characters'],
+        ['', 'invalid unit syntax'],
+        [0, 'invalid unit syntax'],
+        [0n, 'invalid unit syntax'],
+        ['g1', 'invalid unit syntax']
+    ])('rejects invalid unit %s with its existing error', (unit, message) => {
+        expect(unitSchema.safeParse(unit).success).toBe(false)
+        expect(() => validate.unit(unit)).toThrowError(errors.ValidationError)
+        expect(() => validate.unit(unit)).toThrowError(message)
+    })
+
+    test.each(['', 'x'.repeat(300), '🍎'.repeat(150), undefined, null, false, 0, 0n, NaN])('accepts the existing annotation value %s without changing it', annotation => {
+        expect(annotationSchema.parse(annotation)).toBe(annotation)
+        expect(validate.annotation(annotation)).toBeUndefined()
+    })
+
+    test.each([
+        [true, 'invalid annotation type, must be a string'],
+        [1, 'invalid annotation type, must be a string'],
+        [Symbol('annotation'), 'invalid annotation type, must be a string'],
+        ['x'.repeat(301), 'invalid annotation length, max 300 characters'],
+        ['🍎'.repeat(151), 'invalid annotation length, max 300 characters']
+    ])('rejects invalid annotation %s with its existing error', (annotation, message) => {
+        expect(annotationSchema.safeParse(annotation).success).toBe(false)
+        expect(() => validate.annotation(annotation)).toThrowError(errors.ValidationError)
+        expect(() => validate.annotation(annotation)).toThrowError(message)
+    })
+
+    test.each([
+        ['', 'valid', 'invalid unit syntax'],
+        ['g', 'x'.repeat(301), 'invalid annotation length, max 300 characters']
+    ])('rejects invalid unit or annotation in both consumers before I/O', (unit, annotation, message) => {
+        const id = 'a'.repeat(24)
+        expect(() => addIngredientToRecipe(id, id, 'arroz', 1, unit, annotation)).toThrowError(message)
+        expect(() => addIngredientInApp(id, 'arroz', 1, unit, annotation)).toThrowError(message)
+    })
+
+    test.each([undefined, null, false])('preserves the existing unit and annotation value %s in both consumers', async value => {
+        const id = 'a'.repeat(24)
+        const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
+        vi.stubGlobal('sessionStorage', { token: 'test-token' })
+        const fetchMock = vi.fn().mockResolvedValue({ status: 201, json: async () => 'ingredient-id' })
+        vi.stubGlobal('fetch', fetchMock)
+
+        await expect(addIngredientToRecipe(id, id, 'arroz', 1, value, value)).rejects.toThrow('user not found')
+        await addIngredientInApp(id, 'arroz', 1, value, value)
+
+        expect(findUser).toHaveBeenCalledOnce()
+        const body = JSON.parse(fetchMock.mock.calls[0][1].body)
+        expect(body.unit).toBe(value)
+        expect(body.annotation).toBe(value)
+    })
 })
 
 describe('ingredient HTTP validation', () => {
@@ -88,7 +151,9 @@ describe('ingredient HTTP validation', () => {
     test.each([
         [{ name: 'arroz', quantity: 0, unit: 'g' }, 'invalid quantity, must be between 0 and 9999'],
         [{ name: 'arroz', quantity: 1.234, unit: 'g' }, 'invalid quantity, maximum 2 decimal places allowed'],
-        [{ name: 'arroz', quantity: 1, unit: 'g', main: 'true' }, 'main must be a boolean (true or false)']
+        [{ name: 'arroz', quantity: 1, unit: 'g', main: 'true' }, 'main must be a boolean (true or false)'],
+        [{ name: 'arroz', quantity: 1, unit: '' }, 'invalid unit syntax'],
+        [{ name: 'arroz', quantity: 1, unit: 'g', annotation: 'x'.repeat(301) }, 'invalid annotation length, max 300 characters']
     ])('preserves the validation response for invalid ingredient fields', async (body, message) => {
         const id = 'a'.repeat(24)
         const token = jwt.sign({ sub: id }, secret)

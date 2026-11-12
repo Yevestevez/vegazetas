@@ -1,7 +1,7 @@
 import errors from './errors/index.js'
 import {
-    descriptionSchema, difficultySchema, imageSchema, mainSchema, noteSchema, quantitySchema,
-    stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema
+    annotationSchema, descriptionSchema, difficultySchema, imageSchema, mainSchema, noteSchema,
+    quantitySchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema
 } from './schemas.ts'
 const { ValidationError } = errors
 
@@ -9,7 +9,6 @@ const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+")
 const USERNAME_REGEX = /^[a-z0-9._-]{1,25}$/
 const NAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/
 const PASSWORD_REGEX = /^(?=\S+$)(?=.*[A-Za-z])(?=.*\d).{8,25}$/
-const UNIT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/
 
 const validateField = (schema, value) => {
     const result = schema.safeParse(value)
@@ -101,14 +100,11 @@ const validate = {
     },
 
     unit(unit) {
-        if (unit && typeof unit !== 'string') throw new ValidationError('invalid unit type, must be a string')
-        if (unit && (unit.length < 1 || unit.length > 20)) throw new ValidationError('invalid unit length, must be between 1 and 20 characters')
-        if (!UNIT_REGEX.test(unit)) throw new ValidationError('invalid unit syntax')
+        validateField(unitSchema, unit)
     },
 
     annotation(annotation) {
-        if (annotation && typeof annotation !== 'string') throw new ValidationError('invalid annotation type, must be a string')
-        if (annotation && annotation.length > 300) throw new ValidationError('invalid annotation length, max 300 characters')
+        validateField(annotationSchema, annotation)
     },
 
     main(main) {
