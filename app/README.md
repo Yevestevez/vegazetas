@@ -20,6 +20,7 @@ $env:PATH = "$env:NVM_HOME\v26.13.1;$env:PATH"
 node --version
 ```
 
+First install the shared package dependencies from `com` with `npm ci`.
 Then from this directory:
 
 ```sh

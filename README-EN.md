@@ -68,7 +68,14 @@ and API separately.
 1. Configure environment variables:
    - In `api/.env`, set `MONGO_URL`, `PORT` and `JWT_SECRET`. Password recovery also requires `FRONTEND_URL`, `MAIL_FROM` and `NODE_ENV=development` in development; production requires `RESEND_API_KEY`.
    - In `app/.env`, set `VITE_API_URL` to the API URL.
-2. Install and start the API in one terminal:
+2. Install the shared dependencies from the repository root:
+
+   ```bash
+   cd com
+   npm ci
+   ```
+
+3. Install and start the API in one terminal:
 
    ```bash
    cd api
@@ -76,7 +83,7 @@ and API separately.
    npm start
    ```
 
-3. Install and start the app in another terminal:
+4. Install and start the app in another terminal:
 
    ```bash
    cd app

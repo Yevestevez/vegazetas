@@ -68,7 +68,14 @@ API se ejecutan por separado.
 1. Configura las variables de entorno:
    - En `api/.env`, define `MONGO_URL`, `PORT` y `JWT_SECRET`. Para recuperación de contraseña, configura también `FRONTEND_URL`, `MAIL_FROM` y `NODE_ENV=development` en desarrollo; en producción se necesita `RESEND_API_KEY`.
    - En `app/.env`, define `VITE_API_URL` con la URL de la API.
-2. Instala y ejecuta la API en una terminal:
+2. Instala las dependencias compartidas desde la raíz:
+
+   ```bash
+   cd com
+   npm ci
+   ```
+
+3. Instala y ejecuta la API en una terminal:
 
    ```bash
    cd api
@@ -76,7 +83,7 @@ API se ejecutan por separado.
    npm start
    ```
 
-3. Instala y ejecuta la aplicación en otra terminal:
+4. Instala y ejecuta la aplicación en otra terminal:
 
    ```bash
    cd app

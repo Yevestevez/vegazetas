@@ -1,4 +1,5 @@
 import errors from './errors/index.js'
+import { tagSchema } from './schemas.ts'
 const { ValidationError } = errors
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -71,7 +72,8 @@ const validate = {
     },
 
     tag(tag) {
-        if (typeof tag !== 'string' || tag.length < 1 || tag.length > 30) throw new ValidationError('each tag must have between 1 and 20 characters')
+        const result = tagSchema.safeParse(tag)
+        if (!result.success) throw new ValidationError('each tag must have between 1 and 20 characters')
     },
 
     // Step

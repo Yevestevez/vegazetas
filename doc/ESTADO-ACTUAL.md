@@ -27,6 +27,11 @@ un gestor de workspaces definido en la raíz. Los archivos `.node-version`
 indican Node 26.13.1. El frontend ya utiliza Vite: no hace falta incorporarlo
 para poder migrar a TypeScript.
 
+Actualización del 12 de noviembre: `com` incorpora Zod para la validación de
+etiquetas de recetas. Hay que instalar también sus dependencias; los demás
+validadores siguen en JavaScript. El alcance y las pruebas están en
+[la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
+
 ## Recorrido de una petición
 
 1. React monta la aplicación con `BrowserRouter`. Las vistas y componentes

@@ -192,7 +192,10 @@ línea, ya que el rango no garantiza por sí solo un runtime seguro. JavaScript
 y el paquete `com` siguen en uso; no están completamente comprobados por tipos.
 La API carga `.env` con Node y ya no depende de `dotenv`. El frontend usa Vite
 8 y su plugin React compatible; en la última comprobación sus dependencias no
-presentaron avisos de `npm audit`.
+presentaron avisos de `npm audit`. La validación de etiquetas de recetas es el
+primer campo compartido migrado a Zod, manteniendo la interfaz y los errores
+anteriores. El resto de validaciones sigue en JavaScript; ver
+[detalle y comprobaciones](./MIGRACION-ZOD-SPRINT3.md).
 
 - Acordar configuración de TypeScript, módulos, compilación y convivencia con
   JavaScript en API y frontend, verificando compatibilidad con Node y Vite.
