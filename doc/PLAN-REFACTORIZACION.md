@@ -11,6 +11,11 @@ Decisiones acordadas:
 - Mantener React y Vite; usar componentes funcionales de React y POO de forma
   pragmática en servicios, repositorios y dominio cuando aporte claridad.
 - Mantener MongoDB y migrar por módulos, en sprints pequeños y verificables.
+- Usar Zod gradualmente en `com` para validaciones en tiempo de ejecución y
+  esquemas de entrada que realmente se comparten entre API y frontend. El
+  frontend no sustituye la validación independiente de la API; conservar los
+  contratos y el tratamiento de errores existentes, y probar cualquier cambio
+  de transformación o aceptación de datos.
 - Usar Vitest para pruebas unitarias y de integración, y Playwright para
   pruebas en navegador. Migrar las pruebas existentes sin perder cobertura y
   utilizar bases de prueba desechables, separadas de producción.
@@ -192,8 +197,8 @@ presentaron avisos de `npm audit`.
 - Acordar configuración de TypeScript, módulos, compilación y convivencia con
   JavaScript en API y frontend, verificando compatibilidad con Node y Vite.
 - Diseñar y aplicar la transición de `com` y su distribución para ambos
-  consumidores; migrar primero una superficie pequeña con sus validaciones y
-  errores.
+  consumidores usando Zod; migrar primero una superficie pequeña y comprobar
+  su compatibilidad, validaciones y errores.
 - Añadir comprobación de tipos a los comandos de calidad sin introducir
   configuraciones que oculten errores de forma permanente.
 - Actualizar Node y las herramientas necesarias de forma coordinada, respetando
@@ -342,7 +347,7 @@ otros flujos afectados por la actualización de Express.
 - Ubicación real de los despliegues y procedimiento de acceso a cada entorno.
 - Detalles de CI/CD, comprobaciones obligatorias y posible uso de hooks,
   decididos después de la refactorización teniendo en cuenta su coste.
-- Estructura definitiva de carpetas, contratos compartidos y estrategia de
-  transición de `com`.
+- Estructura definitiva de carpetas, distribución de `com` y selección de los
+  contratos que conviene compartir; el uso gradual de Zod está acordado.
 - Cambios específicos de autenticación y objetivos medibles de accesibilidad y
   rendimiento tras la revisión inicial.
