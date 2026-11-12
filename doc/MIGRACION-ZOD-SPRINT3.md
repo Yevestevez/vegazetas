@@ -202,11 +202,20 @@ Vitest ni Playwright.
 
 ## Pendiente
 
-- Migrar los dos validadores originales restantes de `validate`: índice y
-  dirección.
+## Decimotercer corte: índice
 
-- Migrar los tres validadores originales restantes de `validate`:
-  identificador, índice y dirección.
+`indexSchema(explain)` conserva la aceptación de enteros no negativos y el
+orden y texto de los errores anteriores. Valores no enteros (incluidos
+`NaN` e infinito) producen el mensaje de entero; solo después se rechazan los
+enteros negativos con el mensaje de límite inferior. `validate.index` conserva
+su interfaz y sigue lanzando `ValidationError`.
+
+Pasan 10 pruebas Vitest unitarias, sin conexión a MongoDB. No se ejecutaron las
+suites completas de Vitest ni Playwright.
+
+## Pendiente
+
+- Migrar el validador original restante de `validate`: dirección.
 - Caracterizar y migrar más validaciones en cortes pequeños, incluyendo
   recetas y usuarios, sin introducir valores por defecto ni cambiar errores.
 - Decidir la distribución y el tipado definitivos del paquete compartido.

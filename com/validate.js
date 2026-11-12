@@ -1,6 +1,6 @@
 import errors from './errors/index.js'
 import {
-    annotationSchema, descriptionSchema, difficultySchema, emailSchema, idSchema, imageSchema, mainSchema, nameSchema, noteSchema,
+    annotationSchema, descriptionSchema, difficultySchema, emailSchema, idSchema, imageSchema, indexSchema, mainSchema, nameSchema, noteSchema,
     passwordSchema, quantitySchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema, usernameSchema
 } from './schemas.ts'
 const { ValidationError } = errors
@@ -16,8 +16,7 @@ const validate = {
     },
 
     index(index, explain = 'index') {
-        if (!Number.isInteger(index)) throw new ValidationError(`${explain} must be an integer`)
-        if (index < 0) throw new ValidationError(`${explain} must be greater than or equal to 0`)
+        validateField(indexSchema(explain), index)
     },
 
     name(name) {

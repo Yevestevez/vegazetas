@@ -24,6 +24,11 @@ export const idSchema = (explain = 'id') => z.string({
     error: `invalid ${explain} type, must be a string`
 }).refine(id => id.length === 24, `invalid ${explain} length, must be 24 characters`)
 
+export const indexSchema = (explain = 'index') => z.custom<number>(
+    Number.isInteger,
+    { error: `${explain} must be an integer`, abort: true }
+).refine(index => index >= 0, `${explain} must be greater than or equal to 0`)
+
 export const tagSchema = z.string().refine(tag => tag.length >= 1 && tag.length <= 30)
 
 export const titleSchema = z.string({ error: 'invalid title type, must be a string' })

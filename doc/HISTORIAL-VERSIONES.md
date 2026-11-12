@@ -52,8 +52,8 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
     texto y las notas de pasos, y la cantidad, el indicador principal, la unidad
     y la anotación de ingredientes, además del nombre usado en registro e
     ingredientes, el nombre de usuario, el correo, la contraseña y el
-    identificador, conservando el contrato existente. Los demás campos siguen
-    pendientes; el detalle y las comprobaciones están en
+    identificador y el índice, conservando el contrato existente. Los demás
+    campos siguen pendientes; el detalle y las comprobaciones están en
     [la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
 
 ### Estado y pendientes
