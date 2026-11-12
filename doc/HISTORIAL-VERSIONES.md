@@ -58,6 +58,10 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
     migrar los valores históricos. Los demás campos siguen pendientes; el
     detalle y las comprobaciones están en
     [la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
+11. **Autenticación del primer módulo:** `GET /users/name` devuelve `401` ante
+    credenciales ausentes o inválidas y oculta los detalles de fallos internos.
+    El menú cierra la sesión local ante ese error. El cambio está pendiente de
+    despliegue coordinado; las demás rutas no se han modificado.
 
 ### Estado y pendientes
 

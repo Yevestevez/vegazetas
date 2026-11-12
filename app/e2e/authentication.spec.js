@@ -72,4 +72,30 @@ test.describe('authentication', () => {
     await expect(page.getByText('wrong credentials', { exact: true })).toBeVisible()
     await expect(page).toHaveURL(/\/login$/)
   })
+
+  test('signs out and shows a message when the session token is invalid', async ({ page }) => {
+    await page.goto('/landing')
+    await page.evaluate(() => { sessionStorage.token = 'invalid-token' })
+
+    await page.goto('/menu')
+
+    await expect(page).toHaveURL(/\/login$/)
+    await expect(page.getByText('Tu sesión no es válida o ha caducado. Inicia sesión de nuevo.')).toBeVisible()
+    expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBeNull()
+  })
+
+  test('keeps the session when the name request fails on the server', async ({ page }) => {
+    await page.route(`${apiUrl}/users/name`, route => route.fulfill({
+      status: 500,
+      json: { error: 'SystemError', message: 'internal server error' }
+    }))
+    await page.goto('/landing')
+    await page.evaluate(() => { sessionStorage.token = 'test-token' })
+
+    await page.goto('/menu')
+
+    await expect(page.getByText('sorry, try again')).toBeVisible()
+    await expect(page).toHaveURL(/\/menu$/)
+    expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBe('test-token')
+  })
 })

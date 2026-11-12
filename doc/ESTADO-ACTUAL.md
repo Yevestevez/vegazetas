@@ -121,10 +121,27 @@ El middleware traduce errores propios a `400`, `401`, `403`, `404`, `409` o
 inválido o ausente produzca `401`: hay que caracterizarlo por HTTP.
 
 Las pruebas HTTP de `GET /users/name` confirman `200` con el nombre como
-cadena JSON, `404` para un usuario inexistente y `400` para un ID de longitud
-inválida. Un token con firma inválida o una cabecera ausente producen `500`
-con `SystemError`, no `401`. Se conserva ese contrato por ahora; queda
-pendiente acordar su corrección y revisar la exposición del mensaje de error.
+cadena JSON, `404` para un usuario inexistente y `400` para un ID inválido.
+En este corte local, una cabecera ausente o incorrecta y un token inválido o
+caducado producen `401` con `CredentialsError` y mensaje genérico, en lugar del
+`500` anterior. Los fallos internos producen `500` con mensaje genérico y se
+registran en la API. La pantalla del menú cierra la sesión local, avisa y lleva
+al inicio de sesión ante ese `401`; no cierra la sesión por un `500`.
+Las demás rutas protegidas mantienen su comportamiento anterior.
+
+En la revisión del primer módulo vertical se corrigió una prueba que esperaba
+una promesa de una validación que lanza el error de forma síncrona, sin cambiar
+el comportamiento. Tras el cambio de autenticación pasaron 29 pruebas dirigidas
+de lógica, HTTP e identificadores, cinco pruebas Playwright de autenticación,
+la comprobación de tipos y la compilación, con Node 26.13.1 y MongoDB desechable
+reutilizado. El lint dirigido pasó con una advertencia previa de dependencias de
+efecto; no se realizó una revisión manual con tecnologías de asistencia.
+
+**Despliegue pendiente:** el contrato de autenticación de esta ruta cambia.
+Para evitar que el frontend anterior ignore el nuevo error, desplegar primero el
+frontend que lo reconoce y después la API. Para revertir, restaurar primero la
+API y después el frontend. Coordinar también el cambio previo de tiempo
+opcional y los runtimes requeridos antes de desplegar; no se ha desplegado aquí.
 
 **Corrección local pendiente de despliegue:** la respuesta de alternancia de
 favoritos incluía el campo `password` con el hash. Se ha eliminado ese campo

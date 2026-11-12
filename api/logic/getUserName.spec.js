@@ -33,11 +33,9 @@ describe('getUserName', () => {
             })
     })
 
-    test('rejects a non-hexadecimal user id before querying the database', async () => {
-        const error = await getUserName('z'.repeat(24)).then(() => null, caughtError => caughtError)
-
-        expect(error).toBeInstanceOf(errors.ValidationError)
-        expect(error.message).toBe('invalid userId syntax, must be a 24-character hexadecimal string')
+    test('rejects a non-hexadecimal user id before querying the database', () => {
+        expect(() => getUserName('z'.repeat(24))).toThrowError(errors.ValidationError)
+        expect(() => getUserName('z'.repeat(24))).toThrowError('invalid userId syntax, must be a 24-character hexadecimal string')
     })
 
     afterEach(() => User.deleteMany())

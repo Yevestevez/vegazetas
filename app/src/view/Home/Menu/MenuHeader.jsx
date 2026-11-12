@@ -8,7 +8,7 @@ import LogoVegazetasHeader from '../common/LogoVegazetasHeader'
 import ProfileImage from '../common/ProfileImage'
 
 import { errors } from 'com'
-const { NotFoundError, SystemError } = errors
+const { CredentialsError, NotFoundError, SystemError } = errors
 
 function Header({ onUserLoggedOut }) {
     const { alert, confirm } = useAppContext()
@@ -16,11 +16,19 @@ function Header({ onUserLoggedOut }) {
     const [name, setName] = useState(null)
 
     useEffect(() => {
+        let active = true
+
         try {
             logic.getUserName()
                 .then(name => setName(name))
                 .catch(error => {
-                    if (error instanceof NotFoundError)
+                    if (!active) return
+
+                    if (error instanceof CredentialsError) {
+                        logic.logoutUser()
+                        onUserLoggedOut()
+                        alert('Tu sesión no es válida o ha caducado. Inicia sesión de nuevo.')
+                    } else if (error instanceof NotFoundError)
                         alert(error.message)
                     else if (error instanceof SystemError)
                         alert('sorry, try again')
@@ -30,6 +38,8 @@ function Header({ onUserLoggedOut }) {
 
             console.error(error)
         }
+
+        return () => { active = false }
     }, [])
 
     const handleLogoutButtonClick = () => {

@@ -223,8 +223,10 @@ composición conecta el repositorio con el caso de uso, que se inyecta en el
 controlador; el router de usuarios que integra el módulo sigue en JavaScript.
 Se eliminó el puente anterior de `logic/`. El corte usa funciones: una clase
 no simplificaría el repositorio de una única consulta ni el controlador actual.
-Las pruebas HTTP caracterizan el contrato, incluidos los errores de
-autenticación; no se han cambiado intencionadamente sus respuestas.
+Las pruebas HTTP caracterizan el contrato. Tras revisar el primer corte, se
+acordó mantener la estructura funcional y cambiar solo la respuesta de
+autenticación de esta ruta a `401` para credenciales inválidas, con tratamiento
+correspondiente en el frontend. Las demás rutas conservan sus respuestas.
 
 La API usa Express 5. El middleware JSON mantiene la respuesta anterior cuando
 no se procesa un cuerpo, y el arranque propaga los errores de escucha. Quedan
@@ -319,11 +321,10 @@ Vitest. Ambos destinos deben ser desechables, nunca de producción. Las pruebas
 de navegador bloquean peticiones a orígenes externos. La integración opcional
 de Ethereal sí requiere acceso a internet.
 
-Se ha adelantado el primer corte de `GET /users/name` de los sprints 3 y 4.
-Antes de extender el patrón, revisar la estructura con la persona responsable
-y decidir si se modificará el contrato de errores de autenticación, actualmente
-caracterizado por las pruebas. Ampliar también las pruebas HTTP de recetas y
-otros flujos afectados por la actualización de Express.
+Se ha revisado el primer corte de `GET /users/name` de los sprints 3 y 4.
+Antes de extender el cambio de autenticación a otras rutas, acordar su alcance y
+tratar la sesión en los clientes afectados. Ampliar también las pruebas HTTP
+de recetas y otros flujos afectados por la actualización de Express.
 
 ## Después de la refactorización: CI/CD
 
