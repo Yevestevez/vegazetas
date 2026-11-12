@@ -127,14 +127,16 @@ caducado producen `401` con `CredentialsError` y mensaje genérico, en lugar del
 `500` anterior. Los fallos internos producen `500` con mensaje genérico y se
 registran en la API. La pantalla del menú cierra la sesión local, avisa y lleva
 al inicio de sesión ante ese `401`; no cierra la sesión por un `500`.
-Las demás rutas protegidas mantienen su comportamiento anterior.
 
 Las pruebas HTTP de `GET /recipes/:recipeId` comprueban el acceso del autor a
 una receta privada, el acceso a una receta publicada de otra persona y el
 rechazo de una receta privada ajena. También verifican identificadores
 anidados, favorito, errores de usuario o receta inexistentes y un ID inválido.
-En esta ruta, la falta de autorización o una firma inválida siguen produciendo
-`500`; el mensaje de firma se expone. Su corrección queda pendiente de acuerdo.
+Esta ruta también devuelve ahora `401` genérico para credenciales ausentes,
+incorrectas o caducadas, y `500` genérico para fallos internos. El frontend
+cierra la sesión y avisa al recibir ese `401` al consultar la receta o su
+editor, incluida la recarga tras modificar favoritos; no lo hace por un `500`.
+Las demás rutas protegidas mantienen su comportamiento anterior.
 
 En la revisión del primer módulo vertical se corrigió una prueba que esperaba
 una promesa de una validación que lanza el error de forma síncrona, sin cambiar
@@ -147,7 +149,13 @@ En el siguiente corte pasaron 14 pruebas dirigidas de consulta de recetas
 (ocho HTTP y seis de lógica), con Node 26.13.1 y el mismo MongoDB desechable.
 No se ejecutó la suite completa en ese corte.
 
-**Despliegue pendiente:** el contrato de autenticación de esta ruta cambia.
+Tras corregir la autenticación de consulta de recetas pasaron 49 pruebas
+dirigidas de API, 13 pruebas Playwright, tipos y compilación con Node 26.13.1 y
+MongoDB desechable reutilizado. El lint dirigido pasó con tres advertencias de
+dependencias de efectos; no se ejecutó la suite completa ni se revisó con
+tecnologías de asistencia.
+
+**Despliegue pendiente:** el contrato de autenticación de las dos rutas cambia.
 Para evitar que el frontend anterior ignore el nuevo error, desplegar primero el
 frontend que lo reconoce y después la API. Para revertir, restaurar primero la
 API y después el frontend. Coordinar también el cambio previo de tiempo

@@ -227,7 +227,8 @@ no simplificaría el repositorio de una única consulta ni el controlador actual
 Las pruebas HTTP caracterizan el contrato. Tras revisar el primer corte, se
 acordó mantener la estructura funcional y cambiar solo la respuesta de
 autenticación de esta ruta a `401` para credenciales inválidas, con tratamiento
-correspondiente en el frontend. Las demás rutas conservan sus respuestas.
+correspondiente en el frontend. Posteriormente se aplicó el mismo contrato a
+la consulta de una receta; las demás rutas conservan sus respuestas.
 
 La API usa Express 5. El middleware JSON mantiene la respuesta anterior cuando
 no se procesa un cuerpo, y el arranque propaga los errores de escucha. Quedan

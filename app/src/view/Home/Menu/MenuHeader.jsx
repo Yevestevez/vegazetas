@@ -3,12 +3,13 @@ import { FaRegUserCircle } from "react-icons/fa"
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
+import handleCredentialsError from '../../helper/handleCredentialsError'
 
 import LogoVegazetasHeader from '../common/LogoVegazetasHeader'
 import ProfileImage from '../common/ProfileImage'
 
 import { errors } from 'com'
-const { CredentialsError, NotFoundError, SystemError } = errors
+const { NotFoundError, SystemError } = errors
 
 function Header({ onUserLoggedOut }) {
     const { alert, confirm } = useAppContext()
@@ -24,11 +25,9 @@ function Header({ onUserLoggedOut }) {
                 .catch(error => {
                     if (!active) return
 
-                    if (error instanceof CredentialsError) {
-                        logic.logoutUser()
-                        onUserLoggedOut()
-                        alert('Tu sesión no es válida o ha caducado. Inicia sesión de nuevo.')
-                    } else if (error instanceof NotFoundError)
+                    if (handleCredentialsError(error, alert, onUserLoggedOut)) return
+
+                    if (error instanceof NotFoundError)
                         alert(error.message)
                     else if (error instanceof SystemError)
                         alert('sorry, try again')

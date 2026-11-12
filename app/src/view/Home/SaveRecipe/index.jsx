@@ -7,6 +7,7 @@ import { IoMdCloseCircle } from 'react-icons/io'
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
+import handleCredentialsError from '../../helper/handleCredentialsError'
 
 import Header from '../common/Header'
 import MiniCircleButton from '../common/MiniCircleButton'
@@ -26,7 +27,19 @@ function SaveRecipe({
     const [recipe, setRecipe] = useState(null)
 
     useEffect(() => {
-        loadRecipe(recipeId)
+        if (!recipeId) return
+        let active = true
+
+        Promise.resolve()
+            .then(() => logic.getRecipeById(recipeId))
+            .then(recipe => { if (active) setRecipe(recipe) })
+            .catch(error => {
+                if (!active || handleCredentialsError(error, alert, onUserLoggedOut)) return
+                alert(error.message)
+                console.error(error)
+            })
+
+        return () => { active = false }
     }, [recipeId])
 
     const [difficulty, setDifficulty] = useState(recipe?.difficulty || "")
@@ -54,25 +67,6 @@ function SaveRecipe({
         adjustTextareaHeight(textTextarea)
         adjustTextareaHeight(noteTextarea)
     }, [recipe?.description, recipe?.steps])
-
-    const loadRecipe = (recipeId) => {
-        if (!recipeId) {
-            return
-        }
-        try {
-            logic.getRecipeById(recipeId)
-                .then(recipe => setRecipe(recipe))
-                .catch(error => {
-                    alert(error.message)
-
-                    console.error(error)
-                })
-        } catch (error) {
-            alert(error.message)
-
-            console.error(error)
-        }
-    }
 
     const handleUserLoggedOut = () => onUserLoggedOut()
 

@@ -98,4 +98,57 @@ test.describe('authentication', () => {
     await expect(page).toHaveURL(/\/menu$/)
     expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBe('test-token')
   })
+
+  for (const path of ['recipe', 'update-recipe']) {
+    test(`signs out when loading ${path} with an invalid token`, async ({ page }) => {
+      await page.goto('/landing')
+      await page.evaluate(() => { sessionStorage.token = 'invalid-token' })
+
+      await page.goto(`/${path}/aaaaaaaaaaaaaaaaaaaaaaaa`)
+
+      await expect(page).toHaveURL(/\/login$/)
+      await expect(page.getByText('Tu sesión no es válida o ha caducado. Inicia sesión de nuevo.')).toBeVisible()
+      expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBeNull()
+    })
+  }
+
+  test('keeps the session when loading a recipe fails on the server', async ({ page }) => {
+    const recipeId = 'aaaaaaaaaaaaaaaaaaaaaaaa'
+    await page.route(`${apiUrl}/recipes/${recipeId}`, route => route.fulfill({
+      status: 500,
+      json: { error: 'SystemError', message: 'internal server error' }
+    }))
+    await page.goto('/landing')
+    await page.evaluate(() => { sessionStorage.token = 'test-token' })
+
+    await page.goto(`/recipe/${recipeId}`)
+
+    await expect(page.getByText('Error al cargar la receta')).toBeVisible()
+    await expect(page).toHaveURL(new RegExp(`/recipe/${recipeId}$`))
+    expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBe('test-token')
+  })
+
+  test('signs out if the recipe refresh after a favorite change returns 401', async ({ page }) => {
+    const recipeId = 'aaaaaaaaaaaaaaaaaaaaaaaa'
+    let reads = 0
+    await page.route(`${apiUrl}/recipes/${recipeId}`, route => {
+      reads++
+      return reads === 1
+        ? route.fulfill({ json: {
+          id: recipeId, title: 'Test recipe', author: { username: 'testuser' },
+          date: '2026-01-01', images: [], tags: [], ingredients: [], steps: [], isFavorite: false
+        } })
+        : route.fulfill({ status: 401, json: { error: 'CredentialsError', message: 'invalid credentials' } })
+    })
+    await page.route(`${apiUrl}/users/favorites/${recipeId}`, route => route.fulfill({ json: {} }))
+    await page.goto('/landing')
+    await page.evaluate(() => { sessionStorage.token = 'test-token' })
+    await page.goto(`/recipe/${recipeId}`)
+
+    await page.getByRole('button', { name: 'Añadir a favoritos' }).click()
+
+    await expect(page).toHaveURL(/\/login$/)
+    await expect(page.getByText('Tu sesión no es válida o ha caducado. Inicia sesión de nuevo.')).toBeVisible()
+    expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBeNull()
+  })
 })

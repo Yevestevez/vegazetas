@@ -8,6 +8,7 @@ import { MdDelete, MdEdit } from "react-icons/md"
 import { useAppContext } from '../../../context'
 import logic from '../../../logic'
 import formatDate from '../../helper/formatDate'
+import handleCredentialsError from '../../helper/handleCredentialsError'
 
 import Header from '../common/Header'
 import MiniCircleButton from './MiniCircleButton'
@@ -27,13 +28,17 @@ function Recipe({
 
     useEffect(() => {
         if (!recipeId) return
+        let active = true
 
         logic.getRecipeById(recipeId)
-            .then(recipe => setRecipe(recipe))
+            .then(recipe => { if (active) setRecipe(recipe) })
             .catch(error => {
+                if (!active || handleCredentialsError(error, alert, onUserLoggedOut)) return
                 alert('Error al cargar la receta')
                 console.error(error)
             })
+
+        return () => { active = false }
     }, [recipeId])
 
     const handleUserLoggedOut = () => onUserLoggedOut()
@@ -68,6 +73,7 @@ function Recipe({
             .then(() => logic.getRecipeById(recipeId))
             .then(freshRecipe => setRecipe(freshRecipe))
             .catch(error => {
+                if (handleCredentialsError(error, alert, onUserLoggedOut)) return
                 alert(error.message)
                 console.error(error)
             })

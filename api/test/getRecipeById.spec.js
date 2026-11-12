@@ -1,5 +1,5 @@
 import '../config/loadEnv.js'
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
 import createApp from '../app.js'
@@ -122,24 +122,72 @@ describe('GET /recipes/:recipeId', () => {
         })
     })
 
-    test('preserves the current error for an invalid token signature', async () => {
-        const token = jwt.sign({ sub: viewer.id }, 'another-test-secret')
+    test.each([
+        ['missing authorization', () => undefined],
+        ['malformed token', () => 'Bearer invalid'],
+        ['invalid signature', () => `Bearer ${jwt.sign({ sub: viewer.id }, 'another-test-secret')}`],
+        ['expired token', () => `Bearer ${jwt.sign({ sub: viewer.id }, secret, { expiresIn: -1 })}`],
+        ['wrong authorization scheme', () => `Basic ${jwt.sign({ sub: viewer.id }, secret)}`]
+    ])('returns a generic authentication error for %s', async (_description, createAuthorization) => {
+        const authorization = createAuthorization()
+        const headers = authorization ? { Authorization: authorization } : {}
+
+        const response = await fetch(`${baseUrl}/${publishedRecipe.id}`, { headers })
+
+        expect(response.status).toBe(401)
+        expect(response.headers.get('www-authenticate')).toBe('Bearer')
+        expect(await response.json()).toEqual({ error: 'CredentialsError', message: 'invalid credentials' })
+    })
+
+    test('returns a validation error for a signed token without a user id', async () => {
+        const token = jwt.sign({}, secret)
 
         const response = await fetch(`${baseUrl}/${publishedRecipe.id}`, {
             headers: { Authorization: `Bearer ${token}` }
         })
 
-        expect(response.status).toBe(500)
-        expect(await response.json()).toEqual({ error: 'SystemError', message: 'invalid signature' })
+        expect(response.status).toBe(400)
+        expect(await response.json()).toEqual({
+            error: 'ValidationError',
+            message: 'invalid userId type, must be a string'
+        })
     })
 
-    test('preserves the current error when authorization is missing', async () => {
-        const response = await fetch(`${baseUrl}/${publishedRecipe.id}`)
+    test('does not expose missing server configuration as an authentication error', async () => {
+        const token = jwt.sign({ sub: viewer.id }, secret)
+        const log = vi.spyOn(console, 'error').mockImplementation(() => {})
+        delete process.env.JWT_SECRET
 
-        expect(response.status).toBe(500)
-        const body = await response.json()
-        expect(body.error).toBe('SystemError')
-        expect(body.message).toMatch(/authorization|undefined/)
+        try {
+            const response = await fetch(`${baseUrl}/${publishedRecipe.id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+
+            expect(response.status).toBe(500)
+            expect(await response.json()).toEqual({ error: 'SystemError', message: 'internal server error' })
+            expect(log).toHaveBeenCalled()
+        } finally {
+            process.env.JWT_SECRET = secret
+            log.mockRestore()
+        }
+    })
+
+    test('does not expose a database failure', async () => {
+        const findById = vi.spyOn(User, 'findById').mockReturnValue({
+            lean: () => Promise.reject(new Error('database details'))
+        })
+        const log = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+        try {
+            const response = await getRecipe(viewer.id, publishedRecipe.id)
+
+            expect(response.status).toBe(500)
+            expect(await response.json()).toEqual({ error: 'SystemError', message: 'internal server error' })
+            expect(log).toHaveBeenCalled()
+        } finally {
+            findById.mockRestore()
+            log.mockRestore()
+        }
     })
 
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))

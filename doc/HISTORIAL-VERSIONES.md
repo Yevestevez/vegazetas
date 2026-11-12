@@ -64,7 +64,9 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
     despliegue coordinado; las demás rutas no se han modificado.
 12. **Acceso HTTP a recetas:** se caracterizaron los permisos de consulta de
     recetas propias, publicadas y privadas ajenas, sus respuestas y errores
-    actuales, sin modificar su comportamiento.
+    actuales. Posteriormente la consulta pasó a devolver `401` genérico ante
+    credenciales inválidas y a ocultar detalles de fallos internos; el frontend
+    cierra la sesión ante ese `401`. El despliegue debe coordinarse.
 
 ### Estado y pendientes
 

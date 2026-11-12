@@ -1,20 +1,25 @@
 import logic from '../../../logic/index.js'
-import jwt from 'jsonwebtoken'
+import { errors } from 'com'
+import { getSessionUserId } from '../../../util/getSessionUserId.ts'
 
-export default (req, res, next) => {
+const { CredentialsError, NotFoundError, OwnershipError, SystemError, ValidationError } = errors
+
+export default async (req, res, next) => {
     try {
-        const token = req.headers.authorization.slice(7)
-
-        const payload = jwt.verify(token, process.env.JWT_SECRET)
-
-        const { sub: userId } = payload
-
+        const userId = getSessionUserId(req.headers.authorization)
         const { recipeId } = req.params
+        const recipe = await logic.getRecipeById(userId, recipeId)
 
-        logic.getRecipeById(userId, recipeId)
-            .then(recipes => res.json(recipes))
-            .catch(error => next(error))
+        res.json(recipe)
     } catch (error) {
-        next(error)
+        if (error instanceof CredentialsError) {
+            res.set('WWW-Authenticate', 'Bearer')
+            next(error)
+        } else if (error instanceof NotFoundError || error instanceof OwnershipError || error instanceof ValidationError) {
+            next(error)
+        } else {
+            console.error('GET /recipes/:recipeId failed:', error)
+            next(new SystemError('internal server error'))
+        }
     }
 }

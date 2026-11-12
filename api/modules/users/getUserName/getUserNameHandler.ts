@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express'
-import jwt from 'jsonwebtoken'
 import { errors } from 'com'
+import { getSessionUserId } from '../../../util/getSessionUserId.ts'
 
 const { CredentialsError, NotFoundError, SystemError, ValidationError } = errors
 
@@ -8,21 +8,7 @@ export const createGetUserNameHandler = (
     getUserName: (userId: unknown) => Promise<string>
 ): RequestHandler => async (req, res, next) => {
     try {
-        const authorization = req.headers.authorization?.match(/^Bearer[ \t]+(\S+)$/i)
-        if (!authorization) throw new CredentialsError('invalid credentials')
-
-        const secret = process.env.JWT_SECRET
-        if (!secret) throw new Error('JWT_SECRET is not configured')
-
-        let payload
-        try {
-            payload = jwt.verify(authorization[1], secret)
-        } catch (error) {
-            if (error instanceof jwt.JsonWebTokenError) throw new CredentialsError('invalid credentials')
-            throw error
-        }
-
-        const userId = typeof payload === 'string' ? undefined : payload.sub
+        const userId = getSessionUserId(req.headers.authorization)
         const name = await getUserName(userId)
 
         res.json(name)
