@@ -92,6 +92,22 @@ verificado. Los esquemas se comprobaron en Node 22.23.5, 24.22.3 y 26.13.1.
 En Node 26.13.1 pasan tipos y compilación; el lint mantiene seis advertencias
 previas. No se ejecutaron la suite completa ni las pruebas de navegador.
 
+## Sexto corte: cantidad e indicador principal de ingredientes
+
+`quantitySchema` y `mainSchema` conservan los valores y errores existentes.
+La cantidad sigue siendo mayor que cero y como máximo 9999; el control de
+decimales continúa usando la representación del número como texto. Por ello,
+por ejemplo, `1e-7` se acepta y `1.2e-7` se rechaza. Cambiar esa regla requiere
+una decisión aparte. El indicador principal sigue siendo opcional en sus
+consumidores y, cuando se proporciona, debe ser booleano.
+
+Pasan 120 pruebas Vitest de validación y HTTP sin conectar MongoDB. También
+pasan las tres pruebas existentes de creación de ingredientes en el contenedor
+MongoDB desechable verificado, que borran usuarios y recetas. Los esquemas se
+comprobaron en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan tipos
+y compilación; el lint mantiene seis advertencias previas. No se ejecutaron
+la suite completa ni las pruebas de navegador.
+
 ## Pendiente
 
 - Caracterizar y migrar más validaciones en cortes pequeños, incluyendo

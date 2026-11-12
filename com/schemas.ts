@@ -30,3 +30,15 @@ export const noteSchema = z.string({ error: 'invalid note type, must be a string
 
 export const stepNoteUpdateSchema = z.string({ error: 'invalid note type, must be a string' })
     .refine(note => note.length <= 500, 'invalid note length, must be 500 characters maximum')
+
+export const quantitySchema = z.custom<number>(
+    value => typeof value === 'number' && !Number.isNaN(value),
+    { error: 'invalid quantity type, must be a number', abort: true }
+)
+    .refine(quantity => quantity > 0 && quantity <= 9999, 'invalid quantity, must be between 0 and 9999')
+    .refine(quantity => {
+        const decimal = quantity.toString().split('.')[1]
+        return !decimal || decimal.length <= 2
+    }, 'invalid quantity, maximum 2 decimal places allowed')
+
+export const mainSchema = z.boolean({ error: 'main must be a boolean (true or false)' })

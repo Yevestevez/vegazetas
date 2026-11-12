@@ -1,7 +1,7 @@
 import errors from './errors/index.js'
 import {
-    descriptionSchema, difficultySchema, imageSchema, noteSchema, stepNoteUpdateSchema,
-    tagSchema, textSchema, timeSchema, titleSchema
+    descriptionSchema, difficultySchema, imageSchema, mainSchema, noteSchema, quantitySchema,
+    stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema
 } from './schemas.ts'
 const { ValidationError } = errors
 
@@ -97,13 +97,7 @@ const validate = {
 
     // Ingredient
     quantity(quantity) {
-        if (typeof quantity !== 'number' || isNaN(quantity)) throw new ValidationError('invalid quantity type, must be a number')
-        if (quantity <= 0 || quantity > 9999) throw new ValidationError('invalid quantity, must be between 0 and 9999')
-
-        const parts = quantity.toString().split('.')
-        if (parts[1]?.length > 2) {
-            throw new ValidationError('invalid quantity, maximum 2 decimal places allowed')
-        }
+        validateField(quantitySchema, quantity)
     },
 
     unit(unit) {
@@ -118,9 +112,7 @@ const validate = {
     },
 
     main(main) {
-        if (typeof main !== 'boolean') {
-            throw new ValidationError('main must be a boolean (true or false)')
-        }
+        validateField(mainSchema, main)
     }
 }
 

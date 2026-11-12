@@ -48,9 +48,10 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
    Las nuevas pruebas de correo usan transporte en memoria y HTTP simulado;
    no demuestran entrega real.
 10. **Validación compartida:** se inició la transición a Zod con las etiquetas,
-    títulos, descripciones, imágenes, dificultades y tiempos de recetas, y el
-    texto y las notas de pasos, conservando el contrato existente. Los demás
-    campos siguen pendientes; el detalle y las comprobaciones están en
+    títulos, descripciones, imágenes, dificultades y tiempos de recetas, el
+    texto y las notas de pasos, y la cantidad y el indicador principal de
+    ingredientes, conservando el contrato existente. Los demás campos siguen
+    pendientes; el detalle y las comprobaciones están en
     [la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
 
 ### Estado y pendientes
