@@ -1,6 +1,6 @@
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
-import { descriptionSchema, difficultySchema, errors, imageSchema, titleSchema, validate } from 'com'
+import { descriptionSchema, difficultySchema, errors, imageSchema, timeSchema, titleSchema, validate } from 'com'
 import createApp from '../app.js'
 import { User } from '../data/models.js'
 import addImageToRecipe from '../logic/addImageToRecipe.js'
@@ -133,6 +133,57 @@ describe('shared recipe field validation', () => {
             expect(JSON.parse(options.body).difficulty).toBe('')
         }
     })
+
+    test.each([5, 9999, 10000, 1e20])('accepts the existing time %s without changing it', time => {
+        expect(timeSchema.parse(time)).toBe(time)
+        expect(validate.time(time)).toBeUndefined()
+    })
+
+    test.each([
+        [undefined, 'invalid time type, must be a number'],
+        ['5', 'invalid time type, must be a number'],
+        [null, 'invalid time type, must be a number'],
+        [NaN, 'invalid time type, must be a number'],
+        [Infinity, 'invalid time type, must be a number'],
+        [4.5, 'invalid time type, must be a number'],
+        [0, 'invalid time, minimum 5 minutes'],
+        [4, 'invalid time, minimum 5 minutes']
+    ])('rejects invalid time %s with its existing error', (time, message) => {
+        expect(timeSchema.safeParse(time).success).toBe(false)
+        expect(() => validate.time(time)).toThrowError(errors.ValidationError)
+        expect(() => validate.time(time)).toThrowError(message)
+    })
+
+    test('rejects an invalid time in creation and editing before I/O', () => {
+        const id = 'a'.repeat(24)
+        const message = 'invalid time, minimum 5 minutes'
+        expect(() => createRecipe(id, 'valid', undefined, undefined, 4)).toThrowError(message)
+        expect(() => updateRecipe(id, id, 'valid', undefined, 4)).toThrowError(message)
+        expect(() => createRecipeInApp(id, 'valid', undefined, undefined, 4)).toThrowError(message)
+        expect(() => updateRecipeInApp(id, 'valid', undefined, 4)).toThrowError(message)
+    })
+
+    test('preserves the existing handling of zero optional time', async () => {
+        const id = 'a'.repeat(24)
+        const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
+        vi.stubGlobal('sessionStorage', { token: 'test-token' })
+        const fetchMock = vi.fn((_url, options) => Promise.resolve({
+            status: options.method === 'POST' ? 201 : 204,
+            json: async () => 'recipe-id'
+        }))
+        vi.stubGlobal('fetch', fetchMock)
+
+        await expect(createRecipe(id, 'valid', undefined, undefined, 0)).rejects.toThrow('user not found')
+        await expect(updateRecipe(id, id, 'valid', undefined, 0)).rejects.toThrow('user not found')
+        await createRecipeInApp(id, 'valid', undefined, undefined, 0)
+        await updateRecipeInApp(id, 'valid', undefined, 0)
+
+        expect(findUser).toHaveBeenCalledTimes(2)
+        expect(fetchMock).toHaveBeenCalledTimes(2)
+        for (const [, options] of fetchMock.mock.calls) {
+            expect(JSON.parse(options.body).time).toBe(0)
+        }
+    })
 })
 
 describe('recipe HTTP validation', () => {
@@ -152,7 +203,9 @@ describe('recipe HTTP validation', () => {
     test.each([
         [{ title: '' }, 'invalid title length, must be between 1 and 50 characters'],
         [{ title: 'valid', description: 'x'.repeat(501) }, 'invalid description length, must be 500 characters maximum'],
-        [{ title: 'valid', difficulty: 'hard' }, 'invalid difficulty (must be easy, medium or difficult)']
+        [{ title: 'valid', difficulty: 'hard' }, 'invalid difficulty (must be easy, medium or difficult)'],
+        [{ title: 'valid', time: 4 }, 'invalid time, minimum 5 minutes'],
+        [{ title: 'valid', time: 4.5 }, 'invalid time type, must be a number']
     ])('preserves HTTP validation errors for invalid recipe fields', async (body, message) => {
         const token = jwt.sign({ sub: 'a'.repeat(24) }, secret)
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes`, {

@@ -61,6 +61,22 @@ se comprobaron en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan la
 comprobación de tipos y la compilación; el lint mantiene seis advertencias
 previas. No se ejecutaron la suite completa ni las pruebas de navegador.
 
+## Cuarto corte: tiempo de preparación
+
+`timeSchema` conserva la validación real anterior: acepta números enteros a
+partir de 5, incluso por encima de 9999 y del rango de enteros seguros de
+JavaScript. La antigua comprobación de longitud usaba `time.length` sobre un
+número y no imponía el máximo indicado en su mensaje. La creación y edición
+siguen omitiendo la validación cuando el tiempo es cero. Establecer un límite
+o cambiar ese comportamiento requiere una decisión aparte.
+
+Pasan 72 pruebas Vitest en los dos archivos de validación, incluidas respuestas
+HTTP, límites y comprobaciones de API y frontend, sin conectar MongoDB. Las
+validaciones se comprobaron en Node 22.23.5, 24.22.3 y 26.13.1. En Node
+26.13.1 pasan la comprobación de tipos y la compilación; el lint mantiene seis
+advertencias previas. No se ejecutaron la suite completa ni las pruebas de
+navegador.
+
 ## Pendiente
 
 - Caracterizar y migrar más validaciones en cortes pequeños, incluyendo

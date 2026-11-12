@@ -15,3 +15,7 @@ export const imageSchema = z.string({ error: 'invalid image type, must be a stri
 export const difficultySchema = z.string({ error: 'invalid difficulty type, must be a string' })
     .refine(difficulty => ['easy', 'medium', 'difficult'].includes(difficulty),
         'invalid difficulty (must be easy, medium or difficult)')
+
+export const timeSchema = z.number({ error: 'invalid time type, must be a number' })
+    .refine(Number.isInteger, 'invalid time type, must be a number')
+    .refine(time => time >= 5, 'invalid time, minimum 5 minutes')

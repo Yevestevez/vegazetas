@@ -1,5 +1,5 @@
 import errors from './errors/index.js'
-import { descriptionSchema, difficultySchema, imageSchema, tagSchema, titleSchema } from './schemas.ts'
+import { descriptionSchema, difficultySchema, imageSchema, tagSchema, timeSchema, titleSchema } from './schemas.ts'
 const { ValidationError } = errors
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -62,9 +62,7 @@ const validate = {
     },
 
     time(time) {
-        if (typeof time !== 'number' || !Number.isInteger(time)) throw new ValidationError('invalid time type, must be a number')
-        if (time.length < 1 || time.length > 4) throw new ValidationError('invalid time length, minimum 1 minute, maximum 9999 minutes')
-        if (time < 5) throw new ValidationError('invalid time, minimum 5 minutes')
+        validateField(timeSchema, time)
     },
 
     difficulty(difficulty) {
