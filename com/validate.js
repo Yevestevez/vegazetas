@@ -1,5 +1,5 @@
 import errors from './errors/index.js'
-import { tagSchema } from './schemas.ts'
+import { descriptionSchema, tagSchema, titleSchema } from './schemas.ts'
 const { ValidationError } = errors
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -8,6 +8,11 @@ const NAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/
 const PASSWORD_REGEX = /^(?=\S+$)(?=.*[A-Za-z])(?=.*\d).{8,25}$/
 const URL_REGEX = /^https?:\/\/[^\s/$.?#].[^\s]*$/i
 const UNIT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/
+
+const validateField = (schema, value) => {
+    const result = schema.safeParse(value)
+    if (!result.success) throw new ValidationError(result.error.issues[0].message)
+}
 
 const validate = {
     id(id, explain = 'id') {
@@ -46,8 +51,7 @@ const validate = {
 
     // Recipe
     title(title) {
-        if (typeof title !== 'string') throw new ValidationError('invalid title type, must be a string')
-        if (title.length < 1 || title.length > 50) throw new ValidationError('invalid title length, must be between 1 and 50 characters')
+        validateField(titleSchema, title)
     },
 
     image(image) {
@@ -56,8 +60,7 @@ const validate = {
     },
 
     description(description) {
-        if (typeof description !== 'string') throw new ValidationError('invalid description type, must be a string')
-        if (description.length > 500) throw new ValidationError('invalid description length, must be 500 characters maximum')
+        validateField(descriptionSchema, description)
     },
 
     time(time) {

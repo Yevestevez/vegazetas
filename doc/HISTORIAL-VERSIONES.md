@@ -47,9 +47,9 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
    paquete obsoleto `crypto` de npm, conservando el módulo nativo de Node.
    Las nuevas pruebas de correo usan transporte en memoria y HTTP simulado;
    no demuestran entrega real.
-10. **Validación compartida:** se inició la transición a Zod con las etiquetas
-    de recetas, conservando el contrato existente. Los demás campos siguen
-    pendientes; el detalle y las comprobaciones están en
+10. **Validación compartida:** se inició la transición a Zod con las etiquetas,
+    títulos y descripciones de recetas, conservando el contrato existente.
+    Los demás campos siguen pendientes; el detalle y las comprobaciones están en
     [la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
 
 ### Estado y pendientes

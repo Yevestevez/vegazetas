@@ -6,7 +6,8 @@ El esquema compartido `tagSchema` valida cadenas de 1 a 30 unidades UTF-16,
 sin transformarlas. `validate.tag` conserva su interfaz, su retorno y el tipo
 y mensaje de error anteriores, incluido el mensaje que menciona 20 caracteres.
 La API y el frontend continúan validando independientemente mediante esa
-función. No se han migrado los demás campos ni cambiado los contratos HTTP.
+función. En ese primer corte no se migraron los demás campos ni se cambiaron
+los contratos HTTP.
 
 Se utiliza Zod 4.6.7, última versión estable consultada el 12 de noviembre de
 2026. `com` continúa siendo un paquete local enlazado; sus dependencias deben
@@ -26,6 +27,25 @@ motor ni dependencias de pares en sus metadatos de npm.
   compilación del frontend; el lint mantiene seis advertencias previas.
 - La suite completa de MongoDB y las pruebas de navegador no se han ejecutado
   en este corte; la compilación no sustituye la comprobación en navegador.
+
+## Segundo corte: título y descripción de recetas
+
+`titleSchema` y `descriptionSchema` conservan las comprobaciones y mensajes
+existentes, sin modificar los valores. El título admite de 1 a 50 unidades
+UTF-16 y la descripción hasta 500, incluida la cadena vacía. Sus consumidores
+conservan también sus condiciones anteriores para validar la descripción.
+
+Al probar caracteres fuera del plano básico se detectó que los límites de
+longitud de Zod no coincidían con `String.length`. Se corrigió asimismo
+`tagSchema`, que en el primer corte aceptaba indebidamente algunas etiquetas
+largas con esos caracteres. Los tres esquemas comprueban ahora las unidades
+UTF-16, como hacían los validadores originales.
+
+Pasan 34 pruebas Vitest en los dos archivos de validación, incluyendo errores
+HTTP y límites Unicode, sin conectar MongoDB. El import y los límites Unicode
+se comprobaron en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan la
+comprobación de tipos y la compilación; el lint mantiene seis advertencias
+previas. No se ejecutaron la suite completa ni las pruebas de navegador.
 
 ## Pendiente
 

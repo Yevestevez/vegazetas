@@ -11,7 +11,7 @@ describe('shared recipe tag validation', () => {
         expect(validate.tag(tag)).toBeUndefined()
     })
 
-    test.each([undefined, null, 0, {}, '', 'x'.repeat(31)])('rejects invalid tag %s with the existing error', tag => {
+    test.each([undefined, null, 0, {}, '', 'x'.repeat(31), '🍎'.repeat(16)])('rejects invalid tag %s with the existing error', tag => {
         expect(tagSchema.safeParse(tag).success).toBe(false)
         expect(() => validate.tag(tag)).toThrowError(errors.ValidationError)
         expect(() => validate.tag(tag)).toThrowError(new errors.ValidationError('each tag must have between 1 and 20 characters'))
