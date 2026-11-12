@@ -5,6 +5,12 @@ export const nameSchema = z.string({ error: 'invalid name type, must be a string
         'invalid name length, must be between 1 and 50 characters')
     .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/, 'invalid name syntax')
 
+export const usernameSchema = z.string({ error: 'invalid username type, must be a string' })
+    .refine(username => username.length >= 1 && username.length <= 25,
+        'invalid username length, must be between 1 and 25 characters')
+    .regex(/^[a-z0-9._-]{1,25}$/,
+        'invalid username syntax (solo minúsculas, números, guiones, guiones bajos o puntos, sin espacios. Máx. 25 caracteres)')
+
 export const tagSchema = z.string().refine(tag => tag.length >= 1 && tag.length <= 30)
 
 export const titleSchema = z.string({ error: 'invalid title type, must be a string' })

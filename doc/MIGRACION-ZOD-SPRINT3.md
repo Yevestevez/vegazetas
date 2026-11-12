@@ -143,8 +143,23 @@ comprobó en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan tipos
 y compilación; el lint mantiene seis advertencias previas. No se ejecutaron
 las suites completas de Vitest ni Playwright.
 
+## Noveno corte: nombre de usuario
+
+`usernameSchema` conserva el límite de 1 a 25 unidades UTF-16, la expresión
+regular y los mensajes existentes, sin normalizar el valor. La API y el
+frontend mantienen sus respectivos órdenes de validación durante el registro.
+
+Pasan 197 pruebas Vitest en seis archivos, incluidas dos pruebas de registro
+que borran usuarios en el contenedor MongoDB desechable verificado. Pasa
+también la prueba Playwright de registro en Chromium, con una base desechable
+separada. El esquema se comprobó en Node 22.23.5, 24.22.3 y 26.13.1. En Node
+26.13.1 pasan tipos y compilación; el lint mantiene seis advertencias previas.
+No se ejecutaron las suites completas de Vitest ni Playwright.
+
 ## Pendiente
 
+- Migrar los cinco validadores originales restantes de `validate`: identificador,
+  índice, correo, contraseña y dirección.
 - Caracterizar y migrar más validaciones en cortes pequeños, incluyendo
   recetas y usuarios, sin introducir valores por defecto ni cambiar errores.
 - Decidir la distribución y el tipado definitivos del paquete compartido.
