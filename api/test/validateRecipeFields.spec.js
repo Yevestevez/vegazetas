@@ -1,13 +1,21 @@
-import { afterAll, beforeAll, describe, expect, test } from 'vitest'
+import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
-import { descriptionSchema, errors, titleSchema, validate } from 'com'
+import { descriptionSchema, difficultySchema, errors, imageSchema, titleSchema, validate } from 'com'
 import createApp from '../app.js'
+import { User } from '../data/models.js'
+import addImageToRecipe from '../logic/addImageToRecipe.js'
 import createRecipe from '../logic/createRecipe.js'
 import updateRecipe from '../logic/updateRecipe.js'
+import addImageInApp from '../../app/src/logic/addImageToRecipe.js'
 import createRecipeInApp from '../../app/src/logic/createRecipe.js'
 import updateRecipeInApp from '../../app/src/logic/updateRecipe.js'
 
 describe('shared recipe field validation', () => {
+    afterEach(() => {
+        vi.restoreAllMocks()
+        vi.unstubAllGlobals()
+    })
+
     test.each(['a', 'x'.repeat(50), '  ', '🍎'.repeat(25)])('accepts a title without changing it', title => {
         expect(titleSchema.parse(title)).toBe(title)
         expect(validate.title(title)).toBeUndefined()
@@ -52,9 +60,82 @@ describe('shared recipe field validation', () => {
         expect(() => createRecipeInApp(id, title, undefined, description)).toThrowError(message)
         expect(() => updateRecipeInApp(id, title, description)).toThrowError(message)
     })
+
+    test.each(['http://example.test/a', 'HTTPS://example.test/image', 'http://ab'])('accepts an image URL without changing it', image => {
+        expect(imageSchema.parse(image)).toBe(image)
+        expect(validate.image(image)).toBeUndefined()
+    })
+
+    test.each([
+        [null, 'invalid image type, must be a string'],
+        [42, 'invalid image type, must be a string'],
+        ['', 'invalid image syntax, must be a valid URL'],
+        ['ftp://example.test/image', 'invalid image syntax, must be a valid URL'],
+        ['https://example.test/has space', 'invalid image syntax, must be a valid URL'],
+        ['http://a', 'invalid image syntax, must be a valid URL']
+    ])('rejects invalid image %s with its existing error', (image, message) => {
+        expect(imageSchema.safeParse(image).success).toBe(false)
+        expect(() => validate.image(image)).toThrowError(errors.ValidationError)
+        expect(() => validate.image(image)).toThrowError(message)
+    })
+
+    test('rejects invalid image URLs in the API and frontend before I/O', () => {
+        const id = 'a'.repeat(24)
+        const message = 'invalid image syntax, must be a valid URL'
+        expect(() => addImageToRecipe(id, id, 'not a URL')).toThrowError(message)
+        expect(() => addImageInApp(id, 'not a URL')).toThrowError(message)
+    })
+
+    test.each(['easy', 'medium', 'difficult'])('accepts the existing difficulty %s', difficulty => {
+        expect(difficultySchema.parse(difficulty)).toBe(difficulty)
+        expect(validate.difficulty(difficulty)).toBeUndefined()
+    })
+
+    test.each([
+        [undefined, 'invalid difficulty type, must be a string'],
+        [false, 'invalid difficulty type, must be a string'],
+        ['', 'invalid difficulty (must be easy, medium or difficult)'],
+        ['Easy', 'invalid difficulty (must be easy, medium or difficult)'],
+        ['hard', 'invalid difficulty (must be easy, medium or difficult)']
+    ])('rejects invalid difficulty %s with its existing error', (difficulty, message) => {
+        expect(difficultySchema.safeParse(difficulty).success).toBe(false)
+        expect(() => validate.difficulty(difficulty)).toThrowError(errors.ValidationError)
+        expect(() => validate.difficulty(difficulty)).toThrowError(message)
+    })
+
+    test('rejects an invalid difficulty in creation and editing before I/O', () => {
+        const id = 'a'.repeat(24)
+        const message = 'invalid difficulty (must be easy, medium or difficult)'
+        expect(() => createRecipe(id, 'valid', undefined, undefined, undefined, 'hard')).toThrowError(message)
+        expect(() => updateRecipe(id, id, 'valid', undefined, undefined, 'hard')).toThrowError(message)
+        expect(() => createRecipeInApp(id, 'valid', undefined, undefined, undefined, 'hard')).toThrowError(message)
+        expect(() => updateRecipeInApp(id, 'valid', undefined, undefined, 'hard')).toThrowError(message)
+    })
+
+    test('preserves the existing handling of an empty optional difficulty', async () => {
+        const id = 'a'.repeat(24)
+        const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
+        vi.stubGlobal('sessionStorage', { token: 'test-token' })
+        const fetchMock = vi.fn((_url, options) => Promise.resolve({
+            status: options.method === 'POST' ? 201 : 204,
+            json: async () => 'recipe-id'
+        }))
+        vi.stubGlobal('fetch', fetchMock)
+
+        await expect(createRecipe(id, 'valid', undefined, undefined, undefined, '')).rejects.toThrow('user not found')
+        await expect(updateRecipe(id, id, 'valid', undefined, undefined, '')).rejects.toThrow('user not found')
+        await createRecipeInApp(id, 'valid', undefined, undefined, undefined, '')
+        await updateRecipeInApp(id, 'valid', undefined, undefined, '')
+
+        expect(findUser).toHaveBeenCalledTimes(2)
+        expect(fetchMock).toHaveBeenCalledTimes(2)
+        for (const [, options] of fetchMock.mock.calls) {
+            expect(JSON.parse(options.body).difficulty).toBe('')
+        }
+    })
 })
 
-describe('POST /recipes', () => {
+describe('recipe HTTP validation', () => {
     const secret = 'local-disposable-test-secret'
     let previousSecret
     let server
@@ -70,7 +151,8 @@ describe('POST /recipes', () => {
 
     test.each([
         [{ title: '' }, 'invalid title length, must be between 1 and 50 characters'],
-        [{ title: 'valid', description: 'x'.repeat(501) }, 'invalid description length, must be 500 characters maximum']
+        [{ title: 'valid', description: 'x'.repeat(501) }, 'invalid description length, must be 500 characters maximum'],
+        [{ title: 'valid', difficulty: 'hard' }, 'invalid difficulty (must be easy, medium or difficult)']
     ])('preserves HTTP validation errors for invalid recipe fields', async (body, message) => {
         const token = jwt.sign({ sub: 'a'.repeat(24) }, secret)
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes`, {
@@ -81,6 +163,22 @@ describe('POST /recipes', () => {
 
         expect(response.status).toBe(400)
         expect(await response.json()).toEqual({ error: 'ValidationError', message })
+    })
+
+    test('preserves the HTTP validation error for an invalid recipe image', async () => {
+        const id = 'a'.repeat(24)
+        const token = jwt.sign({ sub: id }, secret)
+        const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes/${id}/images`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: 'not a URL' })
+        })
+
+        expect(response.status).toBe(400)
+        expect(await response.json()).toEqual({
+            error: 'ValidationError',
+            message: 'invalid image syntax, must be a valid URL'
+        })
     })
 
     afterAll(async () => {

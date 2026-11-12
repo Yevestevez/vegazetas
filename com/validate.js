@@ -1,12 +1,11 @@
 import errors from './errors/index.js'
-import { descriptionSchema, tagSchema, titleSchema } from './schemas.ts'
+import { descriptionSchema, difficultySchema, imageSchema, tagSchema, titleSchema } from './schemas.ts'
 const { ValidationError } = errors
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const USERNAME_REGEX = /^[a-z0-9._-]{1,25}$/
 const NAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/
 const PASSWORD_REGEX = /^(?=\S+$)(?=.*[A-Za-z])(?=.*\d).{8,25}$/
-const URL_REGEX = /^https?:\/\/[^\s/$.?#].[^\s]*$/i
 const UNIT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/
 
 const validateField = (schema, value) => {
@@ -55,8 +54,7 @@ const validate = {
     },
 
     image(image) {
-        if (typeof image !== 'string') throw new ValidationError('invalid image type, must be a string')
-        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image syntax, must be a valid URL')
+        validateField(imageSchema, image)
     },
 
     description(description) {
@@ -70,8 +68,7 @@ const validate = {
     },
 
     difficulty(difficulty) {
-        if (typeof difficulty !== 'string') throw new ValidationError('invalid difficulty type, must be a string')
-        if (!['easy', 'medium', 'difficult'].includes(difficulty)) throw new ValidationError('invalid difficulty (must be easy, medium or difficult)')
+        validateField(difficultySchema, difficulty)
     },
 
     tag(tag) {

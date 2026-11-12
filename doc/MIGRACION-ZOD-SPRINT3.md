@@ -47,6 +47,20 @@ se comprobaron en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan la
 comprobación de tipos y la compilación; el lint mantiene seis advertencias
 previas. No se ejecutaron la suite completa ni las pruebas de navegador.
 
+## Tercer corte: imagen y dificultad
+
+`imageSchema` conserva la expresión regular anterior, sin normalizar la URL.
+`difficultySchema` admite exactamente `easy`, `medium` y `difficult`. Ambos
+conservan los tipos y mensajes de error, y las condiciones existentes de sus
+consumidores; por ejemplo, la dificultad vacía sigue sin validarse al crear o
+editar una receta y no se modifica antes de enviarla.
+
+Pasan 56 pruebas Vitest en los dos archivos de validación, incluidas respuestas
+HTTP y comprobaciones de API y frontend, sin conectar MongoDB. Las validaciones
+se comprobaron en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan la
+comprobación de tipos y la compilación; el lint mantiene seis advertencias
+previas. No se ejecutaron la suite completa ni las pruebas de navegador.
+
 ## Pendiente
 
 - Caracterizar y migrar más validaciones en cortes pequeños, incluyendo
