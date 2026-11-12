@@ -680,8 +680,8 @@ function SaveRecipe({
                             <div className="flex flex-col w-full gap-2">
                                 <label className={labelBase} htmlFor="time">Tiempo (min)</label>
                                 <input
-                                    id="time" type="number" name="time" title="Tiempo en minutos. Múltiplos de 5"
-                                    placeholder="En minutos" defaultValue={recipe.time || 5} min={5} max={9999} step={5}
+                                    id="time" type="number" name="time" title="Introduce un número entero entre 5 y 9999 minutos"
+                                    placeholder="En minutos" defaultValue={recipe.time || 5} min={5} max={9999} step={1}
 
                                     className={`${inputBase} ${inputColor.springBud} truncate mb-2`}
                                 />
@@ -839,8 +839,8 @@ function SaveRecipe({
                         <div className="flex flex-col w-full gap-2">
                             <label className={`${labelBase} text-center`} htmlFor="quantity">Cantidad*</label>
                             <input
-                                id="quantity" type="number" name="quantity" title="Introduce una cantidad entre 0 y 9999, hasta 2 decimales con punto (ej. 1.55)" placeholder="Número"
-                                min={0} max={9999} step={0.01} inputMode="decimal"
+                                id="quantity" type="number" name="quantity" title="Introduce una cantidad mayor que 0 y hasta 9999, con un máximo de 2 decimales (ej. 1.55)" placeholder="Número"
+                                min={0.01} max={9999} step={0.01} inputMode="decimal" required
 
                                 className={`${inputBase} ${inputColor.folly}`}
                             />
@@ -850,7 +850,7 @@ function SaveRecipe({
                             <label className={`${labelBase} text-center`} htmlFor="unit">Unidad*</label>
                             <input
                                 id="unit" type="text" name="unit" title="Solo letras, espacios y tildes. Máximo 20 caracteres" placeholder="g, uds, ml..."
-                                pattern="^\s*[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+\s*$" maxLength={20}
+                                pattern="^\s*[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+\s*$" maxLength={20} required
 
                                 className={`${inputBase} ${inputColor.folly}`}
                             />

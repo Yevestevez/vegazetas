@@ -1,9 +1,10 @@
-import { afterAll, beforeAll, describe, expect, test } from 'vitest'
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 import { errors, passwordSchema, validate } from 'com'
 import createApp from '../app.js'
 import authenticateUser from '../logic/authenticateUser.js'
 import passwordReset from '../logic/passwordReset.js'
 import registerUser from '../logic/registerUser.js'
+import registerUserInApp from '../../app/src/logic/registerUser.js'
 import loginUser from '../../app/src/logic/loginUser.js'
 import passwordResetInApp from '../../app/src/logic/passwordReset.js'
 
@@ -43,10 +44,25 @@ describe('shared password validation', () => {
     test('rejects invalid passwords in all API and frontend consumers before I/O', () => {
         const message = 'invalid password syntax'
         expect(() => registerUser('Ana', 'ana@example.com', 'ana', 'password')).toThrowError(message)
+        expect(() => registerUserInApp('Ana', 'ana@example.com', 'ana', 'password')).toThrowError(message)
         expect(() => authenticateUser('ana@example.com', 'password')).toThrowError(message)
         expect(() => loginUser('ana@example.com', 'password')).toThrowError(message)
         expect(() => passwordReset('token', 'password')).toThrowError(message)
         expect(() => passwordResetInApp('token', 'password')).toThrowError(message)
+    })
+
+    test('allows a password accepted by the shared schema in frontend registration', async () => {
+        const fetchMock = vi.fn().mockResolvedValue({ status: 201 })
+        vi.stubGlobal('fetch', fetchMock)
+
+        try {
+            await registerUserInApp('Ana', 'ana@example.com', 'ana', 'Abc1234🍎')
+
+            expect(fetchMock).toHaveBeenCalledOnce()
+            expect(JSON.parse(fetchMock.mock.calls[0][1].body).password).toBe('Abc1234🍎')
+        } finally {
+            vi.unstubAllGlobals()
+        }
     })
 })
 

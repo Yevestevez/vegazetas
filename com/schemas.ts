@@ -5,6 +5,12 @@ export const nameSchema = z.string({ error: 'invalid name type, must be a string
         'invalid name length, must be between 1 and 50 characters')
     .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/, 'invalid name syntax')
 
+export const ingredientNameSchema = z.string({ error: 'invalid ingredient name type, must be a string' })
+    .refine(name => name.length >= 1 && name.length <= 50,
+        'invalid ingredient name length, must be between 1 and 50 characters')
+    .regex(/^[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\s\-_'(),.%/+&]{1,50}$/,
+        'invalid ingredient name syntax')
+
 export const usernameSchema = z.string({ error: 'invalid username type, must be a string' })
     .refine(username => username.length >= 1 && username.length <= 25,
         'invalid username length, must be between 1 and 25 characters')
@@ -22,7 +28,9 @@ export const passwordSchema = z.string({ error: 'invalid password type, must be 
 
 export const idSchema = (explain = 'id') => z.string({
     error: `invalid ${explain} type, must be a string`
-}).refine(id => id.length === 24, `invalid ${explain} length, must be 24 characters`)
+})
+    .refine(id => id.length === 24, `invalid ${explain} length, must be 24 characters`)
+    .regex(/^[a-fA-F0-9]{24}$/, `invalid ${explain} syntax, must be a 24-character hexadecimal string`)
 
 export const indexSchema = (explain = 'index') => z.custom<number>(
     Number.isInteger,
@@ -52,6 +60,7 @@ export const difficultySchema = z.string({ error: 'invalid difficulty type, must
 export const timeSchema = z.number({ error: 'invalid time type, must be a number' })
     .refine(Number.isInteger, 'invalid time type, must be a number')
     .refine(time => time >= 5, 'invalid time, minimum 5 minutes')
+    .refine(time => time <= 9999, 'invalid time, maximum 9999 minutes')
 
 export const textSchema = z.string({ error: 'invalid text type, must be a string' })
     .refine(text => text.length >= 1 && text.length <= 800,
@@ -70,22 +79,23 @@ export const quantitySchema = z.custom<number>(
 )
     .refine(quantity => quantity > 0 && quantity <= 9999, 'invalid quantity, must be between 0 and 9999')
     .refine(quantity => {
-        const decimal = quantity.toString().split('.')[1]
-        return !decimal || decimal.length <= 2
+        const [coefficient, exponentText] = quantity.toString().toLowerCase().split('e')
+        const decimalLength = (coefficient.split('.')[1]?.length ?? 0) - Number(exponentText ?? 0)
+        return decimalLength <= 2
     }, 'invalid quantity, maximum 2 decimal places allowed')
 
 export const mainSchema = z.boolean({ error: 'main must be a boolean (true or false)' })
 
-// Preserve the legacy validators' acceptance of falsy non-string values.
-const optionalText = (message: string) => z.union([
-    z.string(), z.undefined(), z.null(), z.literal(false), z.literal(0), z.literal(0n), z.nan()
-], { error: message })
+export const unitSchema = z.union([
+    z.string()
+        .refine(unit => unit.length <= 20, 'invalid unit length, must be between 1 and 20 characters')
+        .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, 'invalid unit syntax'),
+    z.undefined(),
+    z.null()
+], { error: 'invalid unit type, must be a string' })
 
-export const unitSchema = optionalText('invalid unit type, must be a string')
-    .refine(unit => !unit || (typeof unit === 'string' && unit.length <= 20),
-        'invalid unit length, must be between 1 and 20 characters')
-    .refine(unit => /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(String(unit)), 'invalid unit syntax')
-
-export const annotationSchema = optionalText('invalid annotation type, must be a string')
-    .refine(annotation => !annotation || (typeof annotation === 'string' && annotation.length <= 300),
-        'invalid annotation length, max 300 characters')
+export const annotationSchema = z.union([
+    z.string().refine(annotation => annotation.length <= 300, 'invalid annotation length, max 300 characters'),
+    z.undefined(),
+    z.null()
+], { error: 'invalid annotation type, must be a string' })

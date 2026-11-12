@@ -9,10 +9,10 @@ const addIngredientToRecipe = (
     main
 ) => {
     validate.id(recipeId, 'recipeId')
-    validate.name(name)
+    validate.ingredientName(name)
     validate.quantity(quantity)
     validate.unit(unit)
-    if (annotation) validate.annotation(annotation)
+    if (annotation !== undefined && annotation !== null) validate.annotation(annotation)
     if (main !== undefined) validate.main(main)
 
     return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/ingredients`, {

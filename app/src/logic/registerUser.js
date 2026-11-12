@@ -4,7 +4,7 @@ const registerUser = (name, email, username, password) => {
     validate.username(username)
     validate.email(email)
     validate.name(name)
-    validate.email(email)
+    validate.password(password)
 
     return fetch(`${import.meta.env.VITE_API_URL}/users`, {
         method: 'POST',

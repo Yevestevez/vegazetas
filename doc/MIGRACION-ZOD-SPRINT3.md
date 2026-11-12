@@ -4,7 +4,7 @@
 
 El esquema compartido `tagSchema` valida cadenas de 1 a 30 unidades UTF-16,
 sin transformarlas. `validate.tag` conserva su interfaz, su retorno y el tipo
-y mensaje de error anteriores, incluido el mensaje que menciona 20 caracteres.
+y de error anterior; su mensaje indica ahora el límite real de 30 caracteres.
 La API y el frontend continúan validando independientemente mediante esa
 función. En ese primer corte no se migraron los demás campos ni se cambiaron
 los contratos HTTP.
@@ -63,12 +63,11 @@ previas. No se ejecutaron la suite completa ni las pruebas de navegador.
 
 ## Cuarto corte: tiempo de preparación
 
-`timeSchema` conserva la validación real anterior: acepta números enteros a
-partir de 5, incluso por encima de 9999 y del rango de enteros seguros de
-JavaScript. La antigua comprobación de longitud usaba `time.length` sobre un
-número y no imponía el máximo indicado en su mensaje. La creación y edición
-siguen omitiendo la validación cuando el tiempo es cero. Establecer un límite
-o cambiar ese comportamiento requiere una decisión aparte.
+`timeSchema` acepta números enteros entre 5 y 9999. La migración inicial
+reprodujo una comprobación heredada que no aplicaba el máximo; la revisión
+correctiva de este documento la alineó con el límite anunciado. La creación y
+edición siguen omitiendo la validación cuando el tiempo es cero, que se
+mantiene como valor para indicar que no se especificó tiempo.
 
 Pasan 72 pruebas Vitest en los dos archivos de validación, incluidas respuestas
 HTTP, límites y comprobaciones de API y frontend, sin conectar MongoDB. Las
@@ -95,11 +94,10 @@ previas. No se ejecutaron la suite completa ni las pruebas de navegador.
 ## Sexto corte: cantidad e indicador principal de ingredientes
 
 `quantitySchema` y `mainSchema` conservan los valores y errores existentes.
-La cantidad sigue siendo mayor que cero y como máximo 9999; el control de
-decimales continúa usando la representación del número como texto. Por ello,
-por ejemplo, `1e-7` se acepta y `1.2e-7` se rechaza. Cambiar esa regla requiere
-una decisión aparte. El indicador principal sigue siendo opcional en sus
-consumidores y, cuando se proporciona, debe ser booleano.
+La cantidad sigue siendo mayor que cero y como máximo 9999, con hasta dos
+decimales según la representación decimal del número, también cuando se
+expresa en notación científica. El indicador principal sigue siendo opcional
+en sus consumidores y, cuando se proporciona, debe ser booleano.
 
 Pasan 120 pruebas Vitest de validación y HTTP sin conectar MongoDB. También
 pasan las tres pruebas existentes de creación de ingredientes en el contenedor
@@ -110,14 +108,11 @@ la suite completa ni las pruebas de navegador.
 
 ## Séptimo corte: unidad y anotación de ingredientes
 
-`unitSchema` y `annotationSchema` conservan la validación anterior, incluidos
-los límites medidos en unidades UTF-16 y los mensajes. El validador de unidad
-acepta `undefined`, `null`, `false` y `NaN` porque la expresión regular los
-convierte en texto; en cambio, rechaza la cadena vacía y el cero. La anotación
-acepta esos valores falsos y la cadena vacía. Esto describe solo la validación,
-no garantiza cómo Mongoose guarda esos valores. Los consumidores siguen
-omitiendo la validación de la anotación cuando es falsa. Cualquier cambio de
-estas reglas requiere una decisión aparte.
+`unitSchema` y `annotationSchema` aceptan texto, `undefined` y `null`. La
+unidad, si se proporciona, debe tener entre 1 y 20 unidades UTF-16 y ajustarse
+a su expresión regular; la anotación admite la cadena vacía y hasta 300
+unidades UTF-16. Se rechazan valores no textuales como `false` y `NaN`; los
+consumidores validan la anotación siempre que no sea `undefined` o `null`.
 
 Pasan 161 pruebas Vitest en cuatro archivos: 158 de validación y HTTP y tres de
 persistencia de ingredientes. Estas últimas borran usuarios y recetas y se
@@ -188,11 +183,9 @@ completas de Vitest ni Playwright.
 
 ## Duodécimo corte: identificadores
 
-`idSchema(explain)` conserva la validación original de tipo cadena y longitud
-exacta de 24 unidades UTF-16, así como los mensajes que incluyen el nombre del
-campo. No comprueba que la cadena sea hexadecimal ni la transforma; por eso un
-valor de 24 caracteres no hexadecimales sigue pasando esta validación, aunque
-MongoDB pueda rechazarlo después.
+`idSchema(explain)` exige una cadena de 24 caracteres hexadecimales y conserva
+los mensajes dinámicos que identifican el campo. Los valores mal formados se
+rechazan antes de llegar al acceso a MongoDB.
 
 Pasan 19 pruebas Vitest: seis de esquema y 13 del endpoint `GET /users/name`,
 ejecutadas en el MongoDB desechable verificado. El esquema se comprobó en Node
@@ -213,13 +206,42 @@ suites completas de Vitest ni Playwright.
 
 ## Decimocuarto corte: dirección
 
-`directionSchema` conserva la aceptación exacta de `up` y `down`. `validate.direction`
-sigue lanzando un `Error` genérico con el mismo mensaje para cualquier otro
-valor, sin convertirlo en `ValidationError`.
+`directionSchema` conserva la aceptación exacta de `up` y `down`.
+`validate.direction` lanza `ValidationError`, de forma coherente con los demás
+validadores compartidos.
 
 Pasan ocho pruebas Vitest unitarias, sin conexión a MongoDB. También pasan el
 typecheck de la API y el build de la app. No se ejecutaron las suites completas
 de Vitest ni Playwright.
+
+## Revisión correctiva
+
+Se corrigieron las discrepancias detectadas al revisar los consumidores:
+
+- El error de etiqueta coincide con su máximo real de 30; el tiempo ahora
+  impone el máximo anunciado de 9999 y la cantidad rechaza también precisiones
+  excesivas expresadas en notación científica.
+- Los IDs deben ser hexadecimales de 24 caracteres, los campos opcionales de
+  unidad y anotación aceptan solo texto, `undefined` o `null`, y todos los
+  validadores de dirección producen `ValidationError`. La API comprueba la
+  dirección antes de buscar o modificar datos.
+- El nombre de ingrediente tiene un esquema propio alineado con los caracteres
+  permitidos por el formulario; el nombre de usuario conserva sus restricciones
+  distintas. El formulario limita cantidades a valores positivos y el tiempo a
+  minutos enteros.
+- El formulario de registro comparte la validación de contraseña, sin un patrón
+  HTML más restrictivo. `registerUser` dejó de validar el correo dos veces.
+
+Se mantienen los límites de longitud en unidades UTF-16 para preservar el
+contrato existente, el cero de tiempo como valor opcional omitido por los
+consumidores y la aceptación de caracteres Unicode no espaciados en
+contraseñas que incluyen una letra y un dígito ASCII.
+
+Pasan 273 pruebas en 10 suites dirigidas, el typecheck de la API y el build de
+la app. Las pruebas de validación no requieren MongoDB. Las dos suites
+integradas de `GET /users/name` no pudieron conectar con MongoDB local y
+agotaron el tiempo de espera antes de ejecutar pruebas; no se realizaron
+operaciones de borrado. No se ejecutaron la suite completa ni Playwright.
 
 ## Pendiente
 

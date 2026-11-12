@@ -14,12 +14,12 @@ describe('shared recipe tag validation', () => {
     test.each([undefined, null, 0, {}, '', 'x'.repeat(31), '🍎'.repeat(16)])('rejects invalid tag %s with the existing error', tag => {
         expect(tagSchema.safeParse(tag).success).toBe(false)
         expect(() => validate.tag(tag)).toThrowError(errors.ValidationError)
-        expect(() => validate.tag(tag)).toThrowError(new errors.ValidationError('each tag must have between 1 and 20 characters'))
+        expect(() => validate.tag(tag)).toThrowError(new errors.ValidationError('each tag must have between 1 and 30 characters'))
     })
 
     test('rejects invalid tags in the API and frontend before any I/O', () => {
         const id = 'a'.repeat(24)
-        const error = new errors.ValidationError('each tag must have between 1 and 20 characters')
+        const error = new errors.ValidationError('each tag must have between 1 and 30 characters')
 
         expect(() => addTagToRecipe(id, id, '')).toThrowError(error)
         expect(() => addTagInApp(id, '')).toThrowError(error)
@@ -52,7 +52,7 @@ describe('POST /recipes/:recipeId/tags', () => {
         expect(response.status).toBe(400)
         expect(await response.json()).toEqual({
             error: 'ValidationError',
-            message: 'each tag must have between 1 and 20 characters'
+            message: 'each tag must have between 1 and 30 characters'
         })
     })
 

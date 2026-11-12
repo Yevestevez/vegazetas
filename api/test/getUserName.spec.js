@@ -95,15 +95,16 @@ describe('GET /users/name', () => {
         })
     })
 
-    test('forwards a database cast error to the HTTP error handler', async () => {
+    test('returns a validation error for a non-hexadecimal user id', async () => {
         const token = jwt.sign({ sub: 'z'.repeat(24) }, secret)
 
         const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
 
-        expect(response.status).toBe(500)
-        const body = await response.json()
-        expect(body.error).toBe('SystemError')
-        expect(body.message).toContain('Cast to ObjectId failed')
+        expect(response.status).toBe(400)
+        expect(await response.json()).toEqual({
+            error: 'ValidationError',
+            message: 'invalid userId syntax, must be a 24-character hexadecimal string'
+        })
     })
 
     test('rejects a token with an invalid signature', async () => {

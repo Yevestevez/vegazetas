@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import jwt from 'jsonwebtoken'
-import { errors, nameSchema, validate } from 'com'
+import { errors, ingredientNameSchema, nameSchema, validate } from 'com'
 import createApp from '../app.js'
 import registerUser from '../logic/registerUser.js'
 import addIngredientToRecipe from '../logic/addIngredientToRecipe.js'
@@ -30,13 +30,29 @@ describe('shared name validation', () => {
         expect(() => validate.name(name)).toThrowError(message)
     })
 
-    test('rejects invalid names in registration and ingredient creation before I/O', () => {
+    test('rejects invalid names in registration before I/O', () => {
+        expect(() => registerUser('Ana-Fe', 'test@example.com', 'testuser', 'abc12345')).toThrowError('invalid name syntax')
+        expect(() => registerUserInApp('Ana-Fe', 'test@example.com', 'testuser', 'abc12345')).toThrowError('invalid name syntax')
+    })
+
+    test.each(['Tofu-vegano', 'B12 (vegano)', "O'Reilly", 'üñame 2'])(
+        'accepts ingredient name %s using the ingredient form character set',
+        name => {
+            expect(ingredientNameSchema.parse(name)).toBe(name)
+            expect(validate.ingredientName(name)).toBeUndefined()
+        }
+    )
+
+    test.each([
+        [undefined, 'invalid ingredient name type, must be a string'],
+        ['a'.repeat(51), 'invalid ingredient name length, must be between 1 and 50 characters'],
+        ['arroz*', 'invalid ingredient name syntax'],
+        ['🍎', 'invalid ingredient name syntax']
+    ])('rejects invalid ingredient name %s before I/O', (name, message) => {
         const id = 'a'.repeat(24)
-        const message = 'invalid name syntax'
-        expect(() => registerUser('Ana-Fe', 'test@example.com', 'testuser', 'abc12345')).toThrowError(message)
-        expect(() => registerUserInApp('Ana-Fe', 'test@example.com', 'testuser', 'abc12345')).toThrowError(message)
-        expect(() => addIngredientToRecipe(id, id, 'Ana-Fe', 1, 'g')).toThrowError(message)
-        expect(() => addIngredientInApp(id, 'Ana-Fe', 1, 'g')).toThrowError(message)
+
+        expect(() => addIngredientToRecipe(id, id, name, 1, 'g')).toThrowError(message)
+        expect(() => addIngredientInApp(id, name, 1, 'g')).toThrowError(message)
     })
 
     test('preserves the different field validation order during registration', () => {
@@ -75,17 +91,17 @@ describe('name HTTP validation', () => {
         })
     })
 
-    test('returns the existing name error for an ingredient', async () => {
+    test('returns the ingredient name error for an invalid ingredient', async () => {
         const id = 'a'.repeat(24)
         const token = jwt.sign({ sub: id }, secret)
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes/${id}/ingredients`, {
             method: 'POST',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: 'Ana-Fe', quantity: 1, unit: 'g' })
+            body: JSON.stringify({ name: 'arroz*', quantity: 1, unit: 'g' })
         })
 
         expect(response.status).toBe(400)
-        expect(await response.json()).toEqual({ error: 'ValidationError', message: 'invalid name syntax' })
+        expect(await response.json()).toEqual({ error: 'ValidationError', message: 'invalid ingredient name syntax' })
     })
 
     afterAll(async () => {

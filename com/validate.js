@@ -1,6 +1,6 @@
 import errors from './errors/index.js'
 import {
-    annotationSchema, descriptionSchema, difficultySchema, directionSchema, emailSchema, idSchema, imageSchema, indexSchema, mainSchema, nameSchema, noteSchema,
+    annotationSchema, descriptionSchema, difficultySchema, directionSchema, emailSchema, idSchema, imageSchema, indexSchema, ingredientNameSchema, mainSchema, nameSchema, noteSchema,
     passwordSchema, quantitySchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema, usernameSchema
 } from './schemas.ts'
 const { ValidationError } = errors
@@ -21,6 +21,10 @@ const validate = {
 
     name(name) {
         validateField(nameSchema, name)
+    },
+
+    ingredientName(name) {
+        validateField(ingredientNameSchema, name)
     },
 
     // User
@@ -59,7 +63,7 @@ const validate = {
 
     tag(tag) {
         const result = tagSchema.safeParse(tag)
-        if (!result.success) throw new ValidationError('each tag must have between 1 and 20 characters')
+        if (!result.success) throw new ValidationError('each tag must have between 1 and 30 characters')
     },
 
     // Step
@@ -76,8 +80,7 @@ const validate = {
     },
 
     direction(direction) {
-        const result = directionSchema.safeParse(direction)
-        if (!result.success) throw new Error(result.error.issues[0].message)
+        validateField(directionSchema, direction)
     },
 
     // Ingredient

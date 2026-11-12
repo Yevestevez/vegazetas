@@ -11,6 +11,7 @@ const reorderStep = (
     validate.id(userId, 'userId')
     validate.id(recipeId, 'recipeId')
     validate.id(stepId, 'stepId')
+    validate.direction(direction)
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })

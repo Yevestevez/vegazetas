@@ -141,7 +141,7 @@ describe('shared recipe field validation', () => {
         }
     })
 
-    test.each([5, 9999, 10000, 1e20])('accepts the existing time %s without changing it', time => {
+    test.each([5, 9999])('accepts a time within the allowed range %s without changing it', time => {
         expect(timeSchema.parse(time)).toBe(time)
         expect(validate.time(time)).toBeUndefined()
     })
@@ -154,7 +154,9 @@ describe('shared recipe field validation', () => {
         [Infinity, 'invalid time type, must be a number'],
         [4.5, 'invalid time type, must be a number'],
         [0, 'invalid time, minimum 5 minutes'],
-        [4, 'invalid time, minimum 5 minutes']
+        [4, 'invalid time, minimum 5 minutes'],
+        [10000, 'invalid time, maximum 9999 minutes'],
+        [1e20, 'invalid time, maximum 9999 minutes']
     ])('rejects invalid time %s with its existing error', (time, message) => {
         expect(timeSchema.safeParse(time).success).toBe(false)
         expect(() => validate.time(time)).toThrowError(errors.ValidationError)
@@ -168,6 +170,15 @@ describe('shared recipe field validation', () => {
         expect(() => updateRecipe(id, id, 'valid', undefined, 4)).toThrowError(message)
         expect(() => createRecipeInApp(id, 'valid', undefined, undefined, 4)).toThrowError(message)
         expect(() => updateRecipeInApp(id, 'valid', undefined, 4)).toThrowError(message)
+    })
+
+    test('rejects a time above the limit in creation and editing before I/O', () => {
+        const id = 'a'.repeat(24)
+        const message = 'invalid time, maximum 9999 minutes'
+        expect(() => createRecipe(id, 'valid', undefined, undefined, 10000)).toThrowError(message)
+        expect(() => updateRecipe(id, id, 'valid', undefined, 10000)).toThrowError(message)
+        expect(() => createRecipeInApp(id, 'valid', undefined, undefined, 10000)).toThrowError(message)
+        expect(() => updateRecipeInApp(id, 'valid', undefined, 10000)).toThrowError(message)
     })
 
     test('preserves the existing handling of zero optional time', async () => {
@@ -291,7 +302,8 @@ describe('recipe HTTP validation', () => {
         [{ title: 'valid', description: 'x'.repeat(501) }, 'invalid description length, must be 500 characters maximum'],
         [{ title: 'valid', difficulty: 'hard' }, 'invalid difficulty (must be easy, medium or difficult)'],
         [{ title: 'valid', time: 4 }, 'invalid time, minimum 5 minutes'],
-        [{ title: 'valid', time: 4.5 }, 'invalid time type, must be a number']
+        [{ title: 'valid', time: 4.5 }, 'invalid time type, must be a number'],
+        [{ title: 'valid', time: 10000 }, 'invalid time, maximum 9999 minutes']
     ])('preserves HTTP validation errors for invalid recipe fields', async (body, message) => {
         const token = jwt.sign({ sub: 'a'.repeat(24) }, secret)
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes`, {

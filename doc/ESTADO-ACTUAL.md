@@ -29,11 +29,12 @@ para poder migrar a TypeScript.
 
 Actualización del 12 de noviembre: `com` incorpora Zod para la validación de
 etiquetas, títulos, descripciones, imágenes, dificultades y tiempos de recetas,
-texto y notas de pasos, y cantidad, indicador principal, unidad y anotación de
-ingredientes, además del nombre usado en registro e ingredientes, el nombre
-de usuario, el correo, la contraseña, el identificador, el índice y la
-dirección. Hay que instalar también sus dependencias; las validaciones aún no
-migradas siguen en JavaScript. El alcance y las pruebas están en
+texto y notas de pasos, cantidad, indicador principal, unidad y anotación de
+ingredientes, nombre, usuario, correo, contraseña, identificadores, índices y
+dirección. Una revisión correctiva alineó límites y mensajes, endureció los
+tipos opcionales y el formato de IDs, y conectó la validación de contraseña en
+el registro web. Las validaciones aún no migradas siguen en JavaScript. El
+alcance y las comprobaciones están en
 [la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
 
 ## Recorrido de una petición

@@ -6,7 +6,7 @@ import { User } from '../data/models.js'
 const { Types: { ObjectId } } = mongoose;
 
 import { errors } from 'com'
-const { NotFoundError, SystemError } = errors
+const { NotFoundError } = errors
 
 import { getUserName } from '../modules/users/getUserName/composition.ts'
 
@@ -33,11 +33,11 @@ describe('getUserName', () => {
             })
     })
 
-    test('wraps a database cast failure as a system error', async () => {
+    test('rejects a non-hexadecimal user id before querying the database', async () => {
         const error = await getUserName('z'.repeat(24)).then(() => null, caughtError => caughtError)
 
-        expect(error).toBeInstanceOf(SystemError)
-        expect(error.message).toContain('Cast to ObjectId failed')
+        expect(error).toBeInstanceOf(errors.ValidationError)
+        expect(error.message).toBe('invalid userId syntax, must be a 24-character hexadecimal string')
     })
 
     afterEach(() => User.deleteMany())

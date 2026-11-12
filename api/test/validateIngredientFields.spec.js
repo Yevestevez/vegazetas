@@ -12,7 +12,7 @@ describe('shared ingredient field validation', () => {
         vi.unstubAllGlobals()
     })
 
-    test.each([0.01, 1, 1.25, 9999, 1e-7])('accepts quantity %s without changing it', quantity => {
+    test.each([0.01, 1, 1.25, 1e-2, 1.2e-1, 9999])('accepts quantity %s without changing it', quantity => {
         expect(quantitySchema.parse(quantity)).toBe(quantity)
         expect(validate.quantity(quantity)).toBeUndefined()
     })
@@ -29,6 +29,7 @@ describe('shared ingredient field validation', () => {
         [Infinity, 'invalid quantity, must be between 0 and 9999'],
         [-Infinity, 'invalid quantity, must be between 0 and 9999'],
         [1.234, 'invalid quantity, maximum 2 decimal places allowed'],
+        [1e-7, 'invalid quantity, maximum 2 decimal places allowed'],
         [1.2e-7, 'invalid quantity, maximum 2 decimal places allowed']
     ])('rejects invalid quantity %s with its existing error', (quantity, message) => {
         expect(quantitySchema.safeParse(quantity).success).toBe(false)
@@ -70,7 +71,7 @@ describe('shared ingredient field validation', () => {
         expect(JSON.parse(fetchMock.mock.calls[0][1].body).main).toBe(main)
     })
 
-    test.each(['g', 'cucharadas', 'á'.repeat(20), ' ', undefined, null, false, NaN])('accepts the existing unit value %s without changing it', unit => {
+    test.each(['g', 'cucharadas', 'á'.repeat(20), ' ', undefined, null])('accepts an optional unit value %s without changing it', unit => {
         expect(unitSchema.parse(unit)).toBe(unit)
         expect(validate.unit(unit)).toBeUndefined()
     })
@@ -78,12 +79,14 @@ describe('shared ingredient field validation', () => {
     test.each([
         [true, 'invalid unit type, must be a string'],
         [1, 'invalid unit type, must be a string'],
+        [false, 'invalid unit type, must be a string'],
+        [NaN, 'invalid unit type, must be a string'],
         [Symbol('unit'), 'invalid unit type, must be a string'],
+        [0, 'invalid unit type, must be a string'],
+        [0n, 'invalid unit type, must be a string'],
         ['a'.repeat(21), 'invalid unit length, must be between 1 and 20 characters'],
         ['🍎'.repeat(11), 'invalid unit length, must be between 1 and 20 characters'],
         ['', 'invalid unit syntax'],
-        [0, 'invalid unit syntax'],
-        [0n, 'invalid unit syntax'],
         ['g1', 'invalid unit syntax']
     ])('rejects invalid unit %s with its existing error', (unit, message) => {
         expect(unitSchema.safeParse(unit).success).toBe(false)
@@ -91,7 +94,7 @@ describe('shared ingredient field validation', () => {
         expect(() => validate.unit(unit)).toThrowError(message)
     })
 
-    test.each(['', 'x'.repeat(300), '🍎'.repeat(150), undefined, null, false, 0, 0n, NaN])('accepts the existing annotation value %s without changing it', annotation => {
+    test.each(['', 'x'.repeat(300), '🍎'.repeat(150), undefined, null])('accepts an optional annotation value %s without changing it', annotation => {
         expect(annotationSchema.parse(annotation)).toBe(annotation)
         expect(validate.annotation(annotation)).toBeUndefined()
     })
@@ -99,6 +102,10 @@ describe('shared ingredient field validation', () => {
     test.each([
         [true, 'invalid annotation type, must be a string'],
         [1, 'invalid annotation type, must be a string'],
+        [false, 'invalid annotation type, must be a string'],
+        [0, 'invalid annotation type, must be a string'],
+        [0n, 'invalid annotation type, must be a string'],
+        [NaN, 'invalid annotation type, must be a string'],
         [Symbol('annotation'), 'invalid annotation type, must be a string'],
         ['x'.repeat(301), 'invalid annotation length, max 300 characters'],
         ['🍎'.repeat(151), 'invalid annotation length, max 300 characters']
@@ -117,7 +124,7 @@ describe('shared ingredient field validation', () => {
         expect(() => addIngredientInApp(id, 'arroz', 1, unit, annotation)).toThrowError(message)
     })
 
-    test.each([undefined, null, false])('preserves the existing unit and annotation value %s in both consumers', async value => {
+    test.each([undefined, null])('preserves an optional unit and annotation value %s in both consumers', async value => {
         const id = 'a'.repeat(24)
         const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
         vi.stubGlobal('sessionStorage', { token: 'test-token' })
@@ -131,6 +138,15 @@ describe('shared ingredient field validation', () => {
         const body = JSON.parse(fetchMock.mock.calls[0][1].body)
         expect(body.unit).toBe(value)
         expect(body.annotation).toBe(value)
+    })
+
+    test('rejects falsy non-string unit and annotation values in both consumers before I/O', () => {
+        const id = 'a'.repeat(24)
+
+        expect(() => addIngredientToRecipe(id, id, 'arroz', 1, false)).toThrowError('invalid unit type, must be a string')
+        expect(() => addIngredientInApp(id, 'arroz', 1, false)).toThrowError('invalid unit type, must be a string')
+        expect(() => addIngredientToRecipe(id, id, 'arroz', 1, 'g', false)).toThrowError('invalid annotation type, must be a string')
+        expect(() => addIngredientInApp(id, 'arroz', 1, 'g', false)).toThrowError('invalid annotation type, must be a string')
     })
 })
 
@@ -150,9 +166,12 @@ describe('ingredient HTTP validation', () => {
 
     test.each([
         [{ name: 'arroz', quantity: 0, unit: 'g' }, 'invalid quantity, must be between 0 and 9999'],
+        [{ name: 'arroz', quantity: 1e-7, unit: 'g' }, 'invalid quantity, maximum 2 decimal places allowed'],
         [{ name: 'arroz', quantity: 1.234, unit: 'g' }, 'invalid quantity, maximum 2 decimal places allowed'],
         [{ name: 'arroz', quantity: 1, unit: 'g', main: 'true' }, 'main must be a boolean (true or false)'],
         [{ name: 'arroz', quantity: 1, unit: '' }, 'invalid unit syntax'],
+        [{ name: 'arroz', quantity: 1, unit: false }, 'invalid unit type, must be a string'],
+        [{ name: 'arroz', quantity: 1, unit: 'g', annotation: false }, 'invalid annotation type, must be a string'],
         [{ name: 'arroz', quantity: 1, unit: 'g', annotation: 'x'.repeat(301) }, 'invalid annotation length, max 300 characters']
     ])('preserves the validation response for invalid ingredient fields', async (body, message) => {
         const id = 'a'.repeat(24)
