@@ -200,8 +200,6 @@ ejecutadas en el MongoDB desechable verificado. El esquema se comprobó en Node
 mantiene seis advertencias previas. No se ejecutaron las suites completas de
 Vitest ni Playwright.
 
-## Pendiente
-
 ## Decimotercer corte: índice
 
 `indexSchema(explain)` conserva la aceptación de enteros no negativos y el
@@ -213,9 +211,19 @@ su interfaz y sigue lanzando `ValidationError`.
 Pasan 10 pruebas Vitest unitarias, sin conexión a MongoDB. No se ejecutaron las
 suites completas de Vitest ni Playwright.
 
+## Decimocuarto corte: dirección
+
+`directionSchema` conserva la aceptación exacta de `up` y `down`. `validate.direction`
+sigue lanzando un `Error` genérico con el mismo mensaje para cualquier otro
+valor, sin convertirlo en `ValidationError`.
+
+Pasan ocho pruebas Vitest unitarias, sin conexión a MongoDB. También pasan el
+typecheck de la API y el build de la app. No se ejecutaron las suites completas
+de Vitest ni Playwright.
+
 ## Pendiente
 
-- Migrar el validador original restante de `validate`: dirección.
+- La interfaz original `validate` ya usa Zod para todos sus validadores.
 - Caracterizar y migrar más validaciones en cortes pequeños, incluyendo
   recetas y usuarios, sin introducir valores por defecto ni cambiar errores.
 - Decidir la distribución y el tipado definitivos del paquete compartido.

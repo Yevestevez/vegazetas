@@ -1,6 +1,6 @@
 import errors from './errors/index.js'
 import {
-    annotationSchema, descriptionSchema, difficultySchema, emailSchema, idSchema, imageSchema, indexSchema, mainSchema, nameSchema, noteSchema,
+    annotationSchema, descriptionSchema, difficultySchema, directionSchema, emailSchema, idSchema, imageSchema, indexSchema, mainSchema, nameSchema, noteSchema,
     passwordSchema, quantitySchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema, usernameSchema
 } from './schemas.ts'
 const { ValidationError } = errors
@@ -76,8 +76,8 @@ const validate = {
     },
 
     direction(direction) {
-        if (direction !== 'up' && direction !== 'down')
-            throw new Error('direction must be "up" or "down"')
+        const result = directionSchema.safeParse(direction)
+        if (!result.success) throw new Error(result.error.issues[0].message)
     },
 
     // Ingredient
