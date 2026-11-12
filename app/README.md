@@ -56,7 +56,8 @@ application feature or browser.
 
 The Playwright tests cover authentication, optional recipe time and recipe
 lists, including favorite updates and errors, with Chromium in headless mode.
-The list tests use mocked API responses. Install dependencies in both
+Most list tests use mocked API responses; an own-favorite flow also uses the
+local API and MongoDB. Install dependencies in both
 `api` and `app`, then download the browser from the `app` directory:
 
 ```powershell
@@ -112,7 +113,8 @@ finally {
 Playwright starts and stops its own API and frontend on localhost ports
 `32123` and `4173`; it refuses to reuse existing servers. It uses
 `vegazetas_e2e_disposable`, separate from the API suite's
-`vegazetas_disposable`, and deletes each synthetic test user afterwards.
+`vegazetas_disposable`, and deletes synthetic test users and the recipe created
+by the own-favorite test afterwards.
 Interrupted runs may leave test data behind. Never use a database containing
 data you need to keep: validating the URI alone cannot prove it is disposable.
 Requests from the browser to external origins are blocked in these tests.

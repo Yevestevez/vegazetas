@@ -136,6 +136,13 @@ Esta ruta también devuelve ahora `401` genérico para credenciales ausentes,
 incorrectas o caducadas, y `500` genérico para fallos internos. El frontend
 cierra la sesión y avisa al recibir ese `401` al consultar la receta o su
 editor, incluida la recarga tras modificar favoritos; no lo hace por un `500`.
+
+Las tres listas HTTP de recetas se han caracterizado con MongoDB: devuelven
+las recetas visibles ordenadas por fecha y sin datos privados del autor. Las
+tres incluyen ahora `isFavorite`: se añadió a `my-recipes` para que la interfaz
+muestre el estado y el aviso correctos. Las tres rutas también devuelven `401`
+genérico para credenciales inválidas y `500` genérico para fallos internos;
+la interfaz cierra la sesión y avisa ante el `401`, no ante un `500`.
 Las demás rutas protegidas mantienen su comportamiento anterior.
 
 En la revisión del primer módulo vertical se corrigió una prueba que esperaba
@@ -167,11 +174,19 @@ Playwright con API simulada y MongoDB desechable reutilizado; comprueban carga,
 favoritos y errores sin consultas repetidas. La compilación pasó y el lint del
 frontend pasó sin advertencias. No se revisó con tecnologías de asistencia.
 
-**Despliegue pendiente:** el contrato de autenticación de las dos rutas cambia.
+Tras corregir las listas pasaron 68 pruebas dirigidas de API y 24 pruebas
+Playwright, además de tipos, lint sin advertencias y compilación, con Node
+26.13.1 y MongoDB desechable reutilizado. Se verificó el favorito propio con
+API y MongoDB reales y el tratamiento de credenciales en las tres listas. No
+se ejecutaron las suites completas ni se revisó con tecnologías de asistencia.
+
+**Despliegue pendiente:** cambian el contrato de autenticación de las cinco
+rutas y la respuesta de `my-recipes` incorpora el campo `isFavorite`.
 Para evitar que el frontend anterior ignore el nuevo error, desplegar primero el
 frontend que lo reconoce y después la API. Para revertir, restaurar primero la
-API y después el frontend. Coordinar también el cambio previo de tiempo
-opcional y los runtimes requeridos antes de desplegar; no se ha desplegado aquí.
+API y después el frontend. Los clientes externos que validen la forma exacta de
+la respuesta deben aceptar el nuevo campo. Coordinar también el cambio previo
+de tiempo opcional y los runtimes requeridos; no se ha desplegado aquí.
 
 **Corrección local pendiente de despliegue:** la respuesta de alternancia de
 favoritos incluía el campo `password` con el hash. Se ha eliminado ese campo

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
+import handleCredentialsError from '../../helper/handleCredentialsError'
 
 import Header from '../common/Header'
 import MyRecipeThumbnail from '../common/MyRecipeThumbnail'
@@ -13,24 +14,28 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
 
     const [myRecipes, setMyRecipes] = useState([])
 
-    const loadMyRecipes = useCallback(() => {
+    const loadMyRecipes = useCallback((isActive = () => true) => {
         try {
             logic.getMyRecipes()
-                .then(myRecipes => setMyRecipes(myRecipes))
+                .then(myRecipes => { if (isActive()) setMyRecipes(myRecipes) })
                 .catch(error => {
+                    if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
                     alert(error.message)
 
                     console.error(error)
                 })
         } catch (error) {
+            if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
             alert(error.message)
 
             console.error(error)
         }
-    }, [alert])
+    }, [alert, onUserLoggedOut])
 
     useEffect(() => {
-        loadMyRecipes()
+        let active = true
+        loadMyRecipes(() => active)
+        return () => { active = false }
     }, [loadMyRecipes])
 
     const handleRecipeDeleted = () => loadMyRecipes()

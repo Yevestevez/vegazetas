@@ -64,6 +64,12 @@ The API uses Express 5. Its JSON middleware retains the previous empty-object
 behavior for requests without a parsed body, so existing validation responses
 remain unchanged. Other routes still need broader HTTP characterization.
 
+The user-name and recipe-read endpoints return a generic `401` for invalid
+credentials. This includes the three recipe lists; other protected endpoints
+retain their previous behavior. The own-recipes list includes an `isFavorite`
+boolean. Deploy the compatible frontend before this API and roll back the API
+first; external clients with strict response schemas must accept the new field.
+
 ## Tests
 
 The Vitest suites clear user and recipe collections. They require a dedicated,

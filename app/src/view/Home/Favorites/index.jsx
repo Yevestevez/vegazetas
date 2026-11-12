@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
+import handleCredentialsError from '../../helper/handleCredentialsError'
 
 import Header from '../common/Header'
 import RecipeThumbnail from '../common/RecipeThumbnail'
@@ -12,24 +13,28 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
 
     const [favoritesRecipes, setFavoritesRecipes] = useState([])
 
-    const loadFavoritesRecipes = useCallback(() => {
+    const loadFavoritesRecipes = useCallback((isActive = () => true) => {
         try {
             logic.getFavoritesRecipes()
-                .then(favoritesRecipes => setFavoritesRecipes(favoritesRecipes))
+                .then(favoritesRecipes => { if (isActive()) setFavoritesRecipes(favoritesRecipes) })
                 .catch(error => {
+                    if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
                     alert(error.message)
 
                     console.error(error)
                 })
         } catch (error) {
+            if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
             alert(error.message)
 
             console.error(error)
         }
-    }, [alert])
+    }, [alert, onUserLoggedOut])
 
     useEffect(() => {
-        loadFavoritesRecipes()
+        let active = true
+        loadFavoritesRecipes(() => active)
+        return () => { active = false }
     }, [loadFavoritesRecipes])
 
     const handleToggleFavorite = (recipeId) => {

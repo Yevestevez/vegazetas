@@ -163,10 +163,11 @@ La selección explícita de archivos evita ejecutar scripts manuales
 por accidente. Playwright ejecuta tres pruebas locales de registro, sesión y
 credenciales incorrectas en Chromium, con una base de pruebas independiente.
 
-Las pruebas HTTP de consulta de receta ya cubren acceso propio, publicado y
-privado ajeno, además de errores y autenticación actuales. **Pendiente:**
-ampliar la caracterización de los demás contratos y flujos prioritarios y
-completar las comprobaciones locales de los paquetes afectados.
+Las pruebas HTTP de consulta de receta y de las tres listas cubren acceso,
+visibilidad, respuestas, errores y autenticación actuales. Se corrigieron el
+indicador de favorito en recetas propias y los errores de autenticación de las
+listas. **Pendiente:** ampliar la caracterización de los demás contratos y
+flujos prioritarios.
 
 - Migrar las pruebas existentes de Mocha a Vitest, preservando sus escenarios
   y evitando que las suites concurrentes compartan datos que se eliminan.

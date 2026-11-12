@@ -11,6 +11,8 @@ const getMyRecipes = userId => {
         .then(user => {
             if (!user) throw new NotFoundError('user not found')
 
+            const favorites = (user.favorites || []).map(fav => fav.toString())
+
             return Recipe.find({ author: user._id })
                 .select('_id title images author date published')
                 .select('-__v')
@@ -30,6 +32,7 @@ const getMyRecipes = userId => {
                         }
 
                         recipe.own = userId === recipe.author.id
+                        recipe.isFavorite = favorites.includes(recipe.id)
                     })
 
                     return recipes

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
+import handleCredentialsError from '../../helper/handleCredentialsError'
 
 import Header from '../common/Header'
 import RecipeThumbnail from '../common/RecipeThumbnail'
@@ -12,24 +13,28 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
 
     const [publishedRecipes, setPublishedRecipes] = useState([])
 
-    const loadPublishedRecipes = useCallback(() => {
+    const loadPublishedRecipes = useCallback((isActive = () => true) => {
         try {
             logic.getPublishedRecipes()
-                .then(publishedRecipes => setPublishedRecipes(publishedRecipes))
+                .then(publishedRecipes => { if (isActive()) setPublishedRecipes(publishedRecipes) })
                 .catch(error => {
+                    if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
                     alert(error.message)
 
                     console.error(error)
                 })
         } catch (error) {
+            if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
             alert(error.message)
 
             console.error(error)
         }
-    }, [alert])
+    }, [alert, onUserLoggedOut])
 
     useEffect(() => {
-        loadPublishedRecipes()
+        let active = true
+        loadPublishedRecipes(() => active)
+        return () => { active = false }
     }, [loadPublishedRecipes])
 
     const handleToggleFavorite = (recipeId) => {

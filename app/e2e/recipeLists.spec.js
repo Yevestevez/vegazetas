@@ -85,6 +85,7 @@ for (const list of lists) {
       await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))))
 
       expect(reads).toBe(1)
+      expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBe('test-token')
     })
   })
 }

@@ -73,6 +73,12 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
 14. **Efectos de las listas:** se estabilizaron las cargas de recetas propias,
     publicadas y favoritas. Se corrigieron las tres advertencias restantes de
     lint y se comprobaron las cargas, favoritos y errores en navegador.
+15. **Contratos HTTP de listas:** se caracterizaron visibilidad, orden,
+    respuestas y errores de las tres listas. Se detectó que las recetas propias
+    no incluían el indicador de favorito que utiliza la interfaz. Se añadió
+    `isFavorite` y se corrigió la autenticación de las tres listas: devuelven
+    `401` genérico para credenciales inválidas y el frontend cierra la sesión
+    en ese caso. Los cambios requieren despliegue coordinado.
 
 ### Estado y pendientes
 
