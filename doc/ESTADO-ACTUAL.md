@@ -129,6 +129,13 @@ registran en la API. La pantalla del menú cierra la sesión local, avisa y llev
 al inicio de sesión ante ese `401`; no cierra la sesión por un `500`.
 Las demás rutas protegidas mantienen su comportamiento anterior.
 
+Las pruebas HTTP de `GET /recipes/:recipeId` comprueban el acceso del autor a
+una receta privada, el acceso a una receta publicada de otra persona y el
+rechazo de una receta privada ajena. También verifican identificadores
+anidados, favorito, errores de usuario o receta inexistentes y un ID inválido.
+En esta ruta, la falta de autorización o una firma inválida siguen produciendo
+`500`; el mensaje de firma se expone. Su corrección queda pendiente de acuerdo.
+
 En la revisión del primer módulo vertical se corrigió una prueba que esperaba
 una promesa de una validación que lanza el error de forma síncrona, sin cambiar
 el comportamiento. Tras el cambio de autenticación pasaron 29 pruebas dirigidas
@@ -136,6 +143,9 @@ de lógica, HTTP e identificadores, cinco pruebas Playwright de autenticación,
 la comprobación de tipos y la compilación, con Node 26.13.1 y MongoDB desechable
 reutilizado. El lint dirigido pasó con una advertencia previa de dependencias de
 efecto; no se realizó una revisión manual con tecnologías de asistencia.
+En el siguiente corte pasaron 14 pruebas dirigidas de consulta de recetas
+(ocho HTTP y seis de lógica), con Node 26.13.1 y el mismo MongoDB desechable.
+No se ejecutó la suite completa en ese corte.
 
 **Despliegue pendiente:** el contrato de autenticación de esta ruta cambia.
 Para evitar que el frontend anterior ignore el nuevo error, desplegar primero el

@@ -163,9 +163,10 @@ La selección explícita de archivos evita ejecutar scripts manuales
 por accidente. Playwright ejecuta tres pruebas locales de registro, sesión y
 credenciales incorrectas en Chromium, con una base de pruebas independiente.
 
-**Pendiente:** ampliar la caracterización de contratos y flujos prioritarios,
-incluidas recetas, y completar las comprobaciones locales de los paquetes
-afectados.
+Las pruebas HTTP de consulta de receta ya cubren acceso propio, publicado y
+privado ajeno, además de errores y autenticación actuales. **Pendiente:**
+ampliar la caracterización de los demás contratos y flujos prioritarios y
+completar las comprobaciones locales de los paquetes afectados.
 
 - Migrar las pruebas existentes de Mocha a Vitest, preservando sus escenarios
   y evitando que las suites concurrentes compartan datos que se eliminan.
@@ -324,7 +325,7 @@ de Ethereal sí requiere acceso a internet.
 Se ha revisado el primer corte de `GET /users/name` de los sprints 3 y 4.
 Antes de extender el cambio de autenticación a otras rutas, acordar su alcance y
 tratar la sesión en los clientes afectados. Ampliar también las pruebas HTTP
-de recetas y otros flujos afectados por la actualización de Express.
+de otras operaciones de recetas y flujos afectados por la actualización de Express.
 
 ## Después de la refactorización: CI/CD
 

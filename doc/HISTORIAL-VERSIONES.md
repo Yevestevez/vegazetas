@@ -62,6 +62,9 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
     credenciales ausentes o inválidas y oculta los detalles de fallos internos.
     El menú cierra la sesión local ante ese error. El cambio está pendiente de
     despliegue coordinado; las demás rutas no se han modificado.
+12. **Acceso HTTP a recetas:** se caracterizaron los permisos de consulta de
+    recetas propias, publicadas y privadas ajenas, sus respuestas y errores
+    actuales, sin modificar su comportamiento.
 
 ### Estado y pendientes
 
