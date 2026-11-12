@@ -195,9 +195,9 @@ La API carga `.env` con Node y ya no depende de `dotenv`. El frontend usa Vite
 presentaron avisos de `npm audit`. Las validaciones de etiquetas, títulos,
 descripciones, imágenes, dificultades y tiempos de recetas, texto y notas de
 pasos, cantidad, indicador principal, unidad y anotación de ingredientes, y el
-nombre usado en registro e ingredientes, el nombre de usuario, el correo y la
-contraseña se han migrado a Zod, manteniendo la interfaz y los errores
-anteriores. El resto de validaciones sigue en JavaScript; ver
+nombre usado en registro e ingredientes, el nombre de usuario, el correo, la
+contraseña y el identificador se han migrado a Zod, manteniendo la interfaz y
+los errores anteriores. El resto de validaciones sigue en JavaScript; ver
 [detalle y comprobaciones](./MIGRACION-ZOD-SPRINT3.md).
 
 - Acordar configuración de TypeScript, módulos, compilación y convivencia con

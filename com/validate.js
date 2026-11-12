@@ -1,6 +1,6 @@
 import errors from './errors/index.js'
 import {
-    annotationSchema, descriptionSchema, difficultySchema, emailSchema, imageSchema, mainSchema, nameSchema, noteSchema,
+    annotationSchema, descriptionSchema, difficultySchema, emailSchema, idSchema, imageSchema, mainSchema, nameSchema, noteSchema,
     passwordSchema, quantitySchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema, usernameSchema
 } from './schemas.ts'
 const { ValidationError } = errors
@@ -12,8 +12,7 @@ const validateField = (schema, value) => {
 
 const validate = {
     id(id, explain = 'id') {
-        if (typeof id !== 'string') throw new ValidationError(`invalid ${explain} type, must be a string`)
-        if (id.length !== 24) throw new ValidationError(`invalid ${explain} length, must be 24 characters`)
+        validateField(idSchema(explain), id)
     },
 
     index(index, explain = 'index') {

@@ -186,7 +186,24 @@ en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan tipos y compilación;
 el lint mantiene seis advertencias previas. No se ejecutaron las suites
 completas de Vitest ni Playwright.
 
+## Duodécimo corte: identificadores
+
+`idSchema(explain)` conserva la validación original de tipo cadena y longitud
+exacta de 24 unidades UTF-16, así como los mensajes que incluyen el nombre del
+campo. No comprueba que la cadena sea hexadecimal ni la transforma; por eso un
+valor de 24 caracteres no hexadecimales sigue pasando esta validación, aunque
+MongoDB pueda rechazarlo después.
+
+Pasan 19 pruebas Vitest: seis de esquema y 13 del endpoint `GET /users/name`,
+ejecutadas en el MongoDB desechable verificado. El esquema se comprobó en Node
+22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan tipos y compilación; el lint
+mantiene seis advertencias previas. No se ejecutaron las suites completas de
+Vitest ni Playwright.
+
 ## Pendiente
+
+- Migrar los dos validadores originales restantes de `validate`: índice y
+  dirección.
 
 - Migrar los tres validadores originales restantes de `validate`:
   identificador, índice y dirección.

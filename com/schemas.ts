@@ -20,6 +20,10 @@ export const passwordSchema = z.string({ error: 'invalid password type, must be 
         'invalid password length, must be between 8 and 25 characters')
     .regex(/^(?=\S+$)(?=.*[A-Za-z])(?=.*\d).{8,25}$/, 'invalid password syntax')
 
+export const idSchema = (explain = 'id') => z.string({
+    error: `invalid ${explain} type, must be a string`
+}).refine(id => id.length === 24, `invalid ${explain} length, must be 24 characters`)
+
 export const tagSchema = z.string().refine(tag => tag.length >= 1 && tag.length <= 30)
 
 export const titleSchema = z.string({ error: 'invalid title type, must be a string' })
