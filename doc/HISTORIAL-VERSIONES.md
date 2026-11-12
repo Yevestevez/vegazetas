@@ -79,10 +79,14 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
     `isFavorite` y se corrigió la autenticación de las tres listas: devuelven
     `401` genérico para credenciales inválidas y el frontend cierra la sesión
     en ese caso. Los cambios requieren despliegue coordinado.
+16. **Edición HTTP de recetas:** se caracterizaron la edición propia, los
+    permisos, la persistencia y el tiempo opcional. Pasaron la suite completa
+    de API y la de navegador; la autenticación de edición mantiene su contrato.
+    Se acordó cerrar el sprint 4 con el primer módulo vertical revisado.
 
 ### Estado y pendientes
 
-En la última comprobación local pasaron **105 pruebas Vitest**, los tipos, la
+En la comprobación en las tres líneas de Node pasaron **105 pruebas Vitest**, los tipos, la
 compilación y **tres pruebas Playwright** en cada una de las tres versiones de
 Node admitidas. La refactorización, las demás actualizaciones y la ampliación de
 pruebas siguen en curso; CI/CD se deja para después de terminarla.

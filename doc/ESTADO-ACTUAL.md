@@ -145,6 +145,13 @@ genérico para credenciales inválidas y `500` genérico para fallos internos;
 la interfaz cierra la sesión y avisa ante el `401`, no ante un `500`.
 Las demás rutas protegidas mantienen su comportamiento anterior.
 
+Las pruebas HTTP de `PATCH /recipes/:recipeId` comprueban que el autor puede
+editar, que otra persona no puede editar ni un borrador ni una receta
+publicada y que los rechazos no modifican el documento. También cubren la
+eliminación del tiempo al omitirlo y los errores de validación y ausencia.
+La firma inválida sigue produciendo `500` con detalles en esta ruta; no se ha
+modificado su contrato de autenticación.
+
 En la revisión del primer módulo vertical se corrigió una prueba que esperaba
 una promesa de una validación que lanza el error de forma síncrona, sin cambiar
 el comportamiento. Tras el cambio de autenticación pasaron 29 pruebas dirigidas
@@ -179,6 +186,16 @@ Playwright, además de tipos, lint sin advertencias y compilación, con Node
 26.13.1 y MongoDB desechable reutilizado. Se verificó el favorito propio con
 API y MongoDB reales y el tratamiento de credenciales en las tres listas. No
 se ejecutaron las suites completas ni se revisó con tecnologías de asistencia.
+
+Tras añadir las pruebas HTTP de edición, pasaron con Node 26.13.1 la suite
+completa de API (**452 pruebas**), los tipos, la suite completa Playwright en
+Chromium (**30 pruebas**), el lint sin advertencias y la compilación. Se usó el
+MongoDB desechable reutilizable con bases separadas para ambas suites. Las
+pruebas no caracterizan todas las rutas HTTP ni sustituyen la revisión manual
+con tecnologías de asistencia.
+Se ha acordado cerrar el sprint 4 con el módulo vertical revisado; las demás
+rutas HTTP y la autenticación de edición siguen pendientes de caracterización
+o corrección en otros cortes.
 
 **Despliegue pendiente:** cambian el contrato de autenticación de las cinco
 rutas y la respuesta de `my-recipes` incorpora el campo `isFavorite`.

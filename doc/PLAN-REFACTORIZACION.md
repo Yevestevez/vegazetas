@@ -217,7 +217,7 @@ ver [detalle y comprobaciones](./MIGRACION-ZOD-SPRINT3.md).
 comandos de desarrollo y compilación siguen funcionando y las pruebas del
 contrato migrado pasan. Queda documentado qué partes siguen en JavaScript.
 
-### Sprint 4: primer módulo vertical de API — en curso
+### Sprint 4: primer módulo vertical de API — completado
 
 **Hecho:** separada la creación de la aplicación del arranque; ruta, controlador,
 caso de uso y repositorio de nombre de usuario están en TypeScript. La
@@ -229,7 +229,8 @@ Las pruebas HTTP caracterizan el contrato. Tras revisar el primer corte, se
 acordó mantener la estructura funcional y cambiar solo la respuesta de
 autenticación de esta ruta a `401` para credenciales inválidas, con tratamiento
 correspondiente en el frontend. Posteriormente se aplicó el mismo contrato a
-la consulta de una receta; las demás rutas conservan sus respuestas.
+la consulta de una receta y las tres listas; las demás rutas conservan sus
+respuestas.
 
 La API usa Express 5. El middleware JSON mantiene la respuesta anterior cuando
 no se procesa un cuerpo, y el arranque propaga los errores de escucha. Quedan
@@ -244,7 +245,10 @@ sola la compatibilidad completa de la API.
 
 **Aceptación:** el caso de uso funciona desde HTTP hasta MongoDB, con pruebas
 de éxito y error y comprobación de tipos; el resto de rutas sigue operativo.
-La estructura se revisa antes de repetirla.
+La estructura se revisa antes de repetirla. El primer módulo ya está revisado y
+la suite completa de API y las pruebas de navegador pasan localmente. Se ha
+acordado cerrar el sprint con ese alcance; la caracterización HTTP pendiente
+de otras rutas continúa en los sprints posteriores.
 
 ### Sprint 5: usuarios y sesión — pendiente
 
