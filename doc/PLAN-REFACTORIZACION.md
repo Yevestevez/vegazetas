@@ -130,9 +130,9 @@ Se cerró el sprint con los siguientes resultados:
 - Corregida la exposición del hash de contraseña en la respuesta de favoritos
   y añadida una prueba HTTP. No se ha confirmado su despliegue.
 
-**Seguimiento pendiente:** tres advertencias de dependencias de efectos en
-las listas de React y validación del procedimiento de recuperación para el
-entorno real de Atlas. El ensayo local no demuestra la recuperación de producción.
+**Seguimiento pendiente:** validar el procedimiento de recuperación para el
+entorno real de Atlas. El ensayo local no demuestra la recuperación de
+producción. Las seis advertencias de efectos se han corregido posteriormente.
 
 - Inventariar los despliegues reales, configuraciones y versiones en uso, sin
   registrar secretos. Revisar la base de pruebas remota y la local antes de

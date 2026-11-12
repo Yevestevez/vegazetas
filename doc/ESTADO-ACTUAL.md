@@ -161,6 +161,12 @@ Playwright y la compilación; el lint pasó con tres advertencias restantes en
 las listas. Las pruebas comprueban que los avisos no repiten las consultas ni
 descartan una edición sin guardar. No se revisó con tecnologías de asistencia.
 
+En el corte de listas se estabilizaron sus funciones de carga y se declararon
+las dependencias de los efectos. Con Node 26.13.1 pasaron nueve pruebas
+Playwright con API simulada y MongoDB desechable reutilizado; comprueban carga,
+favoritos y errores sin consultas repetidas. La compilación pasó y el lint del
+frontend pasó sin advertencias. No se revisó con tecnologías de asistencia.
+
 **Despliegue pendiente:** el contrato de autenticación de las dos rutas cambia.
 Para evitar que el frontend anterior ignore el nuevo error, desplegar primero el
 frontend que lo reconoce y después la API. Para revertir, restaurar primero la

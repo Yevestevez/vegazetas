@@ -54,8 +54,9 @@ application feature or browser.
 
 ## Browser tests
 
-The Playwright tests cover registration, sign-in/sign-out and invalid
-credentials with Chromium in headless mode. Install dependencies in both
+The Playwright tests cover authentication, optional recipe time and recipe
+lists, including favorite updates and errors, with Chromium in headless mode.
+The list tests use mocked API responses. Install dependencies in both
 `api` and `app`, then download the browser from the `app` directory:
 
 ```powershell

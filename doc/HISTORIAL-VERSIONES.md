@@ -69,7 +69,10 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
     cierra la sesión ante ese `401`. El despliegue debe coordinarse.
 13. **Efectos del menú y recetas:** se estabilizaron los callbacks y se
     corrigieron tres advertencias de dependencias, sin recargar al mostrar
-    avisos ni descartar cambios en el editor. Quedan tres avisos en las listas.
+    avisos ni descartar cambios en el editor.
+14. **Efectos de las listas:** se estabilizaron las cargas de recetas propias,
+    publicadas y favoritas. Se corrigieron las tres advertencias restantes de
+    lint y se comprobaron las cargas, favoritos y errores en navegador.
 
 ### Estado y pendientes
 

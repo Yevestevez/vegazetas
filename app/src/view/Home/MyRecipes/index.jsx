@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
@@ -13,11 +13,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
 
     const [myRecipes, setMyRecipes] = useState([])
 
-    useEffect(() => {
-        loadMyRecipes()
-    }, [])
-
-    const loadMyRecipes = () => {
+    const loadMyRecipes = useCallback(() => {
         try {
             logic.getMyRecipes()
                 .then(myRecipes => setMyRecipes(myRecipes))
@@ -31,7 +27,11 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
 
             console.error(error)
         }
-    }
+    }, [alert])
+
+    useEffect(() => {
+        loadMyRecipes()
+    }, [loadMyRecipes])
 
     const handleRecipeDeleted = () => loadMyRecipes()
     const handleRecipeUpdated = () => loadMyRecipes()

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
@@ -12,11 +12,7 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
 
     const [favoritesRecipes, setFavoritesRecipes] = useState([])
 
-    useEffect(() => {
-        loadFavoritesRecipes()
-    }, [])
-
-    const loadFavoritesRecipes = () => {
+    const loadFavoritesRecipes = useCallback(() => {
         try {
             logic.getFavoritesRecipes()
                 .then(favoritesRecipes => setFavoritesRecipes(favoritesRecipes))
@@ -30,7 +26,11 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
 
             console.error(error)
         }
-    }
+    }, [alert])
+
+    useEffect(() => {
+        loadFavoritesRecipes()
+    }, [loadFavoritesRecipes])
 
     const handleToggleFavorite = (recipeId) => {
         const recipe = favoritesRecipes.find(r => r.id === recipeId)
