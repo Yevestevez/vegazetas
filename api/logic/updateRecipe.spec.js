@@ -63,6 +63,16 @@ describe('updateRecipe', () => {
             })
     })
 
+    test.each([30, 0])('removes stored time %i when the edit omits it', async time => {
+        const user = await User.create({ name: 'Test User', email: 'time@example.invalid', username: 'timeuser', password: 'synthetic-hash' })
+        const recipe = await Recipe.create({ author: user.id, title: 'Test recipe', time })
+
+        await updateRecipe(user.id, recipe.id, 'Test recipe')
+
+        const updated = await Recipe.findById(recipe.id).lean()
+        expect(updated).not.toHaveProperty('time')
+    })
+
     test('fails on wrong user', () => {
         let catchedError
 

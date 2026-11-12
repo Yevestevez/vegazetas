@@ -65,9 +65,8 @@ previas. No se ejecutaron la suite completa ni las pruebas de navegador.
 
 `timeSchema` acepta números enteros entre 5 y 9999. La migración inicial
 reprodujo una comprobación heredada que no aplicaba el máximo; la revisión
-correctiva de este documento la alineó con el límite anunciado. La creación y
-edición siguen omitiendo la validación cuando el tiempo es cero, que se
-mantiene como valor para indicar que no se especificó tiempo.
+correctiva de este documento la alineó con el límite anunciado. El tratamiento
+posterior del tiempo opcional se describe en la sección «Tiempo opcional».
 
 Pasan 72 pruebas Vitest en los dos archivos de validación, incluidas respuestas
 HTTP, límites y comprobaciones de API y frontend, sin conectar MongoDB. Las
@@ -233,8 +232,7 @@ Se corrigieron las discrepancias detectadas al revisar los consumidores:
   HTML más restrictivo. `registerUser` dejó de validar el correo dos veces.
 
 Se mantienen los límites de longitud en unidades UTF-16 para preservar el
-contrato existente, el cero de tiempo como valor opcional omitido por los
-consumidores y la aceptación de caracteres Unicode no espaciados en
+contrato existente y la aceptación de caracteres Unicode no espaciados en
 contraseñas que incluyen una letra y un dígito ASCII.
 
 Pasan 273 pruebas en 10 suites dirigidas, el typecheck de la API y el build de
@@ -242,6 +240,23 @@ la app. Las pruebas de validación no requieren MongoDB. Las dos suites
 integradas de `GET /users/name` no pudieron conectar con MongoDB local y
 agotaron el tiempo de espera antes de ejecutar pruebas; no se realizaron
 operaciones de borrado. No se ejecutaron la suite completa ni Playwright.
+
+## Tiempo opcional
+
+El tiempo sin especificar se representa mediante la ausencia del campo. Si se
+proporciona, debe ser un entero de 5 a 9999 minutos; `0` y `null` explícitos
+se rechazan. En `PATCH` omitir `time` elimina el tiempo guardado. El formulario
+lo muestra vacío y permite borrarlo; también muestra vacíos los valores
+históricos `0`, que no se visualizan en la receta. No se han migrado ni borrado
+datos existentes; un cero anterior se elimina cuando se guarda una edición.
+Hay que coordinar el despliegue con los clientes que aún envíen `0` o `null`.
+
+Pasan 98 pruebas Vitest de creación, edición y validación, incluidas pruebas
+de borrado del campo en MongoDB aislado y desechable y de autorización. Pasan
+cuatro pruebas Playwright en Chromium con la API simulada para la interfaz.
+Pasan los tipos de la API y el build de la app; el lint dirigido mantiene dos
+advertencias previas de `useEffect`. No se ejecutaron las suites completas ni
+pruebas manuales con tecnologías de asistencia.
 
 ## Pendiente
 

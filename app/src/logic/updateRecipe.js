@@ -10,7 +10,7 @@ const updateRecipe = (
     validate.id(recipeId, 'recipeId')
     validate.title(title)
     if (description) validate.description(description)
-    if (time) validate.time(time)
+    if (time !== undefined) validate.time(time)
     if (difficulty) validate.difficulty(difficulty)
 
     return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {

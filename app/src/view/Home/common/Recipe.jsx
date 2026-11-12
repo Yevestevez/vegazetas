@@ -304,10 +304,10 @@ function Recipe({
                         {
                             (recipe.time || recipe.difficulty) && (
                                 <div className="flex flex-row anybody-title text-lg sm:text-xl lg:text-2xl xl:text-3xl text-folly gap-2">
-                                    {recipe.time && <h3>{recipe.time} min</h3>}
+                                    {Boolean(recipe.time) && <h3>{recipe.time} min</h3>}
                                     {recipe.difficulty && (
                                         <>
-                                            {recipe.time && " · "}
+                                            {Boolean(recipe.time) && " · "}
                                             <h3>Dificultad: {difficultyMap[recipe.difficulty]}</h3>
                                         </>
                                     )}

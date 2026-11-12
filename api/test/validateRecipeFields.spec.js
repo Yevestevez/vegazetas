@@ -5,7 +5,7 @@ import {
     stepNoteUpdateSchema, textSchema, timeSchema, titleSchema, validate
 } from 'com'
 import createApp from '../app.js'
-import { User } from '../data/models.js'
+import { Recipe, User } from '../data/models.js'
 import addImageToRecipe from '../logic/addImageToRecipe.js'
 import addStepToRecipe from '../logic/addStepToRecipe.js'
 import createRecipe from '../logic/createRecipe.js'
@@ -181,7 +181,20 @@ describe('shared recipe field validation', () => {
         expect(() => updateRecipeInApp(id, 'valid', undefined, 10000)).toThrowError(message)
     })
 
-    test('preserves the existing handling of zero optional time', async () => {
+    test.each([
+        [0, 'invalid time, minimum 5 minutes'],
+        [null, 'invalid time type, must be a number'],
+        [false, 'invalid time type, must be a number'],
+        ['', 'invalid time type, must be a number']
+    ])('rejects explicitly provided invalid time %s in both consumers', (time, message) => {
+        const id = 'a'.repeat(24)
+        expect(() => createRecipe(id, 'valid', undefined, undefined, time)).toThrowError(message)
+        expect(() => updateRecipe(id, id, 'valid', undefined, time)).toThrowError(message)
+        expect(() => createRecipeInApp(id, 'valid', undefined, undefined, time)).toThrowError(message)
+        expect(() => updateRecipeInApp(id, 'valid', undefined, time)).toThrowError(message)
+    })
+
+    test('omits an unspecified time in creation and editing requests', async () => {
         const id = 'a'.repeat(24)
         const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
         vi.stubGlobal('sessionStorage', { token: 'test-token' })
@@ -191,16 +204,41 @@ describe('shared recipe field validation', () => {
         }))
         vi.stubGlobal('fetch', fetchMock)
 
-        await expect(createRecipe(id, 'valid', undefined, undefined, 0)).rejects.toThrow('user not found')
-        await expect(updateRecipe(id, id, 'valid', undefined, 0)).rejects.toThrow('user not found')
-        await createRecipeInApp(id, 'valid', undefined, undefined, 0)
-        await updateRecipeInApp(id, 'valid', undefined, 0)
+        await expect(createRecipe(id, 'valid')).rejects.toThrow('user not found')
+        await expect(updateRecipe(id, id, 'valid')).rejects.toThrow('user not found')
+        await createRecipeInApp(id, 'valid')
+        await updateRecipeInApp(id, 'valid')
 
         expect(findUser).toHaveBeenCalledTimes(2)
         expect(fetchMock).toHaveBeenCalledTimes(2)
         for (const [, options] of fetchMock.mock.calls) {
-            expect(JSON.parse(options.body).time).toBe(0)
+            expect(JSON.parse(options.body)).not.toHaveProperty('time')
         }
+    })
+
+    test.each([30, 0])('removes stored time %s when an authorized edit omits it', async storedTime => {
+        const id = 'a'.repeat(24)
+        const recipe = Recipe.hydrate({ _id: id, author: id, title: 'valid', time: storedTime })
+        vi.spyOn(User, 'findById').mockResolvedValue({ _id: id })
+        vi.spyOn(Recipe, 'findById').mockResolvedValue(recipe)
+        const save = vi.spyOn(recipe, 'save').mockResolvedValue(recipe)
+
+        await updateRecipe(id, id, 'valid')
+
+        expect(save).toHaveBeenCalledOnce()
+        expect(recipe.getChanges().$unset).toHaveProperty('time', 1)
+    })
+
+    test('does not clear a time when the user is not the author', async () => {
+        const id = 'a'.repeat(24)
+        const recipe = Recipe.hydrate({ _id: id, author: 'b'.repeat(24), title: 'valid', time: 30 })
+        vi.spyOn(User, 'findById').mockResolvedValue({ _id: id })
+        vi.spyOn(Recipe, 'findById').mockResolvedValue(recipe)
+        const save = vi.spyOn(recipe, 'save')
+
+        await expect(updateRecipe(id, id, 'valid')).rejects.toThrowError(errors.OwnershipError)
+        expect(recipe.time).toBe(30)
+        expect(save).not.toHaveBeenCalled()
     })
 
     test.each(['a', 'x'.repeat(800), '🍎'.repeat(400)])('accepts step text without changing it', text => {
@@ -310,6 +348,23 @@ describe('recipe HTTP validation', () => {
             method: 'POST',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
+        })
+
+        expect(response.status).toBe(400)
+        expect(await response.json()).toEqual({ error: 'ValidationError', message })
+    })
+
+    test.each([
+        ['POST', '', 0, 'invalid time, minimum 5 minutes'],
+        ['PATCH', '/aaaaaaaaaaaaaaaaaaaaaaaa', 0, 'invalid time, minimum 5 minutes'],
+        ['POST', '', null, 'invalid time type, must be a number'],
+        ['PATCH', '/aaaaaaaaaaaaaaaaaaaaaaaa', null, 'invalid time type, must be a number']
+    ])('rejects invalid time in %s requests', async (method, path, time, message) => {
+        const token = jwt.sign({ sub: 'a'.repeat(24) }, secret)
+        const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes${path}`, {
+            method,
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: 'valid', time })
         })
 
         expect(response.status).toBe(400)

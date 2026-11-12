@@ -83,7 +83,8 @@ function SaveRecipe({
         const title = form.title.value.trim()
         const rawDescription = form.description.value.trim()
         const description = rawDescription === '' ? null : rawDescription
-        const time = parseFloat(form.time.value.trim()) || undefined
+        const rawTime = form.time.value.trim()
+        const time = rawTime === '' ? undefined : Number(rawTime)
         let difficulty = form.difficulty.value.trim().toLowerCase() || undefined
 
         if (!title) {
@@ -107,7 +108,7 @@ function SaveRecipe({
         const hasChanges =
             title !== recipe.title ||
             description !== (recipe.description ?? null) ||
-            time !== recipe.time ||
+            time !== (recipe.time === 0 || recipe.time == null ? undefined : recipe.time) ||
             difficulty !== recipe.difficulty
 
         if (!hasChanges) {
@@ -681,7 +682,7 @@ function SaveRecipe({
                                 <label className={labelBase} htmlFor="time">Tiempo (min)</label>
                                 <input
                                     id="time" type="number" name="time" title="Introduce un número entero entre 5 y 9999 minutos"
-                                    placeholder="En minutos" defaultValue={recipe.time || 5} min={5} max={9999} step={1}
+                                    placeholder="En minutos" defaultValue={recipe.time === 0 ? '' : (recipe.time ?? '')} min={5} max={9999} step={1}
 
                                     className={`${inputBase} ${inputColor.springBud} truncate mb-2`}
                                 />

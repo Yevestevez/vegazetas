@@ -53,8 +53,10 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
     y la anotación de ingredientes, además del nombre usado en registro e
     ingredientes, el nombre de usuario, el correo, la contraseña y el
     identificador, el índice y la dirección. Una revisión correctiva alineó
-    límites y mensajes, los tipos opcionales y la validación de IDs. Los demás
-    campos siguen pendientes; el detalle y las comprobaciones están en
+    límites y mensajes, los tipos opcionales y la validación de IDs. El tiempo
+    opcional usa la ausencia del campo y rechaza `0` y `null` nuevos, sin
+    migrar los valores históricos. Los demás campos siguen pendientes; el
+    detalle y las comprobaciones están en
     [la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
 
 ### Estado y pendientes

@@ -13,7 +13,7 @@ const createRecipe = (
     validate.title(title)
     if (images) validate.images(images)
     if (description) validate.description(description)
-    if (time) validate.time(time)
+    if (time !== undefined) validate.time(time)
     if (difficulty) validate.difficulty(difficulty)
     if (tags) validate.tags(tags)
 

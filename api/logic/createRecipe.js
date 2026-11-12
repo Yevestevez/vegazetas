@@ -15,7 +15,7 @@ const createRecipe = (
     validate.id(userId, 'userId')
     validate.title(title)
     if (description) validate.description(description)
-    if (time) validate.time(time)
+    if (time !== undefined) validate.time(time)
     if (difficulty) validate.difficulty(difficulty)
 
     return User.findById(userId)

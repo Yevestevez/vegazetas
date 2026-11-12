@@ -37,6 +37,12 @@ el registro web. Las validaciones aún no migradas siguen en JavaScript. El
 alcance y las comprobaciones están en
 [la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
 
+El tiempo de receta es opcional: al proporcionarlo se exigen entre 5 y 9999
+minutos enteros, y al omitirlo en una edición se elimina el campo. Los ceros
+históricos se muestran como ausencia sin migrar la base de datos. El nuevo
+rechazo de `0` y `null` requiere coordinación con los clientes existentes;
+ver [detalle y pruebas](./MIGRACION-ZOD-SPRINT3.md#tiempo-opcional).
+
 ## Recorrido de una petición
 
 1. React monta la aplicación con `BrowserRouter`. Las vistas y componentes
