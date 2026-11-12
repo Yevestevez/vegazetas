@@ -1,5 +1,10 @@
 import { z } from 'zod'
 
+export const nameSchema = z.string({ error: 'invalid name type, must be a string' })
+    .refine(name => name.length >= 1 && name.length <= 50,
+        'invalid name length, must be between 1 and 50 characters')
+    .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/, 'invalid name syntax')
+
 export const tagSchema = z.string().refine(tag => tag.length >= 1 && tag.length <= 30)
 
 export const titleSchema = z.string({ error: 'invalid title type, must be a string' })

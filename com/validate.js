@@ -1,13 +1,12 @@
 import errors from './errors/index.js'
 import {
-    annotationSchema, descriptionSchema, difficultySchema, imageSchema, mainSchema, noteSchema,
+    annotationSchema, descriptionSchema, difficultySchema, imageSchema, mainSchema, nameSchema, noteSchema,
     quantitySchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema
 } from './schemas.ts'
 const { ValidationError } = errors
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const USERNAME_REGEX = /^[a-z0-9._-]{1,25}$/
-const NAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/
 const PASSWORD_REGEX = /^(?=\S+$)(?=.*[A-Za-z])(?=.*\d).{8,25}$/
 
 const validateField = (schema, value) => {
@@ -27,9 +26,7 @@ const validate = {
     },
 
     name(name) {
-        if (typeof name !== 'string') throw new ValidationError('invalid name type, must be a string')
-        if (name.length < 1 || name.length > 50) throw new ValidationError('invalid name length, must be between 1 and 50 characters')
-        if (!NAME_REGEX.test(name)) throw new ValidationError('invalid name syntax')
+        validateField(nameSchema, name)
     },
 
     // User

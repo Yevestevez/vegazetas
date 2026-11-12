@@ -126,6 +126,23 @@ esquemas se comprobaron en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1
 pasan tipos y compilación; el lint mantiene seis advertencias previas. No se
 ejecutaron la suite completa ni las pruebas de navegador.
 
+## Octavo corte: nombre en registro e ingredientes
+
+`nameSchema` conserva el límite de 1 a 50 unidades UTF-16 y la expresión
+regular existente, sin recortar ni normalizar. Se mantienen los mensajes y
+el orden de validación propios de cada consumidor: el registro del frontend
+comprueba el nombre de usuario antes que el nombre, mientras que la API
+comprueba primero el nombre. No se ha ampliado el conjunto de caracteres
+aceptados.
+
+Pasan 183 pruebas Vitest en seis archivos, incluidas cinco pruebas de
+persistencia de registro e ingredientes que borran usuarios y recetas en el
+contenedor MongoDB desechable verificado. Pasa también la prueba Playwright
+de registro en Chromium, con una base desechable separada. El esquema se
+comprobó en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan tipos
+y compilación; el lint mantiene seis advertencias previas. No se ejecutaron
+las suites completas de Vitest ni Playwright.
+
 ## Pendiente
 
 - Caracterizar y migrar más validaciones en cortes pequeños, incluyendo
