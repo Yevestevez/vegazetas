@@ -11,6 +11,10 @@ export const usernameSchema = z.string({ error: 'invalid username type, must be 
     .regex(/^[a-z0-9._-]{1,25}$/,
         'invalid username syntax (solo minúsculas, números, guiones, guiones bajos o puntos, sin espacios. Máx. 25 caracteres)')
 
+export const emailSchema = z.string({ error: 'invalid email type, must be a string' })
+    .regex(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        'invalid email syntax')
+
 export const tagSchema = z.string().refine(tag => tag.length >= 1 && tag.length <= 30)
 
 export const titleSchema = z.string({ error: 'invalid title type, must be a string' })

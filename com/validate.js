@@ -1,11 +1,10 @@
 import errors from './errors/index.js'
 import {
-    annotationSchema, descriptionSchema, difficultySchema, imageSchema, mainSchema, nameSchema, noteSchema,
+    annotationSchema, descriptionSchema, difficultySchema, emailSchema, imageSchema, mainSchema, nameSchema, noteSchema,
     quantitySchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema, usernameSchema
 } from './schemas.ts'
 const { ValidationError } = errors
 
-const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const PASSWORD_REGEX = /^(?=\S+$)(?=.*[A-Za-z])(?=.*\d).{8,25}$/
 
 const validateField = (schema, value) => {
@@ -30,8 +29,7 @@ const validate = {
 
     // User
     email(email) {
-        if (typeof email !== 'string') throw new ValidationError('invalid email type, must be a string')
-        if (!EMAIL_REGEX.test(email)) throw new ValidationError('invalid email syntax')
+        validateField(emailSchema, email)
     },
 
     username(username) {
