@@ -1,11 +1,9 @@
 import errors from './errors/index.js'
 import {
     annotationSchema, descriptionSchema, difficultySchema, emailSchema, imageSchema, mainSchema, nameSchema, noteSchema,
-    quantitySchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema, usernameSchema
+    passwordSchema, quantitySchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema, usernameSchema
 } from './schemas.ts'
 const { ValidationError } = errors
-
-const PASSWORD_REGEX = /^(?=\S+$)(?=.*[A-Za-z])(?=.*\d).{8,25}$/
 
 const validateField = (schema, value) => {
     const result = schema.safeParse(value)
@@ -37,9 +35,7 @@ const validate = {
     },
 
     password(password) {
-        if (typeof password !== 'string') throw new ValidationError('invalid password type, must be a string')
-        if (password.length < 8 || password.length > 25) throw new ValidationError('invalid password length, must be between 8 and 25 characters')
-        if (!PASSWORD_REGEX.test(password)) throw new ValidationError('invalid password syntax')
+        validateField(passwordSchema, password)
     },
 
     // Recipe

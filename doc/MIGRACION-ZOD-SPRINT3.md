@@ -169,10 +169,27 @@ se comprobó en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan tipos
 y compilación; el lint mantiene seis advertencias previas. No se ejecutaron
 las suites completas de Vitest ni Playwright.
 
+## Undécimo corte: contraseña
+
+`passwordSchema` conserva la expresión regular y los límites de 8 a 25
+unidades UTF-16, así como la prioridad de los errores de tipo, longitud y
+sintaxis. No recorta ni normaliza. La expresión heredada permite caracteres
+Unicode en algunas posiciones si la contraseña también contiene una letra
+ASCII y un dígito; no se amplió ni restringió el criterio. La API y el frontend
+siguen usando sus validadores existentes para autenticación y restablecimiento.
+El registro del frontend no invocaba `validate.password`; no se cambió ese
+comportamiento en esta migración.
+
+Pasan 50 pruebas Vitest en tres archivos, incluyendo los errores HTTP de
+autenticación y restablecimiento; no requieren MongoDB. El esquema se comprobó
+en Node 22.23.5, 24.22.3 y 26.13.1. En Node 26.13.1 pasan tipos y compilación;
+el lint mantiene seis advertencias previas. No se ejecutaron las suites
+completas de Vitest ni Playwright.
+
 ## Pendiente
 
-- Migrar los cuatro validadores originales restantes de `validate`:
-  identificador, índice, contraseña y dirección.
+- Migrar los tres validadores originales restantes de `validate`:
+  identificador, índice y dirección.
 - Caracterizar y migrar más validaciones en cortes pequeños, incluyendo
   recetas y usuarios, sin introducir valores por defecto ni cambiar errores.
 - Decidir la distribución y el tipado definitivos del paquete compartido.

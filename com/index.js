@@ -1,7 +1,7 @@
 import errors from './errors/index.js'
 import validate from './validate.js'
 export {
-    nameSchema, usernameSchema, emailSchema, tagSchema, titleSchema, descriptionSchema, imageSchema, difficultySchema, timeSchema,
+    nameSchema, usernameSchema, emailSchema, passwordSchema, tagSchema, titleSchema, descriptionSchema, imageSchema, difficultySchema, timeSchema,
     textSchema, noteSchema, stepNoteUpdateSchema, quantitySchema, mainSchema, unitSchema, annotationSchema
 } from './schemas.ts'
 

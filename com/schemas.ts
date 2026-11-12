@@ -15,6 +15,11 @@ export const emailSchema = z.string({ error: 'invalid email type, must be a stri
     .regex(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         'invalid email syntax')
 
+export const passwordSchema = z.string({ error: 'invalid password type, must be a string' })
+    .refine(password => password.length >= 8 && password.length <= 25,
+        'invalid password length, must be between 8 and 25 characters')
+    .regex(/^(?=\S+$)(?=.*[A-Za-z])(?=.*\d).{8,25}$/, 'invalid password syntax')
+
 export const tagSchema = z.string().refine(tag => tag.length >= 1 && tag.length <= 30)
 
 export const titleSchema = z.string({ error: 'invalid title type, must be a string' })

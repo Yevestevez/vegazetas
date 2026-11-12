@@ -51,8 +51,8 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
     títulos, descripciones, imágenes, dificultades y tiempos de recetas, el
     texto y las notas de pasos, y la cantidad, el indicador principal, la unidad
     y la anotación de ingredientes, además del nombre usado en registro e
-    ingredientes, el nombre de usuario y el correo, conservando el contrato
-    existente. Los demás campos siguen pendientes; el detalle y las
+    ingredientes, el nombre de usuario, el correo y la contraseña, conservando
+    el contrato existente. Los demás campos siguen pendientes; el detalle y las
     comprobaciones están en
     [la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
 
