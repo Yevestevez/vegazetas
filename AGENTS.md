@@ -17,7 +17,11 @@
   dependencias y runtimes del proyecto. Revisa requisitos de motor y pares,
   cambios incompatibles y pruebas. Si la última estable no es compatible,
   documenta el bloqueo y la versión elegida; no uses versiones preliminares
-  sin acuerdo. Las instalaciones reproducibles deben respetar el lockfile.
+  sin acuerdo. Cuando Context7 MCP esté disponible, consúltalo para revisar la
+  documentación vigente, los requisitos y las guías de migración de la
+  herramienta o librería afectada; contrasta esa información con sus metadatos
+  publicados y la compatibilidad real del proyecto. Las instalaciones
+  reproducibles deben respetar el lockfile.
 - Completa la actualización de todas las dependencias según esta política, y
   actualiza los runtimes, incluido Node, a versiones compatibles,
   preferentemente LTS. Comunica cualquier bloqueo y coordina los despliegues.
