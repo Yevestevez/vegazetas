@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 import { errors, passwordSchema, validate } from 'com'
 import createApp from '../app.js'
-import authenticateUser from '../logic/authenticateUser.js'
+import { authenticateUser } from '../modules/users/authenticateUser/composition.ts'
 import passwordReset from '../logic/passwordReset.js'
 import { registerUser } from '../modules/users/registerUser/composition.ts'
 import registerUserInApp from '../../app/src/logic/registerUser.js'

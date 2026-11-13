@@ -260,6 +260,13 @@ HTTP para creación, validación y duplicidad; se eliminaron la lógica y el
 handler JavaScript que quedaron sustituidos. Pasaron 453 pruebas de API y la
 comprobación de tipos con Node 26.13.1 y MongoDB 8.3.13.
 
+**Segundo corte completado:** la autenticación se migró al mismo patrón
+funcional. `POST /users/auth` conserva el JWT como cadena JSON, las respuestas
+de `401` para credenciales incorrectas y la ausencia de expiración. Pasaron
+454 pruebas de API y la comprobación de tipos con Node 26.13.1 y MongoDB
+8.3.13. La decisión sobre expiración sigue pendiente; no se cambió el
+comportamiento de sesión ni el frontend.
+
 - Migrar progresivamente registro, autenticación, datos de usuario,
   recuperación de contraseña y favoritos a la estructura validada.
 - Revisar expiración, almacenamiento y validación de tokens, control de

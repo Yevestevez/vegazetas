@@ -1,4 +1,3 @@
-import authenticateUser from './authenticateUser.js'
 import getUserUsername from './getUserUsername.js'
 import passwordRecover from './passwordRecover.js'
 import passwordReset from './passwordReset.js'
@@ -28,7 +27,6 @@ import addTagToRecipe from './addTagToRecipe.js'
 import removeTagFromRecipe from './removeTagFromRecipe.js'
 
 const logic = {
-    authenticateUser,
     getUserUsername,
     passwordRecover,
     passwordReset,
