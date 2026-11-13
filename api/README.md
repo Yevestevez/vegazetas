@@ -58,9 +58,10 @@ TypeScript files directly; no separate compilation step is needed at startup.
 Run `npm run typecheck` to check the migrated TypeScript modules. Existing
 JavaScript and the shared `com` package remain in place and are not fully
 type-checked. The `GET /users/name`, `GET /users/username`, `POST /users`,
-`POST /users/auth` and `PATCH /users/favorites/:recipeId` modules are
-TypeScript, including their handlers, use cases and repositories. The
-remaining user routes stay in JavaScript for now.
+`POST /users/auth`, `PATCH /users/favorites/:recipeId` and
+`POST /users/password/reset/:token` modules are TypeScript, including their
+handlers, use cases and repositories. The remaining user routes stay in
+JavaScript for now.
 
 The API uses Express 5. Its JSON middleware retains the previous empty-object
 behavior for requests without a parsed body, so existing validation responses

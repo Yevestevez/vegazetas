@@ -73,6 +73,24 @@ test.describe('authentication', () => {
     await expect(page).toHaveURL(/\/login$/)
   })
 
+  test('shows a useful message when a password reset token has no user', async ({ page }) => {
+    const token = 'valid-reset-token'
+    await page.route(`${apiUrl}/users/password/reset/${token}`, route => route.fulfill({
+      status: 404,
+      json: { error: 'NotFoundError', message: 'User not found' }
+    }))
+
+    await page.goto(`/password-reset?token=${token}`)
+    await page.getByLabel('Nueva contraseña').fill('NewPass456')
+    await page.getByRole('button', { name: 'Guardar' }).click()
+    await page.getByRole('button', { name: 'Aceptar' }).click()
+
+    await expect(page.getByText(
+      'No se encontró la cuenta asociada a este enlace. Solicita un enlace nuevo para restablecer la contraseña.'
+    )).toBeVisible()
+    await expect(page).toHaveURL(new RegExp(`/password-reset\\?token=${token}$`))
+  })
+
   test('signs out and shows a message when the session token is invalid', async ({ page }) => {
     await page.goto('/landing')
     await page.evaluate(() => { sessionStorage.token = 'invalid-token' })

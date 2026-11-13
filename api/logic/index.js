@@ -1,5 +1,4 @@
 import passwordRecover from './passwordRecover.js'
-import passwordReset from './passwordReset.js'
 
 import createRecipe from './createRecipe.js'
 import getMyRecipes from './getMyRecipes.js'
@@ -26,7 +25,6 @@ import removeTagFromRecipe from './removeTagFromRecipe.js'
 
 const logic = {
     passwordRecover,
-    passwordReset,
 
     createRecipe,
     getMyRecipes,

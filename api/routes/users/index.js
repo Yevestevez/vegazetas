@@ -6,11 +6,9 @@ import registerUserRouter from '../../modules/users/registerUser/registerUserRou
 import authenticateUserRouter from '../../modules/users/authenticateUser/authenticateUserRoutes.ts'
 import getUserUsernameRouter from '../../modules/users/getUserUsername/getUserUsernameRoutes.ts'
 import toggleFavoriteRecipeRouter from '../../modules/users/toggleFavoriteRecipe/toggleFavoriteRecipeRoutes.ts'
+import passwordResetRouter from '../../modules/users/passwordReset/passwordResetRoutes.ts'
 
-import {
-    passwordRecoverHandler,
-    passwordResetHandler
-} from './handlers/index.js'
+import { passwordRecoverHandler } from './handlers/index.js'
 
 const router = new Router()
 
@@ -20,7 +18,7 @@ router.use(registerUserRouter)
 router.use(getUserUsernameRouter)
 
 router.post('/password/recover', jsonBodyParser, passwordRecoverHandler)
-router.post('/password/reset/:token', jsonBodyParser, passwordResetHandler)
+router.use('/password/reset', passwordResetRouter)
 
 router.use('/favorites', toggleFavoriteRecipeRouter)
 

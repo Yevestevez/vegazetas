@@ -277,6 +277,13 @@ TypeScript. Conserva la alternancia, el usuario serializado sin contraseña y
 los errores de usuario o receta inexistentes, sin cambiar el manejo JWT.
 Pasaron 457 pruebas de API y el typecheck con Node 26.13.1 y MongoDB 8.3.13.
 
+**Quinto corte completado:** `POST /users/password/reset/:token` se migró a
+TypeScript. Mantiene el `204`, el hash de contraseña y los errores de token
+inválido o caducado. El usuario inexistente ahora produce `404 NotFoundError`
+en vez de `500 SystemError`, y el frontend solicita un enlace nuevo. Pasaron las
+462 pruebas de API, el typecheck y la prueba E2E de ese mensaje, además del lint
+y la compilación del frontend, con Node 26.13.1 y MongoDB 8.3.13.
+
 - Migrar progresivamente registro, autenticación, datos de usuario,
   recuperación de contraseña y favoritos a la estructura validada.
 - Revisar expiración, almacenamiento y validación de tokens, control de

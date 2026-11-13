@@ -10,7 +10,7 @@ import CircleButton from './common/CircleButton.jsx'
 import Footer from './common/Footer.jsx'
 import { errors } from 'com'
 
-const { SystemError, ValidationError } = errors
+const { NotFoundError, SystemError, ValidationError } = errors
 
 function PasswordReset({ onPasswordReseted }) {
     const { alert, confirm } = useAppContext()
@@ -54,6 +54,9 @@ function PasswordReset({ onPasswordReseted }) {
                         if (closeAlert) closeAlert()
 
                         if (error instanceof ValidationError) alert(error.message)
+                        else if (error instanceof NotFoundError) {
+                            alert('No se encontró la cuenta asociada a este enlace. Solicita un enlace nuevo para restablecer la contraseña.')
+                        }
                         else if (error instanceof SystemError) alert('Sorry try again')
                     })
             } catch (error) {

@@ -228,13 +228,22 @@ pruebas HTTP para quitar un favorito y para no alterar al usuario cuando la
 receta no existe. Pasaron **457 pruebas de API**, el typecheck y la suite de
 favoritos con Node 26.13.1 y MongoDB 8.3.13.
 
+En el quinto corte, `POST /users/password/reset/:token` se migró a TypeScript.
+Conserva el `204` sin cuerpo, el hash de contraseña, la expiración emitida por
+el flujo de recuperación y el `400 ValidationError` para tokens inválidos o
+caducados. Un usuario inexistente ahora devuelve `404 NotFoundError` en lugar de
+`500 SystemError`; el frontend indica solicitar un enlace nuevo. Pasaron las
+**462 pruebas de API**, el typecheck y la prueba E2E del mensaje, con Node
+26.13.1 y MongoDB 8.3.13. También pasaron el lint y la compilación del frontend.
+
 **Despliegue pendiente:** cambian el contrato de autenticación de las cinco
-rutas y la respuesta de `my-recipes` incorpora el campo `isFavorite`.
-Para evitar que el frontend anterior ignore el nuevo error, desplegar primero el
-frontend que lo reconoce y después la API. Para revertir, restaurar primero la
-API y después el frontend. Los clientes externos que validen la forma exacta de
-la respuesta deben aceptar el nuevo campo. Coordinar también el cambio previo
-de tiempo opcional y los runtimes requeridos; no se ha desplegado aquí.
+rutas, la respuesta de `my-recipes` incorpora el campo `isFavorite` y el
+restablecimiento devuelve `404` para un usuario inexistente. Para que la interfaz
+muestre el mensaje específico, desplegar primero el frontend que lo reconoce y
+después la API. Para revertir, restaurar primero la API y después el frontend.
+Los clientes externos que validen la forma exacta de la respuesta deben aceptar
+el nuevo campo. Coordinar también el cambio previo de tiempo opcional y los
+runtimes requeridos; no se ha desplegado aquí.
 
 **Corrección local pendiente de despliegue:** la respuesta de alternancia de
 favoritos incluía el campo `password` con el hash. Se ha eliminado ese campo
