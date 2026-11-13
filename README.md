@@ -60,10 +60,9 @@ El modelo incluye usuarios con favoritos y recetas con autor, imágenes, descrip
 
 ## Puesta en marcha
 
-Necesitas Node.js, npm y una instancia de MongoDB. Se admiten Node 22 desde
-`22.23.5`, Node 24 desde `24.22.3` y Node 26 desde `26.13.1`, cada uno dentro
-de su propia versión mayor; `.node-version` indica `26.13.1`. La aplicación y la
-API se ejecutan por separado.
+Necesitas Node.js (versión 26 LTS o superior), npm y una instancia de MongoDB.
+`.node-version` indica `26.13.1`. La aplicación y la API se ejecutan por
+separado.
 
 1. Configura las variables de entorno:
    - En `api/.env`, define `MONGO_URL`, `PORT` y `JWT_SECRET`. Para recuperación de contraseña, configura también `FRONTEND_URL`, `MAIL_FROM` y `NODE_ENV=development` en desarrollo; en producción se necesita `RESEND_API_KEY`.

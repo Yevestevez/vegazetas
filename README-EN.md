@@ -60,10 +60,8 @@ The model includes users with favourites and recipes with an author, images, des
 
 ## Getting started
 
-You will need Node.js, npm and a MongoDB instance. Supported versions are Node
-22 from `22.23.5`, Node 24 from `24.22.3` and Node 26 from `26.13.1`, each
-within its own major version; `.node-version` specifies `26.13.1`. Run the app
-and API separately.
+You will need Node.js (version 26 LTS or later), npm and a MongoDB instance.
+`.node-version` specifies `26.13.1`. Run the app and API separately.
 
 1. Configure environment variables:
    - In `api/.env`, set `MONGO_URL`, `PORT` and `JWT_SECRET`. Password recovery also requires `FRONTEND_URL`, `MAIL_FROM` and `NODE_ENV=development` in development; production requires `RESEND_API_KEY`.
