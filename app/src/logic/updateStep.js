@@ -1,3 +1,4 @@
+import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const { ValidationError } = errors
@@ -21,7 +22,7 @@ const updateStep = (
 
     if (note !== undefined) validate.noteForUpdate(note)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/steps/${stepId}`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/steps/${stepId}`, {
         method: 'PATCH',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,

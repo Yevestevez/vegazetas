@@ -1,7 +1,8 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
 import logic from './logic'
+import { SESSION_EXPIRED_EVENT } from './logic/authenticatedFetch'
 import { AppContext } from './context'
 
 import Alert from './view/common/Alert'
@@ -31,6 +32,16 @@ function App() {
         })
         return () => setAlertMessage(null)
     }, [])
+    useEffect(() => {
+        const handleSessionExpired = () => {
+            handleUserLoggedOut()
+            alert('Tu sesión no es válida o ha caducado. Inicia sesión de nuevo.')
+        }
+
+        window.addEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired)
+        return () => window.removeEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired)
+    }, [alert, handleUserLoggedOut])
+
     const confirm = (message, callback) => {
         setConfirmMessage(message)
         App.confirmCallback = callback

@@ -49,8 +49,9 @@ ver [detalle y pruebas](./MIGRACION-ZOD-SPRINT3.md#tiempo-opcional).
    están en [`app/src/view/`](../app/src/view/), con rutas y estado compartido
    en `App.jsx` y `context.js`.
 2. Las funciones de [`app/src/logic/`](../app/src/logic/) validan datos y usan
-   `fetch` contra `VITE_API_URL`. El inicio de sesión guarda el JWT en
-   `sessionStorage`.
+   `fetch` contra `VITE_API_URL`. El inicio de sesión guarda el JWT de 24 horas
+   en `sessionStorage`; las respuestas `401` de operaciones protegidas cierran
+   la sesión globalmente.
 3. [`api/index.js`](../api/index.js) conecta Mongoose a MongoDB y arranca la
    aplicación Express, que monta los routers de usuarios y recetas. La mayoría
    de rutas delega en handlers y funciones de [`api/logic/`](../api/logic/).
@@ -621,10 +622,11 @@ y [restauración y compatibilidad](https://www.mongodb.com/docs/database-tools/m
   transición; no se ha elegido estrategia de migración todavía.
 - Establecer una línea base de pruebas reproducible y aislada, incluyendo
   pruebas de integración HTTP y de los flujos importantes del frontend.
-- Revisar seguridad: el JWT de sesión se firma sin expiración explícita,
-  se almacena en `sessionStorage`, CORS está abierto por defecto y los errores
-  incluyen `message` en respuestas 500. Son observaciones de código, no un
-  diagnóstico de explotabilidad ni una auditoría.
+- El JWT de sesión expira a las 24 horas y las rutas protegidas rechazan tokens
+  sin expiración explícita. Los tokens anteriores sin `exp` dejan de ser válidos
+  y requieren iniciar sesión de nuevo. CORS sigue abierto por defecto y los
+  errores incluyen `message` en respuestas 500. Son observaciones de código,
+  no un diagnóstico de explotabilidad ni una auditoría.
 - Revisar accesibilidad con teclado, lectores de pantalla, formularios,
   foco, contraste y diseño adaptable; no se ha realizado una auditoría WCAG.
 - Medir rendimiento y experiencia real antes de fijar objetivos o proponer

@@ -52,7 +52,7 @@ describe('recipe list HTTP contracts', () => {
     })
 
     const getList = (endpoint, userId) => {
-        const token = jwt.sign({ sub: userId }, secret)
+        const token = jwt.sign({ sub: userId }, secret, { expiresIn: '24h' })
         return fetch(`${baseUrl}/${endpoint}`, { headers: { Authorization: `Bearer ${token}` } })
     }
 
@@ -133,9 +133,9 @@ describe('recipe list HTTP contracts', () => {
     const invalidCredentials = [
         ['missing authorization', () => undefined],
         ['malformed token', () => 'Bearer invalid'],
-        ['invalid signature', () => `Bearer ${jwt.sign({ sub: viewer.id }, 'another-test-secret')}`],
+        ['invalid signature', () => `Bearer ${jwt.sign({ sub: viewer.id }, 'another-test-secret', { expiresIn: '24h' })}`],
         ['expired token', () => `Bearer ${jwt.sign({ sub: viewer.id }, secret, { expiresIn: -1 })}`],
-        ['wrong authorization scheme', () => `Basic ${jwt.sign({ sub: viewer.id }, secret)}`]
+        ['wrong authorization scheme', () => `Basic ${jwt.sign({ sub: viewer.id }, secret, { expiresIn: '24h' })}`]
     ]
 
     test.each(endpoints.flatMap(endpoint => invalidCredentials.map(([description, createAuthorization]) =>
@@ -152,7 +152,7 @@ describe('recipe list HTTP contracts', () => {
     })
 
     test.each(endpoints)('%s treats missing server configuration as an internal error', async endpoint => {
-        const token = jwt.sign({ sub: viewer.id }, secret)
+        const token = jwt.sign({ sub: viewer.id }, secret, { expiresIn: '24h' })
         const log = vi.spyOn(console, 'error').mockImplementation(() => {})
         delete process.env.JWT_SECRET
 

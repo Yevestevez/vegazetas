@@ -1,10 +1,11 @@
+import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const removeIngredientFromRecipe = (recipeId, ingredientId) => {
     validate.id(recipeId, 'recipeId')
     validate.id(ingredientId, 'ingredientId')
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/ingredients/${ingredientId}`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/ingredients/${ingredientId}`, {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`

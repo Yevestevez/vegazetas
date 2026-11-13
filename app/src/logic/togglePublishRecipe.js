@@ -1,3 +1,4 @@
+import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const togglePublishRecipe = (
@@ -5,7 +6,7 @@ const togglePublishRecipe = (
 ) => {
     validate.id(recipeId, 'recipeId')
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/publish`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/publish`, {
         method: 'PATCH',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,

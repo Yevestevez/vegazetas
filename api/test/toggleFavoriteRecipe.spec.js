@@ -34,7 +34,7 @@ describe('PATCH /users/favorites/:recipeId', () => {
             password: 'synthetic-hash'
         })
         const recipe = await Recipe.create({ author: user._id, title: 'Test Recipe' })
-        const token = jwt.sign({ sub: user.id }, secret)
+        const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '24h' })
 
         const response = await fetch(`${baseUrl}/users/favorites/${recipe.id}`, {
             method: 'PATCH',
@@ -63,7 +63,7 @@ describe('PATCH /users/favorites/:recipeId', () => {
         const recipe = await Recipe.create({ author: user._id, title: 'Test Recipe' })
         user.favorites.push(recipe._id)
         await user.save()
-        const token = jwt.sign({ sub: user.id }, secret)
+        const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '24h' })
 
         const response = await fetch(`${baseUrl}/users/favorites/${recipe.id}`, {
             method: 'PATCH',
@@ -84,7 +84,7 @@ describe('PATCH /users/favorites/:recipeId', () => {
             password: 'synthetic-hash'
         })
         const missingRecipeId = new mongoose.Types.ObjectId().toString()
-        const token = jwt.sign({ sub: user.id }, secret)
+        const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '24h' })
 
         const response = await fetch(`${baseUrl}/users/favorites/${missingRecipeId}`, {
             method: 'PATCH',

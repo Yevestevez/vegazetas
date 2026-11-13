@@ -33,7 +33,7 @@ describe('GET /users/username', () => {
             username: 'testuser',
             password: 'synthetic-hash'
         })
-        const token = jwt.sign({ sub: user.id }, secret)
+        const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '24h' })
 
         const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
 
@@ -42,7 +42,7 @@ describe('GET /users/username', () => {
     })
 
     test('returns not found when the token user does not exist', async () => {
-        const token = jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret)
+        const token = jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret, { expiresIn: '24h' })
 
         const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
 
@@ -51,7 +51,7 @@ describe('GET /users/username', () => {
     })
 
     test('returns a validation error for an invalid user id', async () => {
-        const token = jwt.sign({ sub: 'short' }, secret)
+        const token = jwt.sign({ sub: 'short' }, secret, { expiresIn: '24h' })
 
         const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
 

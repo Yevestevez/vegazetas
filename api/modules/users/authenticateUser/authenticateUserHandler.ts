@@ -18,7 +18,7 @@ export const createAuthenticateUserHandler = (authenticateUser: AuthenticateUser
         try {
             const { email, password } = req.body
             const userId = await authenticateUser(email, password)
-            const token = jwt.sign({ sub: userId }, getJwtSecret())
+            const token = jwt.sign({ sub: userId }, getJwtSecret(), { expiresIn: '24h' })
 
             res.json(token)
         } catch (error) {

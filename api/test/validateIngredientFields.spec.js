@@ -175,7 +175,7 @@ describe('ingredient HTTP validation', () => {
         [{ name: 'arroz', quantity: 1, unit: 'g', annotation: 'x'.repeat(301) }, 'invalid annotation length, max 300 characters']
     ])('preserves the validation response for invalid ingredient fields', async (body, message) => {
         const id = 'a'.repeat(24)
-        const token = jwt.sign({ sub: id }, secret)
+        const token = jwt.sign({ sub: id }, secret, { expiresIn: '24h' })
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes/${id}/ingredients`, {
             method: 'POST',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

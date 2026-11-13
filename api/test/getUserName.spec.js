@@ -34,7 +34,7 @@ describe('GET /users/name', () => {
             username: 'testuser',
             password: 'synthetic-hash'
         })
-        const token = jwt.sign({ sub: user.id }, secret)
+        const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '24h' })
 
         const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
 
@@ -43,7 +43,7 @@ describe('GET /users/name', () => {
     })
 
     test('returns not found when the token user does not exist', async () => {
-        const token = jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret)
+        const token = jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret, { expiresIn: '24h' })
 
         const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
 
@@ -58,7 +58,7 @@ describe('GET /users/name', () => {
             username: 'testuser',
             password: 'synthetic-hash'
         })
-        const token = jwt.sign({ sub: user.id }, secret)
+        const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '24h' })
 
         const response = await fetch(url, { method: 'HEAD', headers: { Authorization: `Bearer ${token}` } })
 
@@ -68,7 +68,7 @@ describe('GET /users/name', () => {
     })
 
     test('returns a validation error for an invalid user id', async () => {
-        const token = jwt.sign({ sub: 'short' }, secret)
+        const token = jwt.sign({ sub: 'short' }, secret, { expiresIn: '24h' })
 
         const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
 
@@ -80,23 +80,22 @@ describe('GET /users/name', () => {
     })
 
     test.each([
-        ['missing subject', () => jwt.sign({}, secret)],
+        ['missing expiration', () => jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret)],
+        ['missing subject', () => jwt.sign({ exp: Math.floor(Date.now() / 1000) + 60 }, secret)],
         ['string payload', () => jwt.sign('plain', secret)],
-        ['non-string subject', () => jwt.sign('{"sub":7}', secret)]
-    ])('returns a validation error for a token with %s', async (_description, createToken) => {
+        ['non-string subject', () => jwt.sign({ sub: 7, exp: Math.floor(Date.now() / 1000) + 60 }, secret)]
+    ])('returns a generic authentication error for a token with %s', async (_description, createToken) => {
         const token = createToken()
 
         const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
 
-        expect(response.status).toBe(400)
-        expect(await response.json()).toEqual({
-            error: 'ValidationError',
-            message: 'invalid userId type, must be a string'
-        })
+        expect(response.status).toBe(401)
+        expect(response.headers.get('www-authenticate')).toBe('Bearer')
+        expect(await response.json()).toEqual({ error: 'CredentialsError', message: 'invalid credentials' })
     })
 
     test('returns a validation error for a non-hexadecimal user id', async () => {
-        const token = jwt.sign({ sub: 'z'.repeat(24) }, secret)
+        const token = jwt.sign({ sub: 'z'.repeat(24) }, secret, { expiresIn: '24h' })
 
         const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
 
@@ -110,9 +109,9 @@ describe('GET /users/name', () => {
     test.each([
         ['missing authorization', () => undefined],
         ['malformed token', () => 'Bearer invalid'],
-        ['invalid signature', () => `Bearer ${jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, 'another-test-secret')}`],
+        ['invalid signature', () => `Bearer ${jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, 'another-test-secret', { expiresIn: '24h' })}`],
         ['expired token', () => `Bearer ${jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret, { expiresIn: -1 })}`],
-        ['wrong authorization scheme', () => `Basic ${jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret)}`]
+        ['wrong authorization scheme', () => `Basic ${jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret, { expiresIn: '24h' })}`]
     ])('returns a generic authentication error for %s', async (_description, createAuthorization) => {
         const authorization = createAuthorization()
         const headers = authorization ? { Authorization: authorization } : {}
@@ -125,7 +124,7 @@ describe('GET /users/name', () => {
     })
 
     test('does not expose missing server configuration as an authentication error', async () => {
-        const token = jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret)
+        const token = jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret, { expiresIn: '24h' })
         const log = vi.spyOn(console, 'error').mockImplementation(() => {})
         delete process.env.JWT_SECRET
 
@@ -142,7 +141,7 @@ describe('GET /users/name', () => {
     })
 
     test('does not expose a database failure', async () => {
-        const token = jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret)
+        const token = jwt.sign({ sub: new mongoose.Types.ObjectId().toString() }, secret, { expiresIn: '24h' })
         const findById = vi.spyOn(User, 'findById').mockReturnValue({
             exec: () => Promise.reject(new Error('database details'))
         })

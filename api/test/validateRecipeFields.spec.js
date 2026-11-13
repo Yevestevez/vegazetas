@@ -343,7 +343,7 @@ describe('recipe HTTP validation', () => {
         [{ title: 'valid', time: 4.5 }, 'invalid time type, must be a number'],
         [{ title: 'valid', time: 10000 }, 'invalid time, maximum 9999 minutes']
     ])('preserves HTTP validation errors for invalid recipe fields', async (body, message) => {
-        const token = jwt.sign({ sub: 'a'.repeat(24) }, secret)
+        const token = jwt.sign({ sub: 'a'.repeat(24) }, secret, { expiresIn: '24h' })
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes`, {
             method: 'POST',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -360,7 +360,7 @@ describe('recipe HTTP validation', () => {
         ['POST', '', null, 'invalid time type, must be a number'],
         ['PATCH', '/aaaaaaaaaaaaaaaaaaaaaaaa', null, 'invalid time type, must be a number']
     ])('rejects invalid time in %s requests', async (method, path, time, message) => {
-        const token = jwt.sign({ sub: 'a'.repeat(24) }, secret)
+        const token = jwt.sign({ sub: 'a'.repeat(24) }, secret, { expiresIn: '24h' })
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes${path}`, {
             method,
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -373,7 +373,7 @@ describe('recipe HTTP validation', () => {
 
     test('preserves the HTTP validation error for an invalid recipe image', async () => {
         const id = 'a'.repeat(24)
-        const token = jwt.sign({ sub: id }, secret)
+        const token = jwt.sign({ sub: id }, secret, { expiresIn: '24h' })
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes/${id}/images`, {
             method: 'POST',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -394,7 +394,7 @@ describe('recipe HTTP validation', () => {
         ['POST', '', { text: '' }, 'invalid text length, must be between 1 and 800 characters']
     ])('preserves HTTP validation on step %s', async (method, stepPath, body, message) => {
         const id = 'a'.repeat(24)
-        const token = jwt.sign({ sub: id }, secret)
+        const token = jwt.sign({ sub: id }, secret, { expiresIn: '24h' })
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes/${id}/steps${stepPath}`, {
             method,
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

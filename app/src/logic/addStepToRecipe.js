@@ -1,3 +1,4 @@
+import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const addStepToRecipe = (
@@ -11,7 +12,7 @@ const addStepToRecipe = (
     if (note) validate.note(note)
     if (image) validate.image(image)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/steps`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/steps`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,

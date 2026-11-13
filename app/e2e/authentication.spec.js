@@ -102,6 +102,19 @@ test.describe('authentication', () => {
     expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBeNull()
   })
 
+  test('invalidates an existing session token without an expiration', async ({ page }) => {
+    await page.goto('/landing')
+    await page.evaluate(() => {
+      const payload = btoa(JSON.stringify({ sub: 'legacy-user' }))
+      sessionStorage.token = `header.${payload}.signature`
+    })
+
+    await page.goto('/')
+
+    await expect(page).toHaveURL(/\/landing$/)
+    expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBeNull()
+  })
+
   test('keeps the session when the name request fails on the server', async ({ page }) => {
     await page.route(`${apiUrl}/users/name`, route => route.fulfill({
       status: 500,
@@ -162,7 +175,7 @@ test.describe('authentication', () => {
     })
   }
 
-  test('ignores a late list authentication error after leaving the page', async ({ page }) => {
+  test('signs out when a pending protected request returns 401 after leaving the page', async ({ page }) => {
     let release
     const gate = new Promise(resolve => { release = resolve })
     await page.route(`${apiUrl}/recipes/my-recipes`, async route => {
@@ -183,8 +196,9 @@ test.describe('authentication', () => {
     await response
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))))
 
-    await expect(page).toHaveURL(/\/menu$/)
-    expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBe('test-token')
+    await expect(page).toHaveURL(/\/login$/)
+    await expect(page.getByText('Tu sesión no es válida o ha caducado. Inicia sesión de nuevo.')).toBeVisible()
+    expect(await page.evaluate(() => sessionStorage.getItem('token'))).toBeNull()
   })
 
   test('shows and updates an own favorite correctly after loading from the API', async ({ page, request }) => {

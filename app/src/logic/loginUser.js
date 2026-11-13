@@ -1,4 +1,5 @@
 import { validate, errors } from 'com'
+import { advanceSessionGeneration } from './authenticatedFetch'
 
 const loginUser = (email, password) => {
     validate.email(email)
@@ -19,6 +20,7 @@ const loginUser = (email, password) => {
                 return res.json()
                     .then(token => {
                         sessionStorage.token = token
+                        advanceSessionGeneration()
                     })
 
             return res.json()

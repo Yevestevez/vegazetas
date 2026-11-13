@@ -28,7 +28,7 @@ describe('shared identifier validation', () => {
         })
 
         test('rejects a non-hexadecimal token id before database access', async () => {
-            const token = jwt.sign({ sub: 'z'.repeat(24) }, secret)
+            const token = jwt.sign({ sub: 'z'.repeat(24) }, secret, { expiresIn: '24h' })
             const response = await fetch(`http://127.0.0.1:${server.address().port}/users/name`, {
                 headers: { Authorization: `Bearer ${token}` }
             })

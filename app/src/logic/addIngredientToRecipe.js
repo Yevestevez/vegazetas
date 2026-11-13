@@ -1,3 +1,4 @@
+import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const addIngredientToRecipe = (
@@ -15,7 +16,7 @@ const addIngredientToRecipe = (
     if (annotation !== undefined && annotation !== null) validate.annotation(annotation)
     if (main !== undefined) validate.main(main)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/ingredients`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/ingredients`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,

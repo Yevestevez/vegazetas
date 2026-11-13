@@ -1,7 +1,8 @@
+import authenticatedFetch from './authenticatedFetch'
 import { errors } from 'com'
 
 const getUserUsername = () => {
-    return fetch(`${import.meta.env.VITE_API_URL}/users/username`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/users/username`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`

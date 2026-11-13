@@ -1,10 +1,10 @@
 function extractPayloadFromToken(token) {
-    var firstDotIndex = token.indexOf('.')
-    var lastDotIndex = token.lastIndexOf('.')
+    const parts = token.split('.')
+    if (parts.length !== 3 || !parts[1]) throw new Error('invalid token')
 
-    var payloadB64 = token.slice(firstDotIndex + 1, lastDotIndex)
-    var payloadJSON = atob(payloadB64)
-    var payload = JSON.parse(payloadJSON)
+    const payloadB64 = parts[1].replace(/-/g, '+').replace(/_/g, '/')
+    const payloadJSON = atob(payloadB64.padEnd(Math.ceil(payloadB64.length / 4) * 4, '='))
+    const payload = JSON.parse(payloadJSON)
 
     return payload
 }

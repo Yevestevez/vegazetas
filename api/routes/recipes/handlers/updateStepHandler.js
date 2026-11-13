@@ -1,11 +1,9 @@
 import logic from '../../../logic/index.js'
-import jwt from 'jsonwebtoken'
+import { getSessionUserId } from '../../../util/getSessionUserId.ts'
 
 export default (req, res, next) => {
     try {
-        const token = req.headers.authorization.slice(7)
-        const payload = jwt.verify(token, process.env.JWT_SECRET)
-        const { sub: userId } = payload
+        const userId = getSessionUserId(req.headers.authorization)
 
         const { recipeId, stepId } = req.params
         const { text, note, image } = req.body

@@ -46,7 +46,7 @@ describe('GET /recipes/:recipeId', () => {
     })
 
     const getRecipe = (userId, recipeId) => {
-        const token = jwt.sign({ sub: userId }, secret)
+        const token = jwt.sign({ sub: userId }, secret, { expiresIn: '24h' })
         return fetch(`${baseUrl}/${recipeId}`, { headers: { Authorization: `Bearer ${token}` } })
     }
 
@@ -125,9 +125,9 @@ describe('GET /recipes/:recipeId', () => {
     test.each([
         ['missing authorization', () => undefined],
         ['malformed token', () => 'Bearer invalid'],
-        ['invalid signature', () => `Bearer ${jwt.sign({ sub: viewer.id }, 'another-test-secret')}`],
+        ['invalid signature', () => `Bearer ${jwt.sign({ sub: viewer.id }, 'another-test-secret', { expiresIn: '24h' })}`],
         ['expired token', () => `Bearer ${jwt.sign({ sub: viewer.id }, secret, { expiresIn: -1 })}`],
-        ['wrong authorization scheme', () => `Basic ${jwt.sign({ sub: viewer.id }, secret)}`]
+        ['wrong authorization scheme', () => `Basic ${jwt.sign({ sub: viewer.id }, secret, { expiresIn: '24h' })}`]
     ])('returns a generic authentication error for %s', async (_description, createAuthorization) => {
         const authorization = createAuthorization()
         const headers = authorization ? { Authorization: authorization } : {}
@@ -139,22 +139,20 @@ describe('GET /recipes/:recipeId', () => {
         expect(await response.json()).toEqual({ error: 'CredentialsError', message: 'invalid credentials' })
     })
 
-    test('returns a validation error for a signed token without a user id', async () => {
-        const token = jwt.sign({}, secret)
+    test('returns an authentication error for a signed token without a user id', async () => {
+        const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 60 }, secret)
 
         const response = await fetch(`${baseUrl}/${publishedRecipe.id}`, {
             headers: { Authorization: `Bearer ${token}` }
         })
 
-        expect(response.status).toBe(400)
-        expect(await response.json()).toEqual({
-            error: 'ValidationError',
-            message: 'invalid userId type, must be a string'
-        })
+        expect(response.status).toBe(401)
+        expect(response.headers.get('www-authenticate')).toBe('Bearer')
+        expect(await response.json()).toEqual({ error: 'CredentialsError', message: 'invalid credentials' })
     })
 
     test('does not expose missing server configuration as an authentication error', async () => {
-        const token = jwt.sign({ sub: viewer.id }, secret)
+        const token = jwt.sign({ sub: viewer.id }, secret, { expiresIn: '24h' })
         const log = vi.spyOn(console, 'error').mockImplementation(() => {})
         delete process.env.JWT_SECRET
 

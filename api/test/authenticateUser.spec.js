@@ -27,7 +27,7 @@ describe('POST /users/auth', () => {
     beforeEach(() => User.deleteMany())
     afterEach(() => User.deleteMany())
 
-    test('returns a JSON token for valid credentials without adding an expiration', async () => {
+    test('returns a JSON token for valid credentials that expires after 24 hours', async () => {
         const password = 'Abc12345'
         const user = await User.create({
             name: 'Ana Pérez',
@@ -45,8 +45,9 @@ describe('POST /users/auth', () => {
         expect(response.status).toBe(200)
         const token = await response.json()
         expect(typeof token).toBe('string')
-        expect(jwt.verify(token, secret).sub).toBe(user.id)
-        expect(jwt.decode(token).exp).toBeUndefined()
+        const payload = jwt.verify(token, secret)
+        expect(payload.sub).toBe(user.id)
+        expect(payload.exp).toBe(payload.iat + 24 * 60 * 60)
     })
 
     test.each([

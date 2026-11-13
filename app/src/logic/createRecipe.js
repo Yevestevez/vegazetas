@@ -1,3 +1,4 @@
+import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const createRecipe = (
@@ -17,7 +18,7 @@ const createRecipe = (
     if (difficulty) validate.difficulty(difficulty)
     if (tags) validate.tags(tags)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,

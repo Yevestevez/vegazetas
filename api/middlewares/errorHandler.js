@@ -4,9 +4,10 @@ const { CredentialsError, DuplicityError, NotFoundError, OwnershipError, SystemE
 export default (error, req, res, next) => {
     if (error instanceof ValidationError)
         res.status(400).json({ error: error.constructor.name, message: error.message });
-    else if (error instanceof CredentialsError)
+    else if (error instanceof CredentialsError) {
+        res.set('WWW-Authenticate', 'Bearer')
         res.status(401).json({ error: error.constructor.name, message: error.message });
-    else if (error instanceof OwnershipError)
+    } else if (error instanceof OwnershipError)
         res.status(403).json({ error: error.constructor.name, message: error.message });
     else if (error instanceof NotFoundError)
         res.status(404).json({ error: error.constructor.name, message: error.message });

@@ -48,7 +48,7 @@ describe('PATCH /recipes/:recipeId', () => {
     })
 
     const patchRecipe = (userId, recipeId, body) => {
-        const token = jwt.sign({ sub: userId }, secret)
+        const token = jwt.sign({ sub: userId }, secret, { expiresIn: '24h' })
         return fetch(`${baseUrl}/${recipeId}`, {
             method: 'PATCH',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -125,9 +125,9 @@ describe('PATCH /recipes/:recipeId', () => {
         expect(await Recipe.findById(recipe.id).lean()).toEqual(before)
     })
 
-    test('preserves the current error for an invalid token without modifying the recipe', async () => {
+    test('returns a generic authentication error for an invalid token without modifying the recipe', async () => {
         const before = await Recipe.findById(recipe.id).lean()
-        const token = jwt.sign({ sub: author.id }, 'another-test-secret')
+        const token = jwt.sign({ sub: author.id }, 'another-test-secret', { expiresIn: '24h' })
 
         const response = await fetch(`${baseUrl}/${recipe.id}`, {
             method: 'PATCH',
@@ -135,8 +135,9 @@ describe('PATCH /recipes/:recipeId', () => {
             body: JSON.stringify({ title: 'Updated recipe' })
         })
 
-        expect(response.status).toBe(500)
-        expect(await response.json()).toEqual({ error: 'SystemError', message: 'invalid signature' })
+        expect(response.status).toBe(401)
+        expect(response.headers.get('www-authenticate')).toBe('Bearer')
+        expect(await response.json()).toEqual({ error: 'CredentialsError', message: 'invalid credentials' })
         expect(await Recipe.findById(recipe.id).lean()).toEqual(before)
     })
 

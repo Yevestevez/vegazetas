@@ -1,3 +1,4 @@
+import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const updateRecipe = (
@@ -13,7 +14,7 @@ const updateRecipe = (
     if (time !== undefined) validate.time(time)
     if (difficulty) validate.difficulty(difficulty)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
         method: 'PATCH',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,

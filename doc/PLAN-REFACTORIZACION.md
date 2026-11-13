@@ -250,7 +250,7 @@ la suite completa de API y las pruebas de navegador pasan localmente. Se ha
 acordado cerrar el sprint con ese alcance; la caracterización HTTP pendiente
 de otras rutas continúa en los sprints posteriores.
 
-### Sprint 5: usuarios y sesión — en curso
+### Sprint 5: usuarios y sesión — completado
 
 **Primer corte completado:** el registro se migró a un módulo TypeScript con
 handler, caso de uso, composición y repositorio. `POST /users` conserva su
@@ -262,10 +262,9 @@ comprobación de tipos con Node 26.13.1 y MongoDB 8.3.13.
 
 **Segundo corte completado:** la autenticación se migró al mismo patrón
 funcional. `POST /users/auth` conserva el JWT como cadena JSON, las respuestas
-de `401` para credenciales incorrectas y la ausencia de expiración. Pasaron
-454 pruebas de API y la comprobación de tipos con Node 26.13.1 y MongoDB
-8.3.13. La decisión sobre expiración sigue pendiente; no se cambió el
-comportamiento de sesión ni el frontend.
+de `401` para credenciales incorrectas y, en ese corte, no añadía expiración.
+Pasaron 454 pruebas de API y la comprobación de tipos con Node 26.13.1 y
+MongoDB 8.3.13. La expiración se incorporó en el séptimo corte.
 
 **Tercer corte completado:** `GET /users/username` se migró a TypeScript con
 caso de uso y repositorio. Mantiene el valor JSON y los errores existentes;
@@ -291,9 +290,13 @@ El transporte de correo se sustituye en pruebas; pasaron 466 pruebas de API y
 el typecheck con Node 26.13.1 y MongoDB 8.3.13. No se verificó la entrega real
 por Ethereal o Resend.
 
-- Revisar expiración, almacenamiento y validación de tokens, control de
-  acceso, recuperación y errores. Proponer cambios de sesión o contrato y
-  acordarlos antes de implementarlos.
+**Séptimo corte completado:** las rutas protegidas comparten la validación del
+JWT y responden `401` para credenciales ausentes, inválidas, caducadas o sin
+`exp`; el frontend cierra la sesión al recibir un `401`, incluso si la respuesta
+llega después de navegar a otra pantalla. Se conserva `sessionStorage`.
+Se acordó invalidar los tokens anteriores sin expiración, por lo que las
+sesiones existentes deberán iniciar sesión de nuevo. Se añadieron pruebas API
+y E2E para la expiración y el cierre global de sesión.
 
 **Aceptación:** pruebas de rutas y casos de uso cubren los flujos migrados,
 incluidas credenciales erróneas y accesos no autorizados; los cambios
@@ -365,9 +368,9 @@ de navegador bloquean peticiones a orígenes externos. La integración opcional
 de Ethereal sí requiere acceso a internet.
 
 Se ha revisado el primer corte de `GET /users/name` de los sprints 3 y 4.
-Antes de extender el cambio de autenticación a otras rutas, acordar su alcance y
-tratar la sesión en los clientes afectados. Ampliar también las pruebas HTTP
-de otras operaciones de recetas y flujos afectados por la actualización de Express.
+La validación de sesión y su transición en el cliente se completaron en el
+séptimo corte. Queda ampliar las pruebas HTTP de otras operaciones de recetas y
+flujos afectados por la actualización de Express.
 
 ## Después de la refactorización: CI/CD
 

@@ -42,7 +42,7 @@ describe('POST /recipes/:recipeId/tags', () => {
 
     test('returns the existing HTTP validation error for an invalid tag', async () => {
         const id = 'a'.repeat(24)
-        const token = jwt.sign({ sub: id }, secret)
+        const token = jwt.sign({ sub: id }, secret, { expiresIn: '24h' })
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes/${id}/tags`, {
             method: 'POST',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

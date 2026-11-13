@@ -1,3 +1,4 @@
+import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const toggleFavoriteRecipe = (
@@ -5,7 +6,7 @@ const toggleFavoriteRecipe = (
 ) => {
     validate.id(recipeId, 'recipeId')
 
-    return fetch(`${import.meta.env.VITE_API_URL}/users/favorites/${recipeId}`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/users/favorites/${recipeId}`, {
         method: 'PATCH',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,

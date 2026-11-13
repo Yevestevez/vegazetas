@@ -1,7 +1,8 @@
+import authenticatedFetch from './authenticatedFetch'
 import { errors } from 'com'
 
 const getRecipeById = (recipeId) => {
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`

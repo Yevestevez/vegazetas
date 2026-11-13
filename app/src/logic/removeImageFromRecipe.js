@@ -1,10 +1,11 @@
+import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const removeImageFromRecipe = (recipeId, index) => {
     validate.id(recipeId, 'recipeId')
     // validate.index(index, 'index') número >= 0
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/images/${index}`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/images/${index}`, {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`

@@ -93,7 +93,7 @@ describe('name HTTP validation', () => {
 
     test('returns the ingredient name error for an invalid ingredient', async () => {
         const id = 'a'.repeat(24)
-        const token = jwt.sign({ sub: id }, secret)
+        const token = jwt.sign({ sub: id }, secret, { expiresIn: '24h' })
         const response = await fetch(`http://127.0.0.1:${server.address().port}/recipes/${id}/ingredients`, {
             method: 'POST',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

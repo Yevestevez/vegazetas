@@ -1,10 +1,11 @@
+import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const addTagToRecipe = (recipeId, tag) => {
     validate.id(recipeId, 'recipeId')
     validate.tag(tag)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/tags`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/tags`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,
