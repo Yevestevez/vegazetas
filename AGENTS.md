@@ -72,6 +72,8 @@
 
 ## Skills de referencia
 
+- [Diseño frontend](.agents/skills/frontend-design/SKILL.md), de
+  [Anthropic](https://github.com/anthropics/skills), licencia Apache-2.0.
 - [React: rendimiento y buenas prácticas](.github/skills/vercel-react-best-practices/SKILL.md),
   de [Vercel](https://github.com/vercel-labs/agent-skills), licencia MIT.
 - [Node.js: patrones de backend](.github/skills/nodejs-backend-patterns/SKILL.md),
