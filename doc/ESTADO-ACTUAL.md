@@ -236,6 +236,13 @@ caducados. Un usuario inexistente ahora devuelve `404 NotFoundError` en lugar de
 **462 pruebas de API**, el typecheck y la prueba E2E del mensaje, con Node
 26.13.1 y MongoDB 8.3.13. También pasaron el lint y la compilación del frontend.
 
+En el sexto corte, `POST /users/password/recover` se migró a TypeScript sin
+cambiar el `200` ni el cuerpo de éxito. Conserva la validación `400`, el `404`
+para cuentas inexistentes, el JWT de 15 minutos y los mensajes según entorno.
+El transporte de correo es sustituible en pruebas; pasaron las **466 pruebas de
+API** y el typecheck con Node 26.13.1 y MongoDB 8.3.13. Los transportes se
+simularon; no se verificó la entrega real por Ethereal o Resend.
+
 **Despliegue pendiente:** cambian el contrato de autenticación de las cinco
 rutas, la respuesta de `my-recipes` incorpora el campo `isFavorite` y el
 restablecimiento devuelve `404` para un usuario inexistente. Para que la interfaz

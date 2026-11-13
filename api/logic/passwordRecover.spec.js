@@ -7,7 +7,7 @@ import nodemailer from 'nodemailer'
 import { Resend } from 'resend'
 import { User } from '../data/models.js'
 import { errors } from 'com'
-import passwordRecover from './passwordRecover.js'
+import { createPasswordRecover } from '../modules/users/passwordRecover/passwordRecover.ts'
 
 const { NotFoundError, SystemError } = errors
 const testEnv = {
@@ -39,11 +39,17 @@ describe('passwordRecover', function () {
         password: 'synthetic-only'
     })
 
+    const createPasswordRecoverForEmail = createTransporter => createPasswordRecover(
+        email => User.findOne({ email }).exec(),
+        createTransporter,
+        userId => jwt.sign({ sub: userId }, testEnv.JWT_SECRET, { expiresIn: '15m' })
+    )
+
     const recoverWithSimulatedTransport = async (email, createTransporter) => {
         const originalLog = console.log
         try {
             console.log = () => {}
-            await passwordRecover(email, createTransporter)
+            await createPasswordRecoverForEmail(createTransporter)(email)
         } finally {
             console.log = originalLog
         }
@@ -144,7 +150,7 @@ describe('passwordRecover', function () {
             transporterCreated = true
         }
 
-        await assert.rejects(passwordRecover('missing@example.invalid', createTransporter), error => {
+        await assert.rejects(recoverWithSimulatedTransport('missing@example.invalid', createTransporter), error => {
             expect(error).to.be.instanceOf(NotFoundError)
             expect(error.message).to.equal('user not found')
             return true
@@ -156,7 +162,7 @@ describe('passwordRecover', function () {
         const user = await createUser()
         const createTransporter = async () => { throw new Error('mail unavailable') }
 
-        await assert.rejects(passwordRecover(user.email, createTransporter), error => {
+        await assert.rejects(recoverWithSimulatedTransport(user.email, createTransporter), error => {
             expect(error).to.be.instanceOf(SystemError)
             expect(error.message).to.equal('mail unavailable')
             return true
@@ -169,7 +175,7 @@ describe('passwordRecover', function () {
             sendMail: async () => { throw new Error('delivery failed') }
         })
 
-        await assert.rejects(passwordRecover(user.email, createTransporter), {
+        await assert.rejects(recoverWithSimulatedTransport(user.email, createTransporter), {
             message: 'delivery failed'
         })
     })

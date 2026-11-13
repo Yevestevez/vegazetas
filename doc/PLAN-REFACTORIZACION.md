@@ -284,12 +284,16 @@ en vez de `500 SystemError`, y el frontend solicita un enlace nuevo. Pasaron las
 462 pruebas de API, el typecheck y la prueba E2E de ese mensaje, además del lint
 y la compilación del frontend, con Node 26.13.1 y MongoDB 8.3.13.
 
-- Migrar progresivamente registro, autenticación, datos de usuario,
-  recuperación de contraseña y favoritos a la estructura validada.
+**Sexto corte completado:** `POST /users/password/recover` se migró a
+TypeScript conservando `200` y el cuerpo de éxito, la validación `400`, el `404`
+para cuentas inexistentes, el JWT de 15 minutos y los mensajes por entorno.
+El transporte de correo se sustituye en pruebas; pasaron 466 pruebas de API y
+el typecheck con Node 26.13.1 y MongoDB 8.3.13. No se verificó la entrega real
+por Ethereal o Resend.
+
 - Revisar expiración, almacenamiento y validación de tokens, control de
   acceso, recuperación y errores. Proponer cambios de sesión o contrato y
   acordarlos antes de implementarlos.
-- Aislar el envío de correo mediante una dependencia sustituible en pruebas.
 
 **Aceptación:** pruebas de rutas y casos de uso cubren los flujos migrados,
 incluidas credenciales erróneas y accesos no autorizados; los cambios

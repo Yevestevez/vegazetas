@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import '../config/loadEnv.js'
-import passwordRecover from './passwordRecover.js'
+import { passwordRecover } from '../modules/users/passwordRecover/composition.ts'
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
