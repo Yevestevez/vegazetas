@@ -220,6 +220,14 @@ JWT anteriores. No se extendió a esta ruta el nuevo tratamiento de credenciales
 `401`. Pasaron la suite completa de API (**455 pruebas**) y el typecheck con
 Node 26.13.1 y MongoDB 8.3.13.
 
+En el cuarto corte, `PATCH /users/favorites/:recipeId` se migró a TypeScript.
+Mantiene la alternancia de añadir/quitar favoritos, el `404` para usuario o
+receta inexistentes, el `200` con el usuario serializado y la exclusión del
+hash de contraseña; no se modificó el manejo JWT de la ruta. Se añadieron
+pruebas HTTP para quitar un favorito y para no alterar al usuario cuando la
+receta no existe. Pasaron **457 pruebas de API**, el typecheck y la suite de
+favoritos con Node 26.13.1 y MongoDB 8.3.13.
+
 **Despliegue pendiente:** cambian el contrato de autenticación de las cinco
 rutas y la respuesta de `my-recipes` incorpora el campo `isFavorite`.
 Para evitar que el frontend anterior ignore el nuevo error, desplegar primero el

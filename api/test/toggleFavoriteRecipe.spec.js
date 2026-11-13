@@ -53,6 +53,49 @@ describe('PATCH /users/favorites/:recipeId', () => {
         expect(storedUser.favorites.map(id => id.toString())).toEqual([recipe.id])
     })
 
+    test('removes a recipe that is already in favorites', async () => {
+        const user = await User.create({
+            name: 'Test User',
+            email: 'user@example.invalid',
+            username: 'testuser',
+            password: 'synthetic-hash'
+        })
+        const recipe = await Recipe.create({ author: user._id, title: 'Test Recipe' })
+        user.favorites.push(recipe._id)
+        await user.save()
+        const token = jwt.sign({ sub: user.id }, secret)
+
+        const response = await fetch(`${baseUrl}/users/favorites/${recipe.id}`, {
+            method: 'PATCH',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+
+        expect(response.status).toBe(200)
+        expect((await response.json()).favorites).toEqual([])
+        const storedUser = await User.findById(user.id).lean()
+        expect(storedUser.favorites).toEqual([])
+    })
+
+    test('returns not found when the recipe does not exist', async () => {
+        const user = await User.create({
+            name: 'Test User',
+            email: 'user@example.invalid',
+            username: 'testuser',
+            password: 'synthetic-hash'
+        })
+        const missingRecipeId = new mongoose.Types.ObjectId().toString()
+        const token = jwt.sign({ sub: user.id }, secret)
+
+        const response = await fetch(`${baseUrl}/users/favorites/${missingRecipeId}`, {
+            method: 'PATCH',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+
+        expect(response.status).toBe(404)
+        expect(await response.json()).toEqual({ error: 'NotFoundError', message: 'Recipe not found' })
+        expect((await User.findById(user.id).lean()).favorites).toEqual([])
+    })
+
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
     afterAll(async () => {

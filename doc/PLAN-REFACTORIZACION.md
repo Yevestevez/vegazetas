@@ -272,6 +272,11 @@ caso de uso y repositorio. Mantiene el valor JSON y los errores existentes;
 no se cambió el tratamiento de credenciales de la ruta. Pasaron 455 pruebas de
 API y el typecheck con Node 26.13.1 y MongoDB 8.3.13.
 
+**Cuarto corte completado:** `PATCH /users/favorites/:recipeId` se migró a
+TypeScript. Conserva la alternancia, el usuario serializado sin contraseña y
+los errores de usuario o receta inexistentes, sin cambiar el manejo JWT.
+Pasaron 457 pruebas de API y el typecheck con Node 26.13.1 y MongoDB 8.3.13.
+
 - Migrar progresivamente registro, autenticación, datos de usuario,
   recuperación de contraseña y favoritos a la estructura validada.
 - Revisar expiración, almacenamiento y validación de tokens, control de

@@ -5,11 +5,11 @@ import getUserNameRouter from '../../modules/users/getUserName/getUserNameRoutes
 import registerUserRouter from '../../modules/users/registerUser/registerUserRoutes.ts'
 import authenticateUserRouter from '../../modules/users/authenticateUser/authenticateUserRoutes.ts'
 import getUserUsernameRouter from '../../modules/users/getUserUsername/getUserUsernameRoutes.ts'
+import toggleFavoriteRecipeRouter from '../../modules/users/toggleFavoriteRecipe/toggleFavoriteRecipeRoutes.ts'
 
 import {
     passwordRecoverHandler,
-    passwordResetHandler,
-    toggleFavoriteRecipeHandler
+    passwordResetHandler
 } from './handlers/index.js'
 
 const router = new Router()
@@ -22,6 +22,6 @@ router.use(getUserUsernameRouter)
 router.post('/password/recover', jsonBodyParser, passwordRecoverHandler)
 router.post('/password/reset/:token', jsonBodyParser, passwordResetHandler)
 
-router.patch('/favorites/:recipeId', toggleFavoriteRecipeHandler)
+router.use('/favorites', toggleFavoriteRecipeRouter)
 
 export default router

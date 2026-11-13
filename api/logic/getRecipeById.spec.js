@@ -4,7 +4,7 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } fr
 
 import { User, Recipe } from '../data/models.js'
 import getRecipeById from './getRecipeById.js'
-import toggleFavoriteRecipe from './toggleFavoriteRecipe.js'
+import { toggleFavoriteRecipe } from '../modules/users/toggleFavoriteRecipe/composition.ts'
 
 import { errors } from 'com'
 const { NotFoundError, OwnershipError } = errors
