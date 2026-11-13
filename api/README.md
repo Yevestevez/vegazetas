@@ -57,10 +57,10 @@ The API is gradually adopting TypeScript. Node runs the type-strippable
 TypeScript files directly; no separate compilation step is needed at startup.
 Run `npm run typecheck` to check the migrated TypeScript modules. Existing
 JavaScript and the shared `com` package remain in place and are not fully
-type-checked. The `GET /users/name` and `POST /users` routes, handlers, use
-cases, compositions and repositories are TypeScript. The same applies to the
-route, handler, use case, composition and repository for `POST /users/auth`.
-The remaining user routes stay in JavaScript for now.
+type-checked. The `GET /users/name`, `GET /users/username` and `POST /users`
+routes, handlers, use cases, compositions and repositories are TypeScript. The
+same applies to the route, handler, use case, composition and repository for
+`POST /users/auth`. The remaining user routes stay in JavaScript for now.
 
 The API uses Express 5. Its JSON middleware retains the previous empty-object
 behavior for requests without a parsed body, so existing validation responses

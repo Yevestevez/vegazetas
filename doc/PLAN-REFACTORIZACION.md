@@ -267,6 +267,11 @@ de `401` para credenciales incorrectas y la ausencia de expiración. Pasaron
 8.3.13. La decisión sobre expiración sigue pendiente; no se cambió el
 comportamiento de sesión ni el frontend.
 
+**Tercer corte completado:** `GET /users/username` se migró a TypeScript con
+caso de uso y repositorio. Mantiene el valor JSON y los errores existentes;
+no se cambió el tratamiento de credenciales de la ruta. Pasaron 455 pruebas de
+API y el typecheck con Node 26.13.1 y MongoDB 8.3.13.
+
 - Migrar progresivamente registro, autenticación, datos de usuario,
   recuperación de contraseña y favoritos a la estructura validada.
 - Revisar expiración, almacenamiento y validación de tokens, control de

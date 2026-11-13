@@ -60,10 +60,10 @@ ver [detalle y pruebas](./MIGRACION-ZOD-SPRINT3.md#tiempo-opcional).
 
 Ya existe una separación entre rutas, handlers, lógica y modelos. La mayoría
 de las funciones de negocio consultan Mongoose directamente; la consulta del
-nombre de usuario, el registro y la autenticación son los primeros cortes con
-ruta, handler, caso de uso y repositorio independientes en TypeScript. El
-router de usuarios que integra esos módulos sigue en JavaScript. La
-verificación del JWT se repite en los handlers.
+nombre, la consulta del nombre de usuario, el registro y la autenticación son
+los primeros cortes con ruta, handler, caso de uso y repositorio
+independientes en TypeScript. El router de usuarios que integra esos módulos
+sigue en JavaScript. La verificación del JWT se repite en los handlers.
 
 ## Datos
 
@@ -212,6 +212,13 @@ una caducidad al token. La falta de `JWT_SECRET` conserva la respuesta `500`.
 Pasaron la suite completa de API (**454 pruebas**) y la comprobación de tipos
 con Node 26.13.1 y MongoDB 8.3.13. No se cambió el flujo del frontend ni la
 política de expiración; esta última sigue pendiente de decisión.
+
+En el tercer corte del sprint 5, `GET /users/username` se migró a TypeScript
+con repositorio y pruebas HTTP. Conserva el nombre de usuario como cadena JSON,
+los errores de usuario no encontrado e ID inválido, y la extracción/verificación
+JWT anteriores. No se extendió a esta ruta el nuevo tratamiento de credenciales
+`401`. Pasaron la suite completa de API (**455 pruebas**) y el typecheck con
+Node 26.13.1 y MongoDB 8.3.13.
 
 **Despliegue pendiente:** cambian el contrato de autenticación de las cinco
 rutas y la respuesta de `my-recipes` incorpora el campo `isFavorite`.
