@@ -250,7 +250,15 @@ la suite completa de API y las pruebas de navegador pasan localmente. Se ha
 acordado cerrar el sprint con ese alcance; la caracterización HTTP pendiente
 de otras rutas continúa en los sprints posteriores.
 
-### Sprint 5: usuarios y sesión — pendiente
+### Sprint 5: usuarios y sesión — en curso
+
+**Primer corte completado:** el registro se migró a un módulo TypeScript con
+handler, caso de uso, composición y repositorio. `POST /users` conserva su
+respuesta `201` sin cuerpo, la validación en el orden existente, el hash de
+contraseña y el conflicto `409` para usuarios duplicados. Se añadieron pruebas
+HTTP para creación, validación y duplicidad; se eliminaron la lógica y el
+handler JavaScript que quedaron sustituidos. Pasaron 453 pruebas de API y la
+comprobación de tipos con Node 26.13.1 y MongoDB 8.3.13.
 
 - Migrar progresivamente registro, autenticación, datos de usuario,
   recuperación de contraseña y favoritos a la estructura validada.
