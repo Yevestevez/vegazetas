@@ -7,7 +7,7 @@ import { User, Recipe } from '../data/models.js'
 const { Types: { ObjectId } } = mongoose
 
 import { errors } from 'com'
-const { NotFoundError } = errors
+const { NotFoundError, OwnershipError } = errors
 
 import addImageToRecipe from './addImageToRecipe.js'
 
@@ -89,6 +89,34 @@ describe('addImageToRecipe', () => {
                     .finally(() => {
                         expect(catchedError).to.be.instanceOf(NotFoundError)
                         expect(catchedError.message).to.equal('recipe not found')
+                    })
+            })
+    })
+
+    test('fails when user is not the author', () => {
+        let catchedError
+
+        return User.create({ name: 'Ron Weasley', email: 'ron@weasley.com', username: 'ronweasley', password: '123123123' })
+            .then(author => {
+                return User.create({ name: 'Harry Potter', email: 'harry@potter.com', username: 'harrypotter', password: '123123123' })
+                    .then(otherUser => {
+                        return Recipe.create({
+                            author: author.id,
+                            title: 'Cerveza de Mantequilla',
+                            images: ['https://www.forbeerslovers.com/images/posts/-d14beb495479cf5c27c523a9130a4229.jpg'],
+                            description: 'Una refrescante cerveza de mantequilla en Las Tres Escobas',
+                            time: 45,
+                            difficulty: 'difficult',
+                            tags: ['cerveza', 'mantequilla']
+                        })
+                            .then(recipe => {
+                                return addImageToRecipe(otherUser._id.toString(), recipe._id.toString(), 'https://example.com/other.jpg')
+                            })
+                            .catch(error => catchedError = error)
+                            .finally(() => {
+                                expect(catchedError).to.be.instanceOf(OwnershipError)
+                                expect(catchedError.message).to.equal('user is not author of recipe')
+                            })
                     })
             })
     })

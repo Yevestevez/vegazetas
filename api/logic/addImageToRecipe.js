@@ -1,7 +1,7 @@
 import { User, Recipe } from '../data/models.js'
 
 import { validate, errors } from 'com'
-const { NotFoundError, SystemError, ValidationError } = errors
+const { NotFoundError, SystemError, OwnershipError, ValidationError } = errors
 
 const addImageToRecipe = (userId, recipeId, image) => {
     validate.id(userId, 'userId')
@@ -17,6 +17,9 @@ const addImageToRecipe = (userId, recipeId, image) => {
                 .catch(error => { throw new SystemError(error.message) })
                 .then(recipe => {
                     if (!recipe) throw new NotFoundError('recipe not found')
+
+                    if (recipe.author.toString() !== userId)
+                        throw new OwnershipError('user is not author of recipe')
 
                     if (recipe.images.length >= 2)
                         throw new ValidationError('too many images, max 2 allowed')

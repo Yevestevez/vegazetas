@@ -101,16 +101,15 @@ describe('recipe nested elements HTTP contracts', () => {
             expect(updated.ingredients.length).toBe(0)
         })
 
-        test('allows any authenticated user to add an ingredient', async () => {
+        test('rejects ingredient operation by another user', async () => {
             const response = await fetch(baseUrl + '/' + recipe.id + '/ingredients', {
                 method: 'POST',
                 headers: authHeaders(otherUser.id),
                 body: JSON.stringify({ name: 'Potato', quantity: 1 })
             })
 
-            expect(response.status).toBe(201)
-            const updated = await Recipe.findById(recipe.id).lean()
-            expect(updated.ingredients).toHaveLength(2)
+            expect(response.status).toBe(403)
+            expect(await response.json()).toEqual({ error: 'OwnershipError', message: 'user is not author of recipe' })
         })
     })
 
@@ -222,16 +221,15 @@ describe('recipe nested elements HTTP contracts', () => {
             expect(updated.images.length).toBe(0)
         })
 
-        test('allows any authenticated user to add an image', async () => {
+        test('rejects image operation by another user', async () => {
             const response = await fetch(baseUrl + '/' + recipe.id + '/images', {
                 method: 'POST',
                 headers: authHeaders(otherUser.id),
                 body: JSON.stringify({ image: 'https://example.com/other.jpg' })
             })
 
-            expect(response.status).toBe(201)
-            const updated = await Recipe.findById(recipe.id).lean()
-            expect(updated.images).toContain('https://example.com/other.jpg')
+            expect(response.status).toBe(403)
+            expect(await response.json()).toEqual({ error: 'OwnershipError', message: 'user is not author of recipe' })
         })
     })
 
@@ -271,16 +269,15 @@ describe('recipe nested elements HTTP contracts', () => {
             expect(updated.tags.length).toBe(0)
         })
 
-        test('allows any authenticated user to add a tag', async () => {
+        test('rejects tag operation by another user', async () => {
             const response = await fetch(baseUrl + '/' + recipe.id + '/tags', {
                 method: 'POST',
                 headers: authHeaders(otherUser.id),
                 body: JSON.stringify({ tag: 'added-by-other' })
             })
 
-            expect(response.status).toBe(201)
-            const updated = await Recipe.findById(recipe.id).lean()
-            expect(updated.tags).toContain('added-by-other')
+            expect(response.status).toBe(403)
+            expect(await response.json()).toEqual({ error: 'OwnershipError', message: 'user is not author of recipe' })
         })
     })
 
