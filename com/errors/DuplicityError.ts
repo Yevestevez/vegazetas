@@ -1,5 +1,5 @@
 class DuplicityError extends Error {
-    constructor(message) {
+    constructor(message: string) {
         super(message)
     }
 }

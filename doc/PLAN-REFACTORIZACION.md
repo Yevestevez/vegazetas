@@ -380,8 +380,9 @@ fuera de la frontera definida.
   5. **Corte 5:** entry point (`main.tsx`) y router principal (`App.tsx`),
      incluyendo declaración de tipos CSS en `vite-env.d.ts`.
 - `tsc --noEmit` y `vite build` pasan sin errores.
-- `allowJs: true` permanece activo para compatibilidad con `com` en JS.
-  Se desactivará al cerrar el Sprint 8 cuando `com` migre a TypeScript.
+- `allowJs: true` permanece activo para compatibilidad con archivos JS
+  pendientes en `api/`. Se desactivará al cerrar el Sprint 8 cuando queden
+  solo TypeScript.
 - Actualizar React, Vite y las demás dependencias del frontend, teniendo en
   cuenta sus requisitos de Node y cambios incompatibles.
 - Tipar respuestas y errores, validar los límites necesarios y separar la
@@ -435,7 +436,16 @@ sin errores.
 funciones existentes y dispone de comprobaciones de accesibilidad acordadas;
 el código aún no migrado continúa funcionando.
 
-### Sprint 8: cierre, seguridad y accesibilidad — pendiente
+### Sprint 8: cierre, seguridad y accesibilidad — en curso
+
+**Migración de `com/` completada:** el paquete compartido `com` está ahora
+100% en TypeScript. Se migraron 9 archivos: 6 clases de error
+(`CredentialsError`, `DuplicityError`, `NotFoundError`, `OwnershipError`,
+`SystemError`, `ValidationError`), el barrel export `errors/index.ts`,
+`validate.ts` (tipado con `ZodSchema` y `ZodSafeParseResult` de Zod 4.x)
+y el barrel principal `index.ts`. Se actualizó `com/package.json`
+(`"main": "index.ts"`) y `api/tsconfig.json` (path mapping a `index.ts`).
+Los 32 tests de Playwright pasan y `vite build` compila sin errores.
 
 - Completar la eliminación de puentes temporales y JavaScript pendiente
   incluido en el alcance; actualizar documentación de instalación,
@@ -446,7 +456,7 @@ el código aún no migrado continúa funcionando.
   `MyRecipes/index.tsx`, `RecipeThumbnail.tsx`, `MyRecipeThumbnail.tsx`,
   `Recipe.tsx`) y en funciones de `logic/`. Crear `app/src/types/recipe.ts`
   con la definición canónica y actualizar los imports. A largo plazo, importar
-  estos tipos de `com` cuando migre a TypeScript.
+  estos tipos de `com`, que ya está en TypeScript.
 - Migrar los modelos Mongoose de `api/data/models.js` a TypeScript y sustituir
   la interfaz intermedia `UserFavorites` de `com/types/repo-types.ts` por los
   tipos inferidos de Mongoose. Afecta a `modules/recipes/getRecipeById/` y
