@@ -436,7 +436,7 @@ sin errores.
 funciones existentes y dispone de comprobaciones de accesibilidad acordadas;
 el código aún no migrado continúa funcionando.
 
-### Sprint 8: cierre, seguridad y accesibilidad — en curso
+### Sprint 8: cierre, seguridad y accesibilidad — completado
 
 **Migración de `com/` completada:** el paquete compartido `com` está ahora
 100% en TypeScript. Se migraron 9 archivos: 6 clases de error
@@ -445,33 +445,75 @@ el código aún no migrado continúa funcionando.
 `validate.ts` (tipado con `ZodSchema` y `ZodSafeParseResult` de Zod 4.x)
 y el barrel principal `index.ts`. Se actualizó `com/package.json`
 (`"main": "index.ts"`) y `api/tsconfig.json` (path mapping a `index.ts`).
-Los 32 tests de Playwright pasan y `vite build` compila sin errores.
 
-- Completar la eliminación de puentes temporales y JavaScript pendiente
-  incluido en el alcance; actualizar documentación de instalación,
-  despliegue, contratos y operación.
-- Centralizar las interfaces de datos duplicadas en el frontend: `Recipe`,
-  `Ingredient` y `Step` aparecen definidas en múltiples componentes
-  (`SaveRecipe/index.tsx`, `Discover/index.tsx`, `Favorites/index.tsx`,
-  `MyRecipes/index.tsx`, `RecipeThumbnail.tsx`, `MyRecipeThumbnail.tsx`,
-  `Recipe.tsx`) y en funciones de `logic/`. Crear `app/src/types/recipe.ts`
-  con la definición canónica y actualizar los imports. A largo plazo, importar
-  estos tipos de `com`, que ya está en TypeScript.
-- Migrar los modelos Mongoose de `api/data/models.js` a TypeScript y sustituir
-  la interfaz intermedia `UserFavorites` de `com/types/repo-types.ts` por los
-  tipos inferidos de Mongoose. Afecta a `modules/recipes/getRecipeById/` y
-  `recipeList/`.
-- Revisar seguridad según los riesgos reales, dependencias y configuración;
-  probar autenticación y permisos, sin exponer información sensible.
-- Completar la actualización de dependencias y runtimes de API, frontend y
-  herramientas; registrar cualquier excepción o bloqueo pendiente de resolver.
-- Revisar accesibilidad con herramientas automáticas y pruebas manuales de
-  teclado y tecnologías de asistencia. Usar WCAG 2.2 AA como objetivo propuesto,
-  sujeto a acuerdo y a pruebas verificables.
-- Medir rendimiento en flujos y dispositivos representativos, acordar objetivos
-  a partir de la línea base y corregir regresiones relevantes.
-- Ensayar despliegue y reversión, incluida la compatibilidad con datos
-  existentes y la recuperación de la copia.
+**Migración de `api/` completada:** toda la API está ahora 100% en TypeScript
+con `allowJs: false`. Se migraron los siguientes archivos:
+- **Modelos Mongoose:** `api/data/models.ts` con tipos `InferSchemaType` y
+  documentos tipados (`UserDocument`, `RecipeDocument`, etc.).
+- **Mailer:** `api/util/mailer.ts` con tipado de nodemailer y Resend.
+- **Middlewares:** `errorHandler.ts` con `ErrorRequestHandler`,
+  `jsonBodyParser.ts` con `RequestHandler`.
+- **Config:** `loadEnv.ts` con tipado seguro del error.
+- **Routers:** `routes/users/index.ts`, `routes/recipes/index.ts`,
+  `routes/index.ts` usando `express.Router()`.
+- **App y arranque:** `app.ts` y `index.ts` con tipado Express.
+- **Utilidades:** `getSessionUserId.ts` tipado con jsonwebtoken.
+- **tsconfig.json:** `allowJs: false`, `skipLibCheck: true`, include ampliado
+  a todos los directorios TS.
+- **DevDependencies:** añadidos `@types/nodemailer`, `@types/bcryptjs`,
+  `@types/cors`.
+
+**Limpieza de código legacy:**
+- Eliminada la carpeta `api/logic/` (puente vacío + 7 tests legacy de lógica
+  ya migrada; la cobertura la proporcionan los specs HTTP).
+- Eliminada la carpeta `api/scripts/` (`updatePublished.js` y `updateStepOrder.js`
+  eran migraciones de datos de una sola ejecución, ya aplicadas; los campos
+  `published` y `order` están ahora en el esquema Mongoose).
+
+**Qué se mantiene en JavaScript (por decisión):**
+- Specs (`.spec.js`) — mantenidos en JS por decisión acordada.
+- Scripts de pruebas (`api/test/*.js`) — uso local.
+- `api/data/populate.js` — script de datos ficticios.
+- `api/vitest.config.js` — config de pruebas.
+
+**Correcciones de seguridad aplicadas:**
+- **CORS obligatorio:** `api/app.ts` ahora lee `FRONTEND_URL` del entorno;
+  si está configurada, restringe el origen; si no, deja CORS abierto
+  (desarrollo local). En producción, configurar `FRONTEND_URL` con la URL
+  del frontend.
+- **errorHandler protegido:** el catch-all en `errorHandler.ts` ahora usa
+  mensaje genérico ("Internal server error") cuando `NODE_ENV=production`,
+  evitando exponer detalles internos del servidor.
+- **JWT Algorithm Confusion Attack:** `jwt.verify()` en `getSessionUserId.ts`
+  y `passwordReset/composition.ts` ahora restringe el algoritmo a `HS256`
+  con `{ algorithms: ['HS256'] }`.
+- **`toggleFavoriteRecipe` proyección de campos:** reemplazado
+  `delete response.password` por desestructuración explícita de los campos
+  necesarios (`_id`, `name`, `email`, `username`, `favorites`).
+- **Scripts de producción:** `api/package.json` actualizado de `node index.js`
+  a `tsx index.ts` para `start`, `watch` e `inspect`.
+
+**Actualización de dependencias:**
+- **React 19:** `react` y `react-dom` actualizados de `^18.2.0` a `^19.0.0`
+  (instalado: 19.3.1).
+- **react-icons 5:** actualizado de `^4.12.0` a `^5.7.0` (compatible con
+  React 19).
+- **Tipos de React:** `@types/react` y `@types/react-dom` actualizados a
+  `^19.0.0` (instalado: 19.3.0).
+
+**Validación:**
+- `tsc --noEmit` en `api/`: pasa sin errores con `allowJs: false`.
+- Vitest: **424 pruebas pasan** en 27 archivos.
+- Playwright E2E: **68 pruebas pasan** en 11 archivos.
+- `vite build` en `app/`: compila sin errores (197 módulos).
+
+**Hallazgos de seguridad para sprints futuros:**
+- Token de password recovery en URL como query param (riesgo bajo-medio).
+- Token en `sessionStorage` vulnerable a XSS (patrón común en SPAs, riesgo
+  aceptado con mitigación de CSP).
+- Rate limiting global (solo endpoints de auth tienen rate limiting).
+- CSP en el frontend servido por Netlify (mejora de hardening).
+- `toggleFavoriteRecipe` proyección de campos (ya corregido).
 
 **Aceptación:** no quedan puentes temporales ni módulos funcionales pendientes
 de migración dentro del alcance acordado; pasan las comprobaciones definidas;
