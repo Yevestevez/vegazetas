@@ -366,7 +366,7 @@ fuera de la frontera definida.
 
 ### Sprint 7: frontend por flujos — completado
 
-- Todo el frontend (`app/src/`) migrado a TypeScript en 4 cortes:
+- Todo el frontend (`app/src/`) migrado a TypeScript en 5 cortes:
   1. **Corte 1:** configuración TypeScript (`tsconfig.json`, `vite-env.d.ts`),
      base compartida (`context.ts`, `authenticatedFetch.ts`) y funciones de
      sesión (8 archivos TS).
@@ -377,6 +377,8 @@ fuera de la frontera definida.
      `Menu`), 5 funciones de lógica, 2 helpers y 8 componentes de Home.
   4. **Corte 4:** detalle (`Recipe.tsx`) y edición (`SaveRecipe/index.tsx`)
      con 14 funciones de lógica de recetas.
+  5. **Corte 5:** entry point (`main.tsx`) y router principal (`App.tsx`),
+     incluyendo declaración de tipos CSS en `vite-env.d.ts`.
 - `tsc --noEmit` y `vite build` pasan sin errores.
 - `allowJs: true` permanece activo para compatibilidad con `com` en JS.
   Se desactivará al cerrar el Sprint 8 cuando `com` migre a TypeScript.
@@ -422,6 +424,13 @@ y componentes de Home. 5 funciones de lógica (`getMyRecipes.ts`,
 (Corte 4) se importan con cast `any` como puente temporal. Pasaron `tsc --noEmit`
 y `vite build` sin errores. Quedan 20 archivos JS/JSX por migrar en el Corte 4.
 
+**Octavo corte completado:** se migraron a TypeScript el entry point
+(`main.tsx`) y el router principal (`App.tsx`). `App.tsx` tipa los estados
+de alerta y confirmación usando `AlertMessage` y los callbacks del contexto.
+Se añadió la declaración de tipos CSS en `vite-env.d.ts` para que Vite
+maneje los imports de hojas de estilo. Pasaron `tsc --noEmit` y `vite build`
+sin errores.
+
 **Aceptación:** cada flujo migrado compila y pasa sus pruebas, mantiene las
 funciones existentes y dispone de comprobaciones de accesibilidad acordadas;
 el código aún no migrado continúa funcionando.
@@ -431,6 +440,13 @@ el código aún no migrado continúa funcionando.
 - Completar la eliminación de puentes temporales y JavaScript pendiente
   incluido en el alcance; actualizar documentación de instalación,
   despliegue, contratos y operación.
+- Centralizar las interfaces de datos duplicadas en el frontend: `Recipe`,
+  `Ingredient` y `Step` aparecen definidas en múltiples componentes
+  (`SaveRecipe/index.tsx`, `Discover/index.tsx`, `Favorites/index.tsx`,
+  `MyRecipes/index.tsx`, `RecipeThumbnail.tsx`, `MyRecipeThumbnail.tsx`,
+  `Recipe.tsx`) y en funciones de `logic/`. Crear `app/src/types/recipe.ts`
+  con la definición canónica y actualizar los imports. A largo plazo, importar
+  estos tipos de `com` cuando migre a TypeScript.
 - Migrar los modelos Mongoose de `api/data/models.js` a TypeScript y sustituir
   la interfaz intermedia `UserFavorites` de `com/types/repo-types.ts` por los
   tipos inferidos de Mongoose. Afecta a `modules/recipes/getRecipeById/` y

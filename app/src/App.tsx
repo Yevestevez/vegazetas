@@ -14,7 +14,15 @@ import Login from './view/Login'
 import Home from './view/Home'
 import PasswordReset from './view/PasswordReset'
 
-function App() {
+interface AlertMessage {
+    text: string
+    isWakingServer: boolean
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function App(): any {
+    // @ts-expect-error - static property pattern for confirm callback
+    App.confirmCallback = null
     const navigate = useNavigate()
 
     const handleUserRegistered = () => navigate('/login')
@@ -22,16 +30,17 @@ function App() {
     const handleUserLoggedOut = useCallback(() => navigate('/login'), [navigate])
     const handlePasswordReseted = () => navigate('/login')
 
-    // alert y confirm
-    const [alertMessage, setAlertMessage] = useState(null)
+    const [alertMessage, setAlertMessage] = useState<AlertMessage | null>(null)
     const [confirmMessage, setConfirmMessage] = useState('')
-    const alert = useCallback((message, options = {}) => {
+
+    const alert = useCallback((message: string, options: { isWakingServer?: boolean } = {}) => {
         setAlertMessage({
             text: message,
             isWakingServer: options.isWakingServer || false,
         })
         return () => setAlertMessage(null)
     }, [])
+
     useEffect(() => {
         const handleSessionExpired = () => {
             handleUserLoggedOut()
@@ -42,24 +51,29 @@ function App() {
         return () => window.removeEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired)
     }, [alert, handleUserLoggedOut])
 
-    const confirm = (message, callback) => {
+    const confirm = (message: string, callback: (result: boolean) => void) => {
         setConfirmMessage(message)
-        App.confirmCallback = callback
+        ;(App as any).confirmCallback = callback
     }
+
     const handleAcceptAlert = () => setAlertMessage(null)
+
     const handleAcceptConfirm = () => {
-        App.confirmCallback(true)
-
+        const cb = (App as any).confirmCallback as ((result: boolean) => void) | null
+        if (cb) {
+            cb(true)
+        }
         setConfirmMessage('')
-
-        App.confirmCallback = null
+        ;(App as any).confirmCallback = null
     }
+
     const handleCancelConfirm = () => {
-        App.confirmCallback(false)
-
+        const cb = (App as any).confirmCallback as ((result: boolean) => void) | null
+        if (cb) {
+            cb(false)
+        }
         setConfirmMessage('')
-
-        App.confirmCallback = null
+        ;(App as any).confirmCallback = null
     }
 
     return <AppContext.Provider value={{ alert, confirm }}>
@@ -97,7 +111,8 @@ function App() {
         )}
 
         {confirmMessage && <Confirm message={confirmMessage} onAccept={handleAcceptConfirm} onCancel={handleCancelConfirm} />}
-    </AppContext.Provider >
+    </AppContext.Provider>
 }
 
 export default App
+
