@@ -67,10 +67,11 @@ function Login({ onUserLoggedIn }: LoginProps) {
     const handleRecoverPasswordButtonClick = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
+        const form = event.currentTarget
+        const email = form.email.value.trim()
+
         confirm('¿Quieres cambiar la contraseña?', (accepted: boolean) => {
             if (accepted) {
-                const form = event.currentTarget
-                const email = form.email.value.trim()
 
                 let closeAlert: (() => void) | undefined
 
