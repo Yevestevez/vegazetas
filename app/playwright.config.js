@@ -13,7 +13,7 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: 'node ../api/test/e2eServer.js',
+      command: 'npx --prefix ../api tsx ../api/test/e2eServer.js',
       url: 'http://127.0.0.1:32123/health',
       reuseExistingServer: false
     },

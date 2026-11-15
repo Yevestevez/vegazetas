@@ -6,11 +6,11 @@ import {
 } from 'com'
 import createApp from '../app.ts'
 import { Recipe, User } from '../data/models.ts'
-import addImageInApp from '../../app/src/logic/addImageToRecipe.js'
-import addStepInApp from '../../app/src/logic/addStepToRecipe.js'
-import createRecipeInApp from '../../app/src/logic/createRecipe.js'
-import updateRecipeInApp from '../../app/src/logic/updateRecipe.js'
-import updateStepInApp from '../../app/src/logic/updateStep.js'
+import addImageInApp from '../../app/src/logic/addImageToRecipe.ts'
+import addStepInApp from '../../app/src/logic/addStepToRecipe.ts'
+import createRecipeInApp from '../../app/src/logic/createRecipe.ts'
+import updateRecipeInApp from '../../app/src/logic/updateRecipe.ts'
+import updateStepInApp from '../../app/src/logic/updateStep.ts'
 
 describe('shared recipe field validation', () => {
     afterEach(() => {

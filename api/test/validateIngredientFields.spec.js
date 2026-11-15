@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { annotationSchema, errors, mainSchema, quantitySchema, unitSchema, validate } from 'com'
 import createApp from '../app.ts'
 import { User } from '../data/models.ts'
-import addIngredientInApp from '../../app/src/logic/addIngredientToRecipe.js'
+import addIngredientInApp from '../../app/src/logic/addIngredientToRecipe.ts'
 
 describe('shared ingredient field validation', () => {
     afterEach(() => {

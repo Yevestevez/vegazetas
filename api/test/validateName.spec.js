@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken'
 import { errors, ingredientNameSchema, nameSchema, validate } from 'com'
 import createApp from '../app.ts'
 import { registerUser } from '../modules/users/registerUser/composition.ts'
-import registerUserInApp from '../../app/src/logic/registerUser.js'
-import addIngredientInApp from '../../app/src/logic/addIngredientToRecipe.js'
+import registerUserInApp from '../../app/src/logic/registerUser.ts'
+import addIngredientInApp from '../../app/src/logic/addIngredientToRecipe.ts'
 
 describe('shared name validation', () => {
     test.each(['A', 'a'.repeat(50), 'Ana Pérez', 'Ñoño', ' ', '\t'])('accepts a name without changing it', name => {

@@ -4,65 +4,49 @@ sessionId: session-261115-142433-155r
 
 # Contexto actual
 
-El **Sprint 8** (cierre, seguridad y accesibilidad) está **en curso**. Lo completado hasta ahora:
+El **Sprint 8** (cierre, seguridad y accesibilidad) está **completado**. Lo logrado:
 
 - **`com/`** migrado 100% a TypeScript (errores, validación Zod, barrel exports).
 - **Frontend (`app/src/`)** migrado 100% a TypeScript en 5 cortes. Tipos de receta centralizados en `app/src/types/recipe.ts`.
-- **Módulos de API** (usuarios y recetas) ya en TypeScript con arquitectura por capas.
+- **API migrada 100% a TypeScript** con `allowJs: false`. Todos los archivos JS de la API (excepto specs, scripts manuales y config de pruebas) están en TypeScript.
+- **Validación completa:** `tsc --noEmit` sin errores, 424 pruebas Vitest pasan, 68 pruebas Playwright E2E pasan, `vite build` sin errores.
 
-**Lo que queda en JavaScript en `api/`:**
+**Lo que se mantiene en JavaScript (por decisión):**
+- Specs (`.spec.js`) — mantenidos en JS por decisión acordada.
+- Scripts manuales (`api/test/*.js`, `api/scripts/*.js`) — uso local.
+- `api/data/populate.js` — script de datos ficticios.
+- `api/vitest.config.js` — config de pruebas.
 
-| Archivo | Descripción |
-|---|---|
-| `api/app.js` | Creación de la app Express (middleware, routers, health). |
-| `api/index.js` | Arranque de la API (connect DB, listen). |
-| `api/config/loadEnv.js` | Carga de `.env`. |
-| `api/data/models.js` | Esquemas Mongoose (User, Recipe, Ingredient, Step). |
-| `api/data/populate.js` | Script de datos ficticios. |
-| `api/logic/index.js` | Puente vacío (legacy). |
-| `api/logic/*.test.js` (8 archivos) | Tests legacy de lógica migrada. |
-| `api/middlewares/errorHandler.js` | Middleware de errores. |
-| `api/middlewares/jsonBodyParser.js` | Middleware JSON body parser. |
-| `api/routes/index.js` | Barrel export de routers. |
-| `api/routes/users/index.js` | Router de usuarios (usa routers TS). |
-| `api/routes/recipes/index.js` | Router de recetas (usa handlers TS). |
-| `api/scripts/*.js` (2 archivos) | Scripts de actualización. |
-| `api/test/*.js` (varios) | Scripts manuales de prueba. |
-| `api/util/mailer.js` | Transporte de correo. |
-| `api/vitest.config.js` | Config de Vitest. |
+# Resumen de cambios del Sprint 8
 
-Los specs (`.spec.js`) se mantienen en JavaScript por decisión acordada.
+### Migración a TypeScript
+- **Modelos Mongoose:** `api/data/models.ts` con tipos `InferSchemaType` y documentos tipados.
+- **Mailer:** `api/util/mailer.ts` con tipado de nodemailer y Resend.
+- **Middlewares:** `errorHandler.ts` con `ErrorRequestHandler`, `jsonBodyParser.ts` con `RequestHandler`.
+- **Config:** `loadEnv.ts` con tipado seguro del error.
+- **Routers:** `routes/users/index.ts`, `routes/recipes/index.ts`, `routes/index.ts`.
+- **App y arranque:** `app.ts` y `index.ts` con tipado Express.
+- **Limpieza legacy:** eliminada carpeta `logic/` (puente vacío + 7 tests legacy).
+- **tsconfig.json:** `allowJs: false`, `skipLibCheck: true`.
 
-# Propuesta: siguiente paso del Sprint 8
+### Correcciones en specs
+- `vitest.config.js`: removida referencia a `logic/*.spec.js` (ya eliminada).
+- `loadEnv.spec.js`: reescrito para usar `loadEnvFile()` directamente en lugar de `spawnSync`.
+- `getRecipeById.spec.js`: mock de `findById` corregido con cadena `lean().exec()` completa.
+- Imports de frontend: actualizados de `.js` a `.ts` en 6 specs de validación compartida.
+- `test/setup.js`: importa `loadEnv.ts` en lugar de `loadEnv.js`.
 
-El siguiente paso es **migrar los archivos JS restantes de la API a TypeScript** para eliminar los puentes temporales y poder desactivar `allowJs` en `api/tsconfig.json`.
-
-### Orden de migración (dependencias de abajo hacia arriba)
-
-1. **`com/types/repo-types.ts` → tipos inferidos de Mongoose**: Reemplazar la interfaz intermedia `UserFavorites` por tipos inferidos de los modelos Mongoose una vez estos estén en TS.
-2. **`api/data/models.js` → `api/data/models.ts`**: Migrar los esquemas Mongoose a TypeScript con tipos `InferSchemaType` o `Model` de Mongoose.
-3. **`api/util/mailer.js` → `api/util/mailer.ts`**: Tipar el transporte de correo.
-4. **`api/middlewares/*.js` → `api/middlewares/*.ts`**: Tipar con `RequestHandler` / `ErrorRequestHandler` de Express.
-5. **`api/config/loadEnv.js` → `api/config/loadEnv.ts`**: Tipar la carga de `.env`.
-6. **`api/routes/users/index.js` → `api/routes/users/index.ts`** y **`api/routes/recipes/index.js` → `api/routes/recipes/index.ts`**: Los routers ya importan módulos TS; solo necesitan tipado Express.
-7. **`api/routes/index.js` → `api/routes/index.ts`**: Barrel export.
-8. **`api/app.js` → `api/app.ts`**: Creación de la app Express.
-9. **`api/index.js` → `api/index.ts`**: Arranque.
-10. **Eliminar `api/logic/index.js`**: Puente vacío sin imports activos.
-11. **Eliminar `api/logic/*.test.js`**: Tests de lógica ya migrada; la cobertura la proporcionan los specs HTTP.
-12. **Desactivar `allowJs` en `api/tsconfig.json`**: Verificar que `tsc --noEmit` pasa sin JS.
-
-### Qué NO se migra en este paso
-- **Specs (`.spec.js`)**: Se mantienen en JS por decisión acordada.
-- **Scripts manuales (`api/test/*.js`, `api/scripts/*.js`)**: Se pueden migrar en un paso posterior o dejar en JS si son solo de uso local.
-- **`api/data/populate.js`**: Script de datos ficticios; migrar si se usa en pruebas.
+### Configuración E2E
+- `playwright.config.js`: usa `tsx` para lanzar el servidor E2E (necesario para importar `app.ts`).
+- `tsx` añadido como devDependency en `api/package.json`.
 
 ### Validación
 - `tsc --noEmit` en `api/` sin errores.
-- Suite completa de Vitest: 423 pruebas pasan en 26 archivos, sin errores ni warnings.
+- Suite completa de Vitest: 424 pruebas pasan en 27 archivos, sin errores ni warnings.
 - `vite build` en `app/` sin errores.
-- Playwright E2E: pendiente de ejecutar.
-- Fixes de tests: corregido `loadEnv.spec.js` (ya no usa `spawnSync` con `.js`, usa `loadEnvFile` directamente) y `getRecipeById.spec.js` (mock de `findById` con cadena `lean().exec()` completa).
+- Playwright E2E: 68 pruebas pasan en 11 archivos, sin errores.
+- Fixes de tests: corregido `loadEnv.spec.js` (ya no usa `spawnSync` con `.js`, usa `loadEnvFile` directamente), `getRecipeById.spec.js` (mock de `findById` con cadena `lean().exec()` completa), y `vitest.config.js` (removida referencia a `logic/*.spec.js` eliminada).
+- Imports de specs: actualizados de `.js` a `.ts` en los specs de validación compartida que importan lógica del frontend.
 
 # Delivery Steps
 

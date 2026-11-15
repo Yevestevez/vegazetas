@@ -4,9 +4,9 @@ import createApp from '../app.ts'
 import { authenticateUser } from '../modules/users/authenticateUser/composition.ts'
 import { passwordRecover } from '../modules/users/passwordRecover/composition.ts'
 import { registerUser } from '../modules/users/registerUser/composition.ts'
-import loginUser from '../../app/src/logic/loginUser.js'
-import passwordRecoverInApp from '../../app/src/logic/passwordRecover.js'
-import registerUserInApp from '../../app/src/logic/registerUser.js'
+import loginUser from '../../app/src/logic/loginUser.ts'
+import passwordRecoverInApp from '../../app/src/logic/passwordRecover.ts'
+import registerUserInApp from '../../app/src/logic/registerUser.ts'
 
 describe('shared email validation', () => {
     test.each([

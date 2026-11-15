@@ -2,7 +2,7 @@ import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import { errors, usernameSchema, validate } from 'com'
 import createApp from '../app.ts'
 import { registerUser } from '../modules/users/registerUser/composition.ts'
-import registerUserInApp from '../../app/src/logic/registerUser.js'
+import registerUserInApp from '../../app/src/logic/registerUser.ts'
 
 const syntaxMessage = 'invalid username syntax (solo minúsculas, números, guiones, guiones bajos o puntos, sin espacios. Máx. 25 caracteres)'
 
