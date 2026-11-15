@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 
-function LogoVegazetasHeader({ to, className }) {
+interface LogoVegazetasHeaderProps {
+    to?: string
+    className?: string
+}
+
+function LogoVegazetasHeader({ to, className }: LogoVegazetasHeaderProps) {
     const logoHeaderClasses = clsx(
         'anybody-logo text-4xl sm:text-5xl xl:text-6xl ',
         'drop-shadow-[0.4rem_0.4rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.5rem_0.5rem_0_rgba(0,0,0,0.8)]',

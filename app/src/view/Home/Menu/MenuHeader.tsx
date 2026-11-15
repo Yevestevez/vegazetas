@@ -11,10 +11,14 @@ import ProfileImage from '../common/ProfileImage'
 import { errors } from 'com'
 const { NotFoundError, SystemError } = errors
 
-function Header({ onUserLoggedOut }) {
+interface MenuHeaderProps {
+    onUserLoggedOut: () => void
+}
+
+function MenuHeader({ onUserLoggedOut }: MenuHeaderProps) {
     const { alert, confirm } = useAppContext()
 
-    const [name, setName] = useState(null)
+    const [name, setName] = useState<string | null>(null)
 
     useEffect(() => {
         let active = true
@@ -33,7 +37,7 @@ function Header({ onUserLoggedOut }) {
                         alert('sorry, try again')
                 })
         } catch (error) {
-            alert(error.message)
+            alert((error as Error).message)
 
             console.error(error)
         }
@@ -42,14 +46,14 @@ function Header({ onUserLoggedOut }) {
     }, [alert, onUserLoggedOut])
 
     const handleLogoutButtonClick = () => {
-        confirm('¿Quieres cerrar sesión?', accepted => {
+        confirm('¿Quieres cerrar sesión?', (accepted: boolean) => {
             if (accepted) {
                 try {
                     logic.logoutUser()
 
                     onUserLoggedOut()
                 } catch (error) {
-                    alert(error.message)
+                    alert((error as Error).message)
 
                     console.error(error)
                 }
@@ -81,4 +85,4 @@ function Header({ onUserLoggedOut }) {
     </header>
 }
 
-export default Header
+export default MenuHeader

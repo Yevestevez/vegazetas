@@ -5,12 +5,16 @@ import MenuButton from './MenuButton'
 import CircleButton from '../../common/CircleButton'
 import Footer from '../../common/Footer'
 
-function Menu({ onUserLoggedOut, onCreateRecipeClicked }) {
+interface MenuProps {
+    onUserLoggedOut: () => void
+    onCreateRecipeClicked: () => void
+    onMyRecipesClicked?: () => void
+}
+
+function Menu({ onUserLoggedOut, onCreateRecipeClicked, onMyRecipesClicked }: MenuProps) {
     const { alert } = useAppContext()
 
-    const handleCreateRecipeClick = event => {
-        event.preventDefault()
-
+    const handleCreateRecipeClick = () => {
         onCreateRecipeClicked()
     }
 
@@ -23,24 +27,24 @@ function Menu({ onUserLoggedOut, onCreateRecipeClicked }) {
 
                 <MenuButton to="/favorites" variant="even" className="bg-coquelicot text-aquamarine">Las favoritas</MenuButton>
 
-                <MenuButton className="bg-folly text-spring-bud opacity-50" onClick={(event) => {
+                <MenuButton className="bg-folly text-spring-bud opacity-50" onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                     event.preventDefault()
                     alert('Funcionalidad en el horno')
                 }}>¡Listas y más listas!</MenuButton>
 
-                <MenuButton variant="even" className="bg-canary text-coquelicot opacity-50" onClick={(event) => {
+                <MenuButton variant="even" className="bg-canary text-coquelicot opacity-50" onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                     event.preventDefault()
                     alert('Funcionalidad salteándose con un chorro de aceite')
                 }}>Menús</MenuButton>
 
-                <MenuButton className="bg-hot-magenta text-violet opacity-50" onClick={(event) => {
+                <MenuButton className="bg-hot-magenta text-violet opacity-50" onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                     event.preventDefault()
                     alert('Funcionalidad burbujeando en la olla')
                 }}>Lista de la compra</MenuButton>
 
                 <MenuButton to="/discover" variant="even" className="bg-aquamarine text-hot-magenta">Descubre</MenuButton>
 
-                <MenuButton className="bg-dark-orange text-veronica opacity-50" onClick={(event) => {
+                <MenuButton className="bg-dark-orange text-veronica opacity-50" onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                     event.preventDefault()
                     alert('Funcionalidad en el horno')
                 }}>Enlaces</MenuButton>

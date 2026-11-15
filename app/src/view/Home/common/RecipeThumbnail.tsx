@@ -8,20 +8,66 @@ import formatDate from '../../helper/formatDate'
 
 import MiniCircleButton from "./MiniCircleButton"
 
-function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick }) {
+interface RecipeAuthor {
+    username: string
+}
+
+interface RecipeImage {
+    url: string
+}
+
+interface RecipeThumbnailRecipe {
+    id: string
+    title: string
+    published: boolean
+    own?: boolean
+    isFavorite: boolean
+    images: string[]
+    author: RecipeAuthor
+    date: string
+}
+
+type RecipeThumbnailVariant = 'discover' | 'favorites'
+
+interface RecipeThumbnailProps {
+    recipe: RecipeThumbnailRecipe
+    onRecipeThumbnailClick: (recipeId: string) => void
+    onToggleFavoriteClick: () => void
+    variant?: RecipeThumbnailVariant
+    onRecipeDeleted?: () => void
+    onRecipeUpdated?: () => void
+}
+
+const VARIANTS: Record<RecipeThumbnailVariant, {
+    bgColor: string
+    textColor: string
+}> = {
+    discover: {
+        bgColor: 'bg-aquamarine',
+        textColor: 'text-hot-magenta'
+    },
+    favorites: {
+        bgColor: 'bg-coquelicot',
+        textColor: 'text-aquamarine'
+    }
+}
+
+function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick, variant = 'discover' }: RecipeThumbnailProps) {
     const { alert } = useAppContext()
 
-    const handleRecipeThumbnailClick = event => {
+    const handleToggleFavoriteClick = (event: React.MouseEvent) => {
+        event.preventDefault()
+
+        onToggleFavoriteClick()
+    }
+
+    const handleRecipeThumbnailClick = (event: React.MouseEvent) => {
         event.preventDefault()
 
         onRecipeThumbnailClick(recipe.id)
     }
 
-    const handleToggleFavoriteClick = (event) => {
-        event.preventDefault()
-
-        onToggleFavoriteClick()
-    }
+    const currentVariant = VARIANTS[variant]
 
     return <article className={`
                 flex flex-col w-full relative
@@ -33,9 +79,13 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
         <header className="z-20 flex absolute top-0 left-0 right-0 p-4 xs:p-6 xl:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 items-center justify-between">
 
             <div className="flex items-center justify-start">
-                {recipe.published
-                    ? <MdRocketLaunch className="text-spring-bud text-2xl xs:text-3xl" title="Receta publicada" />
-                    : <MdVisibilityOff className="text-spring-bud text-xl xs:text-3xl" title="Receta en borrador" />
+                {recipe.own &&
+                    <div className="flex items-center justify-start">
+                        {recipe.published
+                            ? <MdRocketLaunch className="text-spring-bud text-2xl xs:text-3xl" title="Receta publicada" />
+                            : <MdVisibilityOff className="text-spring-bud text-xl xs:text-3xl" title="Receta en borrador" />
+                        }
+                    </div>
                 }
             </div>
 
@@ -50,13 +100,17 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
 
                 <MiniCircleButton
                     onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
-                    aria-label="Añadir a lista" title="Añadir a lista">
+                    aria-label="Añadir a lista"
+                    title="Añadir a lista"
+                >
                     <FaListUl aria-hidden="true" />
                 </MiniCircleButton>
 
                 <MiniCircleButton
                     onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
-                    aria-label="Compartir receta" title="Compartir receta">
+                    aria-label="Compartir receta"
+                    title="Compartir receta"
+                >
                     <FaShareAlt aria-hidden="true" />
                 </MiniCircleButton>
             </div>
@@ -65,8 +119,8 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
         <button
             className="flex items-center justify-center cursor-pointer w-full rounded-sm overflow-hidden"
             type="button"
-            onClick={handleRecipeThumbnailClick}
             aria-label="Ir a la receta" title="Ir a la receta"
+            onClick={handleRecipeThumbnailClick}
         >
             <div className="w-full relative">
                 {recipe.images && recipe.images.length > 0 ? (
@@ -79,17 +133,18 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
                         />
                     </>
                 ) : (
-                    <div className="w-full bg-veronica aspect-square" />
+                    <div className={`${currentVariant.bgColor} w-full aspect-square`} />
                 )}
 
-                <h2 className="
+                <h2 className={`
+                ${currentVariant.textColor}
                 z-10 absolute inset-0 flex items-center justify-center text-center
                 p-6 pt-10 xs:p-10 xs:pt-14
-                anybody-logo text-spring-bud break-words
+                anybody-logo break-words
                 text-2xl xs:text-4xl sm:text-2xl md:text-3xl lg:text-2xl xl:md:text-4xl
                 leading-tight
-                drop-shadow-[0.18em_0.18em_0_rgba(0,0,0,0.8)]
-            ">
+                drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)]
+            `}>
                     {recipe.title}
                 </h2>
             </div>
@@ -98,14 +153,14 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
         <footer className="
             z-10 mx-auto
             -mt-4 xs:-mt-5 sm:-mt-4
-            px-4 py-1 xs:py-2 sm:py-1
-            anybody-title text-spring-bud bg-folly 
-            text-sm xs:text-base sm:text-sm md:text-base lg:text-sm xl:md:text-base
-            rounded-sm overflow-hidden
+            px-4 py-2 xs:py-2 sm:py-1
+            text-spring-bud bg-folly 
+            rounded-sm overflow-hidden flex flex-col
         ">
-            <time>{formatDate(recipe.date)}</time>
+            <p className="anybody-title text-base xs:text-lg sm:text-base md:text-lg lg:text-base xl:md:text-lg">{`@${recipe.author.username}`}</p>
+            <time className="text-sm xs:text-base sm:text-sm md:text-base lg:text-sm xl:md:text-base">{formatDate(recipe.date)}</time>
         </footer>
     </article>
 }
 
-export default MyRecipeThumbnail
+export default RecipeThumbnail

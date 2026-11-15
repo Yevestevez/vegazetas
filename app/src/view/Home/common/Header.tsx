@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { ReactNode } from 'react'
 
 import LogoVegazetasHeader from './LogoVegazetasHeader'
 import ProfileImage from "./ProfileImage"
@@ -6,7 +7,20 @@ import ProfileImage from "./ProfileImage"
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
 
-const VARIANTS = {
+type HeaderVariant = 'recipe' | 'saveRecipe' | 'myRecipes' | 'discover' | 'favorites'
+
+interface HeaderProps {
+    onUserLoggedOut: () => void
+    variant?: HeaderVariant
+}
+
+const VARIANTS: Record<HeaderVariant, {
+    headerBg: string
+    logoColor: string
+    profileImgColor: string
+    logoutBtn: string
+    borderBottom: string
+}> = {
     recipe: {
         headerBg: 'bg-spring-bud',
         logoColor: 'text-folly',
@@ -45,18 +59,18 @@ const VARIANTS = {
     }
 }
 
-function Header({ onUserLoggedOut, variant = 'common' }) {
+function Header({ onUserLoggedOut, variant = 'myRecipes' }: HeaderProps) {
     const { alert, confirm } = useAppContext()
 
     const handleLogoutButtonClick = () => {
-        confirm('¿Quieres cerrar sesión?', accepted => {
+        confirm('¿Quieres cerrar sesión?', (accepted: boolean) => {
             if (accepted) {
                 try {
                     logic.logoutUser()
 
                     onUserLoggedOut()
                 } catch (error) {
-                    alert(error.message)
+                    alert((error as Error).message)
 
                     console.error(error)
                 }

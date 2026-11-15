@@ -1,7 +1,19 @@
 import authenticatedFetch from './authenticatedFetch'
 import { errors } from 'com'
 
-const getPublishedRecipes = () => {
+interface Recipe {
+    id: string
+    title: string
+    published: boolean
+    isFavorite: boolean
+    images: string[]
+    author: { username: string }
+    date: string
+    own?: boolean
+    [key: string]: any
+}
+
+const getPublishedRecipes = (): Promise<Recipe[]> => {
     return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/published-recipes`, {
         method: 'GET',
         headers: {
@@ -14,13 +26,13 @@ const getPublishedRecipes = () => {
 
             if (status === 200)
                 return res.json()
-                    .then(publishedRecipes => publishedRecipes)
+                    .then((publishedRecipes: Recipe[]) => publishedRecipes)
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error]
+                    const constructor = errors[error as keyof typeof errors]
 
                     throw new constructor(message)
                 })

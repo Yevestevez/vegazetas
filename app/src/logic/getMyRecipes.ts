@@ -1,8 +1,18 @@
 import authenticatedFetch from './authenticatedFetch'
 import { errors } from 'com'
 
-const getRecipeById = (recipeId) => {
-    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
+interface Recipe {
+    id: string
+    title: string
+    published: boolean
+    isFavorite: boolean
+    images: string[]
+    date: string
+    [key: string]: any
+}
+
+const getMyRecipes = (): Promise<Recipe[]> => {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/my-recipes`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`
@@ -14,17 +24,17 @@ const getRecipeById = (recipeId) => {
 
             if (status === 200)
                 return res.json()
-                    .then(recipe => recipe)
+                    .then((myRecipes: Recipe[]) => myRecipes)
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error]
+                    const constructor = errors[error as keyof typeof errors]
 
                     throw new constructor(message)
                 })
         })
 }
 
-export default getRecipeById
+export default getMyRecipes

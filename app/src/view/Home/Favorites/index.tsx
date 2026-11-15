@@ -8,15 +8,32 @@ import Header from '../common/Header'
 import RecipeThumbnail from '../common/RecipeThumbnail'
 import Footer from '../../common/Footer'
 
-function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
+interface Recipe {
+    id: string
+    title: string
+    published: boolean
+    isFavorite: boolean
+    images: string[]
+    author: { username: string }
+    date: string
+    own?: boolean
+    [key: string]: any
+}
+
+interface FavoritesProps {
+    onRecipeThumbnailClick: (recipeId: string) => void
+    onUserLoggedOut: () => void
+}
+
+function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }: FavoritesProps) {
     const { alert } = useAppContext()
 
-    const [favoritesRecipes, setFavoritesRecipes] = useState([])
+    const [favoritesRecipes, setFavoritesRecipes] = useState<Recipe[]>([])
 
-    const loadFavoritesRecipes = useCallback((isActive = () => true) => {
+    const loadFavoritesRecipes = useCallback((isActive: () => boolean = () => true) => {
         try {
             logic.getFavoritesRecipes()
-                .then(favoritesRecipes => { if (isActive()) setFavoritesRecipes(favoritesRecipes) })
+                .then((recipes: Recipe[]) => { if (isActive()) setFavoritesRecipes(recipes) })
                 .catch(error => {
                     if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
                     alert(error.message)
@@ -25,7 +42,7 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
                 })
         } catch (error) {
             if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
-            alert(error.message)
+            alert((error as Error).message)
 
             console.error(error)
         }
@@ -37,7 +54,7 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
         return () => { active = false }
     }, [loadFavoritesRecipes])
 
-    const handleToggleFavorite = (recipeId) => {
+    const handleToggleFavorite = (recipeId: string) => {
         const recipe = favoritesRecipes.find(r => r.id === recipeId)
 
         if (!recipe) {
@@ -45,7 +62,7 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
                 .then(() => loadFavoritesRecipes())
                 .catch(error => {
                     console.error(error)
-                    alert(error.message)
+                    alert((error as Error).message)
                 })
 
             return
@@ -59,7 +76,7 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
             .catch(error => {
                 setFavoritesRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, isFavorite: prevIsFavorite } : r))
                 console.error(error)
-                alert(error.message)
+                alert((error as Error).message)
             })
 
         alert(prevIsFavorite ? 'Receta eliminada de favoritos' : 'Receta añadida a favoritos')
@@ -67,7 +84,7 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }) {
 
     const handleRecipeDeleted = () => loadFavoritesRecipes()
     const handleRecipeUpdated = () => loadFavoritesRecipes()
-    const handleRecipeThumbnailClick = (recipeId) => onRecipeThumbnailClick(recipeId)
+    const handleRecipeThumbnailClick = (recipeId: string) => onRecipeThumbnailClick(recipeId)
     const handleUserLoggedOut = () => onUserLoggedOut()
 
     return <div className="flex flex-col min-h-screen w-full items-center text-center bg-aquamarine">

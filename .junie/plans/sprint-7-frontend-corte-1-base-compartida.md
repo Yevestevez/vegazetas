@@ -166,3 +166,28 @@ Renombrar y tipar los archivos del corte 2: lógica de auth, páginas y componen
 - Actualizar `logic/index.ts`: añadir imports de archivos .ts migrados.
 - Eliminar archivos .js originales.
 - Verificar con `tsc --noEmit` y `vite build`.
+
+### ✓ Step 4: Migrar listados de recetas y componentes de Home a TypeScript
+Renombrar y tipar los archivos del corte 3: lógica de recetas, helpers, componentes comunes de Home, y páginas de listados.
+- `logic/getMyRecipes.js` → `logic/getMyRecipes.ts`: tipar retorno (Promise<Recipe[]>).
+- `logic/getPublishedRecipes.js` → `logic/getPublishedRecipes.ts`: tipar retorno (Promise<Recipe[]>).
+- `logic/getFavoritesRecipes.js` → `logic/getFavoritesRecipes.ts`: tipar retorno (Promise<Recipe[]>).
+- `logic/getRecipeById.js` → `logic/getRecipeById.ts`: tipar parámetro (recipeId: string), retorno (Promise<Recipe>).
+- `logic/toggleFavoriteRecipe.js` → `logic/toggleFavoriteRecipe.ts`: tipar parámetro (recipeId: string), retorno (Promise<{isFavorite: boolean}>).
+- `view/helper/formatDate.js` → `view/helper/formatDate.ts`: tipar parámetro (dateString: string), retorno (string).
+- `view/helper/handleCredentialsError.js` → `view/helper/handleCredentialsError.ts`: tipar parámetros y retorno booleano.
+- `view/Home/common/Header.jsx` → `view/Home/common/Header.tsx`: tipar props (onUserLoggedOut, variant).
+- `view/Home/common/LogoVegazetasHeader.jsx` → `view/Home/common/LogoVegazetasHeader.tsx`: tipar props (to, className).
+- `view/Home/common/ProfileImage.jsx` → `view/Home/common/ProfileImage.tsx`: tipar props (variant, className).
+- `view/Home/common/MiniCircleButton.jsx` → `view/Home/common/MiniCircleButton.tsx`: tipar props (to, onClick, variant, children, aria-label, title, className).
+- `view/Home/common/RecipeThumbnail.jsx` → `view/Home/common/RecipeThumbnail.tsx`: tipar props (recipe, onRecipeThumbnailClick, onToggleFavoriteClick, variant).
+- `view/Home/common/MyRecipeThumbnail.jsx` → `view/Home/common/MyRecipeThumbnail.tsx`: tipar props (recipe, onRecipeThumbnailClick, onToggleFavoriteClick).
+- `view/Home/Menu/MenuButton.jsx` → `view/Home/Menu/MenuButton.tsx`: tipar props (to, onClick, variant, children, className).
+- `view/Home/Menu/MenuHeader.jsx` → `view/Home/Menu/MenuHeader.tsx`: tipar props (onUserLoggedOut).
+- `view/Home/Menu/index.jsx` → `view/Home/Menu/index.tsx`: tipar props (onUserLoggedOut, onCreateRecipeClicked).
+- `view/Home/MyRecipes/index.jsx` → `view/Home/MyRecipes/index.tsx`: tipar props y estado.
+- `view/Home/Discover/index.jsx` → `view/Home/Discover/index.tsx`: tipar props y estado.
+- `view/Home/Favorites/index.jsx` → `view/Home/Favorites/index.tsx`: tipar props y estado.
+- `view/Home/index.jsx` → `view/Home/index.tsx`: tipar props (onUserLoggedOut).
+- Eliminar archivos .js/.jsx originales.
+- Verificar con `tsc --noEmit` y `vite build`.

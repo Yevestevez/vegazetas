@@ -1,7 +1,18 @@
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
+import { ReactNode } from 'react'
 
-const VARIANTS = {
+type MenuButtonVariant = 'odd' | 'even'
+
+interface MenuButtonProps {
+    to?: string
+    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+    children: ReactNode
+    variant?: MenuButtonVariant
+    className?: string
+}
+
+const VARIANTS: Record<MenuButtonVariant, string> = {
     odd: `rotate-1 hover:-rotate-2 active:rotate-2`,
     even: `-rotate-1 hover:rotate-2 active:-rotate-2`,
 }
@@ -12,7 +23,7 @@ function MenuButton({
     children,
     variant = 'odd',
     className
-}) {
+}: MenuButtonProps) {
     const MenuButtonClasses = clsx(
         VARIANTS[variant],
         'flex items-center justify-center p-2 xs:p-4',

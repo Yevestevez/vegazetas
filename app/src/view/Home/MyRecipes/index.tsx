@@ -9,15 +9,31 @@ import MyRecipeThumbnail from '../common/MyRecipeThumbnail'
 import CircleButton from '../../common/CircleButton'
 import Footer from '../../common/Footer'
 
-function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClicked }) {
+interface Recipe {
+    id: string
+    title: string
+    published: boolean
+    isFavorite: boolean
+    images: string[]
+    date: string
+    [key: string]: any
+}
+
+interface MyRecipesProps {
+    onRecipeThumbnailClick: (recipeId: string) => void
+    onUserLoggedOut: () => void
+    onCreateRecipeClicked: () => void
+}
+
+function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClicked }: MyRecipesProps) {
     const { alert } = useAppContext()
 
-    const [myRecipes, setMyRecipes] = useState([])
+    const [myRecipes, setMyRecipes] = useState<Recipe[]>([])
 
-    const loadMyRecipes = useCallback((isActive = () => true) => {
+    const loadMyRecipes = useCallback((isActive: () => boolean = () => true) => {
         try {
             logic.getMyRecipes()
-                .then(myRecipes => { if (isActive()) setMyRecipes(myRecipes) })
+                .then((recipes: Recipe[]) => { if (isActive()) setMyRecipes(recipes) })
                 .catch(error => {
                     if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
                     alert(error.message)
@@ -26,7 +42,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
                 })
         } catch (error) {
             if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
-            alert(error.message)
+            alert((error as Error).message)
 
             console.error(error)
         }
@@ -40,16 +56,14 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
 
     const handleRecipeDeleted = () => loadMyRecipes()
     const handleRecipeUpdated = () => loadMyRecipes()
-    const handleRecipeThumbnailClick = (recipeId) => onRecipeThumbnailClick(recipeId)
+    const handleRecipeThumbnailClick = (recipeId: string) => onRecipeThumbnailClick(recipeId)
     const handleUserLoggedOut = () => onUserLoggedOut()
 
-    const handleCreateRecipeClick = event => {
-        event.preventDefault()
-
+    const handleCreateRecipeClick = () => {
         onCreateRecipeClicked()
     }
 
-    const handleToggleFavorite = (recipeId) => {
+    const handleToggleFavorite = (recipeId: string) => {
         const recipe = myRecipes.find(r => r.id === recipeId)
 
         if (!recipe) {
@@ -57,7 +71,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
                 .then(() => loadMyRecipes())
                 .catch(error => {
                     console.error(error)
-                    alert(error.message)
+                    alert((error as Error).message)
                 })
 
             return
@@ -71,7 +85,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
             .catch(error => {
                 setMyRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, isFavorite: prevIsFavorite } : r))
                 console.error(error)
-                alert(error.message)
+                alert((error as Error).message)
             })
 
         alert(prevIsFavorite ? 'Receta eliminada de favoritos' : 'Receta añadida a favoritos')
@@ -110,7 +124,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
                 <div className="flex flex-col items-center justify-center gap-4 xs:gap-6">
                     <p className="text-center anybody font-bold text-veronica text-sm xl:text-base leading-tight xl:leading-tight">Todavía no tienes ninguna receta<br />¡Añade una nueva!</p>
 
-                    <CircleButton onClick={handleCreateRecipeClick} variant="small" className="bg-veronica text-sgbus-green outline-none hover:outline hover:outline-4 hover:outline-offset-0 hover:text-veronica hover:outline-veronica hover:bg-sgbus-green xs:text-lg">Nueva Receta</CircleButton>
+                    <CircleButton onClick={() => handleCreateRecipeClick()} variant="small" className="bg-veronica text-sgbus-green outline-none hover:outline hover:outline-4 hover:outline-offset-0 hover:text-veronica hover:outline-veronica hover:bg-sgbus-green xs:text-lg">Nueva Receta</CircleButton>
                 </div>
             )
             }

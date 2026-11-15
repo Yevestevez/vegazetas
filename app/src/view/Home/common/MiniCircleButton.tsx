@@ -1,7 +1,20 @@
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
+import { ReactNode } from 'react'
 
-const VARIANTS = {
+type MiniCircleButtonVariant = 'recipeThumbnail' | 'recipe' | 'saveRecipe'
+
+interface MiniCircleButtonProps {
+    to?: string
+    onClick?: (event: React.MouseEvent) => void
+    children: ReactNode
+    variant?: MiniCircleButtonVariant
+    'aria-label'?: string
+    'title'?: string
+    className?: string
+}
+
+const VARIANTS: Record<MiniCircleButtonVariant, string> = {
   recipeThumbnail: `
     pr-0.5
     size-8 xs:size-10 sm:size-8 md:size-10 lg:size-8 xl:size-10
@@ -36,7 +49,7 @@ function MiniCircleButton({
   'aria-label': ariaLabel,
   'title': title,
   className
-}) {
+}: MiniCircleButtonProps) {
   const btnClasses = clsx(
     VARIANTS[variant],
     'flex items-center justify-center rounded-full cursor-pointer',

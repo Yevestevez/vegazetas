@@ -397,7 +397,18 @@ autenticación y componentes comunes. 3 funciones de lógica (`registerUser.ts`,
 del formulario en Register usando `namedItem` para evitar conflicto con la
 propiedad nativa de HTMLFormElement, y se añadió la prop `type` a CircleButton
 para su uso como botón submit. Pasaron `tsc --noEmit` y `vite build` sin errores.
-Quedan 38 archivos JS/JSX por migrar en los cortes 3–4.
+
+**Tercer corte completado:** se migraron a TypeScript los listados de recetas
+y componentes de Home. 5 funciones de lógica (`getMyRecipes.ts`,
+`getPublishedRecipes.ts`, `getFavoritesRecipes.ts`, `getRecipeById.ts`,
+`toggleFavoriteRecipe.ts`), 2 helpers (`formatDate.ts`, `handleCredentialsError.ts`),
+8 componentes comunes de Home (`Header.tsx`, `LogoVegazetasHeader.tsx`,
+`ProfileImage.tsx`, `MiniCircleButton.tsx`, `RecipeThumbnail.tsx`,
+`MyRecipeThumbnail.tsx`, `MenuButton.tsx`, `MenuHeader.tsx`) y 5 páginas
+(`Home/index.tsx`, `Menu/index.tsx`, `MyRecipes/index.tsx`, `Discover/index.tsx`,
+`Favorites/index.tsx`). Los componentes `Recipe.jsx` y `SaveRecipe/index.jsx`
+(Corte 4) se importan con cast `any` como puente temporal. Pasaron `tsc --noEmit`
+y `vite build` sin errores. Quedan 20 archivos JS/JSX por migrar en el Corte 4.
 
 **Aceptación:** cada flujo migrado compila y pasa sus pruebas, mantiene las
 funciones existentes y dispone de comprobaciones de accesibilidad acordadas;

@@ -8,15 +8,32 @@ import Header from '../common/Header'
 import RecipeThumbnail from '../common/RecipeThumbnail'
 import Footer from '../../common/Footer'
 
-function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
+interface Recipe {
+    id: string
+    title: string
+    published: boolean
+    isFavorite: boolean
+    images: string[]
+    author: { username: string }
+    date: string
+    own?: boolean
+    [key: string]: any
+}
+
+interface DiscoverProps {
+    onRecipeThumbnailClick: (recipeId: string) => void
+    onUserLoggedOut: () => void
+}
+
+function Discover({ onRecipeThumbnailClick, onUserLoggedOut }: DiscoverProps) {
     const { alert } = useAppContext()
 
-    const [publishedRecipes, setPublishedRecipes] = useState([])
+    const [publishedRecipes, setPublishedRecipes] = useState<Recipe[]>([])
 
-    const loadPublishedRecipes = useCallback((isActive = () => true) => {
+    const loadPublishedRecipes = useCallback((isActive: () => boolean = () => true) => {
         try {
             logic.getPublishedRecipes()
-                .then(publishedRecipes => { if (isActive()) setPublishedRecipes(publishedRecipes) })
+                .then((recipes: Recipe[]) => { if (isActive()) setPublishedRecipes(recipes) })
                 .catch(error => {
                     if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
                     alert(error.message)
@@ -25,7 +42,7 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
                 })
         } catch (error) {
             if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
-            alert(error.message)
+            alert((error as Error).message)
 
             console.error(error)
         }
@@ -37,7 +54,7 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
         return () => { active = false }
     }, [loadPublishedRecipes])
 
-    const handleToggleFavorite = (recipeId) => {
+    const handleToggleFavorite = (recipeId: string) => {
         const recipe = publishedRecipes.find(r => r.id === recipeId)
 
         if (!recipe) {
@@ -45,7 +62,7 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
                 .then(() => loadPublishedRecipes())
                 .catch(error => {
                     console.error(error)
-                    alert(error.message)
+                    alert((error as Error).message)
                 })
 
             return
@@ -59,7 +76,7 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
             .catch(error => {
                 setPublishedRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, isFavorite: prevIsFavorite } : r))
                 console.error(error)
-                alert(error.message)
+                alert((error as Error).message)
             })
 
         alert(prevIsFavorite ? 'Receta eliminada de favoritos' : 'Receta añadida a favoritos')
@@ -67,7 +84,7 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }) {
 
     const handleRecipeDeleted = () => loadPublishedRecipes()
     const handleRecipeUpdated = () => loadPublishedRecipes()
-    const handleRecipeThumbnailClick = (recipeId) => onRecipeThumbnailClick(recipeId)
+    const handleRecipeThumbnailClick = (recipeId: string) => onRecipeThumbnailClick(recipeId)
     const handleUserLoggedOut = () => onUserLoggedOut()
 
     return <div className="flex flex-col min-h-screen w-full items-center text-center bg-hot-magenta">

@@ -12,10 +12,18 @@ import SaveRecipe from './SaveRecipe'
 import Discover from './Discover'
 import Favorites from './Favorites'
 
-function Home({ onUserLoggedOut }) {
+interface HomeProps {
+    onUserLoggedOut: () => void
+}
+
+function Home({ onUserLoggedOut }: HomeProps) {
     const { alert } = useAppContext()
 
     const navigate = useNavigate()
+
+    // Recipe y SaveRecipe aún en JSX (Corte 4)
+    const RecipeAny = Recipe as any
+    const SaveRecipeAny = SaveRecipe as any
 
     const handleMyRecipesLinkClick = () => navigate('/my-recipes')
 
@@ -37,11 +45,11 @@ function Home({ onUserLoggedOut }) {
             })
     }
 
-    const handleRecipeEditClick = (recipeId) => { navigate(`/update-recipe/${recipeId}`) }
+    const handleRecipeEditClick = (recipeId: string) => { navigate(`/update-recipe/${recipeId}`) }
 
-    const handleRecipeThumbnailClick = (recipeId) => { navigate(`/recipe/${recipeId}`) }
+    const handleRecipeThumbnailClick = (recipeId: string) => { navigate(`/recipe/${recipeId}`) }
 
-    const handleToRecipeClick = (recipeId) => { navigate(`/recipe/${recipeId}`) }
+    const handleToRecipeClick = (recipeId: string) => { navigate(`/recipe/${recipeId}`) }
 
     const handleLogoLinkClick = () => navigate('/menu')
 
@@ -89,7 +97,7 @@ function Home({ onUserLoggedOut }) {
 
             <Route
                 path="/recipe/:id"
-                element={<Recipe
+                element={<RecipeAny
                     onUserLoggedOut={onUserLoggedOut}
                     onLogoClicked={handleLogoLinkClick}
                     onEditRecipeClicked={handleRecipeEditClick}
@@ -100,7 +108,7 @@ function Home({ onUserLoggedOut }) {
 
             <Route
                 path="/create-recipe/:id"
-                element={<SaveRecipe
+                element={<SaveRecipeAny
                     view="create"
                     onToRecipeClicked={handleToRecipeClick}
                     onRecipeDeleted={handleRecipeDeleted}
@@ -112,7 +120,7 @@ function Home({ onUserLoggedOut }) {
 
             <Route
                 path="/update-recipe/:id"
-                element={<SaveRecipe
+                element={<SaveRecipeAny
                     view="update"
                     onToRecipeClicked={handleToRecipeClick}
                     onRecipeDeleted={handleRecipeDeleted}

@@ -254,6 +254,19 @@ con la propiedad nativa de HTMLFormElement, y se añadió la prop `type` a
 CircleButton para su uso como botón submit. Pasaron `tsc --noEmit` y `vite build`
 sin errores.
 
+En el tercer corte del sprint 7, los listados de recetas y los componentes de
+Home se migraron a TypeScript. Se tiparon 5 funciones de lógica de recetas
+(`getMyRecipes.ts`, `getPublishedRecipes.ts`, `getFavoritesRecipes.ts`,
+`getRecipeById.ts`, `toggleFavoriteRecipe.ts`), 2 helpers (`formatDate.ts`,
+`handleCredentialsError.ts`), 8 componentes comunes de Home (`Header.tsx`,
+`LogoVegazetasHeader.tsx`, `ProfileImage.tsx`, `MiniCircleButton.tsx`,
+`RecipeThumbnail.tsx`, `MyRecipeThumbnail.tsx`, `MenuButton.tsx`,
+`MenuHeader.tsx`) y 5 páginas (`Home/index.tsx`, `Menu/index.tsx`,
+`MyRecipes/index.tsx`, `Discover/index.tsx`, `Favorites/index.tsx`). Los
+componentes `Recipe.jsx` y `SaveRecipe/index.jsx` (Corte 4) se importan con
+cast `any` en `Home/index.tsx` como puente temporal. Pasaron `tsc --noEmit` y
+`vite build` sin errores.
+
 Tras corregir las listas pasaron 68 pruebas dirigidas de API y 24 pruebas
 Playwright, además de tipos, lint sin advertencias y compilación, con Node
 26.13.1 y MongoDB desechable reutilizado. Se verificó el favorito propio con
