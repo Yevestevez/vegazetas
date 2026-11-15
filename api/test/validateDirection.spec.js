@@ -1,6 +1,5 @@
 import { describe, expect, test } from 'vitest'
 import { directionSchema, errors, validate } from 'com'
-import reorderStep from '../logic/reorderStep.js'
 
 describe('shared direction validation', () => {
     test.each(['up', 'down'])('accepts direction %s', direction => {
@@ -21,9 +20,5 @@ describe('shared direction validation', () => {
         expect(thrownError).toBeInstanceOf(Error)
         expect(thrownError).toBeInstanceOf(errors.ValidationError)
         expect(thrownError.message).toBe('direction must be "up" or "down"')
-        expect(() => reorderStep('a'.repeat(24), 'a'.repeat(24), 'a'.repeat(24), direction))
-            .toThrowError(errors.ValidationError)
-        expect(() => reorderStep('a'.repeat(24), 'a'.repeat(24), 'a'.repeat(24), direction))
-            .toThrowError('direction must be "up" or "down"')
     })
 })

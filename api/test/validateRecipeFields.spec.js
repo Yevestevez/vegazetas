@@ -6,9 +6,6 @@ import {
 } from 'com'
 import createApp from '../app.js'
 import { Recipe, User } from '../data/models.js'
-import addImageToRecipe from '../logic/addImageToRecipe.js'
-import addStepToRecipe from '../logic/addStepToRecipe.js'
-import updateStep from '../logic/updateStep.js'
 import addImageInApp from '../../app/src/logic/addImageToRecipe.js'
 import addStepInApp from '../../app/src/logic/addStepToRecipe.js'
 import createRecipeInApp from '../../app/src/logic/createRecipe.js'
@@ -82,10 +79,9 @@ describe('shared recipe field validation', () => {
         expect(() => validate.image(image)).toThrowError(message)
     })
 
-    test('rejects invalid image URLs in the API and frontend before I/O', () => {
+    test('rejects invalid image URLs in the frontend before I/O', () => {
         const id = 'a'.repeat(24)
         const message = 'invalid image syntax, must be a valid URL'
-        expect(() => addImageToRecipe(id, id, 'not a URL')).toThrowError(message)
         expect(() => addImageInApp(id, 'not a URL')).toThrowError(message)
     })
 
@@ -237,26 +233,21 @@ describe('shared recipe field validation', () => {
         expect(() => validate.noteForUpdate(note)).toThrowError(updateMessage)
     })
 
-    test('rejects invalid step text and notes in both consumers before I/O', () => {
+    test('rejects invalid step text and notes in app consumer before I/O', () => {
         const id = 'a'.repeat(24)
         const textMessage = 'invalid text length, must be between 1 and 800 characters'
         const createNoteMessage = 'invalid note length, must be between 1 and 500 characters'
         const updateNoteMessage = 'invalid note length, must be 500 characters maximum'
         const note = '🍎'.repeat(251)
 
-        expect(() => addStepToRecipe(id, id, '')).toThrowError(textMessage)
         expect(() => addStepInApp(id, '')).toThrowError(textMessage)
-        expect(() => updateStep(id, id, id, '')).toThrowError(textMessage)
         expect(() => updateStepInApp(id, id, '')).toThrowError(textMessage)
-        expect(() => addStepToRecipe(id, id, 'valid', note)).toThrowError(createNoteMessage)
         expect(() => addStepInApp(id, 'valid', note)).toThrowError(createNoteMessage)
-        expect(() => updateStep(id, id, id, 'valid', note)).toThrowError(updateNoteMessage)
         expect(() => updateStepInApp(id, id, 'valid', note)).toThrowError(updateNoteMessage)
     })
 
-    test('preserves empty notes when creating and updating steps', async () => {
+    test('preserves empty notes when creating and updating steps in app', async () => {
         const id = 'a'.repeat(24)
-        const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
         vi.stubGlobal('sessionStorage', { token: 'test-token' })
         const fetchMock = vi.fn((_url, options) => Promise.resolve({
             status: options.method === 'POST' ? 201 : 204,
@@ -264,12 +255,9 @@ describe('shared recipe field validation', () => {
         }))
         vi.stubGlobal('fetch', fetchMock)
 
-        await expect(addStepToRecipe(id, id, 'valid', '')).rejects.toThrow('user not found')
-        await expect(updateStep(id, id, id, 'valid', '')).rejects.toThrow('user not found')
         await addStepInApp(id, 'valid', '')
         await updateStepInApp(id, id, 'valid', '')
 
-        expect(findUser).toHaveBeenCalledTimes(2)
         expect(fetchMock).toHaveBeenCalledTimes(2)
         for (const [, options] of fetchMock.mock.calls) {
             expect(JSON.parse(options.body).note).toBe('')

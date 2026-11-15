@@ -1,27 +1,14 @@
 import { Router } from 'express'
 
-import {
-    togglePublishRecipeHandler,
-
-    addIngredientToRecipeHandler,
-    removeIngredientFromRecipeHandler,
-
-    addStepToRecipeHandler,
-    removeStepFromRecipeHandler,
-    reorderStepHandler,
-    updateStepHandler,
-
-    addImageToRecipeHandler,
-    removeImageFromRecipeHandler,
-
-    addTagToRecipeHandler,
-    removeTagFromRecipeHandler
-} from './handlers/index.js'
-
 import getRecipeByIdHandler from '../../modules/recipes/getRecipeById/composition.ts'
 import { getMyRecipesHandler, getPublishedRecipesHandler, getFavoritesRecipesHandler } from '../../modules/recipes/recipeList/composition.ts'
 import createRecipeHandler from '../../modules/recipes/createRecipe/composition.ts'
 import { updateRecipeHandler, deleteRecipeHandler } from '../../modules/recipes/recipeEdit/composition.ts'
+import togglePublishRecipeHandler from '../../modules/recipes/togglePublishRecipe/composition.ts'
+import { addIngredientToRecipeHandler, removeIngredientFromRecipeHandler } from '../../modules/recipes/recipeIngredients/composition.ts'
+import { addStepToRecipeHandler, removeStepFromRecipeHandler, updateStepHandler, reorderStepHandler } from '../../modules/recipes/recipeSteps/composition.ts'
+import { addImageToRecipeHandler, removeImageFromRecipeHandler } from '../../modules/recipes/recipeImages/composition.ts'
+import { addTagToRecipeHandler, removeTagFromRecipeHandler } from '../../modules/recipes/recipeTags/composition.ts'
 
 import jsonBodyParser from '../../middlewares/jsonBodyParser.js'
 

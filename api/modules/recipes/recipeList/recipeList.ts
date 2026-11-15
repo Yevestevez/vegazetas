@@ -1,8 +1,9 @@
 import { errors, validate } from 'com'
+import type { UserFavorites } from 'com/types/repo-types.ts'
 
 const { NotFoundError, SystemError } = errors
 
-export type FindUserById = (userId: string) => Promise<any | null>
+export type FindUserById = (userId: string) => Promise<UserFavorites | null>
 export type FindMyRecipes = (userId: string) => Promise<any[]>
 export type FindPublishedRecipes = (userId: string) => Promise<any[]>
 export type FindFavoritesRecipes = (userId: string, favoriteIds: string[]) => Promise<any[]>
@@ -51,7 +52,7 @@ export function createGetMyRecipes(
             .then(user => {
                 if (!user) throw new NotFoundError('user not found')
 
-                const favorites = (user.favorites || []).map((f: any) => f.toString())
+                const favorites = (user.favorites || []).map(f => f.toString())
 
                 return findMyRecipes(userId as string)
                     .catch(error => { throw new SystemError(error.message) })
@@ -72,7 +73,7 @@ export function createGetPublishedRecipes(
             .then(user => {
                 if (!user) throw new NotFoundError('user not found')
 
-                const favorites = (user.favorites || []).map((f: any) => f.toString())
+                const favorites = (user.favorites || []).map(f => f.toString())
 
                 return findPublishedRecipes(userId as string)
                     .catch(error => { throw new SystemError(error.message) })
@@ -93,7 +94,7 @@ export function createGetFavoritesRecipes(
             .then(user => {
                 if (!user) throw new NotFoundError('user not found')
 
-                const favorites = (user.favorites || []).map((f: any) => f.toString())
+                const favorites = (user.favorites || []).map(f => f.toString())
 
                 return findFavoritesRecipes(userId as string, favorites)
                     .catch(error => { throw new SystemError(error.message) })

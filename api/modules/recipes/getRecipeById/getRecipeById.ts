@@ -1,8 +1,9 @@
 import { errors, validate } from 'com'
+import type { UserFavorites } from 'com/types/repo-types.ts'
 
 const { NotFoundError, SystemError, OwnershipError } = errors
 
-export type FindUserById = (userId: string) => Promise<any | null>
+export type FindUserById = (userId: string) => Promise<UserFavorites | null>
 export type FindRecipeById = (recipeId: string) => Promise<any | null>
 
 export interface RecipeResponse {
@@ -35,7 +36,7 @@ export function createGetRecipeById(
             .then(user => {
                 if (!user) throw new NotFoundError('user not found')
 
-                const favorites = (user.favorites || []).map((f: any) => f.toString())
+                const favorites = (user.favorites || []).map(f => f.toString())
 
                 return findRecipeById(recipeId as string)
                     .catch(error => { throw new SystemError(error.message) })

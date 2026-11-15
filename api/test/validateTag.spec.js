@@ -1,7 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import jwt from 'jsonwebtoken'
 import { errors, tagSchema, validate } from 'com'
-import addTagToRecipe from '../logic/addTagToRecipe.js'
 import addTagInApp from '../../app/src/logic/addTagToRecipe.js'
 import createApp from '../app.js'
 
@@ -17,11 +16,10 @@ describe('shared recipe tag validation', () => {
         expect(() => validate.tag(tag)).toThrowError(new errors.ValidationError('each tag must have between 1 and 30 characters'))
     })
 
-    test('rejects invalid tags in the API and frontend before any I/O', () => {
+    test('rejects invalid tags in the frontend before any I/O', () => {
         const id = 'a'.repeat(24)
         const error = new errors.ValidationError('each tag must have between 1 and 30 characters')
 
-        expect(() => addTagToRecipe(id, id, '')).toThrowError(error)
         expect(() => addTagInApp(id, '')).toThrowError(error)
     })
 })

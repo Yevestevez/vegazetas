@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 import { annotationSchema, errors, mainSchema, quantitySchema, unitSchema, validate } from 'com'
 import createApp from '../app.js'
 import { User } from '../data/models.js'
-import addIngredientToRecipe from '../logic/addIngredientToRecipe.js'
 import addIngredientInApp from '../../app/src/logic/addIngredientToRecipe.js'
 
 describe('shared ingredient field validation', () => {
@@ -51,23 +50,19 @@ describe('shared ingredient field validation', () => {
     test.each([
         [0, true, 'invalid quantity, must be between 0 and 9999'],
         [1, 'true', 'main must be a boolean (true or false)']
-    ])('rejects invalid ingredient fields in both consumers before I/O', (quantity, main, message) => {
+    ])('rejects invalid ingredient fields in app consumer before I/O', (quantity, main, message) => {
         const id = 'a'.repeat(24)
-        expect(() => addIngredientToRecipe(id, id, 'arroz', quantity, 'g', undefined, main)).toThrowError(message)
         expect(() => addIngredientInApp(id, 'arroz', quantity, 'g', undefined, main)).toThrowError(message)
     })
 
-    test.each([undefined, false])('preserves the optional main value %s in both consumers', async main => {
+    test.each([undefined, false])('preserves the optional main value %s in app consumer', async main => {
         const id = 'a'.repeat(24)
-        const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
         vi.stubGlobal('sessionStorage', { token: 'test-token' })
         const fetchMock = vi.fn().mockResolvedValue({ status: 201, json: async () => 'ingredient-id' })
         vi.stubGlobal('fetch', fetchMock)
 
-        await expect(addIngredientToRecipe(id, id, 'arroz', 1, 'g', undefined, main)).rejects.toThrow('user not found')
         await addIngredientInApp(id, 'arroz', 1, 'g', undefined, main)
 
-        expect(findUser).toHaveBeenCalledOnce()
         expect(JSON.parse(fetchMock.mock.calls[0][1].body).main).toBe(main)
     })
 
@@ -118,34 +113,28 @@ describe('shared ingredient field validation', () => {
     test.each([
         ['', 'valid', 'invalid unit syntax'],
         ['g', 'x'.repeat(301), 'invalid annotation length, max 300 characters']
-    ])('rejects invalid unit or annotation in both consumers before I/O', (unit, annotation, message) => {
+    ])('rejects invalid unit or annotation in app consumer before I/O', (unit, annotation, message) => {
         const id = 'a'.repeat(24)
-        expect(() => addIngredientToRecipe(id, id, 'arroz', 1, unit, annotation)).toThrowError(message)
         expect(() => addIngredientInApp(id, 'arroz', 1, unit, annotation)).toThrowError(message)
     })
 
-    test.each([undefined, null])('preserves an optional unit and annotation value %s in both consumers', async value => {
+    test.each([undefined, null])('preserves an optional unit and annotation value %s in app consumer', async value => {
         const id = 'a'.repeat(24)
-        const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
         vi.stubGlobal('sessionStorage', { token: 'test-token' })
         const fetchMock = vi.fn().mockResolvedValue({ status: 201, json: async () => 'ingredient-id' })
         vi.stubGlobal('fetch', fetchMock)
 
-        await expect(addIngredientToRecipe(id, id, 'arroz', 1, value, value)).rejects.toThrow('user not found')
         await addIngredientInApp(id, 'arroz', 1, value, value)
 
-        expect(findUser).toHaveBeenCalledOnce()
         const body = JSON.parse(fetchMock.mock.calls[0][1].body)
         expect(body.unit).toBe(value)
         expect(body.annotation).toBe(value)
     })
 
-    test('rejects falsy non-string unit and annotation values in both consumers before I/O', () => {
+    test('rejects falsy non-string unit and annotation values in app consumer before I/O', () => {
         const id = 'a'.repeat(24)
 
-        expect(() => addIngredientToRecipe(id, id, 'arroz', 1, false)).toThrowError('invalid unit type, must be a string')
         expect(() => addIngredientInApp(id, 'arroz', 1, false)).toThrowError('invalid unit type, must be a string')
-        expect(() => addIngredientToRecipe(id, id, 'arroz', 1, 'g', false)).toThrowError('invalid annotation type, must be a string')
         expect(() => addIngredientInApp(id, 'arroz', 1, 'g', false)).toThrowError('invalid annotation type, must be a string')
     })
 })

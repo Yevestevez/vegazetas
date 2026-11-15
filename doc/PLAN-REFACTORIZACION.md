@@ -302,7 +302,7 @@ y E2E para la expiración y el cierre global de sesión.
 incluidas credenciales erróneas y accesos no autorizados; los cambios
 acordados en seguridad y compatibilidad están documentados.
 
-### Sprint 6: recetas y persistencia — en curso
+### Sprint 6: recetas y persistencia — completado
 
 **Primer corte completado:** `GET /recipes/:recipeId` se migró a TypeScript con
 repositorio, caso de uso y handler. Conserva la receta con `own` e `isFavorite`,
@@ -331,12 +331,29 @@ JavaScript anteriores, junto con las pruebas unitarias de lógica que ya no
 aplican. La suite completa de API pasó con **483 pruebas en 38 archivos**,
 typecheck y compilación, con Node 26.13.1 y MongoDB desechable.
 
-**Pendiente:** `togglePublishRecipe` y elementos anidados (ingredientes, pasos,
-imágenes, etiquetas).
+**Quinto corte completado:** `PATCH /recipes/:recipeId/publish` se migró a
+TypeScript. Conserva la alternancia de `published`, el `200` con `{ published:
+boolean }`, el `403 OwnershipError` para usuarios ajenos y los errores de
+usuario o receta inexistentes. Se eliminó la lógica y el handler JavaScript
+anteriores. Pasaron 6 pruebas HTTP con Node 26.13.1 y MongoDB desechable.
+
+**Sexto corte completado:** los elementos anidados de recetas se migraron a
+TypeScript en cuatro módulos: `recipeIngredients` (ingredientes add/remove),
+`recipeSteps` (pasos add/remove/update/reorder), `recipeImages` (imágenes
+add/remove) y `recipeTags` (etiquetas add/remove). Conservan los códigos HTTP
+(201 con ID o vacío, 204 sin cuerpo), la validación de campos, la verificación
+de propiedad y los límites (máx. 2 imágenes, 15 etiquetas). Se eliminaron 40
+archivos legacy (10 de lógica, 10 de handlers, 20 de specs y tests manuales)
+y se actualizaron 5 archivos de pruebas de validación compartida. La suite
+completa de API pasa con **433 pruebas en 28 archivos**.
+
+**Sprint 6 completado.** Todo el módulo de recetas está en TypeScript con
+arquitectura por capas.
 
 - Migrar recetas por operaciones o subáreas pequeñas: consulta y listado
-  (completado), creación (completado), edición/eliminación, publicación,
-  favoritos y elementos anidados.
+  (completado), creación (completado), edición/eliminación (completado),
+  publicación (completado), favoritos (completado) y elementos anidados
+  (completado).
 - Consolidar acceso a Mongoose en repositorios y preservar permisos, orden,
   documentos e índices salvo decisión expresa.
 - Revisar los scripts de actualización existentes antes de considerar cualquier
@@ -367,6 +384,10 @@ el código aún no migrado continúa funcionando.
 - Completar la eliminación de puentes temporales y JavaScript pendiente
   incluido en el alcance; actualizar documentación de instalación,
   despliegue, contratos y operación.
+- Migrar los modelos Mongoose de `api/data/models.js` a TypeScript y sustituir
+  la interfaz intermedia `UserFavorites` de `com/types/repo-types.ts` por los
+  tipos inferidos de Mongoose. Afecta a `modules/recipes/getRecipeById/` y
+  `recipeList/`.
 - Revisar seguridad según los riesgos reales, dependencias y configuración;
   probar autenticación y permisos, sin exponer información sensible.
 - Completar la actualización de dependencias y runtimes de API, frontend y

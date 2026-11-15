@@ -206,6 +206,23 @@ verificación de propiedad, la eliminación del tiempo al omitirlo y los errores
 de usuario o receta inexistentes. Pasaron **483 pruebas de API** en 38 archivos,
 el typecheck y la compilación, con Node 26.13.1 y MongoDB desechable.
 
+En el quinto corte del sprint 6, `PATCH /recipes/:recipeId/publish` se migró a
+TypeScript. Conserva la alternancia de `published`, el `200` con `{ published:
+boolean }`, el `403 OwnershipError` para usuarios ajenos y los errores de
+usuario o receta inexistentes. Pasaron 6 pruebas HTTP dirigidas con Node
+26.13.1 y MongoDB desechable.
+
+En el sexto corte del sprint 6, los elementos anidados de recetas se migraron a
+TypeScript en cuatro módulos: `recipeIngredients` (ingredientes add/remove),
+`recipeSteps` (pasos add/remove/update/reorder), `recipeImages` (imágenes
+add/remove) y `recipeTags` (etiquetas add/remove). Conservan los códigos HTTP
+(201 con ID o vacío, 204 sin cuerpo), la validación de campos, la verificación
+de propiedad y los límites (máx. 2 imágenes, 15 etiquetas). Pasaron 19 pruebas
+HTTP dirigidas en `recipeElements.spec.js`. Se eliminaron 40 archivos legacy
+(10 de lógica, 10 de handlers, 20 de specs y tests manuales) y se actualizaron
+5 archivos de pruebas de validación compartida para quitar las importaciones de
+lógica migrada. La suite completa de API pasa con **433 pruebas** en 28 archivos.
+
 Tras corregir las listas pasaron 68 pruebas dirigidas de API y 24 pruebas
 Playwright, además de tipos, lint sin advertencias y compilación, con Node
 26.13.1 y MongoDB desechable reutilizado. Se verificó el favorito propio con
@@ -642,6 +659,12 @@ y [restauración y compatibilidad](https://www.mongodb.com/docs/database-tools/m
 
 ## Puntos a estudiar antes de la migración
 
+- **Tipos de repositorio:** se ha creado `com/types/repo-types.ts` con la
+  interfaz `UserFavorites` para tipar `.lean()` + `.select('favorites')` en
+  los módulos de recetas (`getRecipeById/`, `recipeList/`). Los módulos
+  `createRecipe/` y `recipeEdit/` usan el modelo completo sin `.select()`,
+  no necesitan esta interfaz. Cuando los modelos migren a TypeScript
+  (Sprint 8), sustituir `UserFavorites` por los tipos inferidos de Mongoose.
 - Decidir cómo mantener comportamiento, rutas, datos y despliegues durante la
   transición; no se ha elegido estrategia de migración todavía.
 - Establecer una línea base de pruebas reproducible y aislada, incluyendo
