@@ -16,7 +16,9 @@ export default defineConfig({
       '@logic': path.resolve(rootDir, './src/logic'),
       '@view': path.resolve(rootDir, './src/view'),
       '@util': path.resolve(rootDir, './src/util'),
-      '@context': path.resolve(rootDir, './src/context')
-    }
+      '@context': path.resolve(rootDir, './src/context'),
+      'com': path.resolve(rootDir, '../com')
+    },
+    preserveSymlinks: true
   }
 })
