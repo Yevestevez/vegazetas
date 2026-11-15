@@ -2,21 +2,19 @@ import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const createRecipe = (
-    userId,
-    title,
-    images,
-    description,
-    time,
-    difficulty,
-    tags
-) => {
+    userId: string,
+    title: string,
+    images: string[] | undefined,
+    description: string | undefined,
+    time: number | undefined,
+    difficulty: string | undefined,
+    tags: string[] | undefined
+): Promise<string> => {
     validate.id(userId, 'userId')
     validate.title(title)
-    if (images) validate.images(images)
     if (description) validate.description(description)
     if (time !== undefined) validate.time(time)
     if (difficulty) validate.difficulty(difficulty)
-    if (tags) validate.tags(tags)
 
     return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes`, {
         method: 'POST',
@@ -39,13 +37,13 @@ const createRecipe = (
 
             if (status === 201)
                 return res.json()
-                    .then(recipeId => recipeId)
+                    .then((recipeId: string) => recipeId)
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error]
+                    const constructor = errors[error as keyof typeof errors]
 
                     throw new constructor(message)
                 })

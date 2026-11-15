@@ -2,11 +2,11 @@ import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
 const addStepToRecipe = (
-    recipeId,
-    text,
-    note,
-    image
-) => {
+    recipeId: string,
+    text: string,
+    note: string | undefined,
+    image: string | undefined
+): Promise<string> => {
     validate.id(recipeId, 'recipeId')
     validate.text(text)
     if (note) validate.note(note)
@@ -30,13 +30,13 @@ const addStepToRecipe = (
 
             if (status === 201)
                 return res.json()
-                    .then(stepId => stepId)
+                    .then((stepId: string) => stepId)
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error]
+                    const constructor = errors[error as keyof typeof errors]
 
                     throw new constructor(message)
                 })

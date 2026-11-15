@@ -1,40 +1,33 @@
 import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
-const reorderStep = (
-    recipeId,
-    stepId,
-    direction,
-) => {
+const togglePublishRecipe = (recipeId: string): Promise<{ published: boolean }> => {
     validate.id(recipeId, 'recipeId')
-    validate.id(stepId, 'stepId')
-    validate.direction(direction)
 
-    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/steps/${stepId}/reorder`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/publish`, {
         method: 'PATCH',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            direction
-        })
+        }
     })
         .catch(error => { throw new Error(error.message) })
         .then(res => {
             const { status } = res
 
-            if (status === 204) return
+            if (status >= 200 && status < 300) {
+                return res.json()
+            }
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error]
+                    const constructor = errors[error as keyof typeof errors]
 
                     throw new constructor(message)
                 })
         })
 }
 
-export default reorderStep
+export default togglePublishRecipe

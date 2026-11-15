@@ -364,10 +364,22 @@ incluidos permisos y datos existentes; los endpoints antiguos siguen siendo
 compatibles o sus cambios están acordados. No quedan accesos nuevos a Mongoose
 fuera de la frontera definida.
 
-### Sprint 7: frontend por flujos — en curso
+### Sprint 7: frontend por flujos — completado
 
-- Migrar progresivamente a TypeScript: base compartida y sesión, después
-  listados, detalle y edición de recetas. Mantener React y Vite.
+- Todo el frontend (`app/src/`) migrado a TypeScript en 4 cortes:
+  1. **Corte 1:** configuración TypeScript (`tsconfig.json`, `vite-env.d.ts`),
+     base compartida (`context.ts`, `authenticatedFetch.ts`) y funciones de
+     sesión (8 archivos TS).
+  2. **Corte 2:** formularios de autenticación (`Login.tsx`, `Register.tsx`,
+     `PasswordReset.tsx`, `Landing.tsx`), 3 funciones de lógica y 7 componentes
+     comunes.
+  3. **Corte 3:** listados de recetas (`MyRecipes`, `Discover`, `Favorites`,
+     `Menu`), 5 funciones de lógica, 2 helpers y 8 componentes de Home.
+  4. **Corte 4:** detalle (`Recipe.tsx`) y edición (`SaveRecipe/index.tsx`)
+     con 14 funciones de lógica de recetas.
+- `tsc --noEmit` y `vite build` pasan sin errores.
+- `allowJs: true` permanece activo para compatibilidad con `com` en JS.
+  Se desactivará al cerrar el Sprint 8 cuando `com` migre a TypeScript.
 - Actualizar React, Vite y las demás dependencias del frontend, teniendo en
   cuenta sus requisitos de Node y cambios incompatibles.
 - Tipar respuestas y errores, validar los límites necesarios y separar la

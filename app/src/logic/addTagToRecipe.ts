@@ -1,7 +1,7 @@
 import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
-const addTagToRecipe = (recipeId, tag) => {
+const addTagToRecipe = (recipeId: string, tag: string): Promise<void> => {
     validate.id(recipeId, 'recipeId')
     validate.tag(tag)
 
@@ -19,13 +19,13 @@ const addTagToRecipe = (recipeId, tag) => {
         .then(res => {
             const { status } = res
 
-            if (status === 201) return;
+            if (status === 201) return
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error];
+                    const constructor = errors[error as keyof typeof errors]
 
                     throw new constructor(message)
                 })

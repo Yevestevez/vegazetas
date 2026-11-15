@@ -1,11 +1,10 @@
 import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
-const removeImageFromRecipe = (recipeId, index) => {
+const deleteRecipe = (recipeId: string): Promise<void> => {
     validate.id(recipeId, 'recipeId')
-    // validate.index(index, 'index') número >= 0
 
-    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/images/${index}`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`
@@ -18,14 +17,14 @@ const removeImageFromRecipe = (recipeId, index) => {
             if (status === 204) return
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error]
+                    const constructor = errors[error as keyof typeof errors]
 
                     throw new constructor(message)
                 })
         })
 }
 
-export default removeImageFromRecipe
+export default deleteRecipe

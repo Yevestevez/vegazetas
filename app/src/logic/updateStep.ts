@@ -4,12 +4,12 @@ import { validate, errors } from 'com'
 const { ValidationError } = errors
 
 const updateStep = (
-    recipeId,
-    stepId,
-    text,
-    note,
-    image
-) => {
+    recipeId: string,
+    stepId: string,
+    text: string,
+    note: string | undefined,
+    image: string | undefined
+): Promise<void> => {
     validate.id(recipeId, 'recipeId')
     validate.id(stepId, 'stepId')
     validate.text(text)
@@ -41,10 +41,10 @@ const updateStep = (
             if (status === 204) return
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error]
+                    const constructor = errors[error as keyof typeof errors]
 
                     throw new constructor(message)
                 })

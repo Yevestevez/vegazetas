@@ -49,12 +49,10 @@ ver [detalle y pruebas](./MIGRACION-ZOD-SPRINT3.md#tiempo-opcional).
    están en [`app/src/view/`](../app/src/view/), con rutas y estado compartido
    en `App.jsx`. El contexto de aplicación (`context.ts`) está en TypeScript.
 2. Las funciones de [`app/src/logic/`](../app/src/logic/) validan datos y usan
-   `fetch` contra `VITE_API_URL`. Los archivos de base (`authenticatedFetch.ts`,
-   `loginUser.ts`, `logoutUser.ts`, `isUserLoggedIn.ts`, `getUserId.ts`,
-   `getUserName.ts`, `getUserUsername.ts`) están en TypeScript; el resto sigue
-   en JavaScript. El inicio de sesión guarda el JWT de 24 horas en
-   `sessionStorage`; las respuestas `401` de operaciones protegidas cierran la
-   sesión globalmente.
+   `fetch` contra `VITE_API_URL`. Todo el módulo está en TypeScript: sesión,
+   autenticación, recetas y elementos anidados. El inicio de sesión guarda el
+   JWT de 24 horas en `sessionStorage`; las respuestas `401` de operaciones
+   protegidas cierran la sesión globalmente.
 3. [`api/index.js`](../api/index.js) conecta Mongoose a MongoDB y arranca la
    aplicación Express, que monta los routers de usuarios y recetas. La mayoría
    de rutas delega en handlers y funciones de [`api/logic/`](../api/logic/).
@@ -262,10 +260,20 @@ Home se migraron a TypeScript. Se tiparon 5 funciones de lógica de recetas
 `LogoVegazetasHeader.tsx`, `ProfileImage.tsx`, `MiniCircleButton.tsx`,
 `RecipeThumbnail.tsx`, `MyRecipeThumbnail.tsx`, `MenuButton.tsx`,
 `MenuHeader.tsx`) y 5 páginas (`Home/index.tsx`, `Menu/index.tsx`,
-`MyRecipes/index.tsx`, `Discover/index.tsx`, `Favorites/index.tsx`). Los
-componentes `Recipe.jsx` y `SaveRecipe/index.jsx` (Corte 4) se importan con
-cast `any` en `Home/index.tsx` como puente temporal. Pasaron `tsc --noEmit` y
-`vite build` sin errores.
+`MyRecipes/index.tsx`, `Discover/index.tsx`, `Favorites/index.tsx`). Pasaron
+`tsc --noEmit` y `vite build` sin errores.
+
+En el cuarto corte del sprint 7, el detalle y la edición de recetas se
+migraron a TypeScript. Se tiparon 14 funciones de lógica (`deleteRecipe.ts`,
+`updateRecipe.ts`, `togglePublishRecipe.ts`, `createRecipe.ts`,
+`addIngredientToRecipe.ts`, `removeIngredientFromRecipe.ts`,
+`addStepToRecipe.ts`, `removeStepFromRecipe.ts`, `updateStep.ts`,
+`reorderStep.ts`, `addImageToRecipe.ts`, `removeImageFromRecipe.ts`,
+`addTagToRecipe.ts`, `removeTagFromRecipe.ts`) y 2 componentes (`Recipe.tsx`,
+`SaveRecipe/index.tsx`). Se actualizaron los imports de `logic/index.ts` y
+`Home/index.tsx` para usar los componentes tipados sin casts `any`. El sprint
+7 está completo: todo el frontend (`app/src/`) está en TypeScript. Pasaron
+`tsc --noEmit` y `vite build` sin errores.
 
 Tras corregir las listas pasaron 68 pruebas dirigidas de API y 24 pruebas
 Playwright, además de tipos, lint sin advertencias y compilación, con Node

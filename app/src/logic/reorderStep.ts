@@ -1,30 +1,23 @@
 import authenticatedFetch from './authenticatedFetch'
 import { validate, errors } from 'com'
 
-const updateRecipe = (
-    recipeId,
-    title,
-    description,
-    time,
-    difficulty
-) => {
+const reorderStep = (
+    recipeId: string,
+    stepId: string,
+    direction: string
+): Promise<void> => {
     validate.id(recipeId, 'recipeId')
-    validate.title(title)
-    if (description) validate.description(description)
-    if (time !== undefined) validate.time(time)
-    if (difficulty) validate.difficulty(difficulty)
+    validate.id(stepId, 'stepId')
+    validate.direction(direction)
 
-    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/steps/${stepId}/reorder`, {
         method: 'PATCH',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            title,
-            description,
-            time,
-            difficulty
+            direction
         })
     })
         .catch(error => { throw new Error(error.message) })
@@ -34,14 +27,14 @@ const updateRecipe = (
             if (status === 204) return
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error]
+                    const constructor = errors[error as keyof typeof errors]
 
                     throw new constructor(message)
                 })
         })
 }
 
-export default updateRecipe
+export default reorderStep

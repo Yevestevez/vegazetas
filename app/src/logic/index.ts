@@ -23,8 +23,8 @@ import removeIngredientFromRecipe from "./removeIngredientFromRecipe"
 
 import addStepToRecipe from "./addStepToRecipe"
 import removeStepFromRecipe from "./removeStepFromRecipe"
-import reorderStep from "./reorderStep.js"
-import updateStep from "./updateStep.js"
+import reorderStep from "./reorderStep"
+import updateStep from "./updateStep"
 
 import addImageToRecipe from "./addImageToRecipe"
 import removeImageFromRecipe from "./removeImageFromRecipe"

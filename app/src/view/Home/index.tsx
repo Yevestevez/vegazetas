@@ -21,10 +21,6 @@ function Home({ onUserLoggedOut }: HomeProps) {
 
     const navigate = useNavigate()
 
-    // Recipe y SaveRecipe aún en JSX (Corte 4)
-    const RecipeAny = Recipe as any
-    const SaveRecipeAny = SaveRecipe as any
-
     const handleMyRecipesLinkClick = () => navigate('/my-recipes')
 
     const handleCreateRecipeClick = () => {
@@ -32,7 +28,7 @@ function Home({ onUserLoggedOut }: HomeProps) {
             .then(userId => {
                 if (!userId) throw new NotFoundError('user not found')
 
-                return logic.createRecipe(userId, `Borrador de receta ${String(new Date().getDate()).padStart(2, "0")}/${String(new Date().getMonth() + 1).padStart(2, "0")} ${String(new Date().getHours()).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}:${String(new Date().getSeconds()).padStart(2, "0")}`)
+                return logic.createRecipe(userId, `Borrador de receta ${String(new Date().getDate()).padStart(2, "0")}/${String(new Date().getMonth() + 1).padStart(2, "0")} ${String(new Date().getHours()).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}:${String(new Date().getSeconds()).padStart(2, "0")}`, undefined, undefined, undefined, undefined, undefined)
             })
             .then(recipeId => {
                 if (!recipeId) throw new NotFoundError('recipe not found')
@@ -97,36 +93,30 @@ function Home({ onUserLoggedOut }: HomeProps) {
 
             <Route
                 path="/recipe/:id"
-                element={<RecipeAny
+                element={<Recipe
                     onUserLoggedOut={onUserLoggedOut}
-                    onLogoClicked={handleLogoLinkClick}
                     onEditRecipeClicked={handleRecipeEditClick}
                     onRecipeDeleted={handleRecipeDeleted}
-                    onRecipeBackButtonClicked={handleRecipeBackButton}
                 />}
             />
 
             <Route
                 path="/create-recipe/:id"
-                element={<SaveRecipeAny
+                element={<SaveRecipe
                     view="create"
                     onToRecipeClicked={handleToRecipeClick}
                     onRecipeDeleted={handleRecipeDeleted}
                     onUserLoggedOut={onUserLoggedOut}
-                    onLogoClicked={handleLogoLinkClick}
-                    onSaveRecipeBackButtonClicked={handleSaveRecipeBackButton}
                 />}
             />
 
             <Route
                 path="/update-recipe/:id"
-                element={<SaveRecipeAny
+                element={<SaveRecipe
                     view="update"
                     onToRecipeClicked={handleToRecipeClick}
                     onRecipeDeleted={handleRecipeDeleted}
                     onUserLoggedOut={onUserLoggedOut}
-                    onLogoClicked={handleLogoLinkClick}
-                    onSaveRecipeBackButtonClicked={handleSaveRecipeBackButton}
                 />}
             />
         </Routes>

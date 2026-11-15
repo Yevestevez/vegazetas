@@ -14,24 +14,61 @@ import Header from '../common/Header'
 import MiniCircleButton from './MiniCircleButton'
 import Footer from '../../common/Footer'
 
+interface RecipeData {
+    id: string
+    title: string
+    published: boolean
+    isFavorite: boolean
+    own: boolean
+    images: string[]
+    author: { username: string }
+    date: string
+    description?: string
+    time?: number
+    difficulty?: string
+    tags?: string[]
+    ingredients: Array<{
+        id: string
+        name: string
+        quantity: number
+        unit: string
+        annotation?: string
+        main: boolean
+    }>
+    steps: Array<{
+        id: string
+        text: string
+        note?: string
+        image?: string
+        order?: number
+    }>
+    [key: string]: any
+}
+
+interface RecipeProps {
+    onUserLoggedOut: () => void
+    onEditRecipeClicked: (recipeId: string) => void
+    onRecipeDeleted: () => void
+}
+
 function Recipe({
     onUserLoggedOut,
     onEditRecipeClicked,
     onRecipeDeleted,
-}) {
+}: RecipeProps) {
     const { alert, confirm } = useAppContext()
     const navigate = useNavigate()
 
     const { id: recipeId } = useParams()
 
-    const [recipe, setRecipe] = useState(null)
+    const [recipe, setRecipe] = useState<RecipeData | null>(null)
 
     useEffect(() => {
         if (!recipeId) return
         let active = true
 
         logic.getRecipeById(recipeId)
-            .then(recipe => { if (active) setRecipe(recipe) })
+            .then((data: any) => { if (active) setRecipe(data) })
             .catch(error => {
                 if (!active || handleCredentialsError(error, alert, onUserLoggedOut)) return
                 alert('Error al cargar la receta')
@@ -43,14 +80,15 @@ function Recipe({
 
     const handleUserLoggedOut = () => onUserLoggedOut()
 
-    const handleEditRecipeButton = (event) => {
+    const handleEditRecipeButton = (event: React.MouseEvent) => {
         event.preventDefault()
 
-        onEditRecipeClicked(recipeId)
+        if (recipe) onEditRecipeClicked(recipe.id)
     }
 
     const handleDeleteButtonClick = () => {
-        confirm('¿Quieres borrar esta receta?', accepted => {
+        if (!recipe) return
+        confirm('¿Quieres borrar esta receta?', (accepted: boolean) => {
             if (accepted) {
                 try {
                     logic.deleteRecipe(recipe.id)
@@ -60,7 +98,7 @@ function Recipe({
                             console.error(error)
                         })
                 } catch (error) {
-                    alert(error.message)
+                    alert((error as Error).message)
 
                     console.error(error)
                 }
@@ -69,9 +107,10 @@ function Recipe({
     }
 
     const handleToggleFavoriteClick = () => {
+        if (!recipe) return
         logic.toggleFavoriteRecipe(recipe.id)
-            .then(() => logic.getRecipeById(recipeId))
-            .then(freshRecipe => setRecipe(freshRecipe))
+            .then(() => logic.getRecipeById(recipeId as string))
+            .then((data: any) => setRecipe(data))
             .catch(error => {
                 if (handleCredentialsError(error, alert, onUserLoggedOut)) return
                 alert(error.message)
@@ -81,7 +120,7 @@ function Recipe({
         alert(recipe.isFavorite ? 'Receta eliminada de favoritos' : 'Receta añadida a favoritos')
     }
 
-    const difficultyMap = {
+    const difficultyMap: Record<string, string> = {
         easy: "fácil",
         medium: "media",
         difficult: "difícil"
@@ -118,7 +157,7 @@ function Recipe({
                         </MiniCircleButton>
 
                         <MiniCircleButton
-                            onClick={(e) => { window.scrollTo({ top: 0, behavior: "smooth" }); e.currentTarget.blur() }}
+                            onClick={(e: React.MouseEvent) => { window.scrollTo({ top: 0, behavior: "smooth" }); (e.currentTarget as HTMLElement).blur() }}
                             variant="recipe" title="Arriba" aria-label="Arriba"
                         >
                             <FaChevronUp />
@@ -186,80 +225,6 @@ function Recipe({
                 </div>
             </section>
 
-            {/* <-- button group --> */}
-            {/* <section
-                aria-labelledby="recipe-action-title"
-                className="z-20 w-full flex text-center items-center justify-center fixed left-0 top-16 xs:top-20 py-4 bg-folly border-b-4 border-b-spring-bud h-16">
-                <h2 id="recipe-actions-title" className="sr-only">
-                    Botonera de acciones y navegación de la receta
-                </h2>
-
-                <div className="flex justify-between px-8 md:px-12 xl:px-14 w-full max-w-7xl">
-                    <nav className='flex gap-3 xs:gap-4'>
-                        <MiniCircleButton
-                            onClick={() => {
-                                if (window.history.length > 2) navigate(-1);
-                                else navigate("/home")
-                            }}
-                            variant="recipe" title="Atrás" aria-label="Atrás" className="pr-1">
-                            <FaChevronLeft />
-                        </MiniCircleButton>
-
-                        <MiniCircleButton
-                            onClick={(e) => {
-                                window.scrollTo({ top: 0, behavior: "smooth" })
-                                e.currentTarget.blur()
-                            }}
-                            variant="recipe" title="Arriba" aria-label="Arriba">
-                            <FaChevronUp />
-                        </MiniCircleButton>
-                    </nav>
-
-                    {recipe.own
-                        ? (
-                            <div className='flex gap-3 xs:gap-4' role="toolbar" aria-label="Acciones de receta">
-                                <MiniCircleButton onClick={handleEditRecipeButton} aria-label="Editar receta" title="Editar receta" variant="recipe">
-                                    <MdEdit aria-hidden="true" />
-                                </MiniCircleButton>
-
-                                <MiniCircleButton onClick={handleDeleteButtonClick} aria-label="Eliminar receta" title="Eliminar receta" variant="recipe">
-                                    <MdDelete aria-hidden="true" />
-                                </MiniCircleButton>
-                            </div>
-                        ) : (
-                            <div className='flex gap-3 xs:gap-4' role="toolbar" aria-label="Acciones de receta">
-                                <MiniCircleButton
-                                    onClick={() => alert('Añadir a recetas favoritas: funcionalidad en la parrilla')}
-                                    aria-label="Añadir a recetas favoritas"
-                                    title="Añadir a favoritos"
-                                    variant="recipe"
-                                >
-                                    <FaStar aria-hidden="true" />
-                                </MiniCircleButton>
-
-                                <MiniCircleButton
-                                    onClick={() => alert('Añadir a lista: funcionalidad en el horno')}
-                                    aria-label="Añadir a lista"
-                                    title="Añadir a lista"
-                                    variant="recipe"
-                                >
-                                    <FaListUl aria-hidden="true" />
-                                </MiniCircleButton>
-
-                                <MiniCircleButton
-                                    onClick={() => alert('Compartir: funcionalidad cociendose a fuego lento')}
-                                    aria-label="Compartir receta"
-                                    title="Compartir receta"
-                                    variant="recipe"
-                                    className="pr-1"
-                                >
-                                    <FaShareAlt aria-hidden="true" />
-                                </MiniCircleButton>
-                            </div>
-                        )}
-                </div>
-            </section> */}
-
             {/* <-- recipe --> */}
             <article aria-labelledby="recipe-title" className="flex flex-col gap-3 xs:gap-4">
                 <section className='flex flex-col items-center'>
@@ -268,7 +233,7 @@ function Recipe({
                     {/* <-- images --> */}
                     <div className="w-full flex flex-row items-center justify-center overflow-hidden h-44 xs:h-56 sm:h-72 md:h-80 mt-16 xs:mt-12 lg:mt-0 xl:-mt-4 max-w-7xl">
                         {recipe.images.length > 0 ? (
-                            recipe.images.map((image, index) => {
+                            recipe.images.map((image: string, index: number) => {
                                 const widthClass = recipe.images.length === 1 ? "w-full" : "w-1/2"
 
                                 return (
@@ -324,7 +289,7 @@ function Recipe({
                         {/* <-- tags --> */}
                         {recipe.tags && recipe.tags.length > 0 && (
                             <ul className="flex flex-wrap justify-center gap-3 xs:gap-4 md:gap-6 text-spring-bud">
-                                {recipe.tags.map((tag, index) => (
+                                {recipe.tags.map((tag: string, index: number) => (
                                     <li className="rounded-sm anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-folly shadow-[0.2rem_0.2rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]" key={index}>#{tag}</li>
                                 ))}
                             </ul>
@@ -343,15 +308,15 @@ function Recipe({
                         <div className="columns-1 lg:columns-2 gap-6 text-center space-y-6">
 
                             {/* <-- main ingredients --> */}
-                            {recipe.ingredients.some(ingredient => ingredient.main) && (
+                            {recipe.ingredients.some((ingredient: any) => ingredient.main) && (
                                 <div className="flex flex-col items-center justify-center align-middle">
                                     <h3 className="
                                         px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
                                         shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
                                     ">Principales</h3>
                                     {recipe.ingredients
-                                        .filter(ingredient => ingredient.main)
-                                        .map((ingredient) => (
+                                        .filter((ingredient: any) => ingredient.main)
+                                        .map((ingredient: any) => (
                                             <div className="py-1 xs:py-1.5 text-base sm:text-lg xl:text-xl leading-tight sm:leading-tight xl:leading-tight text-spring-bud" key={ingredient.id}>
                                                 <p>
                                                     <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
@@ -363,15 +328,15 @@ function Recipe({
                             )}
 
                             {/* <-- pantry ingredients --> */}
-                            {recipe.ingredients.some(ingredient => !ingredient.main) && (
+                            {recipe.ingredients.some((ingredient: any) => !ingredient.main) && (
                                 <div className="flex flex-col items-center justify-center align-middle">
                                     <h3 className="
                                         px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
                                         shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
                                     ">Despensa</h3>
                                     {recipe.ingredients
-                                        .filter(ingredient => !ingredient.main)
-                                        .map((ingredient) => (
+                                        .filter((ingredient: any) => !ingredient.main)
+                                        .map((ingredient: any) => (
                                             <div className="py-1 xs:py-1.5 text-base sm:text-lg xl:text-xl leading-tight sm:leading-tight xl:leading-tight text-spring-bud" key={ingredient.id}>
                                                 <p>
                                                     <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
@@ -394,7 +359,7 @@ function Recipe({
                     ">Preparación</h2>
 
                         <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 xs:gap-8 space-y-6 items-center justify-center text-center text-spring-bud">
-                            {recipe.steps.map((step, index) => (
+                            {recipe.steps.map((step: any, index: number) => (
                                 <div className="
                                     break-inside-avoid rounded-sm
                                     flex flex-col h-full p-4 xs:p-6 gap-3 w-full bg-folly 
