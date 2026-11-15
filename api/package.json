@@ -31,7 +31,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.2",
     "nodemailer": "^10.5.0",
-    "resend": "^6.38.0"
+    "resend": "^6.38.0",
+    "tsx": "^4.23.15"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -41,7 +42,6 @@
     "@types/node": "^24.19.2",
     "@types/nodemailer": "^8.0.2",
     "@vitest/coverage-v8": "^5.1.0",
-    "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"
   }
