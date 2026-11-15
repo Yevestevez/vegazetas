@@ -1,10 +1,9 @@
 # Estructura del proyecto
 
-Este documento muestra una vista simplificada de la estructura actual y una
-propuesta orientativa para después de la refactorización. Los árboles incluyen
-archivos representativos; `...` indica contenido omitido, no un archivo real.
-No se muestran dependencias instaladas, compilaciones, informes ni archivos
-locales de entorno.
+Este documento muestra la estructura actual tras la refactorización (sprints 1–8
+completados). Los árboles incluyen archivos representativos; `...` indica
+contenido omitido, no un archivo real. No se muestran dependencias instaladas,
+compilaciones, informes ni archivos locales de entorno.
 
 ## Estructura actual
 
@@ -12,80 +11,120 @@ locales de entorno.
 vegazetas/
 ├── .github/
 │   └── skills/                      # Instrucciones y guías para agentes
-├── api/                             # API Express y MongoDB
+├── api/                             # API Express y MongoDB (TypeScript)
+│   ├── config/
+│   │   └── loadEnv.ts               # Carga segura de .env
 │   ├── data/
-│   │   ├── models.js                # Modelos Mongoose
-│   │   └── populate.js              # Script de datos
-│   ├── logic/                       # Casos de uso y suites existentes
-│   │   ├── getUserName.spec.js
-│   │   └── ...
+│   │   ├── models.ts                # Modelos Mongoose tipados
+│   │   ├── models.v2.ts             # Modelos versión alternativa
+│   │   └── populate.js              # Script de datos ficticios (JS)
 │   ├── middlewares/
-│   │   ├── errorHandler.js
-│   │   └── jsonBodyParser.js
-│   ├── modules/
-│   │   └── users/
-│   │       └── getUserName/         # Primer corte migrado
-│   │           ├── composition.ts    # Composición del caso de uso
-│   │           ├── getUserName.ts
-│   │           ├── getUserNameHandler.ts
-│   │           ├── getUserNameRoutes.ts
-│   │           └── userNameRepository.ts
+│   │   ├── errorHandler.ts          # Traducción de errores a HTTP
+│   │   ├── jsonBodyParser.ts        # Middleware JSON de Express
+│   │   ├── rateLimiter.ts           # Limitación de peticiones
+│   │   └── securityHeaders.ts       # Helmet y cabeceras de seguridad
+│   ├── modules/                     # Módulos por capas (TypeScript)
+│   │   ├── registerUser/
+│   │   ├── authenticateUser/
+│   │   ├── getUserName/
+│   │   ├── getUserUsername/
+│   │   ├── passwordRecover/
+│   │   ├── passwordReset/
+│   │   ├── toggleFavoriteRecipe/
+│   │   ├── createRecipe/
+│   │   ├── getRecipeById/
+│   │   ├── recipeList/
+│   │   ├── recipeEdit/
+│   │   ├── togglePublishRecipe/
+│   │   ├── recipeIngredients/
+│   │   ├── recipeSteps/
+│   │   ├── recipeImages/
+│   │   └── recipeTags/
 │   ├── routes/
 │   │   ├── users/
-│   │   │   ├── handlers/
-│   │   │   └── index.js
+│   │   │   └── index.ts             # Router de usuarios (TS)
 │   │   ├── recipes/
 │   │   │   ├── handlers/
-│   │   │   └── index.js
-│   │   └── index.js
-│   ├── scripts/                     # Scripts de actualización de datos
-│   ├── test/                        # Pruebas HTTP, soporte E2E y scripts manuales
+│   │   │   │   └── index.js         # Handler legacy pendiente (JS)
+│   │   │   └── index.ts             # Router de recetas (TS)
+│   │   └── index.ts                 # Montaje de routers
+│   ├── test/                        # Vitest specs y scripts manuales
+│   │   ├── *.spec.js                # Specs de API (JS por decisión)
+│   │   ├── *.js y *.sh              # Scripts manuales de prueba
+│   │   └── e2eServer.js, e2eDatabase.js  # Soporte E2E
 │   ├── util/
-│   │   └── mailer.js
-│   ├── app.js                       # Creación de la aplicación Express
-│   ├── index.js                     # Conexión y arranque de la API
+│   │   ├── mailer.ts                # Nodemailer y Resend tipados
+│   │   ├── getSessionUserId.ts      # Extracción JWT
+│   │   └── imageUrlValidator.ts     # Validación de URLs de imagen
+│   ├── app.ts                       # Creación de la aplicación Express
+│   ├── index.ts                     # Conexión MongoDB y arranque
 │   ├── package.json
 │   ├── package-lock.json
 │   ├── tsconfig.json
-│   ├── vitest.config.js
+│   ├── vitest.config.js             # Config Vitest (JS por decisión)
 │   └── README.md
-├── app/                             # Frontend React y Vite
+├── app/                             # Frontend React 19 y Vite 8 (TypeScript)
 │   ├── e2e/                         # Pruebas de navegador con Playwright
 │   ├── public/
 │   ├── src/
-│   │   ├── logic/                   # Acceso a la API y sesión
+│   │   ├── logic/                   # Acceso a la API y sesión (TS)
+│   │   │   ├── index.ts             # Barrel export
+│   │   │   ├── authenticatedFetch.ts
+│   │   │   ├── loginUser.ts, logoutUser.ts, ...
+│   │   │   └── funciones de recetas (TS)
+│   │   ├── types/
+│   │   │   └── recipe.ts            # Tipos compartidos de recetas
 │   │   ├── util/
+│   │   │   └── extractPayloadFromToken.ts
 │   │   ├── view/
 │   │   │   ├── Home/
-│   │   │   │   ├── Discover/
-│   │   │   │   ├── Favorites/
-│   │   │   │   ├── Menu/
-│   │   │   │   ├── MyRecipes/
-│   │   │   │   ├── SaveRecipe/
-│   │   │   │   ├── common/
-│   │   │   │   └── index.jsx
-│   │   │   ├── common/
+│   │   │   │   ├── Discover/index.tsx
+│   │   │   │   ├── Favorites/index.tsx
+│   │   │   │   ├── Menu/index.tsx
+│   │   │   │   ├── MyRecipes/index.tsx
+│   │   │   │   ├── SaveRecipe/index.tsx
+│   │   │   │   ├── common/          # Componentes compartidos (TSX)
+│   │   │   │   │   ├── Recipe.tsx
+│   │   │   │   │   └── ...
+│   │   │   │   └── index.tsx
+│   │   │   ├── common/              # Componentes globales (TSX)
+│   │   │   │   ├── Input.tsx, Alert.tsx, Confirm.tsx, ...
+│   │   │   │   └── ...
 │   │   │   ├── helper/
-│   │   │   ├── Landing.jsx
-│   │   │   ├── Login.jsx
-│   │   │   ├── PasswordReset.jsx
-│   │   │   └── Register.jsx
-│   │   ├── App.jsx
-│   │   ├── context.js
-│   │   ├── main.css
-│   │   └── main.jsx
+│   │   │   │   ├── formatDate.ts
+│   │   │   │   └── handleCredentialsError.ts
+│   │   │   ├── Landing.tsx
+│   │   │   ├── Login.tsx
+│   │   │   ├── PasswordReset.tsx
+│   │   │   └── Register.tsx
+│   │   ├── App.tsx                  # Router principal React Router
+│   │   ├── context.ts               # Contexto de aplicación
+│   │   ├── main.tsx                 # Entry point con createRoot
+│   │   ├── main.css                 # Estilos Tailwind
+│   │   └── vite-env.d.ts            # Declaraciones globales Vite
 │   ├── index.html
 │   ├── package.json
 │   ├── package-lock.json
 │   ├── playwright.config.js
 │   ├── vite.config.js
 │   ├── eslint.config.js
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
 │   └── README.md
-├── com/                             # Código compartido por API y frontend
+├── com/                             # Código compartido (TypeScript)
 │   ├── errors/
-│   ├── index.js
-│   ├── validate.js
-│   ├── package.json
+│   │   ├── index.ts                 # Barrel export de errores
+│   │   ├── CredentialsError.ts
+│   │   ├── DuplicityError.ts
+│   │   ├── NotFoundError.ts
+│   │   ├── OwnershipError.ts
+│   │   ├── SystemError.ts
+│   │   └── ValidationError.ts
+│   ├── index.ts                     # Barrel export principal
+│   ├── schemas.ts                   # Esquemas Zod de validación
+│   ├── validate.ts                  # Validadores con Zod
+│   ├── repo-types.ts                # Tipos de repositorio lean
+│   ├── package.json                 # Zod 4.6.7 como dependencia
 │   └── package-lock.json
 ├── doc/
 │   ├── images/
@@ -97,107 +136,31 @@ vegazetas/
 ├── .node-version
 ├── AGENTS.md
 ├── README.md
-└── README-EN.md
+├── README-EN.md
+├── SECURITY-AUDIT-SUMMARY.md
+├── SECURITY-CONFIG.md
+├── SECURITY-REVIEW-CHANGES.md
+└── skills-lock.json
 ```
 
-La API actual mezcla JavaScript con el primer módulo TypeScript. La ruta y el
-controlador de nombre de usuario usan el caso de uso y el repositorio mediante
-una composición explícita. Son funciones, no clases: en este corte el
-repositorio realiza una única consulta y una clase no simplificaría sus
-dependencias. El router de usuarios que integra el módulo sigue en JavaScript.
+La API está 100% en TypeScript con arquitectura por capas: cada módulo en
+`modules/` contiene composición, caso de uso, handler y repositorio. Los routers
+de usuarios y recetas (`routes/`) integran los módulos. Solo queda un archivo
+legacy: `routes/recipes/handlers/index.js`. Los directorios `logic/` y `scripts/`
+se eliminaron al completar la migración. Los middlewares incluyen seguridad
+(Helmet, rate limiting) y manejo de errores protegido en producción.
 
-## Propuesta orientativa tras la refactorización
+El frontend está 100% en TypeScript: componentes React funcionales, lógica de
+acceso a la API tipada, y contexto de aplicación con alertas y confirmación.
+React 19 y Vite 8 son los motores actuales.
 
-Esta estructura es un ejemplo para debatir, **no una estructura aprobada ni
-implementada**. Los nombres, el nivel de separación y la ubicación de las
-pruebas y contratos compartidos pueden cambiar durante la migración.
+El paquete compartido `com` está en TypeScript con Zod 4.6.7 para validación
+de esquemas, clases de error tipadas y tipos de repositorio. Lo consumen `app`
+y `api` mediante `file:../com`.
 
-```text
-vegazetas/
-├── .github/
-│   ├── skills/
-│   └── workflows/                   # CI/CD: después de la refactorización
-├── api/
-│   ├── src/
-│   │   ├── app.ts                   # Aplicación y composición
-│   │   ├── index.ts                 # Arranque
-│   │   ├── config/                  # Configuración validada
-│   │   ├── shared/
-│   │   │   ├── http/                # Autenticación y errores HTTP
-│   │   │   └── infrastructure/      # Conexión MongoDB y correo
-│   │   └── modules/
-│   │       ├── users/
-│   │       │   ├── domain/
-│   │       │   │   └── UserRepository.ts       # Contrato del repositorio
-│   │       │   ├── application/
-│   │       │   │   ├── GetUserName.ts          # Caso de uso
-│   │       │   │   └── ...
-│   │       │   ├── infrastructure/
-│   │       │   │   ├── MongooseUserRepository.ts
-│   │       │   │   └── ...
-│   │       │   └── http/
-│   │       │       ├── users.routes.ts
-│   │       │       ├── UserController.ts
-│   │       │       └── ...
-│   │       └── recipes/
-│   │           ├── domain/
-│   │           ├── application/
-│   │           ├── infrastructure/
-│   │           └── http/
-│   ├── test/                        # Vitest: unidad e integración
-│   ├── package.json
-│   ├── tsconfig.json
-│   ├── vitest.config.ts
-│   └── README.md
-├── app/
-│   ├── public/
-│   ├── src/
-│   │   ├── app/                     # Composición, rutas y estado global
-│   │   ├── features/
-│   │   │   ├── auth/                # Registro, sesión y recuperación
-│   │   │   ├── users/               # Datos de usuario
-│   │   │   └── recipes/             # Listados, detalle, edición y favoritos
-│   │   ├── shared/
-│   │   │   ├── components/
-│   │   │   ├── services/            # Comunicación HTTP común
-│   │   │   └── utils/
-│   │   ├── main.tsx
-│   │   └── main.css
-│   ├── test/                        # Vitest: componentes y lógica
-│   ├── package.json
-│   ├── tsconfig.json
-│   ├── vite.config.ts
-│   └── README.md
-├── com/                             # Contratos, errores y validaciones comunes
-│   ├── src/
-│   │   ├── contracts/
-│   │   ├── errors/
-│   │   └── validation/
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── ...
-├── tests/
-│   └── e2e/                         # Playwright: flujos completos
-├── doc/
-│   ├── ESTADO-ACTUAL.md
-│   ├── ESTRUCTURA-PROYECTO.md
-│   └── PLAN-REFACTORIZACION.md
-├── AGENTS.md
-├── README.md
-└── README-EN.md
-```
+Los archivos que permanecen en JavaScript son por decisión: specs de Vitest,
+scripts de prueba manuales, `populate.js` y `vitest.config.js`.
 
-En la propuesta, una petición de la API recorrería la ruta y el controlador,
-el caso de uso y el contrato del repositorio; una implementación Mongoose
-accedería a MongoDB. La composición conectaría las implementaciones concretas.
-El frontend mantendría componentes funcionales React.
-
-Para usar POO de forma pragmática, `MongooseUserRepository` y, si aporta
-claridad, `GetUserName` o `UserController` podrían ser clases. El contrato del
-repositorio podría ser una interfaz TypeScript. Son opciones de diseño, no una
-obligación de convertir todos los archivos o funciones en clases.
-
-Playwright ya dispone de una primera suite local; los flujos de GitHub Actions
-todavía no están configurados. La ubicación y formato de una futura
-documentación OpenAPI también quedan por decidir. Véase el
-[plan](./PLAN-REFACTORIZACION.md) para el estado y los criterios de cada sprint.
+Véase el [plan](./PLAN-REFACTORIZACION.md) para el estado y los criterios de
+cada sprint, y el [estado actual](./ESTADO-ACTUAL.md) para detalles de
+contratos, pruebas y configuración.

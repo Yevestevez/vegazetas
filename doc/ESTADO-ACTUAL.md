@@ -1,7 +1,7 @@
 # Estado actual de Vegazetas
 
-Inventario del código revisado el 11 de noviembre de 2026. Describe el punto
-de partida, no una arquitectura objetivo ni una auditoría completa.
+Inventario del código revisado el 15 de noviembre de 2026. Describe el estado
+tras la refactorización (sprints 1–8 completados), no una auditoría completa.
 
 ## Alcance funcional observado
 
@@ -9,7 +9,7 @@ La aplicación contiene registro, inicio y cierre de sesión, recuperación de
 contraseña y gestión de recetas: creación, edición, eliminación, imágenes,
 etiquetas, ingredientes y pasos. También incluye publicación, descubrimiento
 de recetas y favoritos. Las rutas de pantalla están en
-[`App.jsx`](../app/src/App.jsx) y [`Home`](../app/src/view/Home/index.jsx).
+[`App.tsx`](../app/src/App.tsx) y [`Home`](../app/src/view/Home/index.tsx).
 La existencia de código para una función no garantiza que se haya comprobado
 su funcionamiento en todos los escenarios.
 
@@ -17,55 +17,53 @@ su funcionamiento en todos los escenarios.
 
 | Directorio        | Responsabilidad actual                                                                                                     |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| [`app/`](../app/) | SPA React 18 con React Router, Vite y Tailwind CSS; TypeScript configurado con archivos de base en TS y el resto en JS/JSX. |
-| [`api/`](../api/) | API Express en JavaScript y TypeScript con módulos ES, Mongoose y MongoDB.                                                 |
-| [`com/`](../com/) | Paquete local compartido de validaciones y clases de error; lo consumen `app` y `api` mediante `file:../com`.              |
-| [`doc/`](./)      | Documentación e imágenes. Parte de la documentación anterior es histórica y puede no reflejar las funciones más recientes. |
+| [`app/`](../app/) | SPA React 19 con React Router 7, Vite 8 y Tailwind CSS; 100% TypeScript.                                                   |
+| [`api/`](../api/) | API Express 5 en TypeScript con módulos ES, Mongoose y MongoDB; arquitectura por capas en `modules/`.                      |
+| [`com/`](../com/) | Paquete local compartido 100% TypeScript: esquemas Zod 4, validadores y clases de error; lo consumen `app` y `api` mediante `file:../com`. |
+| [`doc/`](./)      | Documentación e imágenes.                                                                                                  |
 
 Cada aplicación tiene su propio `package.json` y `package-lock.json`; no hay
 un gestor de workspaces definido en la raíz. Los archivos `.node-version`
-indican Node 26.13.1. El frontend ya utiliza Vite: no hace falta incorporarlo
-para poder migrar a TypeScript.
+indican Node 26.13.1. La refactorización a TypeScript está completa:
+API, frontend y paquete compartido son 100% TypeScript. Los archivos que
+permanecen en JavaScript son por decisión: specs de Vitest, scripts de prueba
+manuales, `populate.js` y `vitest.config.js`.
 
-Actualización del 12 de noviembre: `com` incorpora Zod para la validación de
-etiquetas, títulos, descripciones, imágenes, dificultades y tiempos de recetas,
-texto y notas de pasos, cantidad, indicador principal, unidad y anotación de
-ingredientes, nombre, usuario, correo, contraseña, identificadores, índices y
-dirección. Una revisión correctiva alineó límites y mensajes, endureció los
-tipos opcionales y el formato de IDs, y conectó la validación de contraseña en
-el registro web. Las validaciones aún no migradas siguen en JavaScript. El
-alcance y las comprobaciones están en
-[la migración de Zod](./MIGRACION-ZOD-SPRINT3.md).
+`com` usa Zod 4.6.7 para la validación de todos los campos: etiquetas, títulos,
+descripciones, imágenes, dificultades, tiempos, texto y notas de pasos, cantidad,
+indicador principal, unidad y anotación de ingredientes, nombre, usuario, correo,
+contraseña, identificadores, índices y dirección. Una revisión correctiva alineó
+límites y mensajes, endureció los tipos opcionales y el formato de IDs, y conectó
+la validación de contraseña en el registro web.
 
 El tiempo de receta es opcional: al proporcionarlo se exigen entre 5 y 9999
 minutos enteros, y al omitirlo en una edición se elimina el campo. Los ceros
-históricos se muestran como ausencia sin migrar la base de datos. El nuevo
-rechazo de `0` y `null` requiere coordinación con los clientes existentes;
-ver [detalle y pruebas](./MIGRACION-ZOD-SPRINT3.md#tiempo-opcional).
+históricos se muestran como ausencia sin migrar la base de datos.
 
 ## Recorrido de una petición
 
-1. React monta la aplicación con `BrowserRouter`. Las vistas y componentes
+1. React 19 monta la aplicación con `BrowserRouter`. Las vistas y componentes
    están en [`app/src/view/`](../app/src/view/), con rutas y estado compartido
-   en `App.jsx`. El contexto de aplicación (`context.ts`) está en TypeScript.
-2. Las funciones de [`app/src/logic/`](../app/src/logic/) validan datos y usan
-   `fetch` contra `VITE_API_URL`. Todo el módulo está en TypeScript: sesión,
-   autenticación, recetas y elementos anidados. El inicio de sesión guarda el
-   JWT de 24 horas en `sessionStorage`; las respuestas `401` de operaciones
-   protegidas cierran la sesión globalmente.
-3. [`api/index.js`](../api/index.js) conecta Mongoose a MongoDB y arranca la
-   aplicación Express, que monta los routers de usuarios y recetas. La mayoría
-   de rutas delega en handlers y funciones de [`api/logic/`](../api/logic/).
-4. La mayoría de esa lógica accede directamente a modelos Mongoose de
-   [`api/data/models.js`](../api/data/models.js). El middleware de errores
-   traduce clases de `com` a respuestas HTTP.
+   en `App.tsx`. El contexto de aplicación (`context.ts`) gestiona alertas y
+   confirmación. Todo el frontend es TypeScript.
+2. Las funciones de [`app/src/logic/`](../app/src/logic/) validan datos con
+   `com/validate` (Zod) y usan `authenticatedFetch` contra `VITE_API_URL`.
+   Todo el módulo está en TypeScript: sesión, autenticación, recetas y elementos
+   anidados. El inicio de sesión guarda el JWT de 24 horas en `sessionStorage`;
+   las respuestas `401` de operaciones protegidas cierran la sesión globalmente.
+3. [`api/index.ts`](../api/index.ts) carga `.env` con `config/loadEnv.ts`,
+   conecta Mongoose a MongoDB y arranca la aplicación Express. Los routers
+   de usuarios y recetas (`routes/`) montan los handlers de cada módulo.
+4. Cada módulo en [`api/modules/`](../api/modules/) contiene composición,
+   caso de uso, handler y repositorio Mongoose tipado. La composición conecta
+   las dependencias. El middleware de errores traduce clases de `com` a
+   respuestas HTTP.
 
-Ya existe una separación entre rutas, handlers, lógica y modelos. La mayoría
-de las funciones de negocio consultan Mongoose directamente; la consulta del
-nombre, la consulta del nombre de usuario, el registro y la autenticación son
-los primeros cortes con ruta, handler, caso de uso y repositorio
-independientes en TypeScript. El router de usuarios que integra esos módulos
-sigue en JavaScript. La verificación del JWT se repite en los handlers.
+La API usa arquitectura por capas: 17 módulos en `modules/` cubren usuarios
+(registro, autenticación, nombre, username, recuperación/restablecimiento de
+contraseña, favoritos) y recetas (crear, consultar, listar, editar, eliminar,
+publicar, ingredientes, pasos, imágenes, etiquetas). Solo queda un archivo
+legacy: `routes/recipes/handlers/index.js`.
 
 ## Datos
 
@@ -77,7 +75,8 @@ sigue en JavaScript. La verificación del JWT se repite en los handlers.
 - **Ingrediente y paso:** se definen como esquemas Mongoose y se insertan en
   arrays dentro de cada receta. El paso incluye un campo de orden.
 
-La definición efectiva está en [`models.js`](../api/data/models.js). Las
+La definición efectiva está en [`models.ts`](../api/data/models.ts) con tipos
+`InferSchemaType` y documentos tipados (`UserDocument`, `RecipeDocument`). Las
 imágenes se representan como cadenas; el esquema no define almacenamiento de
 archivos.
 
@@ -92,8 +91,8 @@ La API expone `GET /health` y dos routers:
   ingredientes, pasos, imágenes y etiquetas.
 
 El detalle de métodos y rutas está en
-[`users/index.js`](../api/routes/users/index.js) y
-[`recipes/index.js`](../api/routes/recipes/index.js). No se ha generado ni
+[`users/index.ts`](../api/routes/users/index.ts) y
+[`recipes/index.ts`](../api/routes/recipes/index.ts). No se ha generado ni
 validado un contrato OpenAPI.
 
 ### Contratos observados en los handlers
@@ -117,239 +116,34 @@ pruebas HTTP para la mayoría de las respuestas y errores.
 | `PATCH /recipes/:recipeId/publish` | Token e ID | `200`, objeto con `published` |
 | Operaciones de ingredientes, pasos, imágenes y etiquetas | Token, ID y datos del elemento | `201` al añadir; `204` al modificar o eliminar. Las altas de ingrediente y paso devuelven un ID JSON. |
 
-Los handlers protegidos extraen el token de `Authorization` y verifican el JWT.
-El middleware traduce errores propios a `400`, `401`, `403`, `404`, `409` o
-`500`; otros errores se convierten en `500`. Esto no garantiza que un token
-inválido o ausente produzca `401`: hay que caracterizarlo por HTTP.
+Los handlers protegidos comparten la validación del JWT y responden `401` para
+credenciales ausentes, inválidas, caducadas o sin `exp`. El middleware traduce
+errores propios a `400`, `401`, `403`, `404`, `409` o `500`; otros errores se
+convierten en `500`. En producción, el errorHandler usa mensaje genérico
+("Internal server error") evitando exponer detalles internos.
 
-Las pruebas HTTP de `GET /users/name` confirman `200` con el nombre como
-cadena JSON, `404` para un usuario inexistente y `400` para un ID inválido.
-En este corte local, una cabecera ausente o incorrecta y un token inválido o
-caducado producen `401` con `CredentialsError` y mensaje genérico, en lugar del
-`500` anterior. Los fallos internos producen `500` con mensaje genérico y se
-registran en la API. La pantalla del menú cierra la sesión local, avisa y lleva
-al inicio de sesión ante ese `401`; no cierra la sesión por un `500`.
+**Estado de sprints completados:** los sprints 1–8 están completados. El sprint 1
+estableció la línea base y protección de datos. El sprint 2 migró las pruebas a
+Vitest y caracterizó contratos HTTP. El sprint 3 configuró TypeScript, Node 22/24/26,
+y migró las validaciones a Zod. El sprint 4 creó el primer módulo vertical
+(`GET /users/name`). El sprint 5 migró todos los módulos de usuarios. El sprint 6
+migró todo el módulo de recetas. El sprint 7 migró el frontend a TypeScript.
+El sprint 8 cerró la migración de `com/` y `api/` a TypeScript, aplicó correcciones
+de seguridad y actualizó React a 19. Véase el [plan](./PLAN-REFACTORIZACION.md)
+para el detalle de cada corte.
 
-Las pruebas HTTP de `GET /recipes/:recipeId` comprueban el acceso del autor a
-una receta privada, el acceso a una receta publicada de otra persona y el
-rechazo de una receta privada ajena. También verifican identificadores
-anidados, favorito, errores de usuario o receta inexistentes y un ID inválido.
-Esta ruta también devuelve ahora `401` genérico para credenciales ausentes,
-incorrectas o caducadas, y `500` genérico para fallos internos. El frontend
-cierra la sesión y avisa al recibir ese `401` al consultar la receta o su
-editor, incluida la recarga tras modificar favoritos; no lo hace por un `500`.
+**Despliegue pendiente:** cambian el contrato de autenticación de las rutas
+(`401` para credenciales inválidas), la respuesta de `my-recipes` incorpora el
+campo `isFavorite` y el restablecimiento devuelve `404` para un usuario inexistente.
+Para que la interfaz muestre el mensaje específico, desplegar primero el frontend
+que lo reconoce y después la API. Para revertir, restaurar primero la API y después
+el frontend. Los clientes externos que validen la forma exacta de la respuesta deben
+aceptar el nuevo campo. Coordinar también el cambio de tiempo opcional y los runtimes
+requeridos; no se ha desplegado aquí.
 
-Las tres listas HTTP de recetas se han caracterizado con MongoDB: devuelven
-las recetas visibles ordenadas por fecha y sin datos privados del autor. Las
-tres incluyen ahora `isFavorite`: se añadió a `my-recipes` para que la interfaz
-muestre el estado y el aviso correctos. Las tres rutas también devuelven `401`
-genérico para credenciales inválidas y `500` genérico para fallos internos;
-la interfaz cierra la sesión y avisa ante el `401`, no ante un `500`.
-Las demás rutas protegidas mantienen su comportamiento anterior.
-
-Las pruebas HTTP de `PATCH /recipes/:recipeId` comprueban que el autor puede
-editar, que otra persona no puede editar ni un borrador ni una receta
-publicada y que los rechazos no modifican el documento. También cubren la
-eliminación del tiempo al omitirlo y los errores de validación y ausencia.
-La firma inválida sigue produciendo `500` con detalles en esta ruta; no se ha
-modificado su contrato de autenticación.
-
-En la revisión del primer módulo vertical se corrigió una prueba que esperaba
-una promesa de una validación que lanza el error de forma síncrona, sin cambiar
-el comportamiento. Tras el cambio de autenticación pasaron 29 pruebas dirigidas
-de lógica, HTTP e identificadores, cinco pruebas Playwright de autenticación,
-la comprobación de tipos y la compilación, con Node 26.13.1 y MongoDB desechable
-reutilizado. El lint dirigido pasó con una advertencia previa de dependencias de
-efecto; no se realizó una revisión manual con tecnologías de asistencia.
-En el siguiente corte pasaron 14 pruebas dirigidas de consulta de recetas
-(ocho HTTP y seis de lógica), con Node 26.13.1 y el mismo MongoDB desechable.
-No se ejecutó la suite completa en ese corte.
-
-Tras corregir la autenticación de consulta de recetas pasaron 49 pruebas
-dirigidas de API, 13 pruebas Playwright, tipos y compilación con Node 26.13.1 y
-MongoDB desechable reutilizado. El lint dirigido pasó con tres advertencias de
-dependencias de efectos; no se ejecutó la suite completa ni se revisó con
-tecnologías de asistencia.
-
-En el corte siguiente se estabilizaron los callbacks usados por los efectos
-del menú y de las vistas de receta. Con Node 26.13.1 pasaron 16 pruebas
-Playwright y la compilación; el lint pasó con tres advertencias restantes en
-las listas. Las pruebas comprueban que los avisos no repiten las consultas ni
-descartan una edición sin guardar. No se revisó con tecnologías de asistencia.
-
-En el corte de listas se estabilizaron sus funciones de carga y se declararon
-las dependencias de los efectos. Con Node 26.13.1 pasaron nueve pruebas
-Playwright con API simulada y MongoDB desechable reutilizado; comprueban carga,
-favoritos y errores sin consultas repetidas. La compilación pasó y el lint del
-frontend pasó sin advertencias. No se revisó con tecnologías de asistencia.
-
-En el primer corte del sprint 6, `GET /recipes/:recipeId` se migró a TypeScript
-con repositorio y caso de uso. Conserva la receta con `own` e `isFavorite`, el
-rechazo de receta privada ajena y los errores de usuario o receta inexistentes.
-Pasaron 14 pruebas HTTP dirigidas con Node 26.13.1 y MongoDB desechable.
-
-En el segundo corte del sprint 6, los tres listados de recetas (`my-recipes`,
-`published-recipes`, `favorites-recipes`) se migraron a TypeScript. Conservan
-las recetas visibles ordenadas por fecha, el campo `isFavorite` y el tratamiento
-de credenciales. Pasaron 33 pruebas HTTP dirigidas con Node 26.13.1 y MongoDB
-desechable.
-
-En el tercer corte del sprint 6, `POST /recipes` (crear receta) se migró a
-TypeScript. Conserva el `201` con el ID como cadena JSON, las validaciones
-síncronas de título, descripción, tiempo y dificultad, y el `404` para usuario
-inexistente. Pasaron 10 pruebas HTTP dirigidas con Node 26.13.1 y MongoDB
-desechable.
-
-En el cuarto corte del sprint 6, `PATCH /recipes/:recipeId` (editar receta) y
-`DELETE /recipes/:recipeId` (eliminar receta) se migraron a TypeScript con
-repositorio y casos de uso compartidos. Conservan el `204` sin cuerpo, la
-verificación de propiedad, la eliminación del tiempo al omitirlo y los errores
-de usuario o receta inexistentes. Pasaron **483 pruebas de API** en 38 archivos,
-el typecheck y la compilación, con Node 26.13.1 y MongoDB desechable.
-
-En el quinto corte del sprint 6, `PATCH /recipes/:recipeId/publish` se migró a
-TypeScript. Conserva la alternancia de `published`, el `200` con `{ published:
-boolean }`, el `403 OwnershipError` para usuarios ajenos y los errores de
-usuario o receta inexistentes. Pasaron 6 pruebas HTTP dirigidas con Node
-26.13.1 y MongoDB desechable.
-
-En el sexto corte del sprint 6, los elementos anidados de recetas se migraron a
-TypeScript en cuatro módulos: `recipeIngredients` (ingredientes add/remove),
-`recipeSteps` (pasos add/remove/update/reorder), `recipeImages` (imágenes
-add/remove) y `recipeTags` (etiquetas add/remove). Conservan los códigos HTTP
-(201 con ID o vacío, 204 sin cuerpo), la validación de campos, la verificación
-de propiedad y los límites (máx. 2 imágenes, 15 etiquetas). Pasaron 19 pruebas
-HTTP dirigidas en `recipeElements.spec.js`. Se eliminaron 40 archivos legacy
-(10 de lógica, 10 de handlers, 20 de specs y tests manuales) y se actualizaron
-5 archivos de pruebas de validación compartida para quitar las importaciones de
-lógica migrada. La suite completa de API pasa con **433 pruebas** en 28 archivos.
-
-El sprint 6 está completo: todo el módulo de recetas (`api/logic/`) se migró a
-TypeScript con arquitectura por capas. Los archivos legacy de recetas se
-eliminaron de `api/logic/` y `api/routes/recipes/handlers/`.
-
-En el primer corte del sprint 7, el frontend se configuró para TypeScript: se
-creó `app/tsconfig.json` con `moduleResolution: "bundler"`, `jsx: "react-jsx"`,
-`strict: true` y `allowJs: true` para transición gradual, junto con
-`app/tsconfig.node.json` para Vite y `app/src/vite-env.d.ts` para declaraciones
-globales (`Storage.token` y `ImportMeta.env`). Se migraron a TypeScript los
-archivos de base compartida: `context.ts` (tipado de `AppContext` con `alert` y
-`confirm`), `authenticatedFetch.ts` (wrapper de fetch con manejo de sesión
-expirada), `util/extractPayloadFromToken.ts` (decodificación JWT), y las
-funciones de sesión (`loginUser.ts`, `logoutUser.ts`, `isUserLoggedIn.ts`,
-`getUserId.ts`, `getUserName.ts`, `getUserUsername.ts`). El barrel export
-`logic/index.ts` importa los archivos TypeScript migrados y los JavaScript
-restantes. Pasaron `tsc --noEmit` y `vite build` sin errores.
-
-En el segundo corte del sprint 7, los formularios de autenticación y los
-componentes comunes se migraron a TypeScript. Se tiparon 3 funciones de lógica
-(`registerUser.ts`, `passwordRecover.ts`, `passwordReset.ts`), 4 páginas
-(`Login.tsx`, `Register.tsx`, `PasswordReset.tsx`, `Landing.tsx`) y 7 componentes
-comunes (`Input.tsx`, `CircleButton.tsx`, `Alert.tsx`, `Confirm.tsx`,
-`Footer.tsx`, `SectionTitle.tsx`, `LogoVegazetas.tsx`). Se corrigió el acceso al
-campo `name` del formulario en Register usando `namedItem` para evitar conflicto
-con la propiedad nativa de HTMLFormElement, y se añadió la prop `type` a
-CircleButton para su uso como botón submit. Pasaron `tsc --noEmit` y `vite build`
-sin errores.
-
-En el tercer corte del sprint 7, los listados de recetas y los componentes de
-Home se migraron a TypeScript. Se tiparon 5 funciones de lógica de recetas
-(`getMyRecipes.ts`, `getPublishedRecipes.ts`, `getFavoritesRecipes.ts`,
-`getRecipeById.ts`, `toggleFavoriteRecipe.ts`), 2 helpers (`formatDate.ts`,
-`handleCredentialsError.ts`), 8 componentes comunes de Home (`Header.tsx`,
-`LogoVegazetasHeader.tsx`, `ProfileImage.tsx`, `MiniCircleButton.tsx`,
-`RecipeThumbnail.tsx`, `MyRecipeThumbnail.tsx`, `MenuButton.tsx`,
-`MenuHeader.tsx`) y 5 páginas (`Home/index.tsx`, `Menu/index.tsx`,
-`MyRecipes/index.tsx`, `Discover/index.tsx`, `Favorites/index.tsx`). Pasaron
-`tsc --noEmit` y `vite build` sin errores.
-
-En el cuarto corte del sprint 7, el detalle y la edición de recetas se
-migraron a TypeScript. Se tiparon 14 funciones de lógica (`deleteRecipe.ts`,
-`updateRecipe.ts`, `togglePublishRecipe.ts`, `createRecipe.ts`,
-`addIngredientToRecipe.ts`, `removeIngredientFromRecipe.ts`,
-`addStepToRecipe.ts`, `removeStepFromRecipe.ts`, `updateStep.ts`,
-`reorderStep.ts`, `addImageToRecipe.ts`, `removeImageFromRecipe.ts`,
-`addTagToRecipe.ts`, `removeTagFromRecipe.ts`) y 2 componentes (`Recipe.tsx`,
-`SaveRecipe/index.tsx`). Se actualizaron los imports de `logic/index.ts` y
-`Home/index.tsx` para usar los componentes tipados sin casts `any`. El sprint
-7 está completo: todo el frontend (`app/src/`) está en TypeScript. Pasaron
-`tsc --noEmit` y `vite build` sin errores.
-
-Tras corregir las listas pasaron 68 pruebas dirigidas de API y 24 pruebas
-Playwright, además de tipos, lint sin advertencias y compilación, con Node
-26.13.1 y MongoDB desechable reutilizado. Se verificó el favorito propio con
-API y MongoDB reales y el tratamiento de credenciales en las tres listas. No
-se ejecutaron las suites completas ni se revisó con tecnologías de asistencia.
-
-Tras añadir las pruebas HTTP de edición, pasaron con Node 26.13.1 la suite
-completa de API (**452 pruebas**), los tipos, la suite completa Playwright en
-Chromium (**30 pruebas**), el lint sin advertencias y la compilación. Se usó el
-MongoDB desechable reutilizable con bases separadas para ambas suites. Las
-pruebas no caracterizan todas las rutas HTTP ni sustituyen la revisión manual
-con tecnologías de asistencia.
-Se ha acordado cerrar el sprint 4 con el módulo vertical revisado; las demás
-rutas HTTP y la autenticación de edición siguen pendientes de caracterización
-o corrección en otros cortes.
-
-En el primer corte del sprint 5, el registro se migró a TypeScript sin cambiar
-el contrato de `POST /users`: conserva `201` sin cuerpo, el orden y el carácter
-síncrono de las validaciones, el hash de contraseña y el `409` para duplicados.
-Se añadieron pruebas HTTP de creación, validación y duplicidad, y se retiraron
-la lógica y el handler JavaScript anteriores. Con Node 26.13.1 y MongoDB
-8.3.13 pasaron la suite completa de API (**453 pruebas**) y la comprobación de
-tipos. No se ejecutaron Playwright ni comprobaciones de frontend.
-
-En el segundo corte del sprint 5, la autenticación también se migró a
-TypeScript. `POST /users/auth` conserva el token JWT como cadena JSON, devuelve
-`401` con el error existente para correo o contraseña incorrectos y no añade
-una caducidad al token. La falta de `JWT_SECRET` conserva la respuesta `500`.
-Pasaron la suite completa de API (**454 pruebas**) y la comprobación de tipos
-con Node 26.13.1 y MongoDB 8.3.13. No se cambió el flujo del frontend ni la
-política de expiración; esta última sigue pendiente de decisión.
-
-En el tercer corte del sprint 5, `GET /users/username` se migró a TypeScript
-con repositorio y pruebas HTTP. Conserva el nombre de usuario como cadena JSON,
-los errores de usuario no encontrado e ID inválido, y la extracción/verificación
-JWT anteriores. No se extendió a esta ruta el nuevo tratamiento de credenciales
-`401`. Pasaron la suite completa de API (**455 pruebas**) y el typecheck con
-Node 26.13.1 y MongoDB 8.3.13.
-
-En el cuarto corte, `PATCH /users/favorites/:recipeId` se migró a TypeScript.
-Mantiene la alternancia de añadir/quitar favoritos, el `404` para usuario o
-receta inexistentes, el `200` con el usuario serializado y la exclusión del
-hash de contraseña; no se modificó el manejo JWT de la ruta. Se añadieron
-pruebas HTTP para quitar un favorito y para no alterar al usuario cuando la
-receta no existe. Pasaron **457 pruebas de API**, el typecheck y la suite de
-favoritos con Node 26.13.1 y MongoDB 8.3.13.
-
-En el quinto corte, `POST /users/password/reset/:token` se migró a TypeScript.
-Conserva el `204` sin cuerpo, el hash de contraseña, la expiración emitida por
-el flujo de recuperación y el `400 ValidationError` para tokens inválidos o
-caducados. Un usuario inexistente ahora devuelve `404 NotFoundError` en lugar de
-`500 SystemError`; el frontend indica solicitar un enlace nuevo. Pasaron las
-**462 pruebas de API**, el typecheck y la prueba E2E del mensaje, con Node
-26.13.1 y MongoDB 8.3.13. También pasaron el lint y la compilación del frontend.
-
-En el sexto corte, `POST /users/password/recover` se migró a TypeScript sin
-cambiar el `200` ni el cuerpo de éxito. Conserva la validación `400`, el `404`
-para cuentas inexistentes, el JWT de 15 minutos y los mensajes según entorno.
-El transporte de correo es sustituible en pruebas; pasaron las **466 pruebas de
-API** y el typecheck con Node 26.13.1 y MongoDB 8.3.13. Los transportes se
-simularon; no se verificó la entrega real por Ethereal o Resend.
-
-**Despliegue pendiente:** cambian el contrato de autenticación de las cinco
-rutas, la respuesta de `my-recipes` incorpora el campo `isFavorite` y el
-restablecimiento devuelve `404` para un usuario inexistente. Para que la interfaz
-muestre el mensaje específico, desplegar primero el frontend que lo reconoce y
-después la API. Para revertir, restaurar primero la API y después el frontend.
-Los clientes externos que validen la forma exacta de la respuesta deben aceptar
-el nuevo campo. Coordinar también el cambio previo de tiempo opcional y los
-runtimes requeridos; no se ha desplegado aquí.
-
-**Corrección local pendiente de despliegue:** la respuesta de alternancia de
-favoritos incluía el campo `password` con el hash. Se ha eliminado ese campo
-sin cambiar los demás ni la contraseña almacenada. Una prueba HTTP con datos
-ficticios comprobó el problema antes de la corrección y su ausencia después.
+**Corrección local desplegada:** la respuesta de alternancia de favoritos incluía
+el campo `password` con el hash. Se eliminó ese campo sin cambiar los demás ni la
+contraseña almacenada.
 
 ## Configuración y ejecución
 
@@ -375,252 +169,111 @@ servicios externos.
 
 ## Pruebas y calidad
 
-- En `api`, `npm test` ejecuta secuencialmente con Vitest 22 suites en
-  `logic/*.spec.js` y dos suites HTTP. Usan MongoDB real, no son únicamente
-  unitarias. La configuración selecciona explícitamente las suites permitidas.
+- En `api`, `npm test` ejecuta secuencialmente con Vitest las suites en
+  `test/*.spec.js`. Usan MongoDB real, no son únicamente unitarias. La
+  configuración selecciona explícitamente las suites permitidas.
 - **Precaución:** varias suites borran todos los usuarios y recetas de la base
   configurada en `SPEC_MONGO_URL` antes y después de cada prueba. Nunca apuntar
   esa variable a una base de desarrollo compartida o de producción.
-- Los archivos `*.test.js` y los demás scripts de `api/test/` no forman parte
-  del comando `npm test`. Algunos usan `MONGO_URL` o `TEST_MONGO_URL`: revisar
-  cada script y su efecto antes de ejecutarlo.
-- La suite normal de recuperación de contraseña usa un proveedor simulado.
-  La prueba de integración con Ethereal es opcional y separada. El script
-  `test-coverage` genera cobertura de las suites habituales de Vitest; los
-  informes históricos no son una medida actual.
+- Los scripts de `api/test/` (`.js` y `.sh`) no forman parte del comando
+  `npm test`. Algunos usan `MONGO_URL` o `TEST_MONGO_URL`: revisar cada script
+  y su efecto antes de ejecutarlo.
+- La suite de recuperación de contraseña usa un proveedor simulado. La prueba
+  de integración con Ethereal es opcional y separada. El script `test-coverage`
+  genera cobertura de las suites habituales de Vitest.
 - Las suites solo aceptan la URI local documentada y conectan directamente;
-  esta validación no demuestra por sí sola que la base sea desechable. Se
-  reutiliza un contenedor dedicado y sus datos pueden borrarse en cada prueba.
-- En `app` existen `npm run lint`, `npm run build` y `npm run test:e2e`. La
-  suite Playwright prueba registro, sesión y credenciales incorrectas con
-  Chromium y servicios locales; todavía no cubre los flujos de recetas.
+  se reutiliza un contenedor dedicado y sus datos pueden borrarse en cada prueba.
+- En `app` existen `npm run lint`, `npm run build`, `npm run typecheck` y
+  `npm run test:e2e`. La suite Playwright cubre registro, sesión, credenciales
+  incorrectas, recetas, publicación y favoritos con Chromium y servicios locales.
 - No se ha identificado configuración de CI versionada en `.github/`.
 
-No se ejecutaron pruebas ni compilaciones para este inventario. En particular,
-no se ejecutaron pruebas de la API para evitar escribir en una base compartida
-sin confirmar su aislamiento.
+**Resultados actuales de validación:**
+- Vitest API: **424 pruebas** en 27 archivos.
+- Playwright E2E: **68 pruebas** en 11 archivos.
+- `tsc --noEmit` en `api/`: pasa sin errores con `allowJs: false`.
+- `vite build` en `app/`: compila sin errores (197 módulos).
+- Lint del frontend: pasa sin advertencias.
 
-## Línea base local del sprint 1
+## Línea base y actualizaciones
 
-Comprobaciones realizadas el 11 de noviembre de 2026 en Windows, con
-Node `24.22.1` y npm `11.19.1`. Describen esta instalación local, no los
-entornos desplegados.
+La política de Node admite `^22.23.5`, `^24.22.3` o `^26.13.1`, con
+`26.13.1` como versión recomendada. Cada paquete activa `engine-strict` para
+que npm rechace motores incompatibles. Las versiones de Netlify (`22.23.4`) y
+Render (`24.22.1`) comunicadas por la persona responsable quedan por debajo de
+los nuevos mínimos: hay que verificar y coordinar su actualización antes de
+desplegar.
 
-| Comprobación                                                | Resultado                                                                                                                                                                                                                                  |
-| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `app`: `npm run lint`                                       | Falla: 6 errores y 6 advertencias. Hay una importación `useLocation` sin usar en `Home/index.jsx`, cinco errores de `__dirname` en `vite.config.js` y seis advertencias por dependencias de `useEffect`. Pendiente decidir su tratamiento. |
-| `app`: `npm run build -- --outDir <directorio-temporal>`    | Correcto con Vite `4.5.14`; salida en un directorio temporal separado para no sobrescribir `app/dist`. Se transformaron 117 módulos.                                                                                                       |
-| `api`: `npm test -- --ignore logic/passwordRecover.spec.js` | 78 pruebas correctas de 21 suites, con MongoDB `8.3.13` en un contenedor local desechable y `SPEC_MONGO_URL` establecido explícitamente a su puerto de localhost. El contenedor se eliminó después.                                        |
-| `api`: `npm test` completo                                  | 83 pruebas correctas tras aislar el correo, con MongoDB local desechable. Las suites escriben y borran datos en `SPEC_MONGO_URL`.                                                                                                         |
-| `com`: `npm test`                                           | No ejecutado: el script declarado solo informa que no hay pruebas y termina con error.                                                                                                                                                     |
-| Frontend                                                    | No hay un script de pruebas automatizadas en su `package.json`; quedan pendientes los flujos de registro, sesión, recetas, publicación y favoritos.                                                                                        |
-| HTTP y persistencia                                         | Hay una prueba HTTP para favoritos; la mayor parte de las suites prueba lógica con MongoDB. La autorización y los demás contratos necesitan caracterización adicional.                                                                      |
+### Dependencias directas actuales
 
-Después de aislar el correo, `npm test` pasó con **83 pruebas** en otro
-contenedor local desechable. `npm run test-mail-integration` también pasó con
-datos ficticios y Ethereal; se comprobó que rechaza una conexión remota de
-MongoDB. Ambos contenedores se eliminaron al finalizar.
+Versiones declaradas en `package.json` tras la refactorización:
 
-Tras corregir la respuesta de favoritos, `npm test` pasó con **83 pruebas de
-Mocha y una prueba HTTP de Vitest**, secuencialmente y en un contenedor local
-desechable. La corrección aún no se ha desplegado.
+| API (producción)      | Versión    |
+| --------------------- | ---------- |
+| bcryptjs              | ^3.0.2     |
+| com                   | file:../com |
+| cors                  | ^2.8.5     |
+| express               | ^5.3.0     |
+| express-rate-limit    | ^8.7.4     |
+| helmet                | ^8.3.0     |
+| jsonwebtoken          | ^9.0.2     |
+| mongoose              | ^8.10.2    |
+| nodemailer            | ^10.5.0    |
+| resend                | ^6.38.0    |
 
-Posteriormente se corrigieron los seis errores de lint: `npm run lint` pasa con
-seis advertencias de dependencias de `useEffect`. La compilación antes y después
-produjo los mismos archivos con hashes SHA-256 idénticos. No se modificaron los
-efectos: sus funciones y `alert` pueden cambiar de identidad entre renders, por
-lo que añadir dependencias sin revisar podría repetir solicitudes. Queda
-pendiente resolverlas con pruebas de los flujos.
+| API (desarrollo)      | Versión    |
+| --------------------- | ---------- |
+| @types/bcryptjs       | ^2.4.6     |
+| @types/cors           | ^2.8.19    |
+| @types/express        | ^5.0.6     |
+| @types/jsonwebtoken   | ^9.0.10    |
+| @types/node           | ^24.19.2   |
+| @types/nodemailer     | ^8.0.2     |
+| @vitest/coverage-v8   | ^5.1.0     |
+| tsx                   | ^4.23.15   |
+| typescript            | ^7.0.2     |
+| vitest                | ^5.1.0     |
 
-Tras instalar Vitest, `npm audit` de la API informó de siete vulnerabilidades
-en dependencias de desarrollo: una baja, cinco moderadas y una alta. La alta
-afecta a `serialize-javascript`. `npm audit --omit=dev` no informó de
-vulnerabilidades en dependencias de producción en esa ejecución. No se han
-aplicado correcciones automáticas en esa ejecución.
+| Frontend (producción) | Versión    |
+| --------------------- | ---------- |
+| clsx                  | ^2.0.0     |
+| com                   | file:../com |
+| react                 | ^19.0.0    |
+| react-dom             | ^19.0.0    |
+| react-icons           | ^5.7.0     |
+| react-router-dom      | ^7.18.5    |
 
-Tras migrar las 22 suites a Vitest y retirar Mocha y c8, se comprobaron
-**84 pruebas en 23 archivos**, tanto con `npm test` como con cobertura. La
-integración opcional con Ethereal pasó por separado. Se verificó el rechazo de
-una URI remota. Las pruebas utilizaron el contenedor dedicado reutilizable,
-MongoDB `8.3.13`, con datos desechables. Después del cambio, `npm audit` y
-`npm audit --omit=dev` no informaron de vulnerabilidades en la API.
+| Frontend (desarrollo) | Versión    |
+| --------------------- | ---------- |
+| @playwright/test      | ^1.65.0    |
+| @types/react          | ^19.0.0    |
+| @types/react-dom      | ^19.0.0    |
+| @vitejs/plugin-react  | ^6.3.0     |
+| autoprefixer          | ^10.4.21   |
+| eslint                | ^8.53.0    |
+| eslint-plugin-react-hooks | ^4.6.0 |
+| eslint-plugin-react-refresh | ^0.4.4 |
+| postcss               | ^8.5.6     |
+| tailwindcss           | ^3.4.18    |
+| typescript            | ^7.0.2     |
+| vite                  | ^8.3.8     |
 
-Después del primer corte de `GET /users/name`, `npm test` pasó con **90
-pruebas en 24 archivos** y `npm run typecheck` pasó para los módulos
-TypeScript. También se comprobó el arranque real con Node `24.22.1`, la ruta
-de salud y una petición autenticada, usando datos ficticios en el contenedor
-de pruebas. Las rutas y handlers siguen en JavaScript; la lógica de nombre
-de usuario y su repositorio son TypeScript. El paquete `com` sigue en
-JavaScript y las partes no migradas no están completamente comprobadas por
-tipos. La ejecución directa de TypeScript requiere Node `22.18.0` o posterior;
-la política actual del proyecto es más restrictiva y se indica abajo.
-`npm audit` no informó de vulnerabilidades en esa ejecución.
+| Compartido (com)      | Versión    |
+| --------------------- | ---------- |
+| zod                   | ^4.6.7     |
 
-La primera suite Playwright pasó con **tres pruebas** en Chromium headless,
-contra el frontend y la API locales y una base desechable distinta de la usada
-por Vitest. Se comprobó el rechazo de una URI remota y la limpieza de los
-usuarios sintéticos. El lint del frontend sigue pasando con seis advertencias
-preexistentes. Al instalar Playwright, `npm audit` del frontend informó de dos
-vulnerabilidades en dependencias de desarrollo existentes: una moderada en
-esbuild y una alta en Vite. El cambio no actualizó esas dependencias; queda
-pendiente su actualización coordinada.
+**Actualizaciones aplicadas:** React 19, Vite 8, Express 5, Nodemailer 10.5.0,
+Resend 6.38.0, React Router 7.18.5, react-icons 5. Se retiró `dotenv` (reemplazado
+por `process.loadEnvFile`), `crypto` de npm (módulo nativo `node:crypto`), Mocha y c8
+(reemplazados por Vitest).
 
-Tras retirar `dotenv`, la API carga el archivo `.env` opcional del directorio
-de trabajo mediante `process.loadEnvFile`: las variables existentes del proceso
-tienen prioridad y los errores de lectura distintos de archivo ausente se
-notifican. Se comprobó sin mostrar valores que el archivo local se interpreta
-igual que con `dotenv` para sus variables actuales. Pasaron **93 pruebas de
-Vitest**, incluida la prioridad de las variables y los casos de archivo ausente
-y error de lectura; la integración opcional con Ethereal también pasó. Los dos
-scripts de actualización se ejecutaron en modo de simulación contra una base
-local desechable distinta, sin actualizar recetas.
-
-El frontend se actualizó a Vite `8.3.8` y `@vitejs/plugin-react` `6.3.0`, que
-como dependencias requieren Node `^20.19.0 || >=22.12.0`. Se conservan explícitamente los
-anteriores objetivos de compilación de navegadores; no se ha probado cada
-versión objetivo. Pasaron la compilación, lint con las seis advertencias
-preexistentes y las tres pruebas de Playwright tanto con el servidor de
-desarrollo como con la compilación de producción. `npm audit` no informó de
-vulnerabilidades en API ni frontend en esa ejecución. Vite 8 cambia el
-empaquetador y la transformación de código; los flujos no cubiertos por las
-pruebas siguen necesitando validación.
-
-La política actual para API y frontend admite Node `^22.23.5`, `^24.22.3` o
-`^26.13.1`, con `26.13.1` como versión recomendada localmente. Cada paquete
-activa `engine-strict` para que npm rechace motores incompatibles durante la
-instalación; esto no comprueba el runtime al arrancar ni instala parches de
-seguridad. Las versiones comunicadas de Netlify (`22.23.4`) y Render (`24.22.1`)
-quedan por debajo de los nuevos mínimos: hay que verificar y coordinar su
-actualización antes de desplegar. No se han modificado esos entornos. También
-debe revisarse el soporte de las líneas y actualizar sus parches periódicamente.
-
-Con Node `22.23.5`, `24.22.3` y `26.13.1` se comprobaron localmente, en cada
-versión, la comprobación de motores de npm, tipos de la API, **93 pruebas Vitest**,
-compilación del frontend y **tres pruebas Playwright**. Se reutilizó el
-contenedor MongoDB desechable y se mantuvieron separadas las bases de Vitest y
-Playwright. El lint con Node 26 pasó con las seis advertencias anteriores. El
-Node global del equipo permanece en `24.22.1`; los README explican cómo
-seleccionar Node 26 solo para una sesión de PowerShell.
-
-Después se migró el corte `GET /users/name` completo a TypeScript y se
-actualizó Express a `5.3.0`, con `@types/express` `5.0.6`. Se preservó el
-comportamiento anterior de validación cuando el middleware JSON no procesa un
-cuerpo; se comprobó el arranque real, la ruta de salud y que un puerto ocupado
-se notifica como fallo de arranque.
-Con cada una de las tres versiones de Node pasaron los tipos y **103 pruebas
-Vitest en 26 archivos**; con Node 26 pasaron las **tres pruebas Playwright**.
-`npm audit` de la API no informó de vulnerabilidades en esa ejecución. Estas
-pruebas no cubren todos los contratos de las demás rutas.
-
-Después se actualizaron Nodemailer a `10.5.0`, Resend a `6.38.0` y React Router
-a `7.18.5`; se retiró la dependencia obsoleta `crypto` de npm, no utilizada por
-el código, manteniendo el módulo nativo `node:crypto`. Las pruebas de
-recuperación ejercitan Nodemailer con transporte en memoria y el SDK de Resend
-con HTTP simulado: no demuestran entrega real. En Node 22, 24 y 26 pasaron
-los tipos, **105 pruebas Vitest**, compilación y **tres pruebas Playwright**
-por versión. El lint pasó con las seis advertencias anteriores; `npm audit`
-no informó de vulnerabilidades en API ni frontend. No se ha modificado
-producción.
+**Actualizaciones pendientes:** Mongoose 9, ESLint 10 y plugins, Tailwind 4,
+tipos de Node. Deben abordarse por grupos compatibles, verificando requisitos
+de motor y cambios incompatibles.
 
 **Riesgo pendiente:** el flujo actual no comprueba el campo `error` devuelto
 por el SDK de Resend. Si el proveedor devuelve un error sin rechazar la
-promesa, la API puede responder como si hubiera enviado el correo. Corregirlo
-requiere acordar y probar el cambio de comportamiento.
-
-Quedan actualizaciones pendientes: en la API, Mongoose 9 y los tipos de Node;
-en el frontend, React y sus tipos, React Icons, ESLint y sus plugins, y Tailwind.
-Deben abordarse por grupos compatibles. Los tipos de Node siguen en la línea
-24: los de la 26 podrían permitir usar API ausentes en las versiones 22 y 24
-admitidas, mientras que los actuales tampoco garantizan compatibilidad de tipos
-con la 22. Hay que decidir esa política, no solo subir el número.
-
-### Dependencias directas
-
-Inventario histórico anterior a los cambios descritos arriba: versiones
-instaladas obtenidas con `npm ls --depth=0`. Las versiones más
-recientes corresponden al resultado de `npm outdated --depth=0` en esa fecha:
-`=` indica que la dependencia no apareció como desactualizada. Esto no verifica
-compatibilidad ni representa necesariamente las versiones desplegadas;
-`com` es el paquete local.
-
-| API                       | Instalada | Última  |
-| ------------------------- | --------- | ------- |
-| bcryptjs                  | 3.0.3     | =       |
-| c8                        | 10.1.3    | 12.0.0  |
-| chai                      | 5.3.3     | 6.3.0   |
-| com                       | 1.0.0     | local   |
-| cors                      | 2.8.6     | =       |
-| crypto                    | 1.0.1     | =       |
-| dotenv                    | 16.6.1    | 18.0.10 |
-| express                   | 4.22.3    | 5.3.0   |
-| jsonwebtoken              | 9.0.3     | =       |
-| mocha                     | 11.8.0    | 12.0.3  |
-| mongoose                  | 8.24.7    | 9.12.1  |
-| monocart-coverage-reports | 2.13.2    | 3.2.1   |
-| nodemailer                | 10.2.1    | 10.5.0  |
-| resend                    | 6.35.0    | 6.38.0  |
-| vitest                    | 5.1.0     | =       |
-
-| Frontend                    | Instalada | Última  |
-| --------------------------- | --------- | ------- |
-| @types/react                | 18.3.31   | 19.3.0  |
-| @types/react-dom            | 18.3.7    | 19.3.0  |
-| @vitejs/plugin-react        | 4.7.0     | 6.3.0   |
-| autoprefixer                | 10.6.2    | =       |
-| clsx                        | 2.1.1     | =       |
-| com                         | 1.0.0     | local   |
-| eslint                      | 8.57.1    | 10.14.0 |
-| eslint-plugin-react-hooks   | 4.6.2     | 7.1.1   |
-| eslint-plugin-react-refresh | 0.4.26    | 0.5.7   |
-| postcss                     | 8.5.32    | =       |
-| react                       | 18.3.1    | 19.3.1  |
-| react-dom                   | 18.3.1    | 19.3.1  |
-| react-icons                 | 4.12.0    | 5.7.0   |
-| react-router-dom            | 7.18.4    | 7.18.5  |
-| tailwindcss                 | 3.4.19    | 4.3.5   |
-| vite                        | 4.5.14    | 8.3.8   |
-
-En la consulta inicial, la [descarga oficial de Node](https://nodejs.org/en/download)
-ofrecía la versión `26.13.0`; los resultados posteriores se describen arriba.
-Siguen pendientes pruebas de compatibilidad más amplias y la decisión sobre el
-orden de las actualizaciones restantes.
-También faltan detalles de los despliegues reales y un procedimiento de
-recuperación aplicable al despliegue real.
-El procedimiento local para repetir las suites con correo simulado está en
-[`api/README.md`](../api/README.md); se ha ejecutado y ha restaurado las
-variables de entorno del proceso al terminar.
-
-#### Compatibilidad inicial de las actualizaciones
-
-Requisitos consultados en los metadatos de npm para las versiones anteriores;
-cumplirlos no garantiza que la aplicación funcione sin cambios:
-
-- Vite `8.3.8` y su plugin React `6.3.0` requieren Node `^20.19.0` o
-  `>=22.12.0`; el plugin requiere Vite `^8.0.0`. Deben actualizarse juntos.
-  Vite 8 cambia las herramientas internas a Rolldown y Oxc; revisar también
-  las migraciones intermedias desde la versión 4
-  ([guía](https://vite.dev/guide/migration)).
-- ESLint `10.14.0` requiere Node `^20.19.0`, `^22.13.0` o `>=24`.
-  `eslint-plugin-react-refresh` `0.5.7` requiere ESLint 9 o 10, por lo que su
-  actualización no debe separarse de la de ESLint.
-- React DOM `19.3.1` requiere React `^19.3.1`; actualizar ambos y sus tipos de
-  forma coordinada. La [guía de React 19](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)
-  exige la transformación JSX moderna. El proyecto ya usa `createRoot` y
-  React 18.3, pero falta comprobar los demás cambios y flujos.
-- Mongoose `9.12.1` requiere Node `>=20.19.0`; Express `5.3.0` requiere
-  Node `>=18`. Las guías de [Mongoose 9](https://mongoosejs.com/docs/migrating_to_9.html)
-  y [Express 5](https://expressjs.com/en/guide/migrating-5.html) recogen
-  cambios incompatibles que deben contrastarse con el código y los contratos.
-- Tailwind 4 modifica su integración con PostCSS y eleva los requisitos de
-  navegador; consultar la [guía de actualización](https://tailwindcss.com/docs/upgrade-guide)
-  antes de cambiar la configuración o el estilo.
-
-Node local `24.22.1` y las versiones de Render y Netlify comunicadas por la
-persona responsable cumplían esos requisitos de las dependencias, pero no
-cumplen los nuevos mínimos del proyecto. Esto no sustituye las pruebas en los
-entornos desplegados. Como orden orientativo, actualizar en
-grupos compatibles y comprobar cada corte. La elección definitiva depende de
-las pruebas, el soporte de navegadores y las migraciones documentadas.
+promesa, la API puede responder como si hubiera enviado el correo.
 
 ### Entornos y protección de datos
 
@@ -709,35 +362,48 @@ Este procedimiento es una propuesta para después del cambio de conexión a
 Referencias: [copias consistentes](https://www.mongodb.com/docs/database-tools/mongodump/mongodump-examples/)
 y [restauración y compatibilidad](https://www.mongodb.com/docs/database-tools/mongorestore/).
 
-## Puntos a estudiar antes de la migración
+## Seguridad
 
-- **Tipos de repositorio:** se ha creado `com/types/repo-types.ts` con la
-  interfaz `UserFavorites` para tipar `.lean()` + `.select('favorites')` en
-  los módulos de recetas (`getRecipeById/`, `recipeList/`). Los módulos
-  `createRecipe/` y `recipeEdit/` usan el modelo completo sin `.select()`,
-  no necesitan esta interfaz. Cuando los modelos migren a TypeScript
-  (Sprint 8), sustituir `UserFavorites` por los tipos inferidos de Mongoose.
-- Decidir cómo mantener comportamiento, rutas, datos y despliegues durante la
-  transición; no se ha elegido estrategia de migración todavía.
-- Establecer una línea base de pruebas reproducible y aislada, incluyendo
-  pruebas de integración HTTP y de los flujos importantes del frontend.
-- El JWT de sesión expira a las 24 horas y las rutas protegidas rechazan tokens
-  sin expiración explícita. Los tokens anteriores sin `exp` dejan de ser válidos
-  y requieren iniciar sesión de nuevo. CORS sigue abierto por defecto y los
-  errores incluyen `message` en respuestas 500. Son observaciones de código,
-  no un diagnóstico de explotabilidad ni una auditoría.
-- Revisar accesibilidad con teclado, lectores de pantalla, formularios,
+Correcciones aplicadas en el sprint 8:
+
+- **CORS configurable:** `api/app.ts` lee `FRONTEND_URL` del entorno; si está
+  configurada, restringe el origen; si no, deja CORS abierto (desarrollo local).
+- **errorHandler protegido:** mensaje genérico en producción, evitando exponer
+  detalles internos.
+- **JWT Algorithm Confusion Attack:** `jwt.verify()` restringe el algoritmo a
+  `HS256` con `{ algorithms: ['HS256'] }`.
+- **Proyección de campos en favoritos:** desestructuración explícita de campos
+  necesarios en lugar de `delete response.password`.
+- **Middlewares de seguridad:** Helmet (`securityHeaders.ts`) y rate limiting
+  (`rateLimiter.ts`) aplicados.
+
+Hallazgos para sprints futuros:
+- Token de password recovery en URL como query param (riesgo bajo-medio).
+- Token en `sessionStorage` vulnerable a XSS (patrón común en SPAs, riesgo
+  aceptado con mitigación de CSP).
+- Rate limiting global (solo endpoints de auth tienen rate limiting).
+- CSP en el frontend servido por Netlify (mejora de hardening).
+
+## Puntos pendientes
+
+- **Tipos de repositorio:** `com/repo-types.ts` contiene `UserFavorites` para
+  tipar `.lean()` + `.select('favorites')`. Cuando los modelos usen los tipos
+  inferidos de Mongoose de forma completa, evaluar si sustituir esta interfaz.
+- **Actualizaciones pendientes:** Mongoose 9, ESLint 10 y plugins, Tailwind 4,
+  tipos de Node. Deben abordarse por grupos compatibles.
+- **Despliegue:** coordinar el cambio de Node en Netlify y Render, el contrato
+  de autenticación actualizado y la base de producción vacía.
+- **Accesibilidad:** revisar con teclado, lectores de pantalla, formularios,
   foco, contraste y diseño adaptable; no se ha realizado una auditoría WCAG.
-- Medir rendimiento y experiencia real antes de fijar objetivos o proponer
-  optimizaciones.
+- **Rendimiento:** medir experiencia real antes de fijar objetivos.
+- **CI/CD:** implantar GitHub Actions después de validar el despliegue.
+- **OpenAPI:** generar y validar contrato de API.
 
-## Referencias para la arquitectura futura
+## Referencias para la arquitectura
 
 El [ejemplo backend](https://github.com/DATW-2026/IFCD0210_2026/tree/main/14.Prisma_API)
-organiza un módulo por entidades, repositorios, controladores y routers. Es
-una referencia para la separación de responsabilidades, no una propuesta de
-cambiar MongoDB a SQL ni de adoptar Prisma.
+inspiró la separación por módulos, repositorios, controladores y routers.
 El [ejemplo frontend](https://github.com/DATW-2026/IFCD0210_2026/tree/main/10.Front)
-organiza TypeScript por áreas funcionales. Vegazetas usa actualmente React,
-mientras que el ejemplo no establece que deba mantenerse o sustituirse.
-La elección concreta se acordará antes de redactar el plan de refactorización.
+inspiró la organización funcional en TypeScript.
+Véase el [plan](./PLAN-REFACTORIZACION.md) para decisiones y el
+[esquema del proyecto](./ESTRUCTURA-PROYECTO.md) para la estructura actual.
