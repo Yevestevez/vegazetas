@@ -12,15 +12,30 @@
 - Nombra variables, funciones, clases y demás identificadores en inglés, con
   nombres breves y descriptivos. Prioriza código comprensible, reutilizable y
   escalable, sin añadir abstracciones innecesarias.
-- El objetivo es actualizar todas las dependencias y runtimes, incluidos Node,
-  React y Vite, a sus últimas versiones disponibles. Comprueba compatibilidad,
-  cambios incompatibles y pruebas; comunica cualquier bloqueo.
+- Al incorporar o actualizar cualquier librería o herramienta, comprueba su
+  última versión estable e instala la más reciente compatible con las demás
+  dependencias y runtimes del proyecto. Revisa requisitos de motor y pares,
+  cambios incompatibles y pruebas. Si la última estable no es compatible,
+  documenta el bloqueo y la versión elegida; no uses versiones preliminares
+  sin acuerdo. Cuando Context7 MCP esté disponible, consúltalo para revisar la
+  documentación vigente, los requisitos y las guías de migración de la
+  herramienta o librería afectada; contrasta esa información con sus metadatos
+  publicados y la compatibilidad real del proyecto. Las instalaciones
+  reproducibles deben respetar el lockfile.
+- Completa la actualización de todas las dependencias según esta política, y
+  actualiza los runtimes, incluido Node, a versiones compatibles,
+  preferentemente LTS. Comunica cualquier bloqueo y coordina los despliegues.
 - Trabaja por ramas: `main` representa producción, `dev` integra el desarrollo
   y se usan ramas de características. Los cambios llegan a `main` únicamente
-  mediante PR y las comprobaciones acordadas para CI/CD.
+  mediante PR y las comprobaciones acordadas.
+- Aplaza la implantación de CI/CD con GitHub Actions hasta terminar la
+  refactorización. Mientras tanto, ejecuta localmente las comprobaciones
+  pertinentes; no instales hooks ni automatización de CI/CD sin acordarlo.
 - Usa versionado semántico para el producto completo, con `v1.0.0` como punto
-  de partida acordado para el estado actual de producción. No crees etiquetas
-  ni publiques versiones sin autorización.
+  de partida acordado para el estado actual de producción y `v2.0.0` para la
+  refactorización en desarrollo. Mantén actualizado el historial de versiones
+  y distingue los cambios pendientes de los desplegados. No crees etiquetas ni
+  publiques versiones sin autorización.
 - No hagas commits ni push sin autorización previa. Pide aprobación antes de
   cualquier otra operación de escritura en Git, salvo petición explícita de
   la persona responsable; no presupongas autorización para acciones adicionales.
@@ -28,10 +43,18 @@
   cambio explícito. Considera seguridad y accesibilidad en cada modificación.
 - `api`, `app` y `com` son paquetes separados; sigue sus scripts y patrones
   existentes hasta que se acuerde cambiarlos.
-- Las suites `api/logic/*.spec.js` borran datos de `SPEC_MONGO_URL`. Ejecuta
-  pruebas únicamente contra una base aislada y desechable verificada. Revisa
-  los scripts manuales antes de ejecutarlos: pueden usar otras conexiones. No
+- Las suites `api/test/*.spec.js` borran datos de `SPEC_MONGO_URL`. Ejecuta
+  pruebas únicamente contra una base aislada y desechable verificada. No
   es necesario preservar la integridad de las bases de datos de pruebas.
+- Usa Vitest para pruebas unitarias y de integración, y Playwright para pruebas
+  de navegador. La configuración de Vitest selecciona explícitamente las suites
+  `*.spec.js` para evitar ejecutar otros scripts.
+- Escribe pruebas con nombres descriptivos y un comportamiento principal por
+  caso. Organízalas con `describe` y `test` y una estructura clara de
+  preparación, acción y comprobación, sin exigir comentarios redundantes.
+- Usa `beforeEach` y `afterEach` cuando sean necesarios para aislar y limpiar
+  cada prueba. Las baterías que escriben en MongoDB deben usar una base
+  desechable verificada; evita concurrencia sobre datos compartidos.
 - Preserva los datos de producción por defecto; no ejecutes operaciones
   destructivas sin autorización explícita y una estrategia de recuperación.
 - Nunca incluyas secretos ni valores reales de variables de entorno en código,
@@ -48,6 +71,8 @@
 
 ## Skills de referencia
 
+- [Diseño frontend](.agents/skills/frontend-design/SKILL.md), de
+  [Anthropic](https://github.com/anthropics/skills), licencia Apache-2.0.
 - [React: rendimiento y buenas prácticas](.github/skills/vercel-react-best-practices/SKILL.md),
   de [Vercel](https://github.com/vercel-labs/agent-skills), licencia MIT.
 - [Node.js: patrones de backend](.github/skills/nodejs-backend-patterns/SKILL.md),

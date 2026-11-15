@@ -1,0 +1,52 @@
+import authenticatedFetch from './authenticatedFetch'
+import { validate, errors } from 'com'
+
+const addIngredientToRecipe = (
+    recipeId: string,
+    name: string,
+    quantity: number,
+    unit: string,
+    annotation: string | undefined,
+    main: boolean | undefined
+): Promise<string> => {
+    validate.id(recipeId, 'recipeId')
+    validate.ingredientName(name)
+    validate.quantity(quantity)
+    validate.unit(unit)
+    if (annotation !== undefined && annotation !== null) validate.annotation(annotation)
+    if (main !== undefined) validate.main(main)
+
+    return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}/ingredients`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${sessionStorage.token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name,
+            quantity,
+            unit,
+            annotation,
+            main
+        })
+    })
+        .catch(error => { throw new Error(error.message) })
+        .then(res => {
+            const { status } = res
+
+            if (status === 201)
+                return res.json()
+                    .then((ingredientId: string) => ingredientId)
+
+            return res.json()
+                .then((body: { error: string; message: string }) => {
+                    const { error, message } = body
+
+                    const constructor = errors[error as keyof typeof errors]
+
+                    throw new constructor(message)
+                })
+        })
+}
+
+export default addIngredientToRecipe

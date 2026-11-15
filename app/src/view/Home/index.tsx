@@ -1,0 +1,126 @@
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
+
+import logic from '../../logic'
+import { useAppContext } from '../../context'
+
+import NotFoundError from 'com/errors/NotFoundError'
+
+import Menu from './Menu'
+import MyRecipes from './MyRecipes'
+import Recipe from './common/Recipe'
+import SaveRecipe from './SaveRecipe'
+import Discover from './Discover'
+import Favorites from './Favorites'
+
+interface HomeProps {
+    onUserLoggedOut: () => void
+}
+
+function Home({ onUserLoggedOut }: HomeProps) {
+    const { alert } = useAppContext()
+
+    const navigate = useNavigate()
+
+    const handleMyRecipesLinkClick = () => navigate('/my-recipes')
+
+    const handleCreateRecipeClick = () => {
+        Promise.resolve(logic.getUserId())
+            .then(userId => {
+                if (!userId) throw new NotFoundError('user not found')
+
+                return logic.createRecipe(userId, `Borrador de receta ${String(new Date().getDate()).padStart(2, "0")}/${String(new Date().getMonth() + 1).padStart(2, "0")} ${String(new Date().getHours()).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}:${String(new Date().getSeconds()).padStart(2, "0")}`, undefined, undefined, undefined, undefined, undefined)
+            })
+            .then(recipeId => {
+                if (!recipeId) throw new NotFoundError('recipe not found')
+
+                navigate(`/create-recipe/${recipeId}`)
+            })
+            .catch(error => {
+                alert(error.message)
+                console.error(error)
+            })
+    }
+
+    const handleRecipeEditClick = (recipeId: string) => { navigate(`/update-recipe/${recipeId}`) }
+
+    const handleRecipeThumbnailClick = (recipeId: string) => { navigate(`/recipe/${recipeId}`) }
+
+    const handleToRecipeClick = (recipeId: string) => { navigate(`/recipe/${recipeId}`) }
+
+    const handleLogoLinkClick = () => navigate('/menu')
+
+    const handleRecipeDeleted = () => navigate('/my-recipes')
+
+    const handleRecipeBackButton = () => navigate('/my-recipes')
+
+    const handleSaveRecipeBackButton = () => navigate('/my-recipes')
+
+    return <main>
+        <Routes>
+            <Route
+                path="/menu"
+                element={<Menu
+                    onMyRecipesClicked={handleMyRecipesLinkClick}
+                    onUserLoggedOut={onUserLoggedOut}
+                    onCreateRecipeClicked={handleCreateRecipeClick}
+                />}
+            />
+
+            <Route
+                path="/my-recipes"
+                element={<MyRecipes
+                    onRecipeThumbnailClick={handleRecipeThumbnailClick}
+                    onUserLoggedOut={onUserLoggedOut}
+                    onCreateRecipeClicked={handleCreateRecipeClick}
+                />}
+            />
+
+            <Route
+                path="/discover"
+                element={<Discover
+                    onRecipeThumbnailClick={handleRecipeThumbnailClick}
+                    onUserLoggedOut={onUserLoggedOut}
+                />}
+            />
+
+            <Route
+                path="/favorites"
+                element={<Favorites
+                    onRecipeThumbnailClick={handleRecipeThumbnailClick}
+                    onUserLoggedOut={onUserLoggedOut}
+                />}
+            />
+
+            <Route
+                path="/recipe/:id"
+                element={<Recipe
+                    onUserLoggedOut={onUserLoggedOut}
+                    onEditRecipeClicked={handleRecipeEditClick}
+                    onRecipeDeleted={handleRecipeDeleted}
+                />}
+            />
+
+            <Route
+                path="/create-recipe/:id"
+                element={<SaveRecipe
+                    view="create"
+                    onToRecipeClicked={handleToRecipeClick}
+                    onRecipeDeleted={handleRecipeDeleted}
+                    onUserLoggedOut={onUserLoggedOut}
+                />}
+            />
+
+            <Route
+                path="/update-recipe/:id"
+                element={<SaveRecipe
+                    view="update"
+                    onToRecipeClicked={handleToRecipeClick}
+                    onRecipeDeleted={handleRecipeDeleted}
+                    onUserLoggedOut={onUserLoggedOut}
+                />}
+            />
+        </Routes>
+    </main>
+}
+
+export default Home

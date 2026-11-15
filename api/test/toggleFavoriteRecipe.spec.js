@@ -1,0 +1,115 @@
+import '../config/loadEnv.js'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
+import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
+import createApp from '../app.ts'
+import { Recipe, User } from '../data/models.ts'
+
+describe('PATCH /users/favorites/:recipeId', () => {
+    const secret = 'local-disposable-test-secret'
+    let previousSecret
+    let server
+    let baseUrl
+
+    beforeAll(async () => {
+        previousSecret = process.env.JWT_SECRET
+        process.env.JWT_SECRET = secret
+        await mongoose.connect(process.env.SPEC_MONGO_URL, { directConnection: true })
+
+        const app = createApp()
+        server = await new Promise((resolve, reject) => {
+            const listener = app.listen(0, '127.0.0.1', () => resolve(listener))
+            listener.once('error', reject)
+        })
+        baseUrl = `http://127.0.0.1:${server.address().port}`
+    })
+
+    beforeEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
+
+    test('updates favorites and returns the user without the password', async () => {
+        const user = await User.create({
+            name: 'Test User',
+            email: 'user@example.invalid',
+            username: 'testuser',
+            password: 'synthetic-hash'
+        })
+        const recipe = await Recipe.create({ author: user._id, title: 'Test Recipe' })
+        const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '24h' })
+
+        const response = await fetch(`${baseUrl}/users/favorites/${recipe.id}`, {
+            method: 'PATCH',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+
+        expect(response.status).toBe(200)
+        const body = await response.json()
+        expect(body).not.toHaveProperty('password')
+        expect(body._id).toBe(user.id)
+        expect(body.email).toBe(user.email)
+        expect(body.username).toBe(user.username)
+        expect(body.favorites).toEqual([recipe.id])
+        const storedUser = await User.findById(user.id).lean()
+        expect(storedUser.password).toBe('synthetic-hash')
+        expect(storedUser.favorites.map(id => id.toString())).toEqual([recipe.id])
+    })
+
+    test('removes a recipe that is already in favorites', async () => {
+        const user = await User.create({
+            name: 'Test User',
+            email: 'user@example.invalid',
+            username: 'testuser',
+            password: 'synthetic-hash'
+        })
+        const recipe = await Recipe.create({ author: user._id, title: 'Test Recipe' })
+        user.favorites.push(recipe._id)
+        await user.save()
+        const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '24h' })
+
+        const response = await fetch(`${baseUrl}/users/favorites/${recipe.id}`, {
+            method: 'PATCH',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+
+        expect(response.status).toBe(200)
+        expect((await response.json()).favorites).toEqual([])
+        const storedUser = await User.findById(user.id).lean()
+        expect(storedUser.favorites).toEqual([])
+    })
+
+    test('returns not found when the recipe does not exist', async () => {
+        const user = await User.create({
+            name: 'Test User',
+            email: 'user@example.invalid',
+            username: 'testuser',
+            password: 'synthetic-hash'
+        })
+        const missingRecipeId = new mongoose.Types.ObjectId().toString()
+        const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '24h' })
+
+        const response = await fetch(`${baseUrl}/users/favorites/${missingRecipeId}`, {
+            method: 'PATCH',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+
+        expect(response.status).toBe(404)
+        expect(await response.json()).toEqual({ error: 'NotFoundError', message: 'Recipe not found' })
+        expect((await User.findById(user.id).lean()).favorites).toEqual([])
+    })
+
+    afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
+
+    afterAll(async () => {
+        try {
+            if (server) {
+                await new Promise((resolve, reject) => server.close(error => error ? reject(error) : resolve()))
+            }
+        } finally {
+            try {
+                await mongoose.disconnect()
+            } finally {
+                if (previousSecret === undefined) delete process.env.JWT_SECRET
+                else process.env.JWT_SECRET = previousSecret
+            }
+        }
+    })
+})
