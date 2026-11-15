@@ -16,8 +16,7 @@ vegazetas/
 │   │   └── loadEnv.ts               # Carga segura de .env
 │   ├── data/
 │   │   ├── models.ts                # Modelos Mongoose tipados
-│   │   ├── models.v2.ts             # Modelos versión alternativa
-│   │   └── populate.js              # Script de datos ficticios (JS)
+│   │   └── models.v2.ts             # Modelos versión alternativa
 │   ├── middlewares/
 │   │   ├── errorHandler.ts          # Traducción de errores a HTTP
 │   │   ├── jsonBodyParser.ts        # Middleware JSON de Express
@@ -44,14 +43,11 @@ vegazetas/
 │   │   ├── users/
 │   │   │   └── index.ts             # Router de usuarios (TS)
 │   │   ├── recipes/
-│   │   │   ├── handlers/
-│   │   │   │   └── index.js         # Handler legacy pendiente (JS)
 │   │   │   └── index.ts             # Router de recetas (TS)
 │   │   └── index.ts                 # Montaje de routers
-│   ├── test/                        # Vitest specs y scripts manuales
+│   ├── test/                        # Vitest specs y soporte E2E
 │   │   ├── *.spec.js                # Specs de API (JS por decisión)
-│   │   ├── *.js y *.sh              # Scripts manuales de prueba
-│   │   └── e2eServer.js, e2eDatabase.js  # Soporte E2E
+│   │   └── e2eServer.js, e2eDatabase.js, setup.js, testDatabase.js  # Soporte de pruebas
 │   ├── util/
 │   │   ├── mailer.ts                # Nodemailer y Resend tipados
 │   │   ├── getSessionUserId.ts      # Extracción JWT
@@ -145,10 +141,9 @@ vegazetas/
 
 La API está 100% en TypeScript con arquitectura por capas: cada módulo en
 `modules/` contiene composición, caso de uso, handler y repositorio. Los routers
-de usuarios y recetas (`routes/`) integran los módulos. Solo queda un archivo
-legacy: `routes/recipes/handlers/index.js`. Los directorios `logic/` y `scripts/`
-se eliminaron al completar la migración. Los middlewares incluyen seguridad
-(Helmet, rate limiting) y manejo de errores protegido en producción.
+de usuarios y recetas (`routes/`) integran los módulos. Los directorios `logic/`
+y `scripts/` se eliminaron al completar la migración. Los middlewares incluyen
+seguridad (Helmet, rate limiting) y manejo de errores protegido en producción.
 
 El frontend está 100% en TypeScript: componentes React funcionales, lógica de
 acceso a la API tipada, y contexto de aplicación con alertas y confirmación.
@@ -159,7 +154,7 @@ de esquemas, clases de error tipadas y tipos de repositorio. Lo consumen `app`
 y `api` mediante `file:../com`.
 
 Los archivos que permanecen en JavaScript son por decisión: specs de Vitest,
-scripts de prueba manuales, `populate.js` y `vitest.config.js`.
+soporte de pruebas y `vitest.config.js`.
 
 Véase el [plan](./PLAN-REFACTORIZACION.md) para el estado y los criterios de
 cada sprint, y el [estado actual](./ESTADO-ACTUAL.md) para detalles de

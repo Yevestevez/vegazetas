@@ -26,8 +26,8 @@ Cada aplicación tiene su propio `package.json` y `package-lock.json`; no hay
 un gestor de workspaces definido en la raíz. Los archivos `.node-version`
 indican Node 26.13.1. La refactorización a TypeScript está completa:
 API, frontend y paquete compartido son 100% TypeScript. Los archivos que
-permanecen en JavaScript son por decisión: specs de Vitest, scripts de prueba
-manuales, `populate.js` y `vitest.config.js`.
+permanecen en JavaScript son por decisión: specs de Vitest, soporte de pruebas
+y `vitest.config.js`.
 
 `com` usa Zod 4.6.7 para la validación de todos los campos: etiquetas, títulos,
 descripciones, imágenes, dificultades, tiempos, texto y notas de pasos, cantidad,
@@ -62,8 +62,7 @@ históricos se muestran como ausencia sin migrar la base de datos.
 La API usa arquitectura por capas: 17 módulos en `modules/` cubren usuarios
 (registro, autenticación, nombre, username, recuperación/restablecimiento de
 contraseña, favoritos) y recetas (crear, consultar, listar, editar, eliminar,
-publicar, ingredientes, pasos, imágenes, etiquetas). Solo queda un archivo
-legacy: `routes/recipes/handlers/index.js`.
+publicar, ingredientes, pasos, imágenes, etiquetas).
 
 ## Datos
 
@@ -159,7 +158,7 @@ No se deben guardar credenciales en el repositorio.
 | `NODE_ENV`                  | Selección del transporte y rama de envío de correo. En desarrollo debe establecerse explícitamente a `development` para usar la rama Ethereal. |
 | `RESEND_API_KEY`            | Proveedor Resend en producción.                                                                                                                |
 | `SPEC_MONGO_URL`            | Base de datos usada por las pruebas `*.spec.js`. Debe ser exclusiva y desechable.                                                              |
-| `TEST_MONGO_URL`            | Usada por varios scripts de prueba manuales y por `data/populate.js`.                                                                          |
+| `TEST_MONGO_URL`            | Variable de entorno sin uso activo tras eliminar los scripts manuales.                                                                         |
 | `MONGO_URL_PROD`            | Usada por los scripts de actualización cuando se ejecutan en modo producción.                                                                  |
 | `VITE_API_URL`              | URL de la API en el frontend.                                                                                                                  |
 
@@ -175,9 +174,6 @@ servicios externos.
 - **Precaución:** varias suites borran todos los usuarios y recetas de la base
   configurada en `SPEC_MONGO_URL` antes y después de cada prueba. Nunca apuntar
   esa variable a una base de desarrollo compartida o de producción.
-- Los scripts de `api/test/` (`.js` y `.sh`) no forman parte del comando
-  `npm test`. Algunos usan `MONGO_URL` o `TEST_MONGO_URL`: revisar cada script
-  y su efecto antes de ejecutarlo.
 - La suite de recuperación de contraseña usa un proveedor simulado. La prueba
   de integración con Ethereal es opcional y separada. El script `test-coverage`
   genera cobertura de las suites habituales de Vitest.
@@ -305,8 +301,7 @@ despliegue; antes habrá que preparar y comprobar la reversión.
 Docker Desktop se puso en marcha para las pruebas locales. `mongodump`,
 `mongorestore` y `mongosh` no se encontraron en el PATH de Windows; la imagen
 local `mongo:8` incluye `mongodump` y `mongorestore` `100.20.0`. No se ha
-conectado a Atlas. El script `api/data/populate.js` también borra datos de
-`TEST_MONGO_URL` y no debe ejecutarse sin verificar el destino.
+conectado a Atlas.
 
 La [documentación de Atlas para clústeres gratuitos](https://www.mongodb.com/docs/atlas/backup/cloud-backup/free-cluster-backup/)
 describe una suscripción opcional de copias en vista previa privada y con

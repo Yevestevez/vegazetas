@@ -159,8 +159,8 @@ bases compartidas ni de producción.
 **Hecho:** migradas las 22 suites de Mocha a Vitest, sin ejecución paralela
 sobre las colecciones compartidas. Pasan 105 pruebas en 26 archivos; la
 integración opcional de Ethereal pasó por separado antes de actualizar Express.
-La selección explícita de archivos evita ejecutar scripts manuales
-por accidente. Playwright ejecuta tres pruebas locales de registro, sesión y
+La selección explícita de archivos en la configuración de Vitest ejecuta
+solo las suites *.spec.js. Playwright ejecuta tres pruebas locales de registro, sesión y
 credenciales incorrectas en Chromium, con una base de pruebas independiente.
 
 Las pruebas HTTP de consulta de receta y de las tres listas cubren acceso,
@@ -472,8 +472,7 @@ con `allowJs: false`. Se migraron los siguientes archivos:
 
 **Qué se mantiene en JavaScript (por decisión):**
 - Specs (`.spec.js`) — mantenidos en JS por decisión acordada.
-- Scripts de pruebas (`api/test/*.js`) — uso local.
-- `api/data/populate.js` — script de datos ficticios.
+- Soporte de pruebas (`e2eServer.js`, `e2eDatabase.js`, `setup.js`, `testDatabase.js`).
 - `api/vitest.config.js` — config de pruebas.
 
 **Correcciones de seguridad aplicadas:**

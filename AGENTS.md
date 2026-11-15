@@ -43,13 +43,12 @@
   cambio explícito. Considera seguridad y accesibilidad en cada modificación.
 - `api`, `app` y `com` son paquetes separados; sigue sus scripts y patrones
   existentes hasta que se acuerde cambiarlos.
-- Las suites `api/logic/*.spec.js` borran datos de `SPEC_MONGO_URL`. Ejecuta
-  pruebas únicamente contra una base aislada y desechable verificada. Revisa
-  los scripts manuales antes de ejecutarlos: pueden usar otras conexiones. No
+- Las suites `api/test/*.spec.js` borran datos de `SPEC_MONGO_URL`. Ejecuta
+  pruebas únicamente contra una base aislada y desechable verificada. No
   es necesario preservar la integridad de las bases de datos de pruebas.
 - Usa Vitest para pruebas unitarias y de integración, y Playwright para pruebas
-  de navegador. Migra las pruebas existentes sin perder cobertura ni ejecutar
-  accidentalmente scripts manuales como pruebas.
+  de navegador. La configuración de Vitest selecciona explícitamente las suites
+  `*.spec.js` para evitar ejecutar otros scripts.
 - Escribe pruebas con nombres descriptivos y un comportamiento principal por
   caso. Organízalas con `describe` y `test` y una estructura clara de
   preparación, acción y comprobación, sin exigir comentarios redundantes.
