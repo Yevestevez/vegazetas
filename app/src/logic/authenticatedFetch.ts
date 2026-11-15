@@ -4,11 +4,14 @@ let sessionGeneration = 0
 
 export const advanceSessionGeneration = () => { sessionGeneration += 1 }
 
-const authenticatedFetch = (...args) => {
+const authenticatedFetch = (
+    input: RequestInfo | URL,
+    init?: RequestInit
+): Promise<Response> => {
     const requestGeneration = sessionGeneration
     const token = sessionStorage.token || null
 
-    return fetch(...args).then(response => {
+    return fetch(input, init).then(response => {
         if (
             response.status === 401 &&
             requestGeneration === sessionGeneration &&

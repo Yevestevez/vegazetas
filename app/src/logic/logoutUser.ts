@@ -1,6 +1,6 @@
 import { advanceSessionGeneration } from './authenticatedFetch'
 
-const logoutUser = () => {
+const logoutUser = (): void => {
     delete sessionStorage.token
     advanceSessionGeneration()
 }

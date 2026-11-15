@@ -1,7 +1,7 @@
-import { validate, errors } from 'com'
+import { validate, errors as comErrors } from 'com'
 import { advanceSessionGeneration } from './authenticatedFetch'
 
-const loginUser = (email, password) => {
+const loginUser = (email: string, password: string): Promise<void> => {
     validate.email(email)
     validate.password(password)
 
@@ -18,16 +18,16 @@ const loginUser = (email, password) => {
 
             if (status === 200)
                 return res.json()
-                    .then(token => {
+                    .then((token: string) => {
                         sessionStorage.token = token
                         advanceSessionGeneration()
                     })
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error]
+                    const constructor = comErrors[error as keyof typeof comErrors]
 
                     throw new constructor(message)
                 })

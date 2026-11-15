@@ -17,7 +17,7 @@ su funcionamiento en todos los escenarios.
 
 | Directorio        | Responsabilidad actual                                                                                                     |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| [`app/`](../app/) | SPA React 18 con React Router, Vite y Tailwind CSS, escrita en JavaScript y JSX.                                           |
+| [`app/`](../app/) | SPA React 18 con React Router, Vite y Tailwind CSS; TypeScript configurado con archivos de base en TS y el resto en JS/JSX. |
 | [`api/`](../api/) | API Express en JavaScript y TypeScript con módulos ES, Mongoose y MongoDB.                                                 |
 | [`com/`](../com/) | Paquete local compartido de validaciones y clases de error; lo consumen `app` y `api` mediante `file:../com`.              |
 | [`doc/`](./)      | Documentación e imágenes. Parte de la documentación anterior es histórica y puede no reflejar las funciones más recientes. |
@@ -47,11 +47,14 @@ ver [detalle y pruebas](./MIGRACION-ZOD-SPRINT3.md#tiempo-opcional).
 
 1. React monta la aplicación con `BrowserRouter`. Las vistas y componentes
    están en [`app/src/view/`](../app/src/view/), con rutas y estado compartido
-   en `App.jsx` y `context.js`.
+   en `App.jsx`. El contexto de aplicación (`context.ts`) está en TypeScript.
 2. Las funciones de [`app/src/logic/`](../app/src/logic/) validan datos y usan
-   `fetch` contra `VITE_API_URL`. El inicio de sesión guarda el JWT de 24 horas
-   en `sessionStorage`; las respuestas `401` de operaciones protegidas cierran
-   la sesión globalmente.
+   `fetch` contra `VITE_API_URL`. Los archivos de base (`authenticatedFetch.ts`,
+   `loginUser.ts`, `logoutUser.ts`, `isUserLoggedIn.ts`, `getUserId.ts`,
+   `getUserName.ts`, `getUserUsername.ts`) están en TypeScript; el resto sigue
+   en JavaScript. El inicio de sesión guarda el JWT de 24 horas en
+   `sessionStorage`; las respuestas `401` de operaciones protegidas cierran la
+   sesión globalmente.
 3. [`api/index.js`](../api/index.js) conecta Mongoose a MongoDB y arranca la
    aplicación Express, que monta los routers de usuarios y recetas. La mayoría
    de rutas delega en handlers y funciones de [`api/logic/`](../api/logic/).
@@ -222,6 +225,23 @@ HTTP dirigidas en `recipeElements.spec.js`. Se eliminaron 40 archivos legacy
 (10 de lógica, 10 de handlers, 20 de specs y tests manuales) y se actualizaron
 5 archivos de pruebas de validación compartida para quitar las importaciones de
 lógica migrada. La suite completa de API pasa con **433 pruebas** en 28 archivos.
+
+El sprint 6 está completo: todo el módulo de recetas (`api/logic/`) se migró a
+TypeScript con arquitectura por capas. Los archivos legacy de recetas se
+eliminaron de `api/logic/` y `api/routes/recipes/handlers/`.
+
+En el primer corte del sprint 7, el frontend se configuró para TypeScript: se
+creó `app/tsconfig.json` con `moduleResolution: "bundler"`, `jsx: "react-jsx"`,
+`strict: true` y `allowJs: true` para transición gradual, junto con
+`app/tsconfig.node.json` para Vite y `app/src/vite-env.d.ts` para declaraciones
+globales (`Storage.token` y `ImportMeta.env`). Se migraron a TypeScript los
+archivos de base compartida: `context.ts` (tipado de `AppContext` con `alert` y
+`confirm`), `authenticatedFetch.ts` (wrapper de fetch con manejo de sesión
+expirada), `util/extractPayloadFromToken.ts` (decodificación JWT), y las
+funciones de sesión (`loginUser.ts`, `logoutUser.ts`, `isUserLoggedIn.ts`,
+`getUserId.ts`, `getUserName.ts`, `getUserUsername.ts`). El barrel export
+`logic/index.ts` importa los archivos TypeScript migrados y los JavaScript
+restantes. Pasaron `tsc --noEmit` y `vite build` sin errores.
 
 Tras corregir las listas pasaron 68 pruebas dirigidas de API y 24 pruebas
 Playwright, además de tipos, lint sin advertencias y compilación, con Node

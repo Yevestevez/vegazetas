@@ -1,6 +1,6 @@
 import extractPayloadFromToken from '../util/extractPayloadFromToken'
 
-const isUserLoggedIn = () => {
+const isUserLoggedIn = (): boolean => {
     const token = sessionStorage.token
     if (!token) return false
 

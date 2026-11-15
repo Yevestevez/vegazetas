@@ -1,4 +1,10 @@
-function extractPayloadFromToken(token) {
+interface JwtPayload {
+    sub?: string
+    exp?: number
+    [key: string]: unknown
+}
+
+function extractPayloadFromToken(token: string): JwtPayload {
     const parts = token.split('.')
     if (parts.length !== 3 || !parts[1]) throw new Error('invalid token')
 

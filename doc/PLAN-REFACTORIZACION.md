@@ -364,7 +364,7 @@ incluidos permisos y datos existentes; los endpoints antiguos siguen siendo
 compatibles o sus cambios están acordados. No quedan accesos nuevos a Mongoose
 fuera de la frontera definida.
 
-### Sprint 7: frontend por flujos — pendiente
+### Sprint 7: frontend por flujos — en curso
 
 - Migrar progresivamente a TypeScript: base compartida y sesión, después
   listados, detalle y edición de recetas. Mantener React y Vite.
@@ -374,6 +374,19 @@ fuera de la frontera definida.
   comunicación con la API de los componentes.
 - Revisar formularios, navegación por teclado, foco, mensajes y adaptación
   durante cada corte; acordar los cambios visuales o de comportamiento.
+
+**Primer corte completado:** el frontend tiene TypeScript configurado
+(`app/tsconfig.json` con `moduleResolution: "bundler"`, `jsx: "react-jsx"`,
+`strict: true`, `allowJs: true` para transición gradual). Se migraron a
+TypeScript los archivos de base compartida: `context.ts` (tipado de `AppContext`
+con `alert` y `confirm`), `authenticatedFetch.ts` (wrapper de fetch con manejo
+de sesión expirada), `util/extractPayloadFromToken.ts` (decodificación JWT), y
+las funciones de sesión (`loginUser.ts`, `logoutUser.ts`, `isUserLoggedIn.ts`,
+`getUserId.ts`, `getUserName.ts`, `getUserUsername.ts`). El barrel export
+`logic/index.ts` importa los archivos TypeScript migrados y los JavaScript
+restantes. Se creó `app/src/vite-env.d.ts` para declaraciones globales
+(`Storage.token` y `ImportMeta.env`). Pasaron `tsc --noEmit` y `vite build`
+sin errores. Quedan 52 archivos JS/JSX por migrar en los cortes 2–4.
 
 **Aceptación:** cada flujo migrado compila y pasa sus pruebas, mantiene las
 funciones existentes y dispone de comprobaciones de accesibilidad acordadas;
