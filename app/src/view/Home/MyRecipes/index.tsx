@@ -3,21 +3,12 @@ import { useState, useEffect, useCallback } from 'react'
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
 import handleCredentialsError from '../../helper/handleCredentialsError'
+import type { RecipeListItem } from '../../../types/recipe'
 
 import Header from '../common/Header'
 import MyRecipeThumbnail from '../common/MyRecipeThumbnail'
 import CircleButton from '../../common/CircleButton'
 import Footer from '../../common/Footer'
-
-interface Recipe {
-    id: string
-    title: string
-    published: boolean
-    isFavorite: boolean
-    images: string[]
-    date: string
-    [key: string]: any
-}
 
 interface MyRecipesProps {
     onRecipeThumbnailClick: (recipeId: string) => void
@@ -28,12 +19,12 @@ interface MyRecipesProps {
 function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClicked }: MyRecipesProps) {
     const { alert } = useAppContext()
 
-    const [myRecipes, setMyRecipes] = useState<Recipe[]>([])
+    const [myRecipes, setMyRecipes] = useState<RecipeListItem[]>([])
 
     const loadMyRecipes = useCallback((isActive: () => boolean = () => true) => {
         try {
             logic.getMyRecipes()
-                .then((recipes: Recipe[]) => { if (isActive()) setMyRecipes(recipes) })
+                .then((recipes: RecipeListItem[]) => { if (isActive()) setMyRecipes(recipes) })
                 .catch(error => {
                     if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
                     alert(error.message)

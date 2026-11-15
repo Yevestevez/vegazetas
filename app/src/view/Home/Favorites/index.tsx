@@ -3,22 +3,11 @@ import { useState, useEffect, useCallback } from 'react'
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
 import handleCredentialsError from '../../helper/handleCredentialsError'
+import type { RecipeListItemWithAuthor } from '../../../types/recipe'
 
 import Header from '../common/Header'
 import RecipeThumbnail from '../common/RecipeThumbnail'
 import Footer from '../../common/Footer'
-
-interface Recipe {
-    id: string
-    title: string
-    published: boolean
-    isFavorite: boolean
-    images: string[]
-    author: { username: string }
-    date: string
-    own?: boolean
-    [key: string]: any
-}
 
 interface FavoritesProps {
     onRecipeThumbnailClick: (recipeId: string) => void
@@ -28,12 +17,12 @@ interface FavoritesProps {
 function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }: FavoritesProps) {
     const { alert } = useAppContext()
 
-    const [favoritesRecipes, setFavoritesRecipes] = useState<Recipe[]>([])
+    const [favoritesRecipes, setFavoritesRecipes] = useState<RecipeListItemWithAuthor[]>([])
 
     const loadFavoritesRecipes = useCallback((isActive: () => boolean = () => true) => {
         try {
             logic.getFavoritesRecipes()
-                .then((recipes: Recipe[]) => { if (isActive()) setFavoritesRecipes(recipes) })
+                .then((recipes: RecipeListItemWithAuthor[]) => { if (isActive()) setFavoritesRecipes(recipes) })
                 .catch(error => {
                     if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
                     alert(error.message)

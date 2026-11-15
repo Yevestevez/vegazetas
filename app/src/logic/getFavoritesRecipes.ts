@@ -1,19 +1,8 @@
 import authenticatedFetch from './authenticatedFetch'
 import { errors } from 'com'
+import type { RecipeListItemWithAuthor } from '../types/recipe'
 
-interface Recipe {
-    id: string
-    title: string
-    published: boolean
-    isFavorite: boolean
-    images: string[]
-    author: { username: string }
-    date: string
-    own?: boolean
-    [key: string]: any
-}
-
-const getFavoritesRecipes = (): Promise<Recipe[]> => {
+const getFavoritesRecipes = (): Promise<RecipeListItemWithAuthor[]> => {
     return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/favorites-recipes`, {
         method: 'GET',
         headers: {
@@ -26,7 +15,7 @@ const getFavoritesRecipes = (): Promise<Recipe[]> => {
 
             if (status === 200)
                 return res.json()
-                    .then((publishedRecipes: Recipe[]) => publishedRecipes)
+                    .then((publishedRecipes: RecipeListItemWithAuthor[]) => publishedRecipes)
 
             return res.json()
                 .then((body: { error: string; message: string }) => {

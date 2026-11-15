@@ -1,12 +1,8 @@
 import authenticatedFetch from './authenticatedFetch'
 import { errors } from 'com'
+import type { RecipeData } from '../types/recipe'
 
-interface Recipe {
-    id: string
-    [key: string]: any
-}
-
-const getRecipeById = (recipeId: string): Promise<Recipe> => {
+const getRecipeById = (recipeId: string): Promise<RecipeData> => {
     return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
         method: 'GET',
         headers: {
@@ -19,7 +15,7 @@ const getRecipeById = (recipeId: string): Promise<Recipe> => {
 
             if (status === 200)
                 return res.json()
-                    .then((recipe: Recipe) => recipe)
+                    .then((recipe: RecipeData) => recipe)
 
             return res.json()
                 .then((body: { error: string; message: string }) => {

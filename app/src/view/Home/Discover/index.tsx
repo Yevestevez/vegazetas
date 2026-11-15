@@ -3,22 +3,11 @@ import { useState, useEffect, useCallback } from 'react'
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
 import handleCredentialsError from '../../helper/handleCredentialsError'
+import type { RecipeListItemWithAuthor } from '../../../types/recipe'
 
 import Header from '../common/Header'
 import RecipeThumbnail from '../common/RecipeThumbnail'
 import Footer from '../../common/Footer'
-
-interface Recipe {
-    id: string
-    title: string
-    published: boolean
-    isFavorite: boolean
-    images: string[]
-    author: { username: string }
-    date: string
-    own?: boolean
-    [key: string]: any
-}
 
 interface DiscoverProps {
     onRecipeThumbnailClick: (recipeId: string) => void
@@ -28,12 +17,12 @@ interface DiscoverProps {
 function Discover({ onRecipeThumbnailClick, onUserLoggedOut }: DiscoverProps) {
     const { alert } = useAppContext()
 
-    const [publishedRecipes, setPublishedRecipes] = useState<Recipe[]>([])
+    const [publishedRecipes, setPublishedRecipes] = useState<RecipeListItemWithAuthor[]>([])
 
     const loadPublishedRecipes = useCallback((isActive: () => boolean = () => true) => {
         try {
             logic.getPublishedRecipes()
-                .then((recipes: Recipe[]) => { if (isActive()) setPublishedRecipes(recipes) })
+                .then((recipes: RecipeListItemWithAuthor[]) => { if (isActive()) setPublishedRecipes(recipes) })
                 .catch(error => {
                     if (!isActive() || handleCredentialsError(error, alert, onUserLoggedOut)) return
                     alert(error.message)

@@ -1,17 +1,8 @@
 import authenticatedFetch from './authenticatedFetch'
 import { errors } from 'com'
+import type { RecipeListItem } from '../types/recipe'
 
-interface Recipe {
-    id: string
-    title: string
-    published: boolean
-    isFavorite: boolean
-    images: string[]
-    date: string
-    [key: string]: any
-}
-
-const getMyRecipes = (): Promise<Recipe[]> => {
+const getMyRecipes = (): Promise<RecipeListItem[]> => {
     return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/my-recipes`, {
         method: 'GET',
         headers: {
@@ -24,7 +15,7 @@ const getMyRecipes = (): Promise<Recipe[]> => {
 
             if (status === 200)
                 return res.json()
-                    .then((myRecipes: Recipe[]) => myRecipes)
+                    .then((myRecipes: RecipeListItem[]) => myRecipes)
 
             return res.json()
                 .then((body: { error: string; message: string }) => {

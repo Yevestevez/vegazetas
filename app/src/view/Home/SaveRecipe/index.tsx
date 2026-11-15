@@ -8,42 +8,12 @@ import { IoMdCloseCircle } from 'react-icons/io'
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
 import handleCredentialsError from '../../helper/handleCredentialsError'
+import type { Ingredient, Step, RecipeData } from '../../../types/recipe'
 
 import Header from '../common/Header'
 import MiniCircleButton from '../common/MiniCircleButton'
 import CircleButton from '../../common/CircleButton'
 import Footer from '../../common/Footer'
-
-interface Ingredient {
-    id: string
-    name: string
-    quantity: number
-    unit: string
-    annotation?: string
-    main: boolean
-}
-
-interface Step {
-    id: string
-    text: string
-    note?: string
-    image?: string
-    order?: number
-}
-
-interface RecipeData {
-    id: string
-    title: string
-    published: boolean
-    images: string[]
-    description?: string
-    time?: number
-    difficulty?: string
-    tags?: string[]
-    ingredients: Ingredient[]
-    steps: Step[]
-    [key: string]: any
-}
 
 interface SaveRecipeProps {
     view: string
@@ -114,7 +84,7 @@ function SaveRecipe({
         if (!recipe) return
 
         const form = event.currentTarget
-        const title = (form.title as HTMLInputElement).value.trim()
+        const title = ((form.title as unknown) as HTMLInputElement).value.trim()
         const rawDescription = form.description.value.trim()
         const description = rawDescription === '' ? null : rawDescription
         const rawTime = form.time.value.trim()
@@ -291,7 +261,7 @@ function SaveRecipe({
         if (!recipe) return
 
         const form = event.currentTarget
-        const name = (form.name as HTMLInputElement).value.trim()
+        const name = ((form.name as unknown) as HTMLInputElement).value.trim()
         const quantity = parseFloat(form.quantity.value.trim())
         const unit = form.unit.value.trim()
         const annotation = form.annotation.value.trim() || undefined

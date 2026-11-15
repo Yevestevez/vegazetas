@@ -9,41 +9,11 @@ import { useAppContext } from '../../../context'
 import logic from '../../../logic'
 import formatDate from '../../helper/formatDate'
 import handleCredentialsError from '../../helper/handleCredentialsError'
+import type { RecipeData } from '../../../types/recipe'
 
 import Header from '../common/Header'
 import MiniCircleButton from './MiniCircleButton'
 import Footer from '../../common/Footer'
-
-interface RecipeData {
-    id: string
-    title: string
-    published: boolean
-    isFavorite: boolean
-    own: boolean
-    images: string[]
-    author: { username: string }
-    date: string
-    description?: string
-    time?: number
-    difficulty?: string
-    tags?: string[]
-    ingredients: Array<{
-        id: string
-        name: string
-        quantity: number
-        unit: string
-        annotation?: string
-        main: boolean
-    }>
-    steps: Array<{
-        id: string
-        text: string
-        note?: string
-        image?: string
-        order?: number
-    }>
-    [key: string]: any
-}
 
 interface RecipeProps {
     onUserLoggedOut: () => void
@@ -262,9 +232,9 @@ function Recipe({
                     ">
                         <h1 className="anybody-logo text-xl sm:text-2xl lg:text-3xl xl:text-4xl -mb-2 leading-tight sm:leading-tight lg:leading-tight xl:leading-tight">{recipe.title}</h1>
 
-                        <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl underline decoration-4 underline-offset-4">@{recipe.author.username}</h2>
+                        {recipe.author && <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl underline decoration-4 underline-offset-4">@{recipe.author.username}</h2>}
 
-                        <time className="text-xs sm:text-sm lg:text-base xl:text-lg">{formatDate(recipe.date)}</time>
+                        {recipe.date && <time className="text-xs sm:text-sm lg:text-base xl:text-lg">{formatDate(recipe.date)}</time>}
                     </div>
 
                     <div className='flex flex-col gap-3 xs:gap-4 lg:gap-6 py-6 xs:py-8 md:py-10 justify-center items-center px-8 md:px-12 xl:px-14 w-full'>

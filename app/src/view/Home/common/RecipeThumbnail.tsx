@@ -5,32 +5,14 @@ import { MdRocketLaunch, MdVisibilityOff } from "react-icons/md"
 import { useAppContext } from '../../../context'
 
 import formatDate from '../../helper/formatDate'
+import type { RecipeListItemWithAuthor } from '../../../types/recipe'
 
 import MiniCircleButton from "./MiniCircleButton"
-
-interface RecipeAuthor {
-    username: string
-}
-
-interface RecipeImage {
-    url: string
-}
-
-interface RecipeThumbnailRecipe {
-    id: string
-    title: string
-    published: boolean
-    own?: boolean
-    isFavorite: boolean
-    images: string[]
-    author: RecipeAuthor
-    date: string
-}
 
 type RecipeThumbnailVariant = 'discover' | 'favorites'
 
 interface RecipeThumbnailProps {
-    recipe: RecipeThumbnailRecipe
+    recipe: RecipeListItemWithAuthor
     onRecipeThumbnailClick: (recipeId: string) => void
     onToggleFavoriteClick: () => void
     variant?: RecipeThumbnailVariant
