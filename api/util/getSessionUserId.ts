@@ -13,7 +13,7 @@ export const getSessionUserId = (authorization: string | undefined): string => {
     let userId: unknown
     let expiration: unknown
     try {
-        const payload = jwt.verify(bearer[1], secret)
+        const payload = jwt.verify(bearer[1], secret, { algorithms: ['HS256'] })
         if (typeof payload !== 'string') {
             userId = payload.sub
             expiration = payload.exp
