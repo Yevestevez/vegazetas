@@ -5,6 +5,7 @@ import { assertTestMongoUrl } from './testDatabase.js'
 assertTestMongoUrl(process.env.E2E_MONGO_URL, 'E2E_MONGO_URL', 'vegazetas_e2e_disposable')
 process.env.NODE_ENV = 'test'
 process.env.JWT_SECRET = 'local-disposable-test-secret'
+process.env.FRONTEND_URL = 'http://127.0.0.1:4173'
 
 await mongoose.connect(process.env.E2E_MONGO_URL, { directConnection: true })
 

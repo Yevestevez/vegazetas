@@ -134,10 +134,13 @@ test.describe('ingredients', () => {
 
     const newIngredientSection = page.getByRole('heading', { name: 'Nuevo ingrediente' }).locator('..')
 
-    // Bypass HTML5 required validation
+    // Bypass HTML5 required and pattern validation
     await page.evaluate(() => {
       const input = document.getElementById('name')
-      if (input) input.removeAttribute('required')
+      if (input) {
+        input.removeAttribute('required')
+        input.removeAttribute('pattern')
+      }
       const quantity = document.getElementById('quantity')
       if (quantity) quantity.removeAttribute('required')
       const unit = document.getElementById('unit')
@@ -146,9 +149,12 @@ test.describe('ingredients', () => {
 
     await newIngredientSection.getByLabel('Cantidad*').fill('1')
     await newIngredientSection.getByLabel('Unidad*').fill('g')
-    await newIngredientSection.getByRole('button', { name: 'Guardar' }).click()
 
-    await expect(page.getByText('El ingrediente debe tener un nombre')).toBeVisible()
-    await page.getByRole('button', { name: 'Aceptar' }).click()
+    page.on('dialog', async dialog => {
+      expect(dialog.message()).toBe('El ingrediente debe tener un nombre')
+      await dialog.dismiss()
+    })
+
+    await newIngredientSection.getByRole('button', { name: 'Guardar' }).click()
   })
 })
