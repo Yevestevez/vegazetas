@@ -8,9 +8,9 @@
     "node": "^26.13.1"
   },
   "scripts": {
-    "start": "node index.js",
-    "watch": "node --watch index.js",
-    "inspect": "node --inspect-brk index.js",
+    "start": "tsx index.ts",
+    "watch": "tsx --watch index.ts",
+    "inspect": "tsx --inspect-brk index.ts",
     "test": "vitest run",
     "test-favorite-security": "vitest run test/toggleFavoriteRecipe.spec.js",
     "test-mail-integration": "vitest run --mode ethereal",

@@ -6,7 +6,12 @@ import errorHandler from './middlewares/errorHandler.ts'
 const createApp = () => {
     const app = express()
 
-    app.use(cors())
+    const frontendUrl = process.env.FRONTEND_URL
+    if (frontendUrl) {
+        app.use(cors({ origin: frontendUrl }))
+    } else {
+        app.use(cors())
+    }
     app.get('/health', (req, res) => res.status(200).send('ok'))
     app.get('/', (req, res) => res.send('Hello, API!'))
     app.use('/users', usersRouter)

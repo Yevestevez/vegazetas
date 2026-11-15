@@ -16,8 +16,11 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
         res.status(409).json({ error: error.constructor.name, message: error.message });
     else if (error instanceof SystemError)
         res.status(500).json({ error: error.constructor.name, message: error.message });
-    else
-        res.status(500).json({ error: SystemError.name, message: (error as Error).message });
+    else {
+        const isProduction = process.env.NODE_ENV === 'production'
+        const message = isProduction ? 'Internal server error' : (error as Error).message
+        res.status(500).json({ error: SystemError.name, message })
+    }
 }
 
 export default errorHandler
