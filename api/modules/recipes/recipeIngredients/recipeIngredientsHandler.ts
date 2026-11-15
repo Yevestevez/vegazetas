@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express'
-import { getSessionUserId } from '../../../util/getSessionUserId.js'
+import { getSessionUserId } from '../../../util/getSessionUserId.ts'
 
 export type AddIngredientHandler = (req: Request, res: Response, next: NextFunction) => void
 export type RemoveIngredientHandler = (req: Request, res: Response, next: NextFunction) => void

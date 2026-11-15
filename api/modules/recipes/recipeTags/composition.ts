@@ -1,6 +1,6 @@
-import { findUserById, findRecipeById, createAddTag, createRemoveTag } from './recipeTagsRepository.js'
-import { createAddTagToRecipe, createRemoveTagFromRecipe } from './recipeTags.js'
-import { createAddTagHandler, createRemoveTagHandler } from './recipeTagsHandler.js'
+import { findUserById, findRecipeById, createAddTag, createRemoveTag } from './recipeTagsRepository.ts'
+import { createAddTagToRecipe, createRemoveTagFromRecipe } from './recipeTags.ts'
+import { createAddTagHandler, createRemoveTagHandler } from './recipeTagsHandler.ts'
 
 const addTagToRecipe = createAddTagToRecipe(findUserById, findRecipeById, createAddTag)
 const removeTagFromRecipe = createRemoveTagFromRecipe(findUserById, findRecipeById, createRemoveTag)

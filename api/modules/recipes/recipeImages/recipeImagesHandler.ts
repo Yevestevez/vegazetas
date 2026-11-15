@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express'
-import { getSessionUserId } from '../../../util/getSessionUserId.js'
+import { getSessionUserId } from '../../../util/getSessionUserId.ts'
 
 export type AddImageHandler = (req: Request, res: Response, next: NextFunction) => void
 export type RemoveImageHandler = (req: Request, res: Response, next: NextFunction) => void

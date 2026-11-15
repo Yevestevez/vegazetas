@@ -114,7 +114,7 @@ function SaveRecipe({
         if (!recipe) return
 
         const form = event.currentTarget
-        const title = (form.namedItem('title') as HTMLInputElement).value.trim()
+        const title = (form.title as HTMLInputElement).value.trim()
         const rawDescription = form.description.value.trim()
         const description = rawDescription === '' ? null : rawDescription
         const rawTime = form.time.value.trim()
@@ -291,7 +291,7 @@ function SaveRecipe({
         if (!recipe) return
 
         const form = event.currentTarget
-        const name = (form.namedItem('name') as HTMLInputElement).value.trim()
+        const name = (form.name as HTMLInputElement).value.trim()
         const quantity = parseFloat(form.quantity.value.trim())
         const unit = form.unit.value.trim()
         const annotation = form.annotation.value.trim() || undefined

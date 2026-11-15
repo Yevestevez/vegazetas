@@ -1,6 +1,6 @@
-import { findUserById, findRecipeById, createAddImage, createRemoveImage } from './recipeImagesRepository.js'
-import { createAddImageToRecipe, createRemoveImageFromRecipe } from './recipeImages.js'
-import { createAddImageHandler, createRemoveImageHandler } from './recipeImagesHandler.js'
+import { findUserById, findRecipeById, createAddImage, createRemoveImage } from './recipeImagesRepository.ts'
+import { createAddImageToRecipe, createRemoveImageFromRecipe } from './recipeImages.ts'
+import { createAddImageHandler, createRemoveImageHandler } from './recipeImagesHandler.ts'
 
 const addImageToRecipe = createAddImageToRecipe(findUserById, findRecipeById, createAddImage)
 const removeImageFromRecipe = createRemoveImageFromRecipe(findUserById, findRecipeById, createRemoveImage)

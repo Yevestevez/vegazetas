@@ -1,5 +1,5 @@
 import { Recipe, User } from '../../../data/models.js'
-import type { FindUserById, FindRecipeById, AddStep, RemoveStep, UpdateStep, ReorderStep } from './recipeSteps.js'
+import type { FindUserById, FindRecipeById, AddStep, RemoveStep, UpdateStep, ReorderStep } from './recipeSteps.ts'
 
 export const findUserById: FindUserById = userId =>
     User.findById(userId).exec()

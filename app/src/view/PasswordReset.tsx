@@ -33,8 +33,7 @@ function PasswordReset({ onPasswordReseted }: PasswordResetProps) {
         confirm('¿Quieres cambiar tu contraseña?', (accepted: boolean) => {
             if (!accepted) return
 
-            const form = event.currentTarget
-            const newPassword = form.password.value.trim()
+            const newPassword = password.trim()
             let closeAlert: (() => void) | undefined
 
             const loadingAlertTimeout = setTimeout(() => {

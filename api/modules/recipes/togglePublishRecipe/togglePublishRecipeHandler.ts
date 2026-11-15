@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express'
 import { errors } from 'com'
-import { getSessionUserId } from '../../../util/getSessionUserId.js'
+import { getSessionUserId } from '../../../util/getSessionUserId.ts'
 
 const { CredentialsError } = errors
 

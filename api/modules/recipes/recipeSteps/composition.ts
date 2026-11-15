@@ -1,6 +1,6 @@
-import { findUserById, findRecipeById, createAddStep, createRemoveStep, createUpdateStep, createReorderStep } from './recipeStepsRepository.js'
-import { createAddStepToRecipe, createRemoveStepFromRecipe, createUpdateStepInRecipe, createReorderStepInRecipe } from './recipeSteps.js'
-import { createAddStepHandler, createRemoveStepHandler, createUpdateStepHandler, createReorderStepHandler } from './recipeStepsHandler.js'
+import { findUserById, findRecipeById, createAddStep, createRemoveStep, createUpdateStep, createReorderStep } from './recipeStepsRepository.ts'
+import { createAddStepToRecipe, createRemoveStepFromRecipe, createUpdateStepInRecipe, createReorderStepInRecipe } from './recipeSteps.ts'
+import { createAddStepHandler, createRemoveStepHandler, createUpdateStepHandler, createReorderStepHandler } from './recipeStepsHandler.ts'
 
 const addStepToRecipe = createAddStepToRecipe(findUserById, findRecipeById, createAddStep)
 const removeStepFromRecipe = createRemoveStepFromRecipe(findUserById, findRecipeById, createRemoveStep)

@@ -1,5 +1,5 @@
 import { Recipe, User } from '../../../data/models.js'
-import type { FindUserById, FindRecipeById, AddIngredient, RemoveIngredient } from './recipeIngredients.js'
+import type { FindUserById, FindRecipeById, AddIngredient, RemoveIngredient } from './recipeIngredients.ts'
 
 export const findUserById: FindUserById = userId =>
     User.findById(userId).exec()
