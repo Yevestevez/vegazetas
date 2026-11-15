@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
 import logic from './logic'
@@ -19,10 +19,8 @@ interface AlertMessage {
     isWakingServer: boolean
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function App(): any {
-    // @ts-expect-error - static property pattern for confirm callback
-    App.confirmCallback = null
+function App() {
+    const confirmCallbackRef = useRef<((result: boolean) => void) | null>(null)
     const navigate = useNavigate()
 
     const handleUserRegistered = () => navigate('/login')
@@ -53,27 +51,21 @@ function App(): any {
 
     const confirm = (message: string, callback: (result: boolean) => void) => {
         setConfirmMessage(message)
-        ;(App as any).confirmCallback = callback
+        confirmCallbackRef.current = callback
     }
 
     const handleAcceptAlert = () => setAlertMessage(null)
 
     const handleAcceptConfirm = () => {
-        const cb = (App as any).confirmCallback as ((result: boolean) => void) | null
-        if (cb) {
-            cb(true)
-        }
+        confirmCallbackRef.current?.(true)
         setConfirmMessage('')
-        ;(App as any).confirmCallback = null
+        confirmCallbackRef.current = null
     }
 
     const handleCancelConfirm = () => {
-        const cb = (App as any).confirmCallback as ((result: boolean) => void) | null
-        if (cb) {
-            cb(false)
-        }
+        confirmCallbackRef.current?.(false)
         setConfirmMessage('')
-        ;(App as any).confirmCallback = null
+        confirmCallbackRef.current = null
     }
 
     return <AppContext.Provider value={{ alert, confirm }}>
