@@ -51,7 +51,19 @@ export const descriptionSchema = z.string({ error: 'invalid description type, mu
     .refine(description => description.length <= 500, 'invalid description length, must be 500 characters maximum')
 
 export const imageSchema = z.string({ error: 'invalid image type, must be a string' })
-    .regex(/^https?:\/\/[^\s/$.?#].[^\s]*$/i, 'invalid image syntax, must be a valid URL')
+    .refine(url => {
+        try {
+            const urlObj = new URL(url)
+            if (!['http:', 'https:'].includes(urlObj.protocol)) return false
+            const hostname = urlObj.hostname
+            const blockedHosts = ['localhost', '127.0.0.1', '0.0.0.0', '::1']
+            if (blockedHosts.includes(hostname)) return false
+            if (/^10\.|^172\.(1[6-9]|2[0-9]|3[01])\.|^192\.168\.|^169\.254\./.test(hostname)) return false
+            return true
+        } catch {
+            return false
+        }
+    }, 'invalid image URL: must be a valid HTTPS URL from a public domain')
 
 export const difficultySchema = z.string({ error: 'invalid difficulty type, must be a string' })
     .refine(difficulty => ['easy', 'medium', 'difficult'].includes(difficulty),

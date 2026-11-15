@@ -3,6 +3,8 @@ import { errors } from 'com'
 const { CredentialsError, DuplicityError, NotFoundError, OwnershipError, SystemError, ValidationError } = errors;
 
 const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
+    const isProduction = process.env.NODE_ENV === 'production'
+    
     if (error instanceof ValidationError)
         res.status(400).json({ error: error.constructor.name, message: error.message });
     else if (error instanceof CredentialsError) {
@@ -17,8 +19,10 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
     else if (error instanceof SystemError)
         res.status(500).json({ error: error.constructor.name, message: error.message });
     else {
-        const isProduction = process.env.NODE_ENV === 'production'
-        const message = isProduction ? 'Internal server error' : (error as Error).message
+        if (!isProduction) {
+            console.error('Unhandled error:', error)
+        }
+        const message = isProduction ? 'An internal error occurred' : (error as Error).message
         res.status(500).json({ error: SystemError.name, message })
     }
 }
