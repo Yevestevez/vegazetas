@@ -1,5 +1,14 @@
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io'
-import { useState } from 'react'
+import { ChangeEvent, InputHTMLAttributes, useState } from 'react'
+
+type InputTheme = 'register' | 'login' | 'passwordReset'
+
+interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'theme' | 'onChange'> {
+    type?: string
+    value?: string
+    onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+    theme?: InputTheme
+}
 
 function Input({
     type = 'text',
@@ -15,11 +24,11 @@ function Input({
     name,
     autoComplete,
     ...props
-}) {
+}: InputProps) {
     const [showPassword, setShowPassword] = useState(false)
     const isPasswordType = type === 'password'
 
-    const themes = {
+    const themes: Record<InputTheme, { input: Record<string, string>; icon: Record<string, string> }> = {
         register: {
             input: {
                 bg: 'bg-sgbus-green',

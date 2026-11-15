@@ -243,6 +243,17 @@ funciones de sesión (`loginUser.ts`, `logoutUser.ts`, `isUserLoggedIn.ts`,
 `logic/index.ts` importa los archivos TypeScript migrados y los JavaScript
 restantes. Pasaron `tsc --noEmit` y `vite build` sin errores.
 
+En el segundo corte del sprint 7, los formularios de autenticación y los
+componentes comunes se migraron a TypeScript. Se tiparon 3 funciones de lógica
+(`registerUser.ts`, `passwordRecover.ts`, `passwordReset.ts`), 4 páginas
+(`Login.tsx`, `Register.tsx`, `PasswordReset.tsx`, `Landing.tsx`) y 7 componentes
+comunes (`Input.tsx`, `CircleButton.tsx`, `Alert.tsx`, `Confirm.tsx`,
+`Footer.tsx`, `SectionTitle.tsx`, `LogoVegazetas.tsx`). Se corrigió el acceso al
+campo `name` del formulario en Register usando `namedItem` para evitar conflicto
+con la propiedad nativa de HTMLFormElement, y se añadió la prop `type` a
+CircleButton para su uso como botón submit. Pasaron `tsc --noEmit` y `vite build`
+sin errores.
+
 Tras corregir las listas pasaron 68 pruebas dirigidas de API y 24 pruebas
 Playwright, además de tipos, lint sin advertencias y compilación, con Node
 26.13.1 y MongoDB desechable reutilizado. Se verificó el favorito propio con

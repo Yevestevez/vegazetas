@@ -1,21 +1,25 @@
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import logic from '../logic'
 import { useAppContext } from '../context'
 
-import LogoVegazetas from './common/LogoVegazetas.jsx'
-import Input from './common/Input.jsx'
-import CircleButton from './common/CircleButton.jsx'
-import Footer from './common/Footer.jsx'
+import LogoVegazetas from './common/LogoVegazetas'
+import Input from './common/Input'
+import CircleButton from './common/CircleButton'
+import Footer from './common/Footer'
 import { errors } from 'com'
 
 const { NotFoundError, SystemError, ValidationError } = errors
 
-function PasswordReset({ onPasswordReseted }) {
+interface PasswordResetProps {
+    onPasswordReseted: () => void
+}
+
+function PasswordReset({ onPasswordReseted }: PasswordResetProps) {
     const { alert, confirm } = useAppContext()
     const [searchParams] = useSearchParams()
-    const token = searchParams.get('token') // ✅ obtiene token de query param
+    const token = searchParams.get('token')
     const [password, setPassword] = useState('')
 
     if (!token) {
@@ -23,15 +27,15 @@ function PasswordReset({ onPasswordReseted }) {
         return null
     }
 
-    const handleFormSubmit = event => {
+    const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        confirm('¿Quieres cambiar tu contraseña?', accepted => {
+        confirm('¿Quieres cambiar tu contraseña?', (accepted: boolean) => {
             if (!accepted) return
 
-            const form = event.target
+            const form = event.currentTarget
             const newPassword = form.password.value.trim()
-            let closeAlert
+            let closeAlert: (() => void) | undefined
 
             const loadingAlertTimeout = setTimeout(() => {
                 closeAlert = alert(
@@ -49,7 +53,7 @@ function PasswordReset({ onPasswordReseted }) {
                         alert('Contraseña cambiada correctamente')
                         onPasswordReseted()
                     })
-                    .catch(error => {
+                    .catch((error: Error) => {
                         clearTimeout(loadingAlertTimeout)
                         if (closeAlert) closeAlert()
 
@@ -63,7 +67,7 @@ function PasswordReset({ onPasswordReseted }) {
                 clearTimeout(loadingAlertTimeout)
                 if (closeAlert) closeAlert()
 
-                alert(error.message)
+                alert((error as Error).message)
                 console.error(error)
             }
         })

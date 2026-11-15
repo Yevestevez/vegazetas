@@ -1,6 +1,6 @@
 import { validate, errors } from 'com'
 
-const registerUser = (name, email, username, password) => {
+const registerUser = (name: string, email: string, username: string, password: string): Promise<void> => {
     validate.username(username)
     validate.email(email)
     validate.name(name)
@@ -20,10 +20,10 @@ const registerUser = (name, email, username, password) => {
             if (status === 201) return
 
             return res.json()
-                .then(body => {
+                .then((body: { error: string; message: string }) => {
                     const { error, message } = body
 
-                    const constructor = errors[error]
+                    const constructor = errors[error as keyof typeof errors]
 
                     throw new constructor(message)
                 })

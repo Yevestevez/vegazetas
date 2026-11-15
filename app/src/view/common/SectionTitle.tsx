@@ -1,6 +1,12 @@
 import clsx from 'clsx'
+import { ReactNode } from 'react'
 
-function SectionTitle({ children, className }) {
+interface SectionTitleProps {
+    children: ReactNode
+    className?: string
+}
+
+function SectionTitle({ children, className }: SectionTitleProps) {
     const sectionTitleClasses = clsx(
         'flex items-center justify-center text-center',
         'py-2 px-4',

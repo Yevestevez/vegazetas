@@ -1,12 +1,19 @@
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 
+interface LogoVegazetasProps {
+    to?: string
+    'aria-label'?: string
+    'title'?: string
+    className?: string
+}
+
 function LogoVegazetas({
     to,
     'aria-label': ariaLabel,
     'title': title,
     className
-}) {
+}: LogoVegazetasProps) {
     const logoClasses = clsx(
         'text-center anybody-logo',
         'text-7xl xs:text-8xl sm:text-9xl lg:text-[12rem] xl:text-[10rem]',

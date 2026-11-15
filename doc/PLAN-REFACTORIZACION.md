@@ -386,7 +386,18 @@ las funciones de sesión (`loginUser.ts`, `logoutUser.ts`, `isUserLoggedIn.ts`,
 `logic/index.ts` importa los archivos TypeScript migrados y los JavaScript
 restantes. Se creó `app/src/vite-env.d.ts` para declaraciones globales
 (`Storage.token` y `ImportMeta.env`). Pasaron `tsc --noEmit` y `vite build`
-sin errores. Quedan 52 archivos JS/JSX por migrar en los cortes 2–4.
+sin errores.
+
+**Segundo corte completado:** se migraron a TypeScript los formularios de
+autenticación y componentes comunes. 3 funciones de lógica (`registerUser.ts`,
+`passwordRecover.ts`, `passwordReset.ts`), 4 páginas (`Login.tsx`,
+`Register.tsx`, `PasswordReset.tsx`, `Landing.tsx`) y 7 componentes comunes
+(`Input.tsx`, `CircleButton.tsx`, `Alert.tsx`, `Confirm.tsx`, `Footer.tsx`,
+`SectionTitle.tsx`, `LogoVegazetas.tsx`). Se corrigió el acceso al campo `name`
+del formulario en Register usando `namedItem` para evitar conflicto con la
+propiedad nativa de HTMLFormElement, y se añadió la prop `type` a CircleButton
+para su uso como botón submit. Pasaron `tsc --noEmit` y `vite build` sin errores.
+Quedan 38 archivos JS/JSX por migrar en los cortes 3–4.
 
 **Aceptación:** cada flujo migrado compila y pasa sus pruebas, mantiene las
 funciones existentes y dispone de comprobaciones de accesibilidad acordadas;

@@ -146,3 +146,23 @@ Renombrar y tipar los archivos del corte 1: context, authenticatedFetch, util, y
 - `logic/getUserUsername.js` → `logic/getUserUsername.ts`.
 - `logic/index.js` → `logic/index.ts`: actualizar imports a los archivos .ts.
 - Verificar con `tsc --noEmit`, `vite build`, y pruebas E2E.
+
+### ✓ Step 3: Migrar formularios de autenticación y componentes comunes a TypeScript
+Renombrar y tipar los archivos del corte 2: lógica de auth, páginas y componentes comunes.
+- `logic/registerUser.js` → `logic/registerUser.ts`: tipar parámetros (name, email, username, password), retorno (Promise<void>).
+- `logic/passwordRecover.js` → `logic/passwordRecover.ts`: tipar parámetro (email), retorno (Promise<void>).
+- `logic/passwordReset.js` → `logic/passwordReset.ts`: tipar parámetros (token, newPassword), retorno (Promise<void>).
+- `view/common/Input.jsx` → `view/common/Input.tsx`: tipar props con interfaces (type, value, onChange, theme, etc.).
+- `view/common/CircleButton.jsx` → `view/common/CircleButton.tsx`: tipar props (to, onClick, variant, children, className).
+- `view/common/Alert.jsx` → `view/common/Alert.tsx`: tipar props (message, onAccept, isWakingServer).
+- `view/common/Confirm.jsx` → `view/common/Confirm.tsx`: tipar props (message, onCancel, onAccept).
+- `view/common/Footer.jsx` → `view/common/Footer.tsx`: sin props.
+- `view/common/SectionTitle.jsx` → `view/common/SectionTitle.tsx`: tipar props (children, className).
+- `view/common/LogoVegazetas.jsx` → `view/common/LogoVegazetas.tsx`: tipar props (to, ariaLabel, title, className).
+- `view/Login.jsx` → `view/Login.tsx`: tipar props (onUserLoggedIn), tipar formularios.
+- `view/Register.jsx` → `view/Register.tsx`: tipar props (onUserRegistered), tipar formularios.
+- `view/PasswordReset.jsx` → `view/PasswordReset.tsx`: tipar props (onPasswordReseted), tipar formularios.
+- `view/Landing.jsx` → `view/Landing.tsx`: sin props.
+- Actualizar `logic/index.ts`: añadir imports de archivos .ts migrados.
+- Eliminar archivos .js originales.
+- Verificar con `tsc --noEmit` y `vite build`.

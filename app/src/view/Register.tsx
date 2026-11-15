@@ -1,32 +1,36 @@
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { Link } from "react-router-dom"
 
 import logic from '../logic'
 import { useAppContext } from '../context'
 
-import CircleButton from './common/CircleButton.jsx'
-import Input from './common/Input.jsx'
-import LogoVegazetas from './common/LogoVegazetas.jsx'
-import SectionTitle from './common/SectionTitle.jsx'
-import Footer from './common/Footer.jsx'
+import CircleButton from './common/CircleButton'
+import Input from './common/Input'
+import LogoVegazetas from './common/LogoVegazetas'
+import SectionTitle from './common/SectionTitle'
+import Footer from './common/Footer'
 import { errors } from 'com'
 const { DuplicityError, SystemError } = errors
 
-function Register({ onUserRegistered }) {
+interface RegisterProps {
+    onUserRegistered: () => void
+}
+
+function Register({ onUserRegistered }: RegisterProps) {
     const { alert } = useAppContext()
     const [password, setPassword] = useState('')
 
-    const handleFormSubmit = event => {
+    const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        const form = event.target
+        const form = event.currentTarget
 
-        const name = form.name.value.trim()
+        const name = ((form.elements.namedItem('name') as HTMLInputElement)).value.trim()
         const email = form.email.value.trim()
         const username = form.username.value.toLowerCase().trim()
         const password = form.password.value.trim()
 
-        let closeAlert
+        let closeAlert: (() => void) | undefined
 
         const loadingAlertTimeout = setTimeout(() => {
             closeAlert = alert('El servidor está despertando... Solo espera mientras creamos tu cuenta.', {
@@ -44,7 +48,7 @@ function Register({ onUserRegistered }) {
 
                     onUserRegistered()
                 })
-                .catch(error => {
+                .catch((error: Error) => {
                     clearTimeout(loadingAlertTimeout)
                     if (closeAlert) closeAlert()
 
@@ -57,7 +61,7 @@ function Register({ onUserRegistered }) {
             clearTimeout(loadingAlertTimeout)
             if (closeAlert) closeAlert()
 
-            alert(error.message)
+            alert((error as Error).message)
 
             console.error(error)
         }

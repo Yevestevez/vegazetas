@@ -1,6 +1,12 @@
 import CircleButton from "./CircleButton"
 
-function Confirm({ message, onCancel, onAccept }) {
+interface ConfirmProps {
+    message: string
+    onCancel: () => void
+    onAccept: () => void
+}
+
+function Confirm({ message, onCancel, onAccept }: ConfirmProps) {
     return <div className="fixed inset-0 z-[100] flex items-center justify-center bg-folly bg-opacity-70">
         <div className="
             flex flex-col items-center gap-6 xs:gap-8 lg:gap-10 xl:gap-12

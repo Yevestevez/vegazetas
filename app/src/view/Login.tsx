@@ -1,30 +1,34 @@
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { Link } from "react-router-dom"
 
 import logic from '../logic'
 import { useAppContext } from '../context'
 
-import CircleButton from './common/CircleButton.jsx'
-import Input from './common/Input.jsx'
-import LogoVegazetas from './common/LogoVegazetas.jsx'
-import SectionTitle from './common/SectionTitle.jsx'
-import Footer from './common/Footer.jsx'
+import CircleButton from './common/CircleButton'
+import Input from './common/Input'
+import LogoVegazetas from './common/LogoVegazetas'
+import SectionTitle from './common/SectionTitle'
+import Footer from './common/Footer'
 import { errors } from 'com'
 const { CredentialsError, SystemError } = errors
 
-function Login({ onUserLoggedIn }) {
+interface LoginProps {
+    onUserLoggedIn: () => void
+}
+
+function Login({ onUserLoggedIn }: LoginProps) {
     const { alert, confirm } = useAppContext()
     const [password, setPassword] = useState('')
     const [showRecoverPasswordForm, setShowRecoverPasswordForm] = useState(false)
 
-    const handleFormSubmit = event => {
+    const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        const form = event.target
+        const form = event.currentTarget
         const email = form.email.value.trim()
         const password = form.password.value.trim()
 
-        let closeAlert
+        let closeAlert: (() => void) | undefined
 
         const loadingAlertTimeout = setTimeout(() => {
             closeAlert = alert('El servidor está despertando... Solo espera y te llevamos a inicio.', {
@@ -42,7 +46,7 @@ function Login({ onUserLoggedIn }) {
 
                     onUserLoggedIn()
                 })
-                .catch(error => {
+                .catch((error: Error) => {
                     clearTimeout(loadingAlertTimeout)
                     if (closeAlert) closeAlert()
 
@@ -54,21 +58,21 @@ function Login({ onUserLoggedIn }) {
         } catch (error) {
             clearTimeout(loadingAlertTimeout)
             if (closeAlert) closeAlert()
-            alert(error.message)
+            alert((error as Error).message)
 
             console.error(error)
         }
     }
 
-    const handleRecoverPasswordButtonClick = event => {
+    const handleRecoverPasswordButtonClick = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        confirm('¿Quieres cambiar la contraseña?', accepted => {
+        confirm('¿Quieres cambiar la contraseña?', (accepted: boolean) => {
             if (accepted) {
-                const form = event.target
+                const form = event.currentTarget
                 const email = form.email.value.trim()
 
-                let closeAlert
+                let closeAlert: (() => void) | undefined
 
                 const loadingAlertTimeout = setTimeout(() => {
                     closeAlert = alert('El servidor está despertando... Solo espera y te enviamos un correo con instrucciones.', {
@@ -84,7 +88,7 @@ function Login({ onUserLoggedIn }) {
 
                             alert('Te hemos enviado un correo para recuperar tu contraseña')
                         })
-                        .catch(error => {
+                        .catch((error: Error) => {
                             clearTimeout(loadingAlertTimeout)
                             if (closeAlert) closeAlert()
 
@@ -95,7 +99,7 @@ function Login({ onUserLoggedIn }) {
                     clearTimeout(loadingAlertTimeout)
                     if (closeAlert) closeAlert()
 
-                    alert(error.message)
+                    alert((error as Error).message)
 
                     console.error(error)
                 }
