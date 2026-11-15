@@ -131,14 +131,11 @@ El sprint 8 cerró la migración de `com/` y `api/` a TypeScript, aplicó correc
 de seguridad y actualizó React a 19. Véase el [plan](./PLAN-REFACTORIZACION.md)
 para el detalle de cada corte.
 
-**Despliegue pendiente:** cambian el contrato de autenticación de las rutas
-(`401` para credenciales inválidas), la respuesta de `my-recipes` incorpora el
-campo `isFavorite` y el restablecimiento devuelve `404` para un usuario inexistente.
-Para que la interfaz muestre el mensaje específico, desplegar primero el frontend
-que lo reconoce y después la API. Para revertir, restaurar primero la API y después
-el frontend. Los clientes externos que validen la forma exacta de la respuesta deben
-aceptar el nuevo campo. Coordinar también el cambio de tiempo opcional y los runtimes
-requeridos; no se ha desplegado aquí.
+**Despliegue v2.0.0:** la versión v2.0.0 está desplegada en Netlify (frontend) y
+Render (backend). Los cambios de contrato de autenticación (`401` para credenciales
+inválidas), el campo `isFavorite` en `my-recipes` y el tiempo opcional están
+activos. Consulta la [guía de despliegue](./DEPLOYMENT.md) para detalles de
+configuración y problemas conocidos.
 
 **Corrección local desplegada:** la respuesta de alternancia de favoritos incluía
 el campo `password` con el hash. Se eliminó ese campo sin cambiar los demás ni la
@@ -193,12 +190,9 @@ servicios externos.
 
 ## Línea base y actualizaciones
 
-La política de Node admite `^22.23.5`, `^24.22.3` o `^26.13.1`, con
-`26.13.1` como versión recomendada. Cada paquete activa `engine-strict` para
-que npm rechace motores incompatibles. Las versiones de Netlify (`22.23.4`) y
-Render (`24.22.1`) comunicadas por la persona responsable quedan por debajo de
-los nuevos mínimos: hay que verificar y coordinar su actualización antes de
-desplegar.
+El proyecto requiere Node.js `^26.13.1` (LTS). Cada paquete declara
+`engines.node` para que npm rechace motores incompatibles. El despliegue en
+Netlify y Render usa Node 26.
 
 ### Dependencias directas actuales
 
@@ -273,89 +267,14 @@ promesa, la API puede responder como si hubiera enviado el correo.
 
 ### Entornos y protección de datos
 
-Según la persona responsable, el frontend está en Netlify con Node `22.23.4`
-para la compilación, la API en Render con Node `24.22.1` y el clúster de
-MongoDB Atlas usa `8.0.37`. Son versiones comunicadas, no verificadas desde
-esta sesión. No se ha modificado la versión de Netlify ni la de Render; ambas
-requieren coordinación antes del despliegue. Quedan por confirmar
-otras configuraciones y no se ha comprobado el estado de seguridad de esos
-despliegues. El clúster es gratuito y, según la persona responsable, no se
-muestran copias. Puede existir una base remota de pruebas,
-pero su destino y aislamiento no se han verificado; se ha usado en su lugar
-una instancia local desechable.
+El frontend está desplegado en Netlify (`https://vegazetas.netlify.app`) y la
+API en Render (`https://vegazetas.onrender.com`), ambos con Node 26. El clúster
+de MongoDB Atlas es gratuito. Las pruebas usan una instancia local desechable
+en Docker.
 
-Se ha decidido partir de una base de producción vacía, inicialmente con el
-esquema actual, sin migrar ni copiar los datos existentes. Cambiar la conexión
-supondrá perder el acceso a las cuentas y recetas anteriores. La base actual
-no se ha borrado ni se ha cambiado la conexión desplegada; ambas operaciones
-requieren concretar y autorizar su ejecución.
-Se ha elegido crear la nueva base en el clúster de Atlas existente y mantener
-las pruebas en Docker. Según la persona responsable, se ha creado la base
-`vegazetas_prod` con la colección `users`; se ha elegido ese nombre como
-duradero. No se ha verificado mediante conexión ni se ha eliminado. La variable
-`MONGO_URL` de la configuración
-local apunta a una dirección local, no a Atlas; esto no determina qué conexión
-usa Render. Se ha acordado aplazar el cambio de conexión de Render hasta el
-despliegue; antes habrá que preparar y comprobar la reversión.
-
-Docker Desktop se puso en marcha para las pruebas locales. `mongodump`,
-`mongorestore` y `mongosh` no se encontraron en el PATH de Windows; la imagen
-local `mongo:8` incluye `mongodump` y `mongorestore` `100.20.0`. No se ha
-conectado a Atlas.
-
-La [documentación de Atlas para clústeres gratuitos](https://www.mongodb.com/docs/atlas/backup/cloud-backup/free-cluster-backup/)
-describe una suscripción opcional de copias en vista previa privada y con
-coste; puede no estar disponible en todos los clústeres.
-[mongodump](https://www.mongodb.com/docs/database-tools/mongodump/) es otra
-opción para copias manuales. No se ha creado ninguna copia de la base actual;
-la decisión posterior de empezar desde cero sustituyó el plan de copiarla.
-
-#### Ensayo local de recuperación
-
-Se ensayó `mongodump --db vegazetas_recovery_test --archive=... --gzip` y
-`mongorestore --archive=... --gzip` con MongoDB `8.3.13` y herramientas
-`100.20.0`. El origen y el destino fueron contenedores distintos, nuevos,
-sin conexión de red y con datos exclusivamente ficticios. El archivo se
-transfirió entre ellos a través de un directorio temporal local.
-
-La restauración recuperó un usuario y una receta; se comprobaron los
-recuentos, la referencia al autor, campos anidados y los tres índices únicos
-de correo, nombre de usuario y título. Se eliminaron los dos contenedores y
-el archivo temporal tras la prueba.
-
-Esto comprueba una restauración local básica, no una copia consistente de
-Atlas ni la recuperación de producción. Antes de usar este procedimiento con
-datos reales hay que verificar versiones y permisos, cómo obtener una copia
-consistente, almacenamiento privado y el destino de restauración separado;
-no incluir credenciales en comandos o archivos versionados.
-
-#### Procedimiento previsto para los nuevos datos de producción
-
-Este procedimiento es una propuesta para después del cambio de conexión a
-`vegazetas_prod`; no se ha ejecutado ni validado contra Atlas.
-
-1. Identificar y verificar origen, permisos de lectura, versión y destino
-   privado de la copia. No mostrar credenciales en comandos, registros o
-   documentación. La carpeta ignorada por Git no es, por sí sola, un
-   mecanismo de protección de acceso o cifrado.
-2. Acordar la interrupción y detener **todas** las escrituras mientras se
-   ejecuta `mongodump` para esa base. MongoDB advierte que una copia con
-   escrituras concurrentes puede no corresponder a un instante coherente.
-   Comprobar la finalización antes de reanudar las escrituras.
-3. Guardar el archivo de copia con acceso restringido y registrar fecha,
-   versión y resultado sin incluir datos ni secretos. Definir su conservación
-   y una segunda ubicación segura antes de depender de él.
-4. Verificar por separado el destino de ensayo, sus permisos y compatibilidad
-   de versión; restaurar con `mongorestore` solo en ese destino. Comparar
-   recuentos, índices y consultas representativas, y comprobar los flujos
-   acordados sin exponer datos reales.
-5. Para una recuperación real, acordar expresamente destino, interrupción y
-   momento de restauración. Conservar evidencia del resultado y del alcance
-   de datos que podrían perderse. Volver a la conexión anterior no recupera
-   automáticamente los datos creados en la base nueva.
-
-Referencias: [copias consistentes](https://www.mongodb.com/docs/database-tools/mongodump/mongodump-examples/)
-y [restauración y compatibilidad](https://www.mongodb.com/docs/database-tools/mongorestore/).
+La base de producción se creó vacía al desplegar la v2; no se migraron los
+datos de la v1. Consulta la [guía de despliegue](./DEPLOYMENT.md) para la
+configuración de Netlify y Render.
 
 ## Seguridad
 
@@ -386,8 +305,7 @@ Hallazgos para sprints futuros:
   inferidos de Mongoose de forma completa, evaluar si sustituir esta interfaz.
 - **Actualizaciones pendientes:** Mongoose 9, ESLint 10 y plugins, Tailwind 4,
   tipos de Node. Deben abordarse por grupos compatibles.
-- **Despliegue:** coordinar el cambio de Node en Netlify y Render, el contrato
-  de autenticación actualizado y la base de producción vacía.
+- **Despliegue:** la v2.0.0 está desplegada. Consulta la [guía de despliegue](./DEPLOYMENT.md).
 - **Accesibilidad:** revisar con teclado, lectores de pantalla, formularios,
   foco, contraste y diseño adaptable; no se ha realizado una auditoría WCAG.
 - **Rendimiento:** medir experiencia real antes de fijar objetivos.

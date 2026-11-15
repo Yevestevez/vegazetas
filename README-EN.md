@@ -13,7 +13,13 @@
 </p>
 
 <p align="center">
-  <a href="https://vegazetas.netlify.app/">Explore Vegazetas</a>
+  <a href="./doc/HISTORIAL-VERSIONES.md"><img src="https://img.shields.io/badge/v2.0.0-deployed-E05D44?style=flat" alt="Version"></a>
+</p>
+
+<p align="center">
+  <a href="https://vegazetas.netlify.app/">Explore Vegazetas</a> 👀
+  <br>
+  <a href="https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214">Figma Prototype</a>
 </p>
 
 <p align="center">
@@ -23,13 +29,35 @@
 
 ---
 
-**Version: v2.0.0** — refactoring in progress, not yet deployed. The production baseline remains v1.0.0. See the [version history](./doc/HISTORIAL-VERSIONES.md) (in Spanish).
+<p align="center"><strong>Frontend:</strong></p>
+<p align="center">
+  <a href="https://www.npmjs.com/package/vite"><img src="https://img.shields.io/badge/Vite-8.3-F0DB4F?logo=vite&logoColor=black" alt="Vite"></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19.0-61DAFB?logo=react&logoColor=black" alt="React"></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-7.0-3178C6?logo=typescript&logoColor=white" alt="TypeScript"></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS"></a>
+</p>
+
+<p align="center"><strong>Backend:</strong></p>
+<p align="center">
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-26-339933?logo=node.js&logoColor=white" alt="Node.js"></a>
+  <a href="https://expressjs.com/"><img src="https://img.shields.io/badge/Express-5.3-000000?logo=express" alt="Express"></a>
+  <a href="https://www.mongodb.com/"><img src="https://img.shields.io/badge/MongoDB-8.0-47A248?logo=mongodb&logoColor=white" alt="MongoDB"></a>
+  <a href="https://zod.dev/"><img src="https://img.shields.io/badge/Zod-4.6-3E67B1?logo=zod&logoColor=white" alt="Zod"></a>
+</p>
+
+<p align="center"><strong>Testing:</strong></p>
+<p align="center">
+  <a href="https://vitest.dev/"><img src="https://img.shields.io/badge/Vitest-5.1-729FCF?logo=vitest&logoColor=white" alt="Vitest"></a>
+  <a href="https://playwright.dev/"><img src="https://img.shields.io/badge/Playwright-1.65-2EAD33?logo=playwright&logoColor=white" alt="Playwright"></a>
+</p>
 
 ## About
 
-Vegazetas is a web app for keeping your own vegan recipes and discovering those published by the community. Its expressive, cheerful interface is designed to make creating and browsing recipes feel simple.
+Vegazetas is a full-stack web app for keeping your own vegan recipes and discovering those published by the community. Its expressive, cheerful interface is designed to make creating and browsing recipes feel simple.
 
-I designed and built the entire full-stack project myself: from UX/UI in Figma and the single-page application to the REST API, database and deployment. The project also includes automated tests for the API's business logic.
+I designed and built the entire project myself: from UX/UI in Figma to the single-page application, REST API, database and cloud deployment. It includes **424 API tests** and **68 browser tests**.
+
+> The TypeScript refactoring and improvements in this version were AI-assisted, using agents, skills, and MCPs to optimize the workflow. The primary tools were **GitHub Copilot** and **Junie** (JetBrains).
 
 ## Features
 
@@ -40,27 +68,28 @@ I designed and built the entire full-stack project myself: from UX/UI in Figma a
 - Publish recipes for others to discover.
 - Browse personal recipes and published recipes, and save favourites.
 
-## Tech stack
+## Architecture
 
-| Area | Technologies |
-| --- | --- |
-| Frontend | React, React Router, Tailwind CSS, Vite |
-| Backend | Node.js, Express |
-| Data | MongoDB, Mongoose |
-| Quality | Vitest, Playwright, ESLint |
+The project follows a modular architecture with separate packages and shared typed code:
 
-## Structure and data
+- **Frontend:** React 19 with React Router 7, Vite 8, Tailwind CSS and TypeScript.
+- **Backend:** REST API with Express 5.3, TypeScript, Mongoose and MongoDB.
+- **Shared:** `com/` package with Zod 4 validation and error classes, consumed by both packages.
+- **Security:** Helmet, rate limiting, configured CORS, JWT Algorithm Confusion protection.
+- **Testing:** Vitest for logic and integration (424 tests), Playwright for browser (68 tests).
+
+See the [current-state documentation](./doc/ESTADO-ACTUAL.md) (in Spanish) and the [project structure](./doc/ESTRUCTURA-PROYECTO.md) (in Spanish) for details.
+
+## Structure
 
 - [`app/`](./app/): React interface; see its [README](./app/README.md).
 - [`api/`](./api/): Express API and MongoDB access; see its [README](./api/README.md).
 - [`com/`](./com/): shared validation and errors.
 - [`doc/`](./doc/): technical documentation and images.
 
-The model includes users with favourites and recipes with an author, images, description, time, difficulty, tags, ingredients, steps and publication status. Ingredients and steps are embedded in recipes. See the [current-state documentation](./doc/ESTADO-ACTUAL.md) for details.
-
 ## Getting started
 
-You will need Node.js (version 26 LTS or later), npm and a MongoDB instance.
+You will need Node.js 26 LTS, npm and a MongoDB instance.
 `.node-version` specifies `26.13.1`. Run the app and API separately.
 
 1. Configure environment variables:
@@ -109,15 +138,25 @@ npm run build
 Playwright browser tests run locally with a separate test database. See the
 [setup and commands](./app/README.md#browser-tests).
 
-See the [current-state documentation](./doc/ESTADO-ACTUAL.md) for the technical inventory, variables and known limitations, and the [refactoring plan](./doc/PLAN-REFACTORIZACION.md) for the planned evolution. Both are currently in Spanish.
+See the [current-state documentation](./doc/ESTADO-ACTUAL.md) (in Spanish) for the technical inventory, variables and known limitations, and the [refactoring plan](./doc/PLAN-REFACTORIZACION.md) (in Spanish) for the planned evolution.
 
-The [historical coverage screenshot](./doc/images/vegazetas-test-coverage-082025.jpg) is from August 2025 and does not necessarily reflect current coverage.
+## Deployment
+
+The application is deployed in the cloud:
+
+- **Frontend:** [vegazetas.netlify.app](https://vegazetas.netlify.app) (Netlify)
+- **Backend:** [vegazetas.onrender.com](https://vegazetas.onrender.com) (Render)
+- **Database:** MongoDB Atlas
+
+See the [deployment guide](./doc/DEPLOYMENT.md) (in Spanish) for configuration and known issues.
 
 ## Project direction
 
-The project is preparing a more maintainable, secure and accessible foundation for future growth. See the [refactoring plan](./doc/PLAN-REFACTORIZACION.md) for details.
+The TypeScript refactoring is complete. See the [refactoring plan](./doc/PLAN-REFACTORIZACION.md) (in Spanish) for details.
 
-Once that foundation is established, ideas to consider include filters, recipe sharing, lists, profile management, menu planning, cooking mode and display adjustments. These are ideas, not committed features.
+An AI-powered recipe assistant is being integrated: from a casual description, the system generates structure, ingredients, and preparation steps, streamlining the recipe creation workflow.
+
+Future improvements to consider: filters, recipe sharing, lists, profile management, menu planning, cooking mode and display adjustments. These are ideas, not committed features.
 
 ## Design
 
