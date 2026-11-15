@@ -122,3 +122,28 @@ Requests from the browser to external origins are blocked in these tests.
 The `test-results/` directory is generated and cleared by Playwright on each
 run; it is ignored by Git. To use headed Chromium, install the full browser
 with `npx playwright install chromium` first.
+
+## Deployment
+
+The frontend is deployed on **Netlify** at `https://vegazetas.netlify.app`.
+
+### Build configuration
+
+- **Build command:** `cd ../com && npm install && cd ../app && npm run build`
+  The `com/` package must be installed first so Vite can resolve shared
+  dependencies like `zod`.
+- **Publish directory:** `app/dist`
+- **Node.js:** 26 LTS (detected from `engines.node` in `package.json`)
+
+### Environment variables
+
+| Variable | Required | Example value |
+|---|---|---|
+| `VITE_API_URL` | Yes | `https://vegazetas.onrender.com` |
+
+### Vite configuration
+
+The `vite.config.ts` file configures a `com` alias pointing to `../com` and
+`preserveSymlinks: true` so Vite resolves the shared package correctly.
+
+See the [deployment guide](../doc/DEPLOYMENT.md) for details and known issues.

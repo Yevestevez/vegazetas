@@ -162,3 +162,36 @@ Ethereal and requires internet access. It only accepts a local
 `SPEC_MONGO_URL` ending in `/vegazetas_disposable`; use the dedicated
 container above, not an existing local database. It creates a synthetic user
 and deletes that user afterwards. It does not send mail through Resend.
+
+## Deployment
+
+The API is deployed on **Render** at `https://vegazetas.onrender.com`.
+
+### Build configuration
+
+- **Build command:** `cd ../com && npm install && cd ../api && npm install`
+  The `com/` package must be installed first so Node.js can resolve shared
+  dependencies like `zod` at runtime.
+- **Start command:** `npm start` (runs `tsx index.ts`)
+- **Node.js:** 26 LTS (detected from `.node-version` or `engines.node` in
+  `package.json`)
+
+### tsx in dependencies
+
+`tsx` must be in `dependencies`, not `devDependencies`. Render does not
+install `devDependencies` in production. If `tsx` is in `devDependencies`,
+the deployment fails with `tsx: not found` (status 127).
+
+### Environment variables
+
+| Variable | Required | Example value |
+|---|---|---|
+| `MONGO_URL` | Yes | `mongodb+srv://...` |
+| `PORT` | Yes | Assigned by Render |
+| `JWT_SECRET` | Yes | Secret for JWT tokens |
+| `FRONTEND_URL` | Yes | `https://vegazetas.netlify.app` |
+
+`FRONTEND_URL` is mandatory: the API uses it to configure CORS securely and
+fails to start without it.
+
+See the [deployment guide](../doc/DEPLOYMENT.md) for details and known issues.

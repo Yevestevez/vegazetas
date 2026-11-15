@@ -124,6 +124,7 @@ vegazetas/
 │   └── package-lock.json
 ├── doc/
 │   ├── images/
+│   ├── DEPLOYMENT.md                  # Configuración y problemas de despliegue
 │   ├── ESTADO-ACTUAL.md
 │   ├── ESTRUCTURA-PROYECTO.md
 │   ├── HISTORIAL-VERSIONES.md
@@ -157,5 +158,6 @@ Los archivos que permanecen en JavaScript son por decisión: specs de Vitest,
 soporte de pruebas y `vitest.config.js`.
 
 Véase el [plan](./PLAN-REFACTORIZACION.md) para el estado y los criterios de
-cada sprint, y el [estado actual](./ESTADO-ACTUAL.md) para detalles de
-contratos, pruebas y configuración.
+cada sprint, el [estado actual](./ESTADO-ACTUAL.md) para detalles de
+contratos, pruebas y configuración, y la [guía de despliegue](./DEPLOYMENT.md)
+para la configuración de Netlify y Render.

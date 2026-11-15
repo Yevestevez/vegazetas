@@ -4,11 +4,12 @@ Este historial describe versiones del producto completo. Las versiones de los
 paquetes `api`, `app` y `com` son independientes. Una entrada aquí no implica
 que exista una etiqueta de Git ni una publicación.
 
-## v2.0.0 — en desarrollo
+## v2.0.0 — desplegada
 
-Versión acordada para la refactorización, todavía no desplegada ni publicada.
-No se han creado versiones intermedias entre la referencia `v1.0.0` y esta
-versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
+Versión de la refactorización, desplegada en Netlify (frontend) y Render
+(backend). No se han creado versiones intermedias entre la referencia
+`v1.0.0` y esta versión. Los siguientes hitos reflejan el trabajo realizado
+desde entonces.
 
 ### Avances desde v1.0.0
 
@@ -84,19 +85,11 @@ versión. Los siguientes hitos reflejan el trabajo realizado desde entonces.
     de API y la de navegador; la autenticación de edición mantiene su contrato.
     Se acordó cerrar el sprint 4 con el primer módulo vertical revisado.
 
-### Estado y pendientes
+### Estado
 
-En la comprobación en las tres líneas de Node pasaron **105 pruebas Vitest**, los tipos, la
-compilación y **tres pruebas Playwright** en cada una de las tres versiones de
-Node admitidas. La refactorización, las demás actualizaciones y la ampliación de
-pruebas siguen en curso; CI/CD se deja para después de terminarla.
-
-Se ha acordado partir de una base de producción vacía al desplegar, pero no se
-ha cambiado la conexión desplegada ni borrado la base anterior. Las versiones
-de Node comunicadas para Netlify y Render quedan por debajo de los nuevos
-mínimos y deben actualizarse antes del despliegue. El flujo de recuperación
-también tiene un riesgo pendiente: puede informar de éxito si Resend devuelve
-un error sin rechazar la promesa.
+La refactorización está completa: API, frontend y paquete compartido son
+100% TypeScript. Pasaron **424 pruebas Vitest** en 27 archivos y **68 pruebas
+Playwright** en 11 archivos. La aplicación está desplegada y operativa.
 
 El detalle de resultados y riesgos está en el [estado actual](./ESTADO-ACTUAL.md)
 y su seguimiento en el [plan](./PLAN-REFACTORIZACION.md).
@@ -104,5 +97,4 @@ y su seguimiento en el [plan](./PLAN-REFACTORIZACION.md).
 ## v1.0.0 — referencia de producción
 
 Punto de partida acordado para la aplicación existente en producción, con
-cuentas, sesión y gestión de recetas. Es una versión de referencia: no se ha
-creado una etiqueta ni una publicación para ella.
+cuentas, sesión y gestión de recetas. Marcada con el tag `v1.0.0` en Git.
