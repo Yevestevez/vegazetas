@@ -14,11 +14,7 @@ const updateStep = (
     validate.id(stepId, 'stepId')
     validate.text(text)
 
-    const URL_REGEX = /^https?:\/\/[^\s/$.?#].[^\s]*$/i
-    if (image !== undefined) {
-        if (typeof image !== 'string') throw new ValidationError('invalid image type, must be a string')
-        if (image !== '' && !URL_REGEX.test(image)) throw new ValidationError('invalid image syntax, must be a valid URL')
-    }
+    if (image !== undefined) validate.image(image)
 
     if (note !== undefined) validate.noteForUpdate(note)
 
