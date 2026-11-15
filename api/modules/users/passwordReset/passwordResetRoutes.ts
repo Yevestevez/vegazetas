@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import jsonBodyParser from '../../../middlewares/jsonBodyParser.js'
+import jsonBodyParser from '../../../middlewares/jsonBodyParser.ts'
 import { createPasswordResetHandler } from './passwordResetHandler.ts'
 import { passwordReset } from './composition.ts'
 

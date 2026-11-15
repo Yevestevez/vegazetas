@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { createMailTransporter } from '../../../util/mailer.js'
+import { createMailTransporter } from '../../../util/mailer.ts'
 import { createPasswordRecover } from './passwordRecover.ts'
 import { findUserByEmail } from './userRepository.ts'
 

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import jsonBodyParser from '../../../middlewares/jsonBodyParser.js'
+import jsonBodyParser from '../../../middlewares/jsonBodyParser.ts'
 import { authenticateUser } from './composition.ts'
 import { createAuthenticateUserHandler } from './authenticateUserHandler.ts'
 
