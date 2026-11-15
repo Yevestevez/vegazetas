@@ -1,6 +1,3 @@
-import createRecipe from './createRecipe.js'
-import deleteRecipe from './deleteRecipe.js'
-import updateRecipe from './updateRecipe.js'
 import togglePublishRecipe from './togglePublishRecipe.js'
 
 import addIngredientToRecipe from './addIngredientToRecipe.js'
@@ -18,9 +15,6 @@ import addTagToRecipe from './addTagToRecipe.js'
 import removeTagFromRecipe from './removeTagFromRecipe.js'
 
 const logic = {
-    createRecipe,
-    deleteRecipe,
-    updateRecipe,
     togglePublishRecipe,
 
     addIngredientToRecipe,

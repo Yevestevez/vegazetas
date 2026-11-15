@@ -182,6 +182,30 @@ Playwright con API simulada y MongoDB desechable reutilizado; comprueban carga,
 favoritos y errores sin consultas repetidas. La compilación pasó y el lint del
 frontend pasó sin advertencias. No se revisó con tecnologías de asistencia.
 
+En el primer corte del sprint 6, `GET /recipes/:recipeId` se migró a TypeScript
+con repositorio y caso de uso. Conserva la receta con `own` e `isFavorite`, el
+rechazo de receta privada ajena y los errores de usuario o receta inexistentes.
+Pasaron 14 pruebas HTTP dirigidas con Node 26.13.1 y MongoDB desechable.
+
+En el segundo corte del sprint 6, los tres listados de recetas (`my-recipes`,
+`published-recipes`, `favorites-recipes`) se migraron a TypeScript. Conservan
+las recetas visibles ordenadas por fecha, el campo `isFavorite` y el tratamiento
+de credenciales. Pasaron 33 pruebas HTTP dirigidas con Node 26.13.1 y MongoDB
+desechable.
+
+En el tercer corte del sprint 6, `POST /recipes` (crear receta) se migró a
+TypeScript. Conserva el `201` con el ID como cadena JSON, las validaciones
+síncronas de título, descripción, tiempo y dificultad, y el `404` para usuario
+inexistente. Pasaron 10 pruebas HTTP dirigidas con Node 26.13.1 y MongoDB
+desechable.
+
+En el cuarto corte del sprint 6, `PATCH /recipes/:recipeId` (editar receta) y
+`DELETE /recipes/:recipeId` (eliminar receta) se migraron a TypeScript con
+repositorio y casos de uso compartidos. Conservan el `204` sin cuerpo, la
+verificación de propiedad, la eliminación del tiempo al omitirlo y los errores
+de usuario o receta inexistentes. Pasaron **483 pruebas de API** en 38 archivos,
+el typecheck y la compilación, con Node 26.13.1 y MongoDB desechable.
+
 Tras corregir las listas pasaron 68 pruebas dirigidas de API y 24 pruebas
 Playwright, además de tipos, lint sin advertencias y compilación, con Node
 26.13.1 y MongoDB desechable reutilizado. Se verificó el favorito propio con

@@ -8,8 +8,6 @@ import createApp from '../app.js'
 import { Recipe, User } from '../data/models.js'
 import addImageToRecipe from '../logic/addImageToRecipe.js'
 import addStepToRecipe from '../logic/addStepToRecipe.js'
-import createRecipe from '../logic/createRecipe.js'
-import updateRecipe from '../logic/updateRecipe.js'
 import updateStep from '../logic/updateStep.js'
 import addImageInApp from '../../app/src/logic/addImageToRecipe.js'
 import addStepInApp from '../../app/src/logic/addStepToRecipe.js'
@@ -62,8 +60,6 @@ describe('shared recipe field validation', () => {
         ['valid', 'x'.repeat(501), 'invalid description length, must be 500 characters maximum']
     ])('rejects invalid recipe fields in creation and editing before I/O', (title, description, message) => {
         const id = 'a'.repeat(24)
-        expect(() => createRecipe(id, title, undefined, description)).toThrowError(message)
-        expect(() => updateRecipe(id, id, title, description)).toThrowError(message)
         expect(() => createRecipeInApp(id, title, undefined, description)).toThrowError(message)
         expect(() => updateRecipeInApp(id, title, description)).toThrowError(message)
     })
@@ -113,15 +109,12 @@ describe('shared recipe field validation', () => {
     test('rejects an invalid difficulty in creation and editing before I/O', () => {
         const id = 'a'.repeat(24)
         const message = 'invalid difficulty (must be easy, medium or difficult)'
-        expect(() => createRecipe(id, 'valid', undefined, undefined, undefined, 'hard')).toThrowError(message)
-        expect(() => updateRecipe(id, id, 'valid', undefined, undefined, 'hard')).toThrowError(message)
         expect(() => createRecipeInApp(id, 'valid', undefined, undefined, undefined, 'hard')).toThrowError(message)
         expect(() => updateRecipeInApp(id, 'valid', undefined, undefined, 'hard')).toThrowError(message)
     })
 
     test('preserves the existing handling of an empty optional difficulty', async () => {
         const id = 'a'.repeat(24)
-        const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
         vi.stubGlobal('sessionStorage', { token: 'test-token' })
         const fetchMock = vi.fn((_url, options) => Promise.resolve({
             status: options.method === 'POST' ? 201 : 204,
@@ -129,12 +122,9 @@ describe('shared recipe field validation', () => {
         }))
         vi.stubGlobal('fetch', fetchMock)
 
-        await expect(createRecipe(id, 'valid', undefined, undefined, undefined, '')).rejects.toThrow('user not found')
-        await expect(updateRecipe(id, id, 'valid', undefined, undefined, '')).rejects.toThrow('user not found')
         await createRecipeInApp(id, 'valid', undefined, undefined, undefined, '')
         await updateRecipeInApp(id, 'valid', undefined, undefined, '')
 
-        expect(findUser).toHaveBeenCalledTimes(2)
         expect(fetchMock).toHaveBeenCalledTimes(2)
         for (const [, options] of fetchMock.mock.calls) {
             expect(JSON.parse(options.body).difficulty).toBe('')
@@ -166,8 +156,6 @@ describe('shared recipe field validation', () => {
     test('rejects an invalid time in creation and editing before I/O', () => {
         const id = 'a'.repeat(24)
         const message = 'invalid time, minimum 5 minutes'
-        expect(() => createRecipe(id, 'valid', undefined, undefined, 4)).toThrowError(message)
-        expect(() => updateRecipe(id, id, 'valid', undefined, 4)).toThrowError(message)
         expect(() => createRecipeInApp(id, 'valid', undefined, undefined, 4)).toThrowError(message)
         expect(() => updateRecipeInApp(id, 'valid', undefined, 4)).toThrowError(message)
     })
@@ -175,8 +163,6 @@ describe('shared recipe field validation', () => {
     test('rejects a time above the limit in creation and editing before I/O', () => {
         const id = 'a'.repeat(24)
         const message = 'invalid time, maximum 9999 minutes'
-        expect(() => createRecipe(id, 'valid', undefined, undefined, 10000)).toThrowError(message)
-        expect(() => updateRecipe(id, id, 'valid', undefined, 10000)).toThrowError(message)
         expect(() => createRecipeInApp(id, 'valid', undefined, undefined, 10000)).toThrowError(message)
         expect(() => updateRecipeInApp(id, 'valid', undefined, 10000)).toThrowError(message)
     })
@@ -188,15 +174,12 @@ describe('shared recipe field validation', () => {
         ['', 'invalid time type, must be a number']
     ])('rejects explicitly provided invalid time %s in both consumers', (time, message) => {
         const id = 'a'.repeat(24)
-        expect(() => createRecipe(id, 'valid', undefined, undefined, time)).toThrowError(message)
-        expect(() => updateRecipe(id, id, 'valid', undefined, time)).toThrowError(message)
         expect(() => createRecipeInApp(id, 'valid', undefined, undefined, time)).toThrowError(message)
         expect(() => updateRecipeInApp(id, 'valid', undefined, time)).toThrowError(message)
     })
 
     test('omits an unspecified time in creation and editing requests', async () => {
         const id = 'a'.repeat(24)
-        const findUser = vi.spyOn(User, 'findById').mockResolvedValue(null)
         vi.stubGlobal('sessionStorage', { token: 'test-token' })
         const fetchMock = vi.fn((_url, options) => Promise.resolve({
             status: options.method === 'POST' ? 201 : 204,
@@ -204,42 +187,15 @@ describe('shared recipe field validation', () => {
         }))
         vi.stubGlobal('fetch', fetchMock)
 
-        await expect(createRecipe(id, 'valid')).rejects.toThrow('user not found')
-        await expect(updateRecipe(id, id, 'valid')).rejects.toThrow('user not found')
         await createRecipeInApp(id, 'valid')
         await updateRecipeInApp(id, 'valid')
 
-        expect(findUser).toHaveBeenCalledTimes(2)
         expect(fetchMock).toHaveBeenCalledTimes(2)
         for (const [, options] of fetchMock.mock.calls) {
             expect(JSON.parse(options.body)).not.toHaveProperty('time')
         }
     })
 
-    test.each([30, 0])('removes stored time %s when an authorized edit omits it', async storedTime => {
-        const id = 'a'.repeat(24)
-        const recipe = Recipe.hydrate({ _id: id, author: id, title: 'valid', time: storedTime })
-        vi.spyOn(User, 'findById').mockResolvedValue({ _id: id })
-        vi.spyOn(Recipe, 'findById').mockResolvedValue(recipe)
-        const save = vi.spyOn(recipe, 'save').mockResolvedValue(recipe)
-
-        await updateRecipe(id, id, 'valid')
-
-        expect(save).toHaveBeenCalledOnce()
-        expect(recipe.getChanges().$unset).toHaveProperty('time', 1)
-    })
-
-    test('does not clear a time when the user is not the author', async () => {
-        const id = 'a'.repeat(24)
-        const recipe = Recipe.hydrate({ _id: id, author: 'b'.repeat(24), title: 'valid', time: 30 })
-        vi.spyOn(User, 'findById').mockResolvedValue({ _id: id })
-        vi.spyOn(Recipe, 'findById').mockResolvedValue(recipe)
-        const save = vi.spyOn(recipe, 'save')
-
-        await expect(updateRecipe(id, id, 'valid')).rejects.toThrowError(errors.OwnershipError)
-        expect(recipe.time).toBe(30)
-        expect(save).not.toHaveBeenCalled()
-    })
 
     test.each(['a', 'x'.repeat(800), '🍎'.repeat(400)])('accepts step text without changing it', text => {
         expect(textSchema.parse(text)).toBe(text)

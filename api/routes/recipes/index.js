@@ -1,9 +1,6 @@
 import { Router } from 'express'
 
 import {
-    createRecipeHandler,
-    deleteRecipeHandler,
-    updateRecipeHandler,
     togglePublishRecipeHandler,
 
     addIngredientToRecipeHandler,
@@ -23,6 +20,8 @@ import {
 
 import getRecipeByIdHandler from '../../modules/recipes/getRecipeById/composition.ts'
 import { getMyRecipesHandler, getPublishedRecipesHandler, getFavoritesRecipesHandler } from '../../modules/recipes/recipeList/composition.ts'
+import createRecipeHandler from '../../modules/recipes/createRecipe/composition.ts'
+import { updateRecipeHandler, deleteRecipeHandler } from '../../modules/recipes/recipeEdit/composition.ts'
 
 import jsonBodyParser from '../../middlewares/jsonBodyParser.js'
 

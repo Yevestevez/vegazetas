@@ -302,10 +302,41 @@ y E2E para la expiración y el cierre global de sesión.
 incluidas credenciales erróneas y accesos no autorizados; los cambios
 acordados en seguridad y compatibilidad están documentados.
 
-### Sprint 6: recetas y persistencia — pendiente
+### Sprint 6: recetas y persistencia — en curso
 
-- Migrar recetas por operaciones o subáreas pequeñas: consulta y listado,
-  creación/edición/eliminación, publicación, favoritos y elementos anidados.
+**Primer corte completado:** `GET /recipes/:recipeId` se migró a TypeScript con
+repositorio, caso de uso y handler. Conserva la receta con `own` e `isFavorite`,
+el rechazo de receta privada ajena y los errores de usuario o receta inexistentes.
+Se eliminó la lógica y el handler JavaScript anteriores. Pasaron 14 pruebas HTTP
+con Node 26.13.1 y MongoDB desechable.
+
+**Segundo corte completado:** los tres listados de recetas (`my-recipes`,
+`published-recipes`, `favorites-recipes`) se migraron a TypeScript con repositorio
+y casos de uso compartidos. Conservan las recetas visibles ordenadas por fecha, el
+campo `isFavorite` y el tratamiento de credenciales. Se eliminaron 10 archivos
+legacy. Pasaron 33 pruebas HTTP con Node 26.13.1 y MongoDB desechable.
+
+**Tercer corte completado:** `POST /recipes` (crear receta) se migró a TypeScript
+con repositorio, caso de uso y handler. Conserva el `201` con el ID como cadena
+JSON, las validaciones síncronas de título, descripción, tiempo y dificultad, y el
+`404` para usuario inexistente. Se eliminó la lógica y el handler JavaScript
+anteriores. Pasaron 10 pruebas HTTP con Node 26.13.1 y MongoDB desechable.
+
+**Cuarto corte completado:** `PATCH /recipes/:recipeId` (editar receta) y
+`DELETE /recipes/:recipeId` (eliminar receta) se migraron a TypeScript con
+repositorio y casos de uso compartidos. Conservan el `204` sin cuerpo, la
+verificación de propiedad, la eliminación del tiempo al omitirlo y los errores
+de usuario o receta inexistentes. Se eliminaron la lógica y los handlers
+JavaScript anteriores, junto con las pruebas unitarias de lógica que ya no
+aplican. La suite completa de API pasó con **483 pruebas en 38 archivos**,
+typecheck y compilación, con Node 26.13.1 y MongoDB desechable.
+
+**Pendiente:** `togglePublishRecipe` y elementos anidados (ingredientes, pasos,
+imágenes, etiquetas).
+
+- Migrar recetas por operaciones o subáreas pequeñas: consulta y listado
+  (completado), creación (completado), edición/eliminación, publicación,
+  favoritos y elementos anidados.
 - Consolidar acceso a Mongoose en repositorios y preservar permisos, orden,
   documentos e índices salvo decisión expresa.
 - Revisar los scripts de actualización existentes antes de considerar cualquier
