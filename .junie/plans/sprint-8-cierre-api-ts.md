@@ -13,21 +13,14 @@ El **Sprint 8** (cierre, seguridad y accesibilidad) está **completado**. Lo log
 
 **Lo que se mantiene en JavaScript (por decisión):**
 - Specs (`.spec.js`) — mantenidos en JS por decisión acordada.
-- Scripts manuales (`api/test/*.js`, `api/scripts/*.js`) — uso local.
+- Scripts de pruebas (`api/test/*.js`) — uso local.
 - `api/data/populate.js` — script de datos ficticios.
 - `api/vitest.config.js` — config de pruebas.
 
 # Resumen de cambios del Sprint 8
 
-### Migración a TypeScript
-- **Modelos Mongoose:** `api/data/models.ts` con tipos `InferSchemaType` y documentos tipados.
-- **Mailer:** `api/util/mailer.ts` con tipado de nodemailer y Resend.
-- **Middlewares:** `errorHandler.ts` con `ErrorRequestHandler`, `jsonBodyParser.ts` con `RequestHandler`.
-- **Config:** `loadEnv.ts` con tipado seguro del error.
-- **Routers:** `routes/users/index.ts`, `routes/recipes/index.ts`, `routes/index.ts`.
-- **App y arranque:** `app.ts` y `index.ts` con tipado Express.
-- **Limpieza legacy:** eliminada carpeta `logic/` (puente vacío + 7 tests legacy).
-- **tsconfig.json:** `allowJs: false`, `skipLibCheck: true`.
+### Limpieza de scripts obsoletos
+- **`api/scripts/` eliminada:** `updatePublished.js` y `updateStepOrder.js` eran migraciones de datos de una sola ejecución, ya aplicadas. Los campos `published` y `order` están ahora en el esquema Mongoose.
 
 ### Correcciones en specs
 - `vitest.config.js`: removida referencia a `logic/*.spec.js` (ya eliminada).
