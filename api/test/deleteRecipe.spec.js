@@ -2,8 +2,8 @@ import '../config/loadEnv.js'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
-import createApp from '../app.js'
-import { Recipe, User } from '../data/models.js'
+import createApp from '../app.ts'
+import { Recipe, User } from '../data/models.ts'
 
 describe('DELETE /recipes/:recipeId', () => {
     const secret = 'local-disposable-test-secret'

@@ -12,7 +12,7 @@ export function createAddStepHandler(
     return (req, res, next) => {
         try {
             const userId = getSessionUserId(req.headers.authorization)
-            const { recipeId } = req.params
+            const recipeId = String(req.params.recipeId)
             const { text, note, image } = req.body
 
             addStepToRecipe(userId, recipeId, text, note, image)
@@ -30,7 +30,8 @@ export function createRemoveStepHandler(
     return (req, res, next) => {
         try {
             const userId = getSessionUserId(req.headers.authorization)
-            const { recipeId, stepId } = req.params
+            const recipeId = String(req.params.recipeId)
+            const stepId = typeof req.params.stepId === 'string' ? req.params.stepId : undefined
 
             removeStepFromRecipe(userId, recipeId, stepId)
                 .then(() => res.status(204).send())
@@ -47,7 +48,8 @@ export function createUpdateStepHandler(
     return (req, res, next) => {
         try {
             const userId = getSessionUserId(req.headers.authorization)
-            const { recipeId, stepId } = req.params
+            const recipeId = String(req.params.recipeId)
+            const stepId = typeof req.params.stepId === 'string' ? req.params.stepId : undefined
             const { text, note, image } = req.body
 
             updateStepInRecipe(userId, recipeId, stepId, text, note, image)
@@ -65,7 +67,8 @@ export function createReorderStepHandler(
     return (req, res, next) => {
         try {
             const userId = getSessionUserId(req.headers.authorization)
-            const { recipeId, stepId } = req.params
+            const recipeId = String(req.params.recipeId)
+            const stepId = typeof req.params.stepId === 'string' ? req.params.stepId : undefined
             const { direction } = req.body
 
             reorderStepInRecipe(userId, recipeId, stepId, direction)

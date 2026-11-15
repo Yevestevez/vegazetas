@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import express from 'express'
 
 import getUserNameRouter from '../../modules/users/getUserName/getUserNameRoutes.ts'
 import registerUserRouter from '../../modules/users/registerUser/registerUserRoutes.ts'
@@ -8,7 +8,7 @@ import toggleFavoriteRecipeRouter from '../../modules/users/toggleFavoriteRecipe
 import passwordRecoverRouter from '../../modules/users/passwordRecover/passwordRecoverRoutes.ts'
 import passwordResetRouter from '../../modules/users/passwordReset/passwordResetRoutes.ts'
 
-const router = new Router()
+const router = express.Router()
 
 router.use('/auth', authenticateUserRouter)
 router.use(getUserNameRouter)

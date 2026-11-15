@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
-import { usersRouter, recipesRouter } from './routes/index.js'
-import errorHandler from './middlewares/errorHandler.js'
+import { usersRouter, recipesRouter } from './routes/index.ts'
+import errorHandler from './middlewares/errorHandler.ts'
 
 const createApp = () => {
     const app = express()

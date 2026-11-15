@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import jwt from 'jsonwebtoken'
 import { errors, idSchema, validate } from 'com'
-import createApp from '../app.js'
+import createApp from '../app.ts'
 
 describe('shared identifier validation', () => {
     test.each([

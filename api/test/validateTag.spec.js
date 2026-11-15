@@ -2,7 +2,7 @@ import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import jwt from 'jsonwebtoken'
 import { errors, tagSchema, validate } from 'com'
 import addTagInApp from '../../app/src/logic/addTagToRecipe.js'
-import createApp from '../app.js'
+import createApp from '../app.ts'
 
 describe('shared recipe tag validation', () => {
     test.each(['a', 'x'.repeat(30), '  ', '🍎'])('accepts a tag without changing it', tag => {

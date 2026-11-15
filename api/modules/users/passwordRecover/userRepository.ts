@@ -1,4 +1,4 @@
-import { User } from '../../../data/models.js'
+import { User } from '../../../data/models.ts'
 import type { RecoveryUser } from './passwordRecover.ts'
 
 export const findUserByEmail = (email: string): Promise<RecoveryUser | null> =>

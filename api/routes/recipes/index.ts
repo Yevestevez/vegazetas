@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import express from 'express'
 
 import getRecipeByIdHandler from '../../modules/recipes/getRecipeById/composition.ts'
 import { getMyRecipesHandler, getPublishedRecipesHandler, getFavoritesRecipesHandler } from '../../modules/recipes/recipeList/composition.ts'
@@ -10,9 +10,9 @@ import { addStepToRecipeHandler, removeStepFromRecipeHandler, updateStepHandler,
 import { addImageToRecipeHandler, removeImageFromRecipeHandler } from '../../modules/recipes/recipeImages/composition.ts'
 import { addTagToRecipeHandler, removeTagFromRecipeHandler } from '../../modules/recipes/recipeTags/composition.ts'
 
-import jsonBodyParser from '../../middlewares/jsonBodyParser.js'
+import jsonBodyParser from '../../middlewares/jsonBodyParser.ts'
 
-const router = new Router()
+const router = express.Router()
 
 router.post('/', jsonBodyParser, createRecipeHandler)
 router.delete('/:recipeId', deleteRecipeHandler)

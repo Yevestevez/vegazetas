@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { User } from '../data/models.js'
+import { User } from '../data/models.ts'
 import { assertTestMongoUrl } from './testDatabase.js'
 
 export const removeE2eUser = async email => {

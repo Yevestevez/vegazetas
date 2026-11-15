@@ -10,7 +10,7 @@ export function createAddImageHandler(
     return (req, res, next) => {
         try {
             const userId = getSessionUserId(req.headers.authorization)
-            const { recipeId } = req.params
+            const recipeId = String(req.params.recipeId)
             const { image } = req.body
 
             addImageToRecipe(userId, recipeId, image)
@@ -28,7 +28,8 @@ export function createRemoveImageHandler(
     return (req, res, next) => {
         try {
             const userId = getSessionUserId(req.headers.authorization)
-            const { recipeId, index } = req.params
+            const recipeId = String(req.params.recipeId)
+            const index = typeof req.params.index === 'string' ? req.params.index : undefined
 
             removeImageFromRecipe(userId, recipeId, index)
                 .then(() => res.status(204).send())

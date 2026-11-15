@@ -1,10 +1,10 @@
-import './config/loadEnv.js'
+import './config/loadEnv.ts'
 
 import mongoose from 'mongoose'
 
-import createApp from './app.js'
+import createApp from './app.ts'
 
-const connectToDb = () => mongoose.connect(process.env.MONGO_URL)
+const connectToDb = () => mongoose.connect(process.env.MONGO_URL!)
     .then(() => console.log('DB connected'))
 
 const startApi = () => {

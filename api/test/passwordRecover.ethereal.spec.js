@@ -2,7 +2,7 @@ import '../config/loadEnv.js'
 import { randomUUID } from 'node:crypto'
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import mongoose from 'mongoose'
-import { User } from '../data/models.js'
+import { User } from '../data/models.ts'
 import { passwordRecover } from '../modules/users/passwordRecover/composition.ts'
 
 describe('passwordRecover with Ethereal', () => {

@@ -4,8 +4,8 @@ import {
     descriptionSchema, difficultySchema, errors, imageSchema, noteSchema,
     stepNoteUpdateSchema, textSchema, timeSchema, titleSchema, validate
 } from 'com'
-import createApp from '../app.js'
-import { Recipe, User } from '../data/models.js'
+import createApp from '../app.ts'
+import { Recipe, User } from '../data/models.ts'
 import addImageInApp from '../../app/src/logic/addImageToRecipe.js'
 import addStepInApp from '../../app/src/logic/addStepToRecipe.js'
 import createRecipeInApp from '../../app/src/logic/createRecipe.js'

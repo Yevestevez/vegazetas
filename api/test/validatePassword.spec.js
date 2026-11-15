@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 import { errors, passwordSchema, validate } from 'com'
-import createApp from '../app.js'
+import createApp from '../app.ts'
 import { authenticateUser } from '../modules/users/authenticateUser/composition.ts'
 import { passwordReset } from '../modules/users/passwordReset/composition.ts'
 import { registerUser } from '../modules/users/registerUser/composition.ts'

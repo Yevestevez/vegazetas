@@ -1,8 +1,8 @@
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
 import { annotationSchema, errors, mainSchema, quantitySchema, unitSchema, validate } from 'com'
-import createApp from '../app.js'
-import { User } from '../data/models.js'
+import createApp from '../app.ts'
+import { User } from '../data/models.ts'
 import addIngredientInApp from '../../app/src/logic/addIngredientToRecipe.js'
 
 describe('shared ingredient field validation', () => {

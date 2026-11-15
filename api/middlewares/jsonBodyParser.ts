@@ -1,8 +1,9 @@
+import type { RequestHandler } from 'express'
 import { json } from 'express'
 
 const parseJson = json()
 
-export default (req, res, next) => {
+const jsonBodyParser: RequestHandler = (req, res, next) => {
     parseJson(req, res, error => {
         if (error) return next(error)
 
@@ -10,3 +11,5 @@ export default (req, res, next) => {
         next()
     })
 }
+
+export default jsonBodyParser

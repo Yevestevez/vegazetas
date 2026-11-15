@@ -1,8 +1,9 @@
-import { User, Recipe } from '../../../data/models.js'
+import { User, Recipe } from '../../../data/models.ts'
 import type { FindUserById, FindMyRecipes, FindPublishedRecipes, FindFavoritesRecipes } from './recipeList.ts'
+import type { UserFavorites } from 'com/types/repo-types.ts'
 
 export const findUserById: FindUserById = userId =>
-    User.findById(userId).select('favorites').lean().exec()
+    User.findById(userId, 'favorites').lean().exec() as Promise<UserFavorites | null>
 
 export const findMyRecipes: FindMyRecipes = userId =>
     Recipe.find({ author: userId })

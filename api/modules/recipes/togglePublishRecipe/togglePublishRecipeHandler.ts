@@ -9,7 +9,7 @@ export type TogglePublishHandler = (req: Request, res: Response, next: NextFunct
 export function createTogglePublishHandler(togglePublishRecipe: (userId: string | undefined, recipeId: string | undefined) => Promise<{ published: boolean }>): TogglePublishHandler {
     return (req, res, next) => {
         const userId = getSessionUserId(req.headers.authorization)
-        const { recipeId } = req.params
+        const recipeId = String(req.params.recipeId)
 
         togglePublishRecipe(userId, recipeId)
             .then(result => res.status(200).json(result))

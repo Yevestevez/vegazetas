@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import jwt from 'jsonwebtoken'
 import { errors, ingredientNameSchema, nameSchema, validate } from 'com'
-import createApp from '../app.js'
+import createApp from '../app.ts'
 import { registerUser } from '../modules/users/registerUser/composition.ts'
 import registerUserInApp from '../../app/src/logic/registerUser.js'
 import addIngredientInApp from '../../app/src/logic/addIngredientToRecipe.js'

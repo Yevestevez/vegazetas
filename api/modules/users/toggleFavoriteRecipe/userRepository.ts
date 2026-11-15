@@ -1,4 +1,4 @@
-import { Recipe, User } from '../../../data/models.js'
+import { Recipe, User } from '../../../data/models.ts'
 import type { FavoriteUser } from './toggleFavoriteRecipe.ts'
 
 export const findUserById = (userId: string): Promise<FavoriteUser | null> =>

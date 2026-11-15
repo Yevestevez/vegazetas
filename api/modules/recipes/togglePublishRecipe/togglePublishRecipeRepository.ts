@@ -1,4 +1,4 @@
-import { Recipe, User } from '../../../data/models.js'
+import { Recipe, User } from '../../../data/models.ts'
 import type { FindUserById, FindAndToggleRecipe } from './togglePublishRecipe.ts'
 
 export const findUserById: FindUserById = userId =>

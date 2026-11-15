@@ -1,7 +1,7 @@
-// Intermediate types for Mongoose .lean() projections used by recipe repositories.
-// When models migrate to TypeScript (Sprint 8), these can be replaced by inferred types.
+// Type for the .lean() projection of User with only _id and favorites.
+// Matches the Mongoose User schema after migration to TypeScript.
 
 export interface UserFavorites {
-    _id: any
-    favorites: any[]
+    _id: string
+    favorites: string[]
 }

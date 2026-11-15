@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import { emailSchema, errors, validate } from 'com'
-import createApp from '../app.js'
+import createApp from '../app.ts'
 import { authenticateUser } from '../modules/users/authenticateUser/composition.ts'
 import { passwordRecover } from '../modules/users/passwordRecover/composition.ts'
 import { registerUser } from '../modules/users/registerUser/composition.ts'

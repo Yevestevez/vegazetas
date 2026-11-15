@@ -2,7 +2,7 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "type": "module",
   "engines": {
     "node": "^26.13.1"
@@ -32,9 +32,12 @@
     "resend": "^6.38.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.19.2",
+    "@types/nodemailer": "^8.0.2",
     "@vitest/coverage-v8": "^5.1.0",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"

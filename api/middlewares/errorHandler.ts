@@ -1,7 +1,8 @@
+import type { ErrorRequestHandler } from 'express'
 import { errors } from 'com'
 const { CredentialsError, DuplicityError, NotFoundError, OwnershipError, SystemError, ValidationError } = errors;
 
-export default (error, req, res, next) => {
+const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
     if (error instanceof ValidationError)
         res.status(400).json({ error: error.constructor.name, message: error.message });
     else if (error instanceof CredentialsError) {
@@ -16,5 +17,7 @@ export default (error, req, res, next) => {
     else if (error instanceof SystemError)
         res.status(500).json({ error: error.constructor.name, message: error.message });
     else
-        res.status(500).json({ error: SystemError.name, message: error.message });
+        res.status(500).json({ error: SystemError.name, message: (error as Error).message });
 }
+
+export default errorHandler

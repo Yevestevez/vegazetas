@@ -2,7 +2,7 @@ import '../config/loadEnv.js'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
-import { User } from '../data/models.js'
+import { User } from '../data/models.ts'
 
 const { createMailTransporterMock } = vi.hoisted(() => ({
     createMailTransporterMock: vi.fn()
@@ -12,7 +12,7 @@ vi.mock('../util/mailer.js', () => ({
     createMailTransporter: createMailTransporterMock
 }))
 
-import createApp from '../app.js'
+import createApp from '../app.ts'
 
 describe('POST /users/password/recover', () => {
     const secret = 'local-disposable-test-secret'

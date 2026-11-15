@@ -1,4 +1,4 @@
-import { User } from '../../../data/models.js'
+import { User } from '../../../data/models.ts'
 
 export const createUser = async (
     name: string,

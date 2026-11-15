@@ -4,7 +4,7 @@ import { errors } from 'com'
 
 const { SystemError } = errors
 
-export function createTestMailTransporter() {
+export function createTestMailTransporter(): Promise<unknown> {
     return nodemailer.createTestAccount()
         .then(testAccount => {
             const transporter = nodemailer.createTransport({
@@ -18,16 +18,16 @@ export function createTestMailTransporter() {
         .catch(error => { throw new SystemError(error.message) })
 }
 
-export function createRealMailTransporter() {
+export function createRealMailTransporter(): Promise<Resend> {
     if (!process.env.RESEND_API_KEY) return Promise.reject(new SystemError('Falta RESEND_API_KEY en env'))
     const resendClient = new Resend(process.env.RESEND_API_KEY)
     return Promise.resolve(resendClient)
 }
 
-export function createMailTransporter() {
+export function createMailTransporter(): Promise<unknown> {
     if (process.env.NODE_ENV === 'production') {
-        return createRealMailTransporter()  // API de Resend
+        return createRealMailTransporter()
     } else {
-        return createTestMailTransporter()  // Ethereal
+        return createTestMailTransporter()
     }
 }

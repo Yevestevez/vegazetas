@@ -2,8 +2,8 @@ import '../config/loadEnv.js'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import bcrypt from 'bcryptjs'
 import mongoose from 'mongoose'
-import createApp from '../app.js'
-import { User } from '../data/models.js'
+import createApp from '../app.ts'
+import { User } from '../data/models.ts'
 
 describe('POST /users', () => {
     let server

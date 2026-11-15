@@ -2,8 +2,8 @@ import '../config/loadEnv.js'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
-import createApp from '../app.js'
-import { User } from '../data/models.js'
+import createApp from '../app.ts'
+import { User } from '../data/models.ts'
 
 describe('GET /users/name', () => {
     const secret = 'local-disposable-test-secret'

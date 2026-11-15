@@ -3,8 +3,8 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } fr
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
-import createApp from '../app.js'
-import { User } from '../data/models.js'
+import createApp from '../app.ts'
+import { User } from '../data/models.ts'
 
 describe('POST /users/auth', () => {
     const secret = 'local-disposable-test-secret'

@@ -1,4 +1,5 @@
-import { Recipe, User } from '../../../data/models.js'
+import { Recipe, User } from '../../../data/models.ts'
+import type { StepDocument } from '../../../data/models.ts'
 import type { FindUserById, FindRecipeById, AddStep, RemoveStep, UpdateStep, ReorderStep } from './recipeSteps.ts'
 
 export const findUserById: FindUserById = userId =>
@@ -32,10 +33,10 @@ export function createRemoveStep(userId: string, recipeId: string): RemoveStep {
             .then(doc => {
                 if (!doc) return null
                 const { steps } = doc
-                const index = steps.findIndex(step => step._id.toString() === stepId)
+                const index = steps.findIndex((step: StepDocument) => step._id.toString() === stepId)
                 if (index < 0) throw new Error('step not found')
                 steps.splice(index, 1)
-                steps.forEach((step, newIndex) => {
+                steps.forEach((step: StepDocument, newIndex: number) => {
                     step.order = newIndex
                 })
                 return doc.save()
@@ -50,7 +51,7 @@ export function createUpdateStep(userId: string, recipeId: string): UpdateStep {
         return recipe
             .then(doc => {
                 if (!doc) return null
-                const stepToUpdate = doc.steps.find(step => step._id.toString() === stepId)
+                const stepToUpdate = doc.steps.find((step: StepDocument) => step._id.toString() === stepId)
                 if (!stepToUpdate) throw new Error('step not found')
                 stepToUpdate.text = text
                 stepToUpdate.note = note
@@ -67,7 +68,7 @@ export function createReorderStep(userId: string, recipeId: string): ReorderStep
         return recipe
             .then(doc => {
                 if (!doc) return null
-                const stepIndex = doc.steps.findIndex(step => step.id === stepId)
+                const stepIndex = doc.steps.findIndex((step: StepDocument) => step._id.toString() === stepId)
                 if (stepIndex === -1) throw new Error('Step not found')
 
                 if (direction === 'up' && stepIndex > 0) {
@@ -78,7 +79,7 @@ export function createReorderStep(userId: string, recipeId: string): ReorderStep
                         [doc.steps[stepIndex + 1].order, doc.steps[stepIndex].order]
                 }
 
-                doc.steps.sort((a, b) => a.order - b.order)
+                doc.steps.sort((a: StepDocument, b: StepDocument) => (a.order ?? 0) - (b.order ?? 0))
                 return doc.save()
             })
             .then(() => {})

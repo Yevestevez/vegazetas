@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import createApp from '../app.js'
+import createApp from '../app.ts'
 import { assertTestMongoUrl } from './testDatabase.js'
 
 assertTestMongoUrl(process.env.E2E_MONGO_URL, 'E2E_MONGO_URL', 'vegazetas_e2e_disposable')

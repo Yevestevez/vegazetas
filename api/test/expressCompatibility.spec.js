@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
-import createApp from '../app.js'
+import createApp from '../app.ts'
 
 describe('JSON request compatibility', () => {
     let server

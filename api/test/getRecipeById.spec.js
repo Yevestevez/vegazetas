@@ -2,8 +2,8 @@ import '../config/loadEnv.js'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
-import createApp from '../app.js'
-import { Recipe, User } from '../data/models.js'
+import createApp from '../app.ts'
+import { Recipe, User } from '../data/models.ts'
 
 describe('GET /recipes/:recipeId', () => {
     const secret = 'local-disposable-test-secret'
@@ -172,7 +172,9 @@ describe('GET /recipes/:recipeId', () => {
 
     test('does not expose a database failure', async () => {
         const findById = vi.spyOn(User, 'findById').mockReturnValue({
-            lean: () => Promise.reject(new Error('database details'))
+            lean: () => ({
+                exec: () => Promise.reject(new Error('database details'))
+            })
         })
         const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
