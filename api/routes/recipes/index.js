@@ -7,7 +7,6 @@ import {
     getFavoritesRecipesHandler,
     deleteRecipeHandler,
     updateRecipeHandler,
-    getRecipeByIdHandler,
     togglePublishRecipeHandler,
 
     addIngredientToRecipeHandler,
@@ -24,6 +23,8 @@ import {
     addTagToRecipeHandler,
     removeTagFromRecipeHandler
 } from './handlers/index.js'
+
+import getRecipeByIdHandler from '../../modules/recipes/getRecipeById/composition.ts'
 
 import jsonBodyParser from '../../middlewares/jsonBodyParser.js'
 

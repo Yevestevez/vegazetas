@@ -4,7 +4,6 @@ import getPublishedRecipes from './getPublishedRecipes.js'
 import getFavoritesRecipes from './getFavoritesRecipes.js'
 import deleteRecipe from './deleteRecipe.js'
 import updateRecipe from './updateRecipe.js'
-import getRecipeById from './getRecipeById.js'
 import togglePublishRecipe from './togglePublishRecipe.js'
 
 import addIngredientToRecipe from './addIngredientToRecipe.js'
@@ -28,7 +27,6 @@ const logic = {
     getFavoritesRecipes,
     deleteRecipe,
     updateRecipe,
-    getRecipeById,
     togglePublishRecipe,
 
     addIngredientToRecipe,
