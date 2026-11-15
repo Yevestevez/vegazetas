@@ -9,10 +9,9 @@ export const createToggleFavoriteRecipeHandler = (
         const userId = getSessionUserId(req.headers.authorization)
         const { recipeId } = req.params
         const user = await toggleFavorite(userId, recipeId)
-        const response = user.toJSON()
-        delete response.password
-
-        res.status(200).json(response)
+        const userObj = user.toJSON()
+        const { _id, name, email, username, favorites } = userObj
+        res.status(200).json({ _id, name, email, username, favorites })
     } catch (error) {
         next(error)
     }
