@@ -165,12 +165,6 @@ Próximas mejoras a considerar: filtros, recetas compartidas, listas, gestión d
 
 Consulta el [prototipo de Vegazetas en Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214).
 
-## Créditos
-
-- Diseño UX/UI y desarrollo: [Yevestevez](https://github.com/Yevestevez).
-- Refactorización y mejoras de esta versión asistidas por IA con **GitHub Copilot** y **Junie** (JetBrains).
-- Prototipo diseñado en [Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214).
-
 ## Licencia
 
 Distribuido bajo la licencia [MIT](./LICENSE).

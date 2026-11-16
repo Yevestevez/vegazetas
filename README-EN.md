@@ -166,12 +166,6 @@ Future improvements to consider: filters, recipe sharing, lists, profile managem
 
 Explore the [Vegazetas Figma prototype](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214).
 
-## Credits
-
-- UX/UI design and development: [Yevestevez](https://github.com/Yevestevez).
-- Refactoring and improvements in this version, AI-assisted with **GitHub Copilot** and **Junie** (JetBrains).
-- Prototype designed in [Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214).
-
 ## License
 
 Distributed under the [MIT](./LICENSE) licence.
