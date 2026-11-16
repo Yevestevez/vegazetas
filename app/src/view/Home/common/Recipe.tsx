@@ -104,7 +104,7 @@ function Recipe({
             onUserLoggedOut={handleUserLoggedOut}
         />
 
-        <main className="flex flex-col w-full max-w-6xl overflow-hidden pt-14 xs:pt-24 lg:pt-36 xl:pt-40 pb-24 xs:pb-28 sm:pb-32 gap-2 bg-spring-bud">
+        <main className="flex flex-col w-full max-w-6xl overflow-hidden pt-14 xs:pt-24 pb-24 xs:pb-28 sm:pb-32 gap-2 bg-spring-bud">
 
             {/* Botonera */}
             <section aria-labelledby="recipe-action-title" className="z-20 w-full flex text-center items-center justify-center fixed left-0 top-16 xs:top-20 py-4 bg-folly border-b-4 border-b-spring-bud h-16">

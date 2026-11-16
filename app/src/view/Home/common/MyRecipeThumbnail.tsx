@@ -38,12 +38,12 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
                 interactive-hover focus:outline focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105
                 ${recipe.published ? 'opacity-100' : 'opacity-60 grayscale'}
             `}>
-        <header className="z-20 flex absolute top-0 left-0 right-0 p-4 xs:p-6 xl:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 items-center justify-between">
+        <header className="z-20 flex absolute top-0 left-0 right-0 p-3 xs:p-5 xl:p-5 sm:p-3 2xl:p-3 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 2xl:gap-3 items-center justify-between">
 
             <div className="flex items-center justify-start">
                 {recipe.published
-                    ? <MdRocketLaunch className="text-spring-bud text-2xl xs:text-3xl" title="Receta publicada" />
-                    : <MdVisibilityOff className="text-spring-bud text-xl xs:text-3xl" title="Receta en borrador" />
+                    ? <MdRocketLaunch className="text-spring-bud text-2xl xs:text-3xl 2xl:text-xl" title="Receta publicada" />
+                    : <MdVisibilityOff className="text-spring-bud text-xl xs:text-3xl 2xl:text-xl" title="Receta en borrador" />
                 }
             </div>
 
@@ -92,9 +92,9 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
 
                 <h2 className="
                 z-10 absolute inset-0 flex items-center justify-center text-center
-                p-6 pt-10 xs:p-10 xs:pt-14
+                p-4 pt-8 xs:p-8 xs:pt-12 2xl:p-4 2xl:pt-8
                 anybody-logo text-spring-bud break-words
-                text-2xl xs:text-4xl sm:text-2xl md:text-3xl lg:text-2xl xl:md:text-4xl
+                text-2xl xs:text-4xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-xl
                 leading-tight
                 drop-shadow-hard-sm
             ">
@@ -105,10 +105,10 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
 
         <footer className="
             z-10 mx-auto
-            -mt-4 xs:-mt-5 sm:-mt-4
-            px-4 py-1 xs:py-2 sm:py-1
+            -mt-4 xs:-mt-5 sm:-mt-4 2xl:-mt-4
+            px-3 py-1 xs:py-2 sm:py-1 2xl:px-3 2xl:py-1
             anybody-title text-spring-bud bg-folly 
-            text-sm xs:text-base sm:text-sm md:text-base lg:text-sm xl:md:text-base
+            text-sm xs:text-base sm:text-sm md:text-base lg:text-sm xl:text-base 2xl:text-sm
             rounded-sm overflow-hidden
         ">
             <time>{formatDate(recipe.date)}</time>

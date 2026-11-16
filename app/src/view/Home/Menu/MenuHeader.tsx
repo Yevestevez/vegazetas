@@ -61,7 +61,7 @@ function MenuHeader({ onUserLoggedOut }: MenuHeaderProps) {
         })
     }
 
-    return <header className="z-10 flex fixed top-0 min-w-screen w-full bg-folly justify-center">
+    return <header className="z-10 flex fixed top-0 min-w-screen w-full bg-folly justify-center min-h-16 xs:min-h-20">
         <div className='flex flex-col md:flex-row items-center justify-center w-full max-w-6xl p-4 lg:p-6 gap-4 md:gap-12 lg:gap-20 xl:gap-24'>
             <LogoVegazetasHeader className="text-spring-bud" />
 
