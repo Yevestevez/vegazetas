@@ -557,7 +557,7 @@ function SaveRecipe({
     const inputBase = `
         w-full text-sm md:text-base text-center py-1 sm:py-2 md:py-3 px-4 rounded-full
         placeholder:italic placeholder:opacity-70
-        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
+        shadow-hard-md xl:shadow-hard-lg
     `
     const labelBase = `text-base md:text-lg font-bold`
 
@@ -571,11 +571,11 @@ function SaveRecipe({
         folly: `bg-folly text-spring-bud hover:outline hover:outline-folly hover:bg-spring-bud hover:text-folly`
     }
 
-    const h3Base = `mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]`
+    const h3Base = `mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm shadow-hard-md xl:shadow-hard-lg`
 
-    const stepButton = `text-xl sm:text-2xl transition-transform duration-150 ease-out cursor-pointer hover:-translate-y-1 hover:scale-105`
+    const stepButton = `text-xl sm:text-2xl interactive-lift cursor-pointer`
 
-    const sectionBase = `flex flex-col w-full items-center gap-8 md:gap-12 px-8 md:px-12 xl:px-14 max-w-7xl`
+    const sectionBase = `flex flex-col w-full items-center gap-8 md:gap-12 px-8 md:px-12 xl:px-14 2xl:px-16 max-w-9xl`
 
     return <div className="flex flex-col min-h-screen w-full bg-folly">
         <Header
@@ -583,7 +583,7 @@ function SaveRecipe({
             onUserLoggedOut={handleUserLoggedOut}
         />
 
-        <main className="flex flex-col w-full max-w-7xl items-center mx-auto pt-14 xs:pt-20 lg:pt-32 xl:pt-32 pb-24 xs:pb-28 sm:pb-32 gap-2">
+        <main className="flex flex-col w-full max-w-9xl items-center mx-auto pt-14 xs:pt-20 lg:pt-32 xl:pt-32 pb-24 xs:pb-28 sm:pb-32 gap-2">
 
             {/* <-- button group --> */}
             <section
@@ -593,7 +593,7 @@ function SaveRecipe({
                     Botonera de acciones y navegación de la receta
                 </h2>
 
-                <div className="flex justify-between px-8 md:px-12 xl:px-14 w-full max-w-7xl">
+                <div className="flex justify-between px-8 md:px-12 xl:px-14 2xl:px-16 w-full max-w-9xl">
                     <nav className='flex gap-3 xs:gap-4'>
                         <MiniCircleButton onClick={() => {
                             if (window.history.length > 2) navigate(-1);
@@ -621,7 +621,7 @@ function SaveRecipe({
                 </div>
             </section>
 
-            <h1 className="anybody-logo text-2xl xs:text-3xl md:text-4xl xl:text-6xl text-spring-bud drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)] pt-24 lg:pt-12">
+            <h1 className="anybody-logo text-2xl xs:text-3xl md:text-4xl xl:text-6xl text-spring-bud drop-shadow-hard-md pt-24 lg:pt-12">
                 {view === "update" ? "Edita tu receta" : "Crea tu nueva receta"}
             </h1>
 
@@ -656,7 +656,7 @@ function SaveRecipe({
             <section
                 aria-labelledby='recipe-intro' className={sectionBase}>
 
-                <h2 id="recipe-intro" className="pt-2 anybody-logo text-2xl sm:text-3xl xl:text-4xl text-spring-bud drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)]">Introducción</h2>
+                <h2 id="recipe-intro" className="pt-2 anybody-logo text-2xl sm:text-3xl xl:text-4xl text-spring-bud drop-shadow-hard-sm xl:drop-shadow-hard-md">Introducción</h2>
 
                 <p className="text-spring-bud text-base lg:text-lg leading-tight text-center font-semibold">Preséntanos a tu receta, puedes añadir etiquetas y hasta dos imágenes.</p>
 
@@ -729,7 +729,7 @@ function SaveRecipe({
 
                     <ul className="flex gap-6 w-full justify-center">
                         {(recipe.images ?? []).map((image: string, index: number) => (
-                            <li className="relative shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] w-1/2" key={index}>
+                            <li className="relative shadow-hard-md xl:shadow-hard-lg w-1/2" key={index}>
 
                                 <MiniCircleButton onClick={(event) => handleDeleteImageButton(event, index)} variant="recipe" className="absolute right-2 top-2"><MdDelete /></MiniCircleButton>
 
@@ -763,7 +763,7 @@ function SaveRecipe({
                         {(recipe.tags ?? []).map((tag: string, index: number) => (
                             <li className="flex flex-row items-center align-middle text-folly gap-2" key={index}>
                                 <span className="
-                                        rounded-sm anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-spring-bud shadow-[0.2rem_0.2rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]
+                                        rounded-sm anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-spring-bud shadow-hard-sm xs:shadow-hard-md
                                     ">#{tag}</span>
 
                                 <MiniCircleButton title="Eliminar etiqueta" aria-label="Eliminar etiqueta" onClick={(event) => handleDeleteTagButton(event, index)} variant="recipe"><MdDelete aria-hidden="true" /></MiniCircleButton>
@@ -790,7 +790,7 @@ function SaveRecipe({
 
             {/* <-- ingredients --> */}
             <section aria-labelledby='ingredients' className={`${sectionBase} bg-spring-bud py-8 md:py-10`}>
-                <h2 id="ingredients" className="anybody-logo text-2xl sm:text-3xl xl:text-4xl text-folly drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)]">Ingredientes</h2>
+                <h2 id="ingredients" className="anybody-logo text-2xl sm:text-3xl xl:text-4xl text-folly drop-shadow-hard-sm xl:drop-shadow-hard-md">Ingredientes</h2>
 
                 <p className="text-folly text-base lg:text-lg leading-tight text-center font-semibold">Añade ingredientes a tu receta, puedes elegir entre ingredientes <strong>principales</strong> o de <strong>despensa</strong> (sal, pimienta...).</p>
 
@@ -890,7 +890,7 @@ function SaveRecipe({
 
             {/* <-- steps --> */}
             <section aria-labelledby='steps' className={`${sectionBase} py-6 text-spring-bud`}>
-                <h2 id="steps" className="anybody-logo text-2xl sm:text-3xl xl:text-4xl mx-auto drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)]">Pasos</h2>
+                <h2 id="steps" className="anybody-logo text-2xl sm:text-3xl xl:text-4xl mx-auto drop-shadow-hard-sm xl:drop-shadow-hard-md">Pasos</h2>
 
                 <p className="text-base lg:text-lg leading-tight text-center font-semibold">Añade los pasos necesarios para tu receta, también puedes <strong>editarlos y ordenarlos</strong> con los botones de cada paso.</p>
 
@@ -956,7 +956,7 @@ function SaveRecipe({
                                         <img
                                             src={step.image}
                                             alt={`Image ${index + 1}`}
-                                            className="my-2 sm:my-3 rounded-sm object-contain max-h-64 md:max-h-72 mx-auto shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]"
+                                            className="my-2 sm:my-3 rounded-sm object-contain max-h-64 md:max-h-72 mx-auto shadow-hard-md xl:shadow-hard-lg"
                                         />
                                     )}
                                 </>

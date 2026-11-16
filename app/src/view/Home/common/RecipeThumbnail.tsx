@@ -53,9 +53,8 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
 
     return <article className={`
                 flex flex-col w-full relative
-                drop-shadow-[0.4em_0.4em_0_rgba(0,0,0,0.8)]
-                transition-all duration-150 ease-out hover:scale-105
-                focus:outline focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105
+                drop-shadow-hard-lg
+                interactive-hover focus:outline focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105
                 ${recipe.published ? 'opacity-100' : 'opacity-60 grayscale'}
             `}>
         <header className="z-20 flex absolute top-0 left-0 right-0 p-4 xs:p-6 xl:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 items-center justify-between">
@@ -125,7 +124,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
                 anybody-logo break-words
                 text-2xl xs:text-4xl sm:text-2xl md:text-3xl lg:text-2xl xl:md:text-4xl
                 leading-tight
-                drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)]
+                drop-shadow-hard-sm
             `}>
                     {recipe.title}
                 </h2>

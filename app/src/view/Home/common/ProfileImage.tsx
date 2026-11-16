@@ -15,7 +15,7 @@ const VARIANTS: Record<ProfileImageVariant, string> = {
 
 function ProfileImage({ variant = 'common', className }: ProfileImageProps) {
     const profileImgClasses = clsx(
-        'rounded-full shadow-[0.2rem_0.2rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]',
+        'rounded-full shadow-hard-sm xs:shadow-hard-md xl:shadow-hard-md',
 
         VARIANTS[variant],
         className

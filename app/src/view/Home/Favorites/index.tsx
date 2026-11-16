@@ -83,16 +83,16 @@ function Favorites({ onRecipeThumbnailClick, onUserLoggedOut }: FavoritesProps) 
         />
 
         <main className="
-        flex flex-col w-full max-w-7xl overflow-hidden
+        flex flex-col w-full max-w-9xl overflow-hidden
         pt-20 xs:pt-24 lg:pt-36 xl:pt-40
         pb-24 xs:pb-28 sm:pb-32
         gap-2
         ">
-            <h1 className="anybody-logo text-coquelicot text-lg xs:text-xl sm:text-2xl xl:text-3xl drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)] pb-2">Las Favoritas</h1>
+            <h1 className="anybody-logo text-coquelicot text-lg xs:text-xl sm:text-2xl xl:text-3xl drop-shadow-hard-sm pb-2">Las Favoritas</h1>
 
             {favoritesRecipes.length > 0 ? (
-                <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
-                px-8 xs:px-10 md:px-12 xl:px-14
+                <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4
+                px-8 xs:px-10 md:px-12 xl:px-14 2xl:px-16
                 gap-8 xs:gap-10 lg:gap-12 xl:gap-14">
                     {favoritesRecipes.map(recipe => (
                         <RecipeThumbnail

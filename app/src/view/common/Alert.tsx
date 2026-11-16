@@ -15,7 +15,7 @@ function Alert({ message, onAccept, isWakingServer = false }: AlertProps) {
             w-full max-w-xl
             text-center 
             border-8 bg-folly border-spring-bud text-spring-bud
-            shadow-[0.6rem_0.6rem_0_0_rgba(0,0,0,0.8)] lg:shadow-[0.8rem_0.8rem_0_0_rgba(0,0,0,0.8)]
+            shadow-hard-2xl
         ">
             {isWakingServer && (
                 <svg

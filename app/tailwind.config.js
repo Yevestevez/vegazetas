@@ -3,7 +3,6 @@ export default {
     content: [
         "./index.html",
         "./src/**/*.{js,jsx,ts,tsx}",
-        "./components/**/*.{js,jsx,ts,tsx}",
     ],
     theme: {
         extend: {
@@ -20,14 +19,20 @@ export default {
                 'hot-magenta': '#FF1DCE'
             },
             screens: {
-                'xs': '480px'
+                'xs': '480px',
+                '3xl': '1920px'
+            },
+            maxWidth: {
+                '9xl': '1920px'
+            },
+            boxShadow: {
+                'hard-sm': '0.2rem 0.2rem 0 rgba(0,0,0,0.8)',
+                'hard-md': '0.3rem 0.3rem 0 rgba(0,0,0,0.8)',
+                'hard-lg': '0.4rem 0.4rem 0 rgba(0,0,0,0.8)',
+                'hard-xl': '0.5rem 0.5rem 0 rgba(0,0,0,0.8)',
+                'hard-2xl': '0.6rem 0.6rem 0 rgba(0,0,0,0.8)',
             },
         },
     },
-    safelist: [
-        {
-            pattern: /(bg|text|hover:bg|hover:text)-(sgbus-green|dark-orange|violet|coquelicot|spring-bud|veronica|folly|canary|aquamarine|hot-magenta)/,
-        }
-    ],
     plugins: [],
 }

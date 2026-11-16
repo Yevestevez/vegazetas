@@ -9,7 +9,7 @@
 <p align="center">
   <strong>Una forma colorida de crear, organizar y compartir recetas veganas.</strong>
   <br>
-  Diseñado y desarrollado artesanalmente de principio a fin: desde Figma hasta el despliegue.
+  De Figma al despliegue, sin sufrimiento animal.
 </p>
 
 <p align="center">
@@ -26,6 +26,18 @@
   <a href="https://github.com/Yevestevez">GitHub</a> ·
   <a href="https://www.linkedin.com/in/edu-yeves/">LinkedIn</a>
 </p>
+
+<p align="center">
+  <strong>Vista previa pendiente</strong>
+  <br>
+  <sub>Guarda la captura en <code>doc/images/vegazetas-preview.png</code> y sustituye este recuadro por la imagen.</sub>
+</p>
+
+<!-- Cuando la imagen esté lista, sustituye el párrafo anterior por:
+<p align="center">
+  <img src="./doc/images/vegazetas-preview.png" alt="Vista previa de Vegazetas" width="900">
+</p>
+-->
 
 ---
 
@@ -55,9 +67,7 @@
 
 Vegazetas es una aplicación web full-stack para guardar recetas veganas propias y descubrir las que publica la comunidad. La experiencia gira en torno a una interfaz expresiva y alegre, pensada para que crear y consultar recetas resulte sencillo.
 
-Es un proyecto diseñado y desarrollado íntegramente por mí: desde el diseño UX/UI en Figma hasta la aplicación de una sola página, la API REST, la base de datos y el despliegue en la nube. Incluye **424 pruebas de API** y **68 pruebas de navegador** automatizadas.
-
-> La refactorización a TypeScript y las mejoras de esta versión se han realizado con asistencia de IA, utilizando agentes, skills y MCPs para optimizar el flujo de trabajo. Las herramientas principales han sido **GitHub Copilot** y **Junie** (JetBrains).
+Es un proyecto concebido y desarrollado de principio a fin por mí: desde el diseño UX/UI en Figma hasta la aplicación de una sola página, la API REST, la base de datos y el despliegue en la nube. La refactorización a TypeScript y las mejoras de esta versión se han realizado con asistencia de IA —agentes, skills y MCPs—, con **GitHub Copilot** y **Junie** (JetBrains) como herramientas principales y revisión humana en cada cambio.
 
 ## Funcionalidades
 
@@ -76,7 +86,7 @@ El proyecto sigue una arquitectura modular con paquetes separados y código comp
 - **Backend:** API REST con Express 5.3, TypeScript, Mongoose y MongoDB.
 - **Compartido:** paquete `com/` con validación Zod 4 y clases de error, consumido por ambos paquetes.
 - **Seguridad:** Helmet, rate limiting, CORS configurado, protección contra JWT Algorithm Confusion.
-- **Pruebas:** Vitest para lógica e integración (424 pruebas), Playwright para navegador (68 pruebas).
+- **Pruebas:** Vitest para lógica e integración (424 pruebas) y Playwright para navegador (68 pruebas); comandos en [api](./api/README.md#tests) y [app](./app/README.md#browser-tests).
 
 Los detalles están en el [estado actual](./doc/ESTADO-ACTUAL.md) y la [estructura del proyecto](./doc/ESTRUCTURA-PROYECTO.md).
 
@@ -162,3 +172,13 @@ Próximas mejoras a considerar: filtros, recetas compartidas, listas, gestión d
 ## Diseño
 
 Consulta el [prototipo de Vegazetas en Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214).
+
+## Créditos
+
+- Diseño UX/UI y desarrollo: [Yevestevez](https://github.com/Yevestevez).
+- Refactorización y mejoras de esta versión asistidas por IA con **GitHub Copilot** y **Junie** (JetBrains).
+- Prototipo diseñado en [Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214).
+
+## Licencia
+
+Distribuido bajo la licencia [MIT](./LICENSE).

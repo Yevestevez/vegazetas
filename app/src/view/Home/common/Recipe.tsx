@@ -104,7 +104,7 @@ function Recipe({
             onUserLoggedOut={handleUserLoggedOut}
         />
 
-        <main className="flex flex-col w-full max-w-7xl overflow-hidden pt-14 xs:pt-24 lg:pt-36 xl:pt-40 pb-24 xs:pb-28 sm:pb-32 gap-2 bg-spring-bud">
+        <main className="flex flex-col w-full max-w-9xl overflow-hidden pt-14 xs:pt-24 lg:pt-36 xl:pt-40 pb-24 xs:pb-28 sm:pb-32 gap-2 bg-spring-bud">
 
             {/* Botonera */}
             <section aria-labelledby="recipe-action-title" className="z-20 w-full flex text-center items-center justify-center fixed left-0 top-16 xs:top-20 py-4 bg-folly border-b-4 border-b-spring-bud h-16">
@@ -112,7 +112,7 @@ function Recipe({
                     Botonera de acciones y navegación de la receta
                 </h2>
 
-                <div className="flex justify-between px-8 md:px-12 xl:px-14 w-full max-w-7xl">
+                <div className="flex justify-between px-8 md:px-12 xl:px-14 2xl:px-16 w-full max-w-9xl">
 
                     {/* Navegación atrás/arriba */}
                     <nav className='flex gap-2 xs:gap-4'>
@@ -201,7 +201,7 @@ function Recipe({
                     <h2 className="sr-only">Presentación de la receta</h2>
 
                     {/* <-- images --> */}
-                    <div className="w-full flex flex-row items-center justify-center overflow-hidden h-44 xs:h-56 sm:h-72 md:h-80 mt-16 xs:mt-12 lg:mt-0 xl:-mt-4 max-w-7xl">
+                    <div className="w-full flex flex-row items-center justify-center overflow-hidden h-44 xs:h-56 sm:h-72 md:h-80 2xl:h-96 mt-16 xs:mt-12 lg:mt-0 xl:-mt-4 max-w-9xl">
                         {recipe.images.length > 0 ? (
                             recipe.images.map((image: string, index: number) => {
                                 const widthClass = recipe.images.length === 1 ? "w-full" : "w-1/2"
@@ -228,9 +228,9 @@ function Recipe({
                         gap-3 p-4 xs:p-6 w-3/4 sm:p-8 md:p-10 sm:w-2/3 lg:w-1/2
                         mx-16 -mt-4 sm:-mt-6 lg:-mt-8
                         bg-folly text-spring-bud
-                        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.5rem_0.5rem_0_0_rgba(0,0,0,0.8)]
+                        shadow-hard-md xs:shadow-hard-lg xl:shadow-hard-xl
                     ">
-                        <h1 className="anybody-logo text-xl sm:text-2xl lg:text-3xl xl:text-4xl -mb-2 leading-tight sm:leading-tight lg:leading-tight xl:leading-tight">{recipe.title}</h1>
+                        <h1 className="anybody-logo text-xl sm:text-2xl lg:text-3xl xl:text-4xl -mb-2 leading-tight">{recipe.title}</h1>
 
                         {recipe.author && <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl underline decoration-4 underline-offset-4">@{recipe.author.username}</h2>}
 
@@ -239,7 +239,7 @@ function Recipe({
 
                     <div className='flex flex-col gap-3 xs:gap-4 lg:gap-6 py-6 xs:py-8 md:py-10 justify-center items-center px-8 md:px-12 xl:px-14 w-full'>
                         {/* <-- description --> */}
-                        {recipe.description && <p className="text-folly text-center text-base sm:text-lg lg:text-xl xl:text-2xl leading-tight sm:leading-tight lg:leading-tight xl:leading-tight">{recipe.description}</p>}
+                        {recipe.description && <p className="text-folly text-center text-base sm:text-lg lg:text-xl xl:text-2xl leading-tight">{recipe.description}</p>}
 
                         {/* <-- time, difficulty --> */}
                         {
@@ -260,7 +260,7 @@ function Recipe({
                         {recipe.tags && recipe.tags.length > 0 && (
                             <ul className="flex flex-wrap justify-center gap-3 xs:gap-4 md:gap-6 text-spring-bud">
                                 {recipe.tags.map((tag: string, index: number) => (
-                                    <li className="rounded-sm anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-folly shadow-[0.2rem_0.2rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]" key={index}>#{tag}</li>
+                                    <li className="rounded-sm anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-folly shadow-hard-sm xs:shadow-hard-md" key={index}>#{tag}</li>
                                 ))}
                             </ul>
                         )}
@@ -272,7 +272,7 @@ function Recipe({
                     <section aria-labelledby='ingredients' className="flex flex-col justify-items-center items-center py-6 sm:py-8 gap-6 px-8 md:px-12 xl:px-14 w-full bg-folly">
                         <h2 id="ingredients" className="
                         anybody-logo text-2xl sm:text-3xl xl:text-4xl text-spring-bud
-                        drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)]
+                        drop-shadow-hard-sm xl:drop-shadow-hard-md
                     ">Ingredientes</h2>
 
                         <div className="columns-1 lg:columns-2 gap-6 text-center space-y-6">
@@ -282,12 +282,12 @@ function Recipe({
                                 <div className="flex flex-col items-center justify-center align-middle">
                                     <h3 className="
                                         px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
-                                        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
+                                        shadow-hard-md xl:shadow-hard-lg
                                     ">Principales</h3>
                                     {recipe.ingredients
                                         .filter((ingredient: any) => ingredient.main)
                                         .map((ingredient: any) => (
-                                            <div className="py-1 xs:py-1.5 text-base sm:text-lg xl:text-xl leading-tight sm:leading-tight xl:leading-tight text-spring-bud" key={ingredient.id}>
+                                            <div className="py-1 xs:py-1.5 text-base sm:text-lg xl:text-xl leading-tight text-spring-bud" key={ingredient.id}>
                                                 <p>
                                                     <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
                                                     {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
@@ -302,12 +302,12 @@ function Recipe({
                                 <div className="flex flex-col items-center justify-center align-middle">
                                     <h3 className="
                                         px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
-                                        shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)]
+                                        shadow-hard-md xl:shadow-hard-lg
                                     ">Despensa</h3>
                                     {recipe.ingredients
                                         .filter((ingredient: any) => !ingredient.main)
                                         .map((ingredient: any) => (
-                                            <div className="py-1 xs:py-1.5 text-base sm:text-lg xl:text-xl leading-tight sm:leading-tight xl:leading-tight text-spring-bud" key={ingredient.id}>
+                                            <div className="py-1 xs:py-1.5 text-base sm:text-lg xl:text-xl leading-tight text-spring-bud" key={ingredient.id}>
                                                 <p>
                                                     <span className="font-extrabold">{ingredient.name} ·</span> <span>{ingredient.quantity}</span> <span>{ingredient.unit}</span>
                                                     {ingredient.annotation && <span className="italic font-light"> ({ingredient.annotation})</span>}
@@ -325,19 +325,19 @@ function Recipe({
                     <section aria-labelledby='steps' className="flex flex-col justify-items-center items-center py-6 gap-6 px-8 md:px-12 xl:px-14 w-full">
                         <h2 id="steps" className="
                         anybody-logo text-2xl sm:text-3xl xl:text-4xl text-folly
-                        drop-shadow-[0.2rem_0.2rem_0_rgba(0,0,0,0.8)] xl:drop-shadow-[0.3rem_0.3rem_0_rgba(0,0,0,0.8)]
+                        drop-shadow-hard-sm xl:drop-shadow-hard-md
                     ">Preparación</h2>
 
-                        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 xs:gap-8 space-y-6 items-center justify-center text-center text-spring-bud">
+                        <div className="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 gap-6 xs:gap-8 space-y-6 items-center justify-center text-center text-spring-bud">
                             {recipe.steps.map((step: any, index: number) => (
                                 <div className="
                                     break-inside-avoid rounded-sm
                                     flex flex-col h-full p-4 xs:p-6 gap-3 w-full bg-folly 
-                                    shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.4rem_0.4rem_0_0_rgba(0,0,0,0.8)] xl:shadow-[0.5rem_0.5rem_0_0_rgba(0,0,0,0.8)]
+                                    shadow-hard-md xs:shadow-hard-lg xl:shadow-hard-xl
                                 " key={index}>
                                     <h3 className="anybody-logo text-lg sm:text-xl xl:text-2xl">{index + 1}</h3>
-                                    <p className="text-base sm:text-lg xl:text-xl leading-tight sm:leading-tight xl:leading-tight">{step.text}</p>
-                                    {step.note && <p className="text-sm sm:text-base italic font-light leading-tight sm:leading-tight">({step.note})</p>}
+                                    <p className="text-base sm:text-lg xl:text-xl leading-tight">{step.text}</p>
+                                    {step.note && <p className="text-sm sm:text-base italic font-light leading-tight">({step.note})</p>}
                                     {step.image && (
                                         <div className="w-full mt-2 sm:max-h-48 overflow-hidden bg-folly">
                                             <img

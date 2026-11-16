@@ -86,15 +86,15 @@ function Header({ onUserLoggedOut, variant = 'myRecipes' }: HeaderProps) {
         currentVariant.headerBg,
         currentVariant.borderBottom
     )}>
-        <div className="flex items-center justify-between w-full py-3 px-8 md:px-12 xl:px-14 max-w-7xl gap-2">
+        <div className="flex items-center justify-between w-full py-3 px-8 md:px-12 xl:px-14 2xl:px-16 max-w-9xl gap-2">
             <LogoVegazetasHeader to="/menu" className={currentVariant.logoColor} />
 
             <div className="flex gap-2 lg:gap-4 items-center align-middle justify-center">
                 <button
                     className={clsx(
-                        "anybody font-normal text-xs lg:text-sm leading-none lg:leading-tight xl:leading-tight order-1 cursor-pointer transition-all duration-150 ease-out active:scale-95",
-                        "hover:font-semibold hover:-translate-y-0.5 hover:scale-105 hover:text-black",
-                        "focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105",
+                        "anybody font-normal text-xs lg:text-sm leading-none lg:leading-tight order-1 cursor-pointer",
+                        "hover:font-semibold hover:-translate-y-0.5 hover:text-black",
+                        "interactive-hover focus-ring",
                         currentVariant.logoutBtn
                     )}
                     aria-label="Cerrar sesión"

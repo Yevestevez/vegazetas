@@ -21,7 +21,7 @@ const VARIANTS: Record<MiniCircleButtonVariant, string> = {
     text-base xs:text-xl sm:text-base md:text-xl lg:text-base xl:text-xl
     bg-folly text-spring-bud
     hover:bg-spring-bud hover:text-folly
-    shadow-[0.2rem_0.2rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]
+    shadow-hard-sm xs:shadow-hard-md
   `,
   recipe: `
     size-7 xs:size-8 md:size-9
@@ -29,7 +29,7 @@ const VARIANTS: Record<MiniCircleButtonVariant, string> = {
     bg-spring-bud text-folly
     outline-none
     hover:bg-folly hover:text-spring-bud hover:outline-4 hover:outline-spring-bud hover:outline-offset-0
-    shadow-[0.2rem_0.2rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]
+    shadow-hard-sm xs:shadow-hard-md
   `,
   saveRecipe: `
     size-7 xs:size-8 md:size-9
@@ -37,7 +37,7 @@ const VARIANTS: Record<MiniCircleButtonVariant, string> = {
     bg-folly text-spring-bud
     outline-none
     hover:bg-spring-bud hover:text-folly hover:outline-4 hover:outline-folly hover:outline-offset-0
-    shadow-[0.2rem_0.2rem_0_0_rgba(0,0,0,0.8)] xs:shadow-[0.3rem_0.3rem_0_0_rgba(0,0,0,0.8)]
+    shadow-hard-sm xs:shadow-hard-md
   `
 }
 
@@ -53,9 +53,7 @@ function MiniCircleButton({
   const btnClasses = clsx(
     VARIANTS[variant],
     'flex items-center justify-center rounded-full cursor-pointer',
-    'transition-all duration-150 ease-out active:scale-95',
-    'hover:-translate-y-1 hover:scale-105',
-    'focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105',
+    'interactive-lift focus-ring',
     className
   )
 
