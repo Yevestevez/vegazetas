@@ -28,16 +28,8 @@
 </p>
 
 <p align="center">
-  <strong>Vista previa pendiente</strong>
-  <br>
-  <sub>Guarda la captura en <code>doc/images/vegazetas-preview.png</code> y sustituye este recuadro por la imagen.</sub>
+  <img src="./doc/images/Vegazetas.png" alt="Vista previa de Vegazetas" width="900">
 </p>
-
-<!-- Cuando la imagen esté lista, sustituye el párrafo anterior por:
-<p align="center">
-  <img src="./doc/images/vegazetas-preview.png" alt="Vista previa de Vegazetas" width="900">
-</p>
--->
 
 ---
 

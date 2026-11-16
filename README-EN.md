@@ -28,16 +28,8 @@
 </p>
 
 <p align="center">
-  <strong>Preview coming soon</strong>
-  <br>
-  <sub>Save the screenshot as <code>doc/images/vegazetas-preview.png</code> and replace this box with the image.</sub>
+  <img src="./doc/images/Vegazetas.png" alt="Vegazetas preview" width="900">
 </p>
-
-<!-- Once the image is ready, replace the paragraph above with:
-<p align="center">
-  <img src="./doc/images/vegazetas-preview.png" alt="Vegazetas preview" width="900">
-</p>
--->
 
 ---
 
