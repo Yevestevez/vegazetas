@@ -17,7 +17,7 @@ function LogoVegazetas({
     const logoClasses = clsx(
         'text-center anybody-logo',
         'text-7xl xs:text-8xl sm:text-9xl lg:text-[12rem] xl:text-[10rem]',
-        'leading-[0.8] p-4',
+        'leading-[0.8] xs:leading-[0.8] sm:leading-[0.8] p-4',
         'drop-shadow-hard-2xl',
         className
     )
@@ -25,7 +25,7 @@ function LogoVegazetas({
     const logoBtnClasses = clsx(
         'text-center anybody-logo',
         'text-7xl xs:text-8xl sm:text-9xl xl:text-[10rem]',
-        'leading-[0.8] p-4',
+        'leading-[0.8] xs:leading-[0.8] sm:leading-[0.8] p-4',
         'drop-shadow-hard-2xl',
         'interactive-lift focus-ring',
         className

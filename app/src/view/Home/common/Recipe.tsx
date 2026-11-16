@@ -104,7 +104,7 @@ function Recipe({
             onUserLoggedOut={handleUserLoggedOut}
         />
 
-        <main className="flex flex-col w-full max-w-9xl overflow-hidden pt-14 xs:pt-24 lg:pt-36 xl:pt-40 pb-24 xs:pb-28 sm:pb-32 gap-2 bg-spring-bud">
+        <main className="flex flex-col w-full max-w-6xl overflow-hidden pt-14 xs:pt-24 lg:pt-36 xl:pt-40 pb-24 xs:pb-28 sm:pb-32 gap-2 bg-spring-bud">
 
             {/* Botonera */}
             <section aria-labelledby="recipe-action-title" className="z-20 w-full flex text-center items-center justify-center fixed left-0 top-16 xs:top-20 py-4 bg-folly border-b-4 border-b-spring-bud h-16">
@@ -112,7 +112,7 @@ function Recipe({
                     Botonera de acciones y navegación de la receta
                 </h2>
 
-                <div className="flex justify-between px-8 md:px-12 xl:px-14 2xl:px-16 w-full max-w-9xl">
+                <div className="flex justify-between px-8 md:px-12 xl:px-14 2xl:px-16 w-full max-w-6xl">
 
                     {/* Navegación atrás/arriba */}
                     <nav className='flex gap-2 xs:gap-4'>
@@ -201,7 +201,7 @@ function Recipe({
                     <h2 className="sr-only">Presentación de la receta</h2>
 
                     {/* <-- images --> */}
-                    <div className="w-full flex flex-row items-center justify-center overflow-hidden h-44 xs:h-56 sm:h-72 md:h-80 2xl:h-96 mt-16 xs:mt-12 lg:mt-0 xl:-mt-4 max-w-9xl">
+                    <div className="w-full flex flex-row items-center justify-center overflow-hidden h-44 xs:h-56 sm:h-72 md:h-80 2xl:h-96 mt-16 xs:mt-12 lg:mt-0 xl:-mt-4 max-w-6xl">
                         {recipe.images.length > 0 ? (
                             recipe.images.map((image: string, index: number) => {
                                 const widthClass = recipe.images.length === 1 ? "w-full" : "w-1/2"

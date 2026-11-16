@@ -113,7 +113,7 @@ function Login({ onUserLoggedIn }: LoginProps) {
     return <div className="flex flex-col items-center justify-start md:justify-center w-full min-h-screen gap-2 xs:gap-4 py-6 xs:py-10 md:pt-0 bg-violet">
         <LogoVegazetas to="/Landing" aria-label="Navegar a la Landing" title="Landing" className="text-hot-magenta hover:text-folly"></LogoVegazetas>
 
-        <main className="flex flex-col items-center justify-center w-full max-w-9xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
+        <main className="flex flex-col items-center justify-center w-full max-w-6xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
             <SectionTitle className="bg-hot-magenta text-violet">INICIO</SectionTitle>
 
             <form className="flex flex-col items-center justify-center w-full gap-2"

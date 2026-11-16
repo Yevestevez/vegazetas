@@ -78,7 +78,7 @@ function PasswordReset({ onPasswordReseted }: PasswordResetProps) {
                 <LogoVegazetas to="/Landing" className="text-spring-bud" />
             </header>
 
-            <main className="flex flex-col items-center justify-center w-full max-w-9xl gap-6 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
+            <main className="flex flex-col items-center justify-center w-full max-w-6xl gap-6 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
                 <h1 className="text-center anybody-title text-spring-bud text-2xl lg:text-4xl xl:text-5xl leading-tight">
                     Restablecimiento de contraseña
                 </h1>

@@ -83,10 +83,12 @@ function Header({ onUserLoggedOut, variant = 'myRecipes' }: HeaderProps) {
     return <header className={clsx(
         "z-20 flex fixed top-0 min-w-screen w-full justify-center",
         "h-16 xs:h-20",
-        currentVariant.headerBg,
-        currentVariant.borderBottom
+        currentVariant.headerBg
     )}>
-        <div className="flex items-center justify-between w-full py-3 px-8 md:px-12 xl:px-14 2xl:px-16 max-w-9xl gap-2">
+        <div className={clsx(
+            "flex items-center justify-between w-full py-3 px-8 md:px-12 xl:px-14 2xl:px-16 max-w-6xl gap-2",
+            currentVariant.borderBottom
+        )}>
             <LogoVegazetasHeader to="/menu" className={currentVariant.logoColor} />
 
             <div className="flex gap-2 lg:gap-4 items-center align-middle justify-center">

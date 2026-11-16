@@ -575,7 +575,7 @@ function SaveRecipe({
 
     const stepButton = `text-xl sm:text-2xl interactive-lift cursor-pointer`
 
-    const sectionBase = `flex flex-col w-full items-center gap-8 md:gap-12 px-8 md:px-12 xl:px-14 2xl:px-16 max-w-9xl`
+    const sectionBase = `flex flex-col w-full items-center gap-8 md:gap-12 px-8 md:px-12 xl:px-14 2xl:px-16 max-w-6xl`
 
     return <div className="flex flex-col min-h-screen w-full bg-folly">
         <Header
@@ -583,7 +583,7 @@ function SaveRecipe({
             onUserLoggedOut={handleUserLoggedOut}
         />
 
-        <main className="flex flex-col w-full max-w-9xl items-center mx-auto pt-14 xs:pt-20 lg:pt-32 xl:pt-32 pb-24 xs:pb-28 sm:pb-32 gap-2">
+        <main className="flex flex-col w-full max-w-6xl items-center mx-auto pt-14 xs:pt-20 lg:pt-32 xl:pt-32 pb-24 xs:pb-28 sm:pb-32 gap-2">
 
             {/* <-- button group --> */}
             <section
@@ -593,7 +593,7 @@ function SaveRecipe({
                     Botonera de acciones y navegación de la receta
                 </h2>
 
-                <div className="flex justify-between px-8 md:px-12 xl:px-14 2xl:px-16 w-full max-w-9xl">
+                <div className="flex justify-between px-8 md:px-12 xl:px-14 2xl:px-16 w-full max-w-6xl">
                     <nav className='flex gap-3 xs:gap-4'>
                         <MiniCircleButton onClick={() => {
                             if (window.history.length > 2) navigate(-1);
@@ -664,7 +664,7 @@ function SaveRecipe({
                 <section aria-labelledby="basic-data-title" className="flex flex-col w-full items-center text-center py-2 gap-2">
                     <h3 id="basic-data-title" className={`${h3Base} text-folly bg-spring-bud`}>Datos básicos</h3>
 
-                    <form className="flex flex-col w-full items-center gap-2 md:gap-4 text-spring-bud" key={JSON.stringify(recipe)} onSubmit={handleRecipeFormSubmit}>
+                    <form className="flex flex-col w-full max-w-2xl mx-auto items-center gap-2 md:gap-4 text-spring-bud" key={JSON.stringify(recipe)} onSubmit={handleRecipeFormSubmit}>
 
                         <label className={labelBase} htmlFor="title">Título*</label>
                         <input
@@ -738,7 +738,7 @@ function SaveRecipe({
                         ))}
                     </ul>
 
-                    <form className="flex flex-col w-full mx-auto items-center gap-2 md:gap-4 text-spring-bud" onSubmit={handleImageFormSubmit}>
+                    <form className="flex flex-col w-full max-w-2xl mx-auto items-center gap-2 md:gap-4 text-spring-bud" onSubmit={handleImageFormSubmit}>
                         <label className={labelBase} htmlFor="image">URL de imagen</label>
                         <input
                             id="image" type="url" name="image" title="Pega la URL de la imagen. Ejemplo: https://recetas.es/pizza.jpg (Máximo 2 imágenes)"
@@ -772,7 +772,7 @@ function SaveRecipe({
                     </ul>
 
                     <form
-                        className="flex flex-col w-full items-center gap-2 md:gap-4 text-spring-bud pt-2" onSubmit={handleTagFormSubmit}>
+                        className="flex flex-col w-full max-w-2xl mx-auto items-center gap-2 md:gap-4 text-spring-bud pt-2" onSubmit={handleTagFormSubmit}>
 
                         <label className={labelBase} htmlFor="tag">Nueva etiqueta</label>
                         <input
@@ -794,7 +794,7 @@ function SaveRecipe({
 
                 <p className="text-folly text-base lg:text-lg leading-tight text-center font-semibold">Añade ingredientes a tu receta, puedes elegir entre ingredientes <strong>principales</strong> o de <strong>despensa</strong> (sal, pimienta...).</p>
 
-                <div className="columns-1 lg:columns-2 gap-6 space-y-6">
+                <div className="columns-1 lg:columns-2 2xl:columns-3 gap-6 space-y-6">
                     {/* <-- main ingredients --> */}
                     {mainIngredients.length > 0 && (
                         <section aria-labelledby="main-ingredients" className="flex flex-col py-2 gap-2">
@@ -837,7 +837,7 @@ function SaveRecipe({
                 </div>
 
                 {/* <-- new ingredient --> */}
-                <form onSubmit={handleIngredientFormSubmit} className="flex flex-col w-full items-center mx-auto gap-2 md:gap-4 text-folly">
+                <form onSubmit={handleIngredientFormSubmit} className="flex flex-col w-full max-w-2xl mx-auto items-center gap-2 md:gap-4 text-folly">
                     <h3 className={`${h3Base} text-spring-bud bg-folly`}>Nuevo ingrediente</h3>
 
                     <label className={labelBase} htmlFor="name">Nombre*</label>
@@ -894,7 +894,7 @@ function SaveRecipe({
 
                 <p className="text-base lg:text-lg leading-tight text-center font-semibold">Añade los pasos necesarios para tu receta, también puedes <strong>editarlos y ordenarlos</strong> con los botones de cada paso.</p>
 
-                <ol className="columns-1 lg:columns-2 lg:gap-6">
+                <ol className="columns-1 lg:columns-2 2xl:columns-3 lg:gap-6">
                     {(recipe.steps ?? []).map((step: Step, index: number) => (
                         <li className="flex flex-col text-center gap-2" key={index}>
                             <h3 className="anybody-logo text-lg sm:text-xl">{index + 1}</h3>
@@ -992,7 +992,7 @@ function SaveRecipe({
                 </ol>
 
                 {/* <-- new step --> */}
-                <form onSubmit={handleStepFormSubmit} className="flex flex-col w-full mx-auto items-center gap-2 md:gap-4 lg:gap-2">
+                <form onSubmit={handleStepFormSubmit} className="flex flex-col w-full max-w-2xl mx-auto items-center gap-2 md:gap-4 lg:gap-2">
                     <h3 className={`${h3Base} text-folly bg-spring-bud`}>Nuevo Paso</h3>
 
                     <div className="columns-1 lg:columns-2 gap-2 lg:gap-6 text-center w-full">

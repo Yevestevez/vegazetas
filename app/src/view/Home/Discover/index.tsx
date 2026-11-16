@@ -83,7 +83,7 @@ function Discover({ onRecipeThumbnailClick, onUserLoggedOut }: DiscoverProps) {
         />
 
         <main className="
-        flex flex-col w-full max-w-9xl overflow-hidden
+        flex flex-col w-full max-w-6xl overflow-hidden
         pt-20 xs:pt-24 lg:pt-36 xl:pt-40
         pb-24 xs:pb-28 sm:pb-32
         gap-2
