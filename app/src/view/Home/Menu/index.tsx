@@ -53,7 +53,7 @@ function Menu({ onUserLoggedOut, onCreateRecipeClicked, onMyRecipesClicked }: Me
             <CircleButton
                 type='button'
                 onClick={handleCreateRecipeClick}
-                className="bg-folly text-spring-bud hover:bg-spring-bud hover:text-folly outline-none hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-folly"
+                className="bg-folly text-spring-bud hover:bg-spring-bud hover:text-folly outline-hidden hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-folly"
             >Nueva <br></br> receta</CircleButton>
         </main>
         <Footer />

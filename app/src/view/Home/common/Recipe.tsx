@@ -224,7 +224,7 @@ function Recipe({
 
                     {/* <-- title, author, date --> */}
                     <div className="
-                        z-10 relative flex flex-col justify-center align-middle items-center text-center rounded-sm
+                        z-10 relative flex flex-col justify-center align-middle items-center text-center rounded-xs
                         gap-3 p-4 xs:p-6 w-3/4 sm:p-8 md:p-10 sm:w-2/3 lg:w-1/2
                         mx-16 -mt-4 sm:-mt-6 lg:-mt-8
                         bg-folly text-spring-bud
@@ -260,7 +260,7 @@ function Recipe({
                         {recipe.tags && recipe.tags.length > 0 && (
                             <ul className="flex flex-wrap justify-center gap-3 xs:gap-4 md:gap-6 text-spring-bud">
                                 {recipe.tags.map((tag: string, index: number) => (
-                                    <li className="rounded-sm anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-folly shadow-hard-sm xs:shadow-hard-md" key={index}>#{tag}</li>
+                                    <li className="rounded-xs anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-folly shadow-hard-sm xs:shadow-hard-md" key={index}>#{tag}</li>
                                 ))}
                             </ul>
                         )}
@@ -281,7 +281,7 @@ function Recipe({
                             {recipe.ingredients.some((ingredient: any) => ingredient.main) && (
                                 <div className="flex flex-col items-center justify-center align-middle">
                                     <h3 className="
-                                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
+                                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs text-folly bg-spring-bud
                                         shadow-hard-md xl:shadow-hard-lg
                                     ">Principales</h3>
                                     {recipe.ingredients
@@ -301,7 +301,7 @@ function Recipe({
                             {recipe.ingredients.some((ingredient: any) => !ingredient.main) && (
                                 <div className="flex flex-col items-center justify-center align-middle">
                                     <h3 className="
-                                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm text-folly bg-spring-bud
+                                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs text-folly bg-spring-bud
                                         shadow-hard-md xl:shadow-hard-lg
                                     ">Despensa</h3>
                                     {recipe.ingredients
@@ -331,7 +331,7 @@ function Recipe({
                         <div className="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 gap-6 xs:gap-8 space-y-6 items-center justify-center text-center text-spring-bud">
                             {recipe.steps.map((step: any, index: number) => (
                                 <div className="
-                                    break-inside-avoid rounded-sm
+                                    break-inside-avoid rounded-xs
                                     flex flex-col h-full p-4 xs:p-6 gap-3 w-full bg-folly 
                                     shadow-hard-md xs:shadow-hard-lg xl:shadow-hard-xl
                                 " key={index}>

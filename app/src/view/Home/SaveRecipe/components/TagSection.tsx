@@ -24,13 +24,13 @@ function TagSection({
 }: TagSectionProps) {
     return (
         <section aria-labelledby="tags-title" className="flex flex-col w-full mx-auto pt-2 pb-6 gap-4">
-            <h3 id="tags-title" className={`mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm shadow-hard-md xl:shadow-hard-lg text-folly bg-spring-bud`}>Etiquetas</h3>
+            <h3 id="tags-title" className={`mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs shadow-hard-md xl:shadow-hard-lg text-folly bg-spring-bud`}>Etiquetas</h3>
 
             <ul className="flex flex-wrap w-full justify-center gap-x-4 md:gap-x-6 gap-y-2">
                 {tags.map((tag: string, index: number) => (
                     <li className="flex flex-row items-center align-middle text-folly gap-2" key={index}>
                         <span className="
-                                rounded-sm anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-spring-bud shadow-hard-sm xs:shadow-hard-md
+                                rounded-xs anybody-title text-xs sm:text-sm lg:text-base xl:text-lg pb-0.5 pt-1 px-2 bg-spring-bud shadow-hard-sm xs:shadow-hard-md
                             ">#{tag}</span>
 
                         <MiniCircleButton title="Eliminar etiqueta" aria-label="Eliminar etiqueta" onClick={(event) => onDeleteTag(index)} variant="recipe"><MdDelete aria-hidden="true" /></MiniCircleButton>

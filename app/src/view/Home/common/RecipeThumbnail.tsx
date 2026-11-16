@@ -98,7 +98,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
         </header>
 
         <button
-            className="flex items-center justify-center cursor-pointer w-full rounded-sm overflow-hidden"
+            className="flex items-center justify-center cursor-pointer w-full rounded-xs overflow-hidden"
             type="button"
             aria-label="Ir a la receta" title="Ir a la receta"
             onClick={handleRecipeThumbnailClick}
@@ -136,7 +136,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
             -mt-4 xs:-mt-5 sm:-mt-4 2xl:-mt-4
             px-3 py-1 xs:py-2 sm:py-1 2xl:px-3 2xl:py-1
             text-spring-bud bg-folly 
-            rounded-sm overflow-hidden flex flex-col
+            rounded-xs overflow-hidden flex flex-col
         ">
             <p className="anybody-title text-base xs:text-lg sm:text-base md:text-lg lg:text-base xl:text-lg 2xl:text-base">{`@${recipe.author.username}`}</p>
             <time className="text-sm xs:text-base sm:text-sm md:text-base lg:text-sm xl:text-base 2xl:text-sm">{formatDate(recipe.date)}</time>

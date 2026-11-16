@@ -27,7 +27,7 @@ const VARIANTS: Record<MiniCircleButtonVariant, string> = {
     size-7 xs:size-8 md:size-9 2xl:size-7
     text-xl md:text-2xl 2xl:text-xl
     bg-spring-bud text-folly
-    outline-none
+    outline-hidden
     hover:bg-folly hover:text-spring-bud hover:outline-4 hover:outline-spring-bud hover:outline-offset-0
     shadow-hard-sm xs:shadow-hard-md 2xl:shadow-hard-sm
   `,
@@ -35,7 +35,7 @@ const VARIANTS: Record<MiniCircleButtonVariant, string> = {
     size-7 xs:size-8 md:size-9 2xl:size-7
     text-xl md:text-2xl 2xl:text-xl
     bg-folly text-spring-bud
-    outline-none
+    outline-hidden
     hover:bg-spring-bud hover:text-folly hover:outline-4 hover:outline-folly hover:outline-offset-0
     shadow-hard-sm xs:shadow-hard-md 2xl:shadow-hard-sm
   `

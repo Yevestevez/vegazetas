@@ -97,7 +97,7 @@ function StepItem({
                         <img
                             src={step.image}
                             alt={`Image ${index + 1}`}
-                            className="my-2 sm:my-3 rounded-sm object-contain max-h-64 md:max-h-72 mx-auto shadow-hard-md xl:shadow-hard-lg"
+                            className="my-2 sm:my-3 rounded-xs object-contain max-h-64 md:max-h-72 mx-auto shadow-hard-md xl:shadow-hard-lg"
                         />
                     )}
                 </>

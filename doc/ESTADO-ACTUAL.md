@@ -236,15 +236,14 @@ Versiones declaradas en `package.json` tras la refactorización:
 | Frontend (desarrollo) | Versión    |
 | --------------------- | ---------- |
 | @playwright/test      | ^1.65.0    |
+| @tailwindcss/vite     | ^4.3.5     |
 | @types/react          | ^19.0.0    |
 | @types/react-dom      | ^19.0.0    |
 | @vitejs/plugin-react  | ^6.3.0     |
-| autoprefixer          | ^10.4.21   |
 | eslint                | ^8.53.0    |
 | eslint-plugin-react-hooks | ^4.6.0 |
 | eslint-plugin-react-refresh | ^0.4.4 |
-| postcss               | ^8.5.6     |
-| tailwindcss           | ^3.4.18    |
+| tailwindcss           | ^4.3.5     |
 | typescript            | ^7.0.2     |
 | vite                  | ^8.3.8     |
 
@@ -252,12 +251,13 @@ Versiones declaradas en `package.json` tras la refactorización:
 | --------------------- | ---------- |
 | zod                   | ^4.6.7     |
 
-**Actualizaciones aplicadas:** React 19, Vite 8, Express 5, Nodemailer 10.5.0,
-Resend 6.38.0, React Router 7.18.5, react-icons 5. Se retiró `dotenv` (reemplazado
-por `process.loadEnvFile`), `crypto` de npm (módulo nativo `node:crypto`), Mocha y c8
-(reemplazados por Vitest).
+**Actualizaciones aplicadas:** React 19, Vite 8, Express 5, Tailwind 4.3,
+Nodemailer 10.5.0, Resend 6.38.0, React Router 7.18.5, react-icons 5. Se retiró
+`dotenv` (reemplazado por `process.loadEnvFile`), `crypto` de npm (módulo nativo
+`node:crypto`), Mocha y c8 (reemplazados por Vitest), `autoprefixer` y `postcss`
+(no necesarios con Tailwind v4).
 
-**Actualizaciones pendientes:** Mongoose 9, ESLint 10 y plugins, Tailwind 4,
+**Actualizaciones pendientes:** Mongoose 9, ESLint 10 y plugins,
 tipos de Node. Deben abordarse por grupos compatibles, verificando requisitos
 de motor y cambios incompatibles.
 
@@ -303,7 +303,7 @@ Hallazgos para sprints futuros:
 - **Tipos de repositorio:** `com/repo-types.ts` contiene `UserFavorites` para
   tipar `.lean()` + `.select('favorites')`. Cuando los modelos usen los tipos
   inferidos de Mongoose de forma completa, evaluar si sustituir esta interfaz.
-- **Actualizaciones pendientes:** Mongoose 9, ESLint 10 y plugins, Tailwind 4,
+- **Actualizaciones pendientes:** Mongoose 9, ESLint 10 y plugins,
   tipos de Node. Deben abordarse por grupos compatibles.
 - **Despliegue:** la v2.0.0 está desplegada. Consulta la [guía de despliegue](./DEPLOYMENT.md).
 - **Accesibilidad:** revisar con teclado, lectores de pantalla, formularios,

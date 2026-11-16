@@ -24,7 +24,7 @@ function ImageSection({
 }: ImageSectionProps) {
     return (
         <section aria-labelledby="images-title" className="flex flex-col w-full mx-auto py-2 gap-4">
-            <h3 id="images-title" className={`mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm shadow-hard-md xl:shadow-hard-lg text-folly bg-spring-bud`}>Imágenes</h3>
+            <h3 id="images-title" className={`mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs shadow-hard-md xl:shadow-hard-lg text-folly bg-spring-bud`}>Imágenes</h3>
 
             <ul className="flex gap-6 w-full justify-center">
                 {images.map((image: string, index: number) => (

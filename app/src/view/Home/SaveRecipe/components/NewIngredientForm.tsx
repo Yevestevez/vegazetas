@@ -17,7 +17,7 @@ function NewIngredientForm({
     inputColor,
     btnColor
 }: NewIngredientFormProps) {
-    const h3Base = `mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm shadow-hard-md xl:shadow-hard-lg`
+    const h3Base = `mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs shadow-hard-md xl:shadow-hard-lg`
 
     return (
         <form onSubmit={onSubmit} className="flex flex-col w-full max-w-2xl mx-auto items-center gap-2 md:gap-4 text-folly">

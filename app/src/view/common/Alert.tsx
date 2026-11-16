@@ -32,7 +32,7 @@ function Alert({ message, onAccept, isWakingServer = false }: AlertProps) {
 
             <CircleButton
                 onClick={onAccept} variant="small"
-                className="bg-spring-bud text-folly outline-none hover:bg-folly hover:text-spring-bud hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
+                className="bg-spring-bud text-folly outline-hidden hover:bg-folly hover:text-spring-bud hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
             >
                 Aceptar
             </CircleButton>

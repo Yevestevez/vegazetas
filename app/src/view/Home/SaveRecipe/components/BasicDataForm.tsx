@@ -29,7 +29,7 @@ function BasicDataForm({
 }: BasicDataFormProps) {
     return (
         <section aria-labelledby="basic-data-title" className="flex flex-col w-full items-center text-center py-2 gap-2">
-            <h3 id="basic-data-title" className={`mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm shadow-hard-md xl:shadow-hard-lg text-folly bg-spring-bud`}>Datos básicos</h3>
+            <h3 id="basic-data-title" className={`mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs shadow-hard-md xl:shadow-hard-lg text-folly bg-spring-bud`}>Datos básicos</h3>
 
             <form className="flex flex-col w-full max-w-2xl mx-auto items-center gap-2 md:gap-4 text-spring-bud" onSubmit={onSubmit}>
 

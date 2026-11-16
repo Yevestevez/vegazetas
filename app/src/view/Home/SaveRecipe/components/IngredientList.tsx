@@ -10,7 +10,7 @@ interface IngredientListProps {
 }
 
 function IngredientList({ mainIngredients, pantryIngredients, onDeleteIngredient }: IngredientListProps) {
-    const h3Base = `mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-sm shadow-hard-md xl:shadow-hard-lg`
+    const h3Base = `mx-auto px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs shadow-hard-md xl:shadow-hard-lg`
 
     return (
         <div className="columns-1 lg:columns-2 2xl:columns-3 gap-6 space-y-6">

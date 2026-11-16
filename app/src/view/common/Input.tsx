@@ -89,7 +89,7 @@ function Input({
                     min-w-0 truncate rounded-full
                     anybody text-center text-base xs:text-xl placeholder:italic placeholder:opacity-80
                     shadow-hard-2xl 
-                    outline-none focus:outline-4 focus:outline-offset-0
+                    outline-hidden focus:outline-4 focus:outline-offset-0
                     transition-transform duration-150 ease-out focus:scale-105
                     
                     ${currentTheme.input.bg} 

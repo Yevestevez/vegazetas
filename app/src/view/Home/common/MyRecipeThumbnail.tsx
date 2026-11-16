@@ -71,7 +71,7 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
         </header>
 
         <button
-            className="flex items-center justify-center cursor-pointer w-full rounded-sm overflow-hidden"
+            className="flex items-center justify-center cursor-pointer w-full rounded-xs overflow-hidden"
             type="button"
             onClick={handleRecipeThumbnailClick}
             aria-label="Ir a la receta" title="Ir a la receta"
@@ -109,7 +109,7 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
             px-3 py-1 xs:py-2 sm:py-1 2xl:px-3 2xl:py-1
             anybody-title text-spring-bud bg-folly 
             text-sm xs:text-base sm:text-sm md:text-base lg:text-sm xl:text-base 2xl:text-sm
-            rounded-sm overflow-hidden
+            rounded-xs overflow-hidden
         ">
             <time>{formatDate(recipe.date)}</time>
         </footer>
