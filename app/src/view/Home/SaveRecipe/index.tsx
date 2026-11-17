@@ -55,9 +55,13 @@ function SaveRecipe({
     }, [recipeId, alert, onUserLoggedOut])
 
     const [difficulty, setDifficulty] = useState(recipe?.difficulty || "")
+    const [category, setCategory] = useState(recipe?.category || "")
     useEffect(() => {
         if (recipe && recipe.difficulty) {
             setDifficulty(recipe.difficulty)
+        }
+        if (recipe && recipe.category) {
+            setCategory(recipe.category)
         }
     }, [recipe])
 
@@ -93,7 +97,10 @@ function SaveRecipe({
         const description = rawDescription === '' ? null : rawDescription
         const rawTime = form.time.value.trim()
         const time = rawTime === '' ? undefined : Number(rawTime)
+        const rawServings = form.servings.value.trim()
+        const servings = rawServings === '' ? undefined : Number(rawServings)
         let difficulty = form.difficulty.value.trim().toLowerCase() || undefined
+        const category = form.category.value.trim() || undefined
 
         if (!title) {
             alert('Añade un título a tu receta')
@@ -117,21 +124,25 @@ function SaveRecipe({
             title !== recipe.title ||
             description !== (recipe.description ?? null) ||
             time !== (recipe.time === 0 || recipe.time == null ? undefined : recipe.time) ||
-            difficulty !== recipe.difficulty
+            servings !== (recipe.servings === 0 || recipe.servings == null ? undefined : recipe.servings) ||
+            difficulty !== recipe.difficulty ||
+            category !== recipe.category
 
         if (!hasChanges) {
             alert('No hay cambios que guardar')
             return
         }
 
-        logic.updateRecipe(recipe.id, title, description, time, difficulty)
+        logic.updateRecipe(recipe.id, title, description, time, difficulty, category, servings)
             .then(() => {
                 setRecipe(prevRecipe => prevRecipe ? ({
                     ...prevRecipe,
                     title,
                     description,
                     time,
-                    difficulty
+                    difficulty,
+                    category,
+                    servings
                 }) : prevRecipe)
 
                 alert('Receta actualizada')
@@ -610,8 +621,11 @@ function SaveRecipe({
                     title={recipe.title}
                     description={recipe.description ?? ''}
                     time={recipe.time}
+                    servings={recipe.servings}
                     difficulty={difficulty}
+                    category={category}
                     onDifficultyChange={setDifficulty}
+                    onCategoryChange={setCategory}
                     onSubmit={handleRecipeFormSubmit}
                     inputBase={inputBase}
                     labelBase={labelBase}

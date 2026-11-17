@@ -141,6 +141,50 @@ describe('PATCH /recipes/:recipeId', () => {
         expect(await Recipe.findById(recipe.id).lean()).toEqual(before)
     })
 
+    test('updates new fields (category, servings) without changing unrelated fields', async () => {
+        const response = await patchRecipe(author.id, recipe.id, {
+            title: 'Updated recipe',
+            category: 'postre',
+            servings: 6
+        })
+
+        expect(response.status).toBe(204)
+        const updated = await Recipe.findById(recipe.id).lean()
+        expect(updated.category).toBe('postre')
+        expect(updated.servings).toBe(6)
+        expect(updated.title).toBe('Updated recipe')
+    })
+
+    test('removes servings when omitted in update', async () => {
+        await Recipe.updateOne({ _id: recipe._id }, { $set: { servings: 4 } })
+
+        const response = await patchRecipe(author.id, recipe.id, { title: 'Original recipe' })
+
+        expect(response.status).toBe(204)
+        const updated = await Recipe.findById(recipe.id).lean()
+        expect(updated).not.toHaveProperty('servings')
+    })
+
+    test('rejects invalid category', async () => {
+        const response = await patchRecipe(author.id, recipe.id, {
+            title: 'Updated recipe',
+            category: 'invalid'
+        })
+
+        expect(response.status).toBe(400)
+        expect(await response.json()).toEqual({ error: 'ValidationError', message: 'invalid category (must be entrante, principal, postre, sopa, ensalada, snack, bebida or otro)' })
+    })
+
+    test('rejects servings out of range', async () => {
+        const response = await patchRecipe(author.id, recipe.id, {
+            title: 'Updated recipe',
+            servings: 200
+        })
+
+        expect(response.status).toBe(400)
+        expect(await response.json()).toEqual({ error: 'ValidationError', message: 'invalid servings, must be between 1 and 100' })
+    })
+
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
     afterAll(async () => {

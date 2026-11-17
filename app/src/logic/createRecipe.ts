@@ -8,13 +8,17 @@ const createRecipe = (
     description: string | undefined,
     time: number | undefined,
     difficulty: string | undefined,
-    tags: string[] | undefined
+    tags: string[] | undefined,
+    category: string | undefined,
+    servings: number | undefined
 ): Promise<string> => {
     validate.id(userId, 'userId')
     validate.title(title)
     if (description) validate.description(description)
     if (time !== undefined) validate.time(time)
     if (difficulty) validate.difficulty(difficulty)
+    if (category) validate.category(category)
+    if (servings !== undefined) validate.servings(servings)
 
     return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes`, {
         method: 'POST',
@@ -28,7 +32,9 @@ const createRecipe = (
             description,
             time,
             difficulty,
-            tags
+            tags,
+            category,
+            servings
         })
     })
         .catch(error => { throw new Error(error.message) })

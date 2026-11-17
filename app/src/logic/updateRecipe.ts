@@ -6,13 +6,17 @@ const updateRecipe = (
     title: string,
     description: string | null | undefined,
     time: number | undefined,
-    difficulty: string | undefined
+    difficulty: string | undefined,
+    category: string | undefined,
+    servings: number | undefined
 ): Promise<void> => {
     validate.id(recipeId, 'recipeId')
     validate.title(title)
     if (description) validate.description(description)
     if (time !== undefined) validate.time(time)
     if (difficulty) validate.difficulty(difficulty)
+    if (category) validate.category(category)
+    if (servings !== undefined) validate.servings(servings)
 
     return authenticatedFetch(`${import.meta.env.VITE_API_URL}/recipes/${recipeId}`, {
         method: 'PATCH',
@@ -24,7 +28,9 @@ const updateRecipe = (
             title,
             description,
             time,
-            difficulty
+            difficulty,
+            category,
+            servings
         })
     })
         .catch(error => { throw new Error(error.message) })

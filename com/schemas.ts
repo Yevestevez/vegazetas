@@ -6,9 +6,9 @@ export const nameSchema = z.string({ error: 'invalid name type, must be a string
     .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/, 'invalid name syntax')
 
 export const ingredientNameSchema = z.string({ error: 'invalid ingredient name type, must be a string' })
-    .refine(name => name.length >= 1 && name.length <= 50,
-        'invalid ingredient name length, must be between 1 and 50 characters')
-    .regex(/^[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\s\-_'(),.%/+&]{1,50}$/,
+    .refine(name => name.length >= 1 && name.length <= 200,
+        'invalid ingredient name length, must be between 1 and 200 characters')
+    .regex(/^[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ0-9\s\-_\'(),.%/+&]{1,200}$/,
         'invalid ingredient name syntax')
 
 export const usernameSchema = z.string({ error: 'invalid username type, must be a string' })
@@ -44,11 +44,11 @@ export const directionSchema = z.enum(['up', 'down'], {
 export const tagSchema = z.string().refine(tag => tag.length >= 1 && tag.length <= 30)
 
 export const titleSchema = z.string({ error: 'invalid title type, must be a string' })
-    .min(1, 'invalid title length, must be between 1 and 50 characters')
-    .refine(title => title.length <= 50, 'invalid title length, must be between 1 and 50 characters')
+    .min(1, 'invalid title length, must be between 1 and 200 characters')
+    .refine(title => title.length <= 200, 'invalid title length, must be between 1 and 200 characters')
 
 export const descriptionSchema = z.string({ error: 'invalid description type, must be a string' })
-    .refine(description => description.length <= 500, 'invalid description length, must be 500 characters maximum')
+    .refine(description => description.length <= 5000, 'invalid description length, must be 5000 characters maximum')
 
 export const imageSchema = z.string({ error: 'invalid image type, must be a string' })
     .refine(url => {
@@ -75,15 +75,15 @@ export const timeSchema = z.number({ error: 'invalid time type, must be a number
     .refine(time => time <= 9999, 'invalid time, maximum 9999 minutes')
 
 export const textSchema = z.string({ error: 'invalid text type, must be a string' })
-    .refine(text => text.length >= 1 && text.length <= 800,
-        'invalid text length, must be between 1 and 800 characters')
+    .refine(text => text.length >= 1 && text.length <= 5000,
+        'invalid text length, must be between 1 and 5000 characters')
 
 export const noteSchema = z.string({ error: 'invalid note type, must be a string' })
-    .refine(note => note.length >= 1 && note.length <= 500,
-        'invalid note length, must be between 1 and 500 characters')
+    .refine(note => note.length >= 1 && note.length <= 2000,
+        'invalid note length, must be between 1 and 2000 characters')
 
 export const stepNoteUpdateSchema = z.string({ error: 'invalid note type, must be a string' })
-    .refine(note => note.length <= 500, 'invalid note length, must be 500 characters maximum')
+    .refine(note => note.length <= 2000, 'invalid note length, must be 2000 characters maximum')
 
 export const quantitySchema = z.custom<number>(
     value => typeof value === 'number' && !Number.isNaN(value),
@@ -107,7 +107,74 @@ export const unitSchema = z.union([
 ], { error: 'invalid unit type, must be a string' })
 
 export const annotationSchema = z.union([
-    z.string().refine(annotation => annotation.length <= 300, 'invalid annotation length, max 300 characters'),
+    z.string().refine(annotation => annotation.length <= 500, 'invalid annotation length, max 500 characters'),
     z.undefined(),
     z.null()
 ], { error: 'invalid annotation type, must be a string' })
+
+// ---------------------------------------------------------------------------
+// New fields from schema v2
+// ---------------------------------------------------------------------------
+
+export const categorySchema = z.string({ error: 'invalid category type, must be a string' })
+    .refine(category => ['entrante', 'principal', 'postre', 'sopa', 'ensalada', 'snack', 'bebida', 'otro'].includes(category),
+        'invalid category (must be entrante, principal, postre, sopa, ensalada, snack, bebida or otro)')
+
+export const servingsSchema = z.number({ error: 'invalid servings type, must be a number' })
+    .refine(Number.isInteger, 'invalid servings type, must be an integer')
+    .refine(servings => servings >= 1 && servings <= 100, 'invalid servings, must be between 1 and 100')
+
+export const sourceSchema = z.string({ error: 'invalid source type, must be a string' })
+    .refine(source => ['manual', 'ai-generated', 'url-import'].includes(source),
+        'invalid source (must be manual, ai-generated or url-import)')
+
+export const sourceUrlSchema = z.string({ error: 'invalid sourceUrl type, must be a string' })
+    .refine(url => url.length <= 2000, 'invalid sourceUrl length, must be 2000 characters maximum')
+
+export const aiNotesSchema = z.string({ error: 'invalid aiNotes type, must be a string' })
+    .refine(notes => notes.length <= 2000, 'invalid aiNotes length, must be 2000 characters maximum')
+
+export const commentSchema = z.object({
+    user: z.string({ error: 'invalid comment user type, must be a string' })
+        .refine(id => id.length === 24, 'invalid comment user id, must be 24 characters')
+        .regex(/^[a-fA-F0-9]{24}$/, 'invalid comment user id syntax'),
+    text: z.string({ error: 'invalid comment text type, must be a string' })
+        .refine(text => text.length >= 1 && text.length <= 1000,
+            'invalid comment text length, must be between 1 and 1000 characters'),
+    parentId: z.union([
+        z.string().refine(id => id.length === 24, 'invalid comment parentId, must be 24 characters')
+            .regex(/^[a-fA-F0-9]{24}$/, 'invalid comment parentId syntax'),
+        z.null()
+    ]).optional()
+})
+
+export const nutritionSchema = z.object({
+    calories: z.number().optional(),
+    protein: z.number().optional(),
+    carbs: z.number().optional(),
+    fat: z.number().optional()
+})
+
+export const bioSchema = z.string({ error: 'invalid bio type, must be a string' })
+    .refine(bio => bio.length <= 500, 'invalid bio length, must be 500 characters maximum')
+
+export const avatarSchema = z.string({ error: 'invalid avatar type, must be a string' })
+    .refine(url => {
+        try {
+            const urlObj = new URL(url)
+            if (!['http:', 'https:'].includes(urlObj.protocol)) return false
+            const hostname = urlObj.hostname
+            const blockedHosts = ['localhost', '127.0.0.1', '0.0.0.0', '::1']
+            if (blockedHosts.includes(hostname)) return false
+            if (/^10\.|^172\.(1[6-9]|2[0-9]|3[01])\.|^192\.168\.|^169\.254\./.test(hostname)) return false
+            return true
+        } catch {
+            return false
+        }
+    }, 'invalid avatar URL: must be a valid HTTPS URL from a public domain')
+
+export const socialLinksSchema = z.object({
+    twitter: z.string().refine(url => url.length <= 200, 'invalid twitter URL length, max 200 characters').optional(),
+    instagram: z.string().refine(url => url.length <= 200, 'invalid instagram URL length, max 200 characters').optional(),
+    website: z.string().refine(url => url.length <= 200, 'invalid website URL length, max 200 characters').optional()
+})

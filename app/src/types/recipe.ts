@@ -30,6 +30,21 @@ export type RecipeListItemWithAuthor = RecipeListItem & {
     own?: boolean
 }
 
+export type Comment = {
+    id: string
+    user: { _id: string; username: string }
+    text: string
+    createdAt: string
+    parentId?: string | null
+}
+
+export type Nutrition = {
+    calories?: number
+    protein?: number
+    carbs?: number
+    fat?: number
+}
+
 export type RecipeData = {
     id: string
     title: string
@@ -42,8 +57,18 @@ export type RecipeData = {
     description?: string
     time?: number
     difficulty?: string
+    category?: string
+    servings?: number
     tags?: string[]
     ingredients: Ingredient[]
     steps: Step[]
+    source?: string
+    sourceUrl?: string
+    aiNotes?: string
+    views?: number
+    likes?: number
+    likedBy?: string[]
+    comments?: Comment[]
+    nutrition?: Nutrition
     [key: string]: any
 }

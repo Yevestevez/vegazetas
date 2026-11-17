@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="./doc/HISTORIAL-VERSIONES.md"><img src="https://img.shields.io/badge/v2.0.0-deployed-E05D44?style=flat" alt="Version"></a>
+  <a href="./doc/HISTORIAL-VERSIONES.md"><img src="https://img.shields.io/badge/v2.1.0-deployed-E05D44?style=flat" alt="Version"></a>
 </p>
 
 <p align="center">

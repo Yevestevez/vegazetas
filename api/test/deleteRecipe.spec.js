@@ -92,6 +92,31 @@ describe('DELETE /recipes/:recipeId', () => {
         expect(await response.json()).toEqual({ error: 'CredentialsError', message: 'invalid credentials' })
     })
 
+    test('cleans up favorites references from users after deletion', async () => {
+        await User.updateOne({ _id: otherUser._id }, { $push: { favorites: recipe._id } })
+
+        const response = await deleteRecipe(author.id, recipe.id)
+
+        expect(response.status).toBe(204)
+        const user = await User.findById(otherUser._id).lean()
+        expect(user.favorites).not.toContainEqual(recipe._id)
+    })
+
+    test('cleans up likedBy references from other recipes after deletion', async () => {
+        const otherRecipe = await Recipe.create({
+            author: author._id,
+            title: 'Other recipe',
+            likedBy: [recipe._id],
+            published: false
+        })
+
+        const response = await deleteRecipe(author.id, recipe.id)
+
+        expect(response.status).toBe(204)
+        const updated = await Recipe.findById(otherRecipe._id).lean()
+        expect(updated.likedBy).not.toContainEqual(recipe._id)
+    })
+
     afterEach(() => Promise.all([User.deleteMany(), Recipe.deleteMany()]))
 
     afterAll(async () => {

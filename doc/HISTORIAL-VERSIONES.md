@@ -16,6 +16,23 @@ Cada cambio que se despliega actualiza este historial y el badge de versión
 de los [README](../README.md). La versión más reciente desplegada aparece
 encima; las anteriores, debajo.
 
+## v2.1.0 — desplegada
+
+Migración del esquema de modelos a la versión 2, ampliando los campos de Recipe y User, y ajustando validaciones y UI.
+
+### Cambios
+
+- **Esquema de Recipe ampliado:** compound index `{author, title}` único (reemplaza `title` único global), nuevos campos opcionales (`category`, `servings`, `source`, `sourceUrl`, `aiNotes`, `views`, `likes`, `likedBy`, `comments`, `nutrition`), `timestamps` automáticos, normalización de tags (`lowercase`, `trim`), nuevos índices para búsquedas y filtros.
+- **Esquema de User ampliado:** campos `username` y `email` con `lowercase` y `trim`, nuevos campos opcionales (`bio`, `avatar`, `socialLinks`), `timestamps`.
+- **Ingredient y Step embebidos:** ya no se registran como modelos MongoDB independientes; son subdocumentos de Recipe. Se eliminan los exports `Ingredient` y `Step` de `models.ts`.
+- **Límites de validación subidos:** title 50→200, description 500→5000, step.text 800→5000, step.note 500→2000, ingredient.name 50→200, annotation 300→500.
+- **Nuevas validaciones Zod:** schemas para `category`, `servings`, `source`, `sourceUrl`, `aiNotes`, `comment`, `nutrition`, `bio`, `avatar`, `socialLinks`.
+- **Repositorios y casos de uso:** `createRecipe` y `recipeEdit` aceptan los campos nuevos; `getRecipeById` incrementa `views` con `$inc`; `deleteRecipe` limpia referencias de `favorites` y `likedBy`.
+- **Handlers API:** `createRecipeHandler` y `recipeEditHandler` extraen y pasan los campos nuevos del body.
+- **Tipos frontend:** `RecipeData` con todos los campos nuevos, nuevos tipos `Comment` y `Nutrition`.
+- **Componentes UI:** `BasicDataForm` con select de categoría e input de porciones; `Recipe.tsx` muestra categoría, porciones, badge de fuente, contadores de vistas/likes y sección de nutrición.
+- **Pruebas:** mensajes de error actualizados a los nuevos límites, nuevas pruebas para campos nuevos y limpieza referencial.
+
 ## v2.0.0 — desplegada
 
 Versión final de la refactorización, desplegada en Netlify (frontend) y Render
