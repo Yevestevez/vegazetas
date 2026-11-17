@@ -118,9 +118,9 @@ export function createDeleteRecipe(
                         checkOwnership(recipe.author.toString(), userId as string)
 
                         return deleteRecipeDoc(recipeId as string)
-                            .then(() => {
+                            .then(async () => {
                                 // Clean up references to this recipe in other documents
-                                return Promise.all([
+                                await Promise.all([
                                     cleanUserFavorites(recipeId as string),
                                     cleanRecipeLikedBy(recipeId as string)
                                 ])

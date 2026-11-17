@@ -1,4 +1,4 @@
+import { userRepo } from '../../../data/repositories/index.ts'
 import { createGetUserName } from './getUserName.ts'
-import { findUserById } from './userNameRepository.ts'
 
-export const getUserName = createGetUserName(findUserById)
+export const getUserName = createGetUserName(userRepo.findUserById)

@@ -3,11 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom'
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
-import handleCredentialsError from '../../helper/handleCredentialsError'
+import handleCredentialsError from '../../../util/handleCredentialsError'
 import type { Ingredient, Step, RecipeData } from '../../../types/recipe'
 
-import Header from '../common/Header'
-import Footer from '../../common/Footer'
+import Header from '../shared/Header'
+import Footer from '../../components/Footer'
 
 import RecipeActionBar from './components/RecipeActionBar'
 import PublishedStatus from './components/PublishedStatus'

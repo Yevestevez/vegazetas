@@ -4,10 +4,10 @@ import { useSearchParams } from 'react-router-dom'
 import logic from '../logic'
 import { useAppContext } from '../context'
 
-import LogoVegazetas from './common/LogoVegazetas'
-import Input from './common/Input'
-import CircleButton from './common/CircleButton'
-import Footer from './common/Footer'
+import LogoVegazetas from './components/LogoVegazetas'
+import Input from './components/Input'
+import CircleButton from './components/CircleButton'
+import Footer from './components/Footer'
 import { errors } from 'com'
 
 const { NotFoundError, SystemError, ValidationError } = errors

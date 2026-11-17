@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
+import { userRepo } from '../../../data/repositories/index.ts'
 import { createRegisterUser } from './registerUser.ts'
-import { createUser } from './userRepository.ts'
 
-export const registerUser = createRegisterUser(bcrypt.hash, createUser)
+export const registerUser = createRegisterUser(bcrypt.hash, userRepo.createUser)

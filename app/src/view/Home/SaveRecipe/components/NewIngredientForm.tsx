@@ -1,6 +1,6 @@
 import { MdSave } from 'react-icons/md'
 
-import CircleButton from '../../../common/CircleButton'
+import CircleButton from '../../../components/CircleButton'
 
 interface NewIngredientFormProps {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void

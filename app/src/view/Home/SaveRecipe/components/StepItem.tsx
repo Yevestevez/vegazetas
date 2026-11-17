@@ -2,8 +2,8 @@ import { MdDelete, MdEdit, MdSave } from 'react-icons/md'
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa'
 import { IoMdCloseCircle } from 'react-icons/io'
 
-import MiniCircleButton from '../../common/MiniCircleButton'
-import CircleButton from '../../../common/CircleButton'
+import MiniCircleButton from '../../shared/MiniCircleButton'
+import CircleButton from '../../../components/CircleButton'
 import type { Step } from '../../../../types/recipe'
 
 interface StepItemProps {

@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from 'react'
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
-import handleCredentialsError from '../../helper/handleCredentialsError'
+import handleCredentialsError from '../../../util/handleCredentialsError'
 import type { RecipeListItemWithAuthor } from '../../../types/recipe'
 
-import Header from '../common/Header'
-import RecipeThumbnail from '../common/RecipeThumbnail'
-import Footer from '../../common/Footer'
+import Header from '../shared/Header'
+import RecipeThumbnail from '../shared/RecipeThumbnail'
+import Footer from '../../components/Footer'
 
 interface FavoritesProps {
     onRecipeThumbnailClick: (recipeId: string) => void

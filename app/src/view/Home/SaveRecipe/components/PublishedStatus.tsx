@@ -1,6 +1,6 @@
 import { MdRocketLaunch, MdCancel } from 'react-icons/md'
 
-import MiniCircleButton from '../../common/MiniCircleButton'
+import MiniCircleButton from '../../shared/MiniCircleButton'
 
 interface PublishedStatusProps {
     published: boolean

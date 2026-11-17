@@ -1,8 +1,8 @@
-import { findUserById, findRecipeById } from './recipeRepository.ts'
+import { userRepo, recipeRepo } from '../../../data/repositories/index.ts'
 import { createGetRecipeById } from './getRecipeById.ts'
 import { createGetRecipeByIdHandler } from './getRecipeByIdHandler.ts'
 
-const getRecipeById = createGetRecipeById(findUserById, findRecipeById)
+const getRecipeById = createGetRecipeById(userRepo.findUserByIdWithFavorites, recipeRepo.findRecipeByIdWithViews)
 const getRecipeByIdHandler = createGetRecipeByIdHandler(getRecipeById)
 
 export default getRecipeByIdHandler
