@@ -2,8 +2,8 @@ import { useAppContext } from '../../../context'
 
 import MenuHeader from './MenuHeader'
 import MenuButton from './MenuButton'
-import CircleButton from '../../common/CircleButton'
-import Footer from '../../common/Footer'
+import CircleButton from '../../components/CircleButton'
+import Footer from '../../components/Footer'
 
 interface MenuProps {
     onUserLoggedOut: () => void

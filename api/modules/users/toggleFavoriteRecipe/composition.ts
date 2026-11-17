@@ -1,4 +1,4 @@
+import { userRepo, recipeRepo } from '../../../data/repositories/index.ts'
 import { createToggleFavoriteRecipe } from './toggleFavoriteRecipe.ts'
-import { findUserById, recipeExists } from './userRepository.ts'
 
-export const toggleFavoriteRecipe = createToggleFavoriteRecipe(findUserById, recipeExists)
+export const toggleFavoriteRecipe = createToggleFavoriteRecipe(userRepo.findUserById, recipeRepo.recipeExists)

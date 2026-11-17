@@ -1,6 +1,6 @@
 import { MdDelete } from 'react-icons/md'
 
-import MiniCircleButton from '../../common/MiniCircleButton'
+import MiniCircleButton from '../../shared/MiniCircleButton'
 import type { Ingredient } from '../../../../types/recipe'
 
 interface IngredientListProps {

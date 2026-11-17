@@ -3,10 +3,10 @@ import { FaRegUserCircle } from "react-icons/fa"
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
-import handleCredentialsError from '../../helper/handleCredentialsError'
+import handleCredentialsError from '../../../util/handleCredentialsError'
 
-import LogoVegazetasHeader from '../common/LogoVegazetasHeader'
-import ProfileImage from '../common/ProfileImage'
+import LogoVegazetasHeader from '../shared/LogoVegazetasHeader'
+import ProfileImage from '../shared/ProfileImage'
 
 import { errors } from 'com'
 const { NotFoundError, SystemError } = errors

@@ -1,7 +1,7 @@
 import { MdDelete, MdSave } from 'react-icons/md'
 
-import MiniCircleButton from '../../common/MiniCircleButton'
-import CircleButton from '../../../common/CircleButton'
+import MiniCircleButton from '../../shared/MiniCircleButton'
+import CircleButton from '../../../components/CircleButton'
 
 interface ImageSectionProps {
     images: string[]

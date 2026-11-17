@@ -4,8 +4,8 @@ const { NotFoundError, SystemError, OwnershipError, ValidationError } = errors
 
 export type FindUserById = (userId: string) => Promise<any | null>
 export type FindRecipeById = (recipeId: string) => Promise<any | null>
-export type AddIngredient = (name: string, quantity: number, unit?: string, annotation?: string, main?: boolean) => Promise<string>
-export type RemoveIngredient = (ingredientId: string) => Promise<void>
+export type AddIngredient = (recipeId: string, ingredient: { name: string; quantity: string; unit: string; annotation: string; main: boolean }) => Promise<string>
+export type RemoveIngredient = (recipeId: string, ingredientId: string) => Promise<void>
 
 export type AddIngredientToRecipe = (
     userId: string | undefined,
@@ -26,7 +26,7 @@ export type RemoveIngredientFromRecipe = (
 export function createAddIngredientToRecipe(
     findUserById: FindUserById,
     findRecipeById: FindRecipeById,
-    createAddIngredient: (userId: string, recipeId: string) => AddIngredient
+    addIngredient: AddIngredient
 ): AddIngredientToRecipe {
     return (userId, recipeId, name, quantity, unit, annotation, main) => {
         validate.id(userId, 'userId')
@@ -50,8 +50,13 @@ export function createAddIngredientToRecipe(
                         if (recipe.author.toString() !== userId)
                             throw new OwnershipError('user is not author of recipe')
 
-                        const addIngredient = createAddIngredient(userId as string, recipeId as string)
-                        return addIngredient(name as string, quantity as number, unit as string | undefined, annotation as string | undefined, main as boolean | undefined)
+                        return addIngredient(recipeId as string, {
+                            name: name as string,
+                            quantity: String(quantity),
+                            unit: (unit ?? '') as string,
+                            annotation: (annotation ?? '') as string,
+                            main: Boolean(main ?? false)
+                        })
                     })
             })
     }
@@ -60,7 +65,7 @@ export function createAddIngredientToRecipe(
 export function createRemoveIngredientFromRecipe(
     findUserById: FindUserById,
     findRecipeById: FindRecipeById,
-    createRemoveIngredient: (userId: string, recipeId: string) => RemoveIngredient
+    removeIngredient: RemoveIngredient
 ): RemoveIngredientFromRecipe {
     return (userId, recipeId, ingredientId) => {
         validate.id(userId, 'userId')
@@ -80,8 +85,7 @@ export function createRemoveIngredientFromRecipe(
                         if (recipe.author.toString() !== userId)
                             throw new OwnershipError('user is not author of recipe')
 
-                        const removeIngredient = createRemoveIngredient(userId as string, recipeId as string)
-                        return removeIngredient(ingredientId as string)
+                        return removeIngredient(recipeId as string, ingredientId as string)
                     })
             })
     }

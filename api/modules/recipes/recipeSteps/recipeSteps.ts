@@ -4,10 +4,10 @@ const { NotFoundError, SystemError, OwnershipError, ValidationError } = errors
 
 export type FindUserById = (userId: string) => Promise<any | null>
 export type FindRecipeById = (recipeId: string) => Promise<any | null>
-export type AddStep = (text: string, note?: string, image?: string) => Promise<string>
-export type RemoveStep = (stepId: string) => Promise<void>
-export type UpdateStep = (stepId: string, text: string, note?: unknown, image?: unknown) => Promise<void>
-export type ReorderStep = (stepId: string, direction: string) => Promise<void>
+export type AddStep = (recipeId: string, text: string, note: string, image: string) => Promise<string>
+export type RemoveStep = (recipeId: string, stepId: string) => Promise<void>
+export type UpdateStep = (recipeId: string, stepId: string, text: string, note: string, image: string) => Promise<void>
+export type ReorderStep = (recipeId: string, stepId: string, direction: string) => Promise<void>
 
 export type AddStepToRecipe = (
     userId: string | undefined,
@@ -58,7 +58,7 @@ function commonCheck(findUserById: FindUserById, findRecipeById: FindRecipeById,
 export function createAddStepToRecipe(
     findUserById: FindUserById,
     findRecipeById: FindRecipeById,
-    createAddStep: (userId: string, recipeId: string) => AddStep
+    addStep: AddStep
 ): AddStepToRecipe {
     return (userId, recipeId, text, note, image) => {
         validate.id(userId, 'userId')
@@ -69,8 +69,7 @@ export function createAddStepToRecipe(
 
         return commonCheck(findUserById, findRecipeById, userId, recipeId)
             .then(() => {
-                const addStep = createAddStep(userId as string, recipeId as string)
-                return addStep(text as string, note as string | undefined, image as string | undefined)
+                return addStep(recipeId as string, text as string, (note ?? '') as string, (image ?? '') as string)
             })
     }
 }
@@ -78,7 +77,7 @@ export function createAddStepToRecipe(
 export function createRemoveStepFromRecipe(
     findUserById: FindUserById,
     findRecipeById: FindRecipeById,
-    createRemoveStep: (userId: string, recipeId: string) => RemoveStep
+    removeStep: RemoveStep
 ): RemoveStepFromRecipe {
     return (userId, recipeId, stepId) => {
         validate.id(userId, 'userId')
@@ -87,8 +86,7 @@ export function createRemoveStepFromRecipe(
 
         return commonCheck(findUserById, findRecipeById, userId, recipeId)
             .then(() => {
-                const removeStep = createRemoveStep(userId as string, recipeId as string)
-                return removeStep(stepId as string)
+                return removeStep(recipeId as string, stepId as string)
             })
     }
 }
@@ -96,7 +94,7 @@ export function createRemoveStepFromRecipe(
 export function createUpdateStepInRecipe(
     findUserById: FindUserById,
     findRecipeById: FindRecipeById,
-    createUpdateStep: (userId: string, recipeId: string) => UpdateStep
+    updateStep: UpdateStep
 ): UpdateStepInRecipe {
     return (userId, recipeId, stepId, text, note, image) => {
         validate.id(userId, 'userId')
@@ -113,8 +111,7 @@ export function createUpdateStepInRecipe(
 
         return commonCheck(findUserById, findRecipeById, userId, recipeId)
             .then(() => {
-                const updateStep = createUpdateStep(userId as string, recipeId as string)
-                return updateStep(stepId as string, text as string, note, image)
+                return updateStep(recipeId as string, stepId as string, text as string, (note ?? '') as string, (image ?? '') as string)
             })
     }
 }
@@ -122,7 +119,7 @@ export function createUpdateStepInRecipe(
 export function createReorderStepInRecipe(
     findUserById: FindUserById,
     findRecipeById: FindRecipeById,
-    createReorderStep: (userId: string, recipeId: string) => ReorderStep
+    reorderStep: ReorderStep
 ): ReorderStepInRecipe {
     return (userId, recipeId, stepId, direction) => {
         validate.id(userId, 'userId')
@@ -132,8 +129,7 @@ export function createReorderStepInRecipe(
 
         return commonCheck(findUserById, findRecipeById, userId, recipeId)
             .then(() => {
-                const reorderStep = createReorderStep(userId as string, recipeId as string)
-                return reorderStep(stepId as string, direction as string)
+                return reorderStep(recipeId as string, stepId as string, direction as string)
             })
     }
 }

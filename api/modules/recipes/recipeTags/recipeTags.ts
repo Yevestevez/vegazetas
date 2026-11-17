@@ -4,8 +4,8 @@ const { NotFoundError, SystemError, OwnershipError, ValidationError } = errors
 
 export type FindUserById = (userId: string) => Promise<any | null>
 export type FindRecipeById = (recipeId: string) => Promise<any | null>
-export type AddTag = (tag: string) => Promise<void>
-export type RemoveTag = (index: number) => Promise<void>
+export type AddTag = (recipeId: string, tag: string) => Promise<void>
+export type RemoveTag = (recipeId: string, index: number) => Promise<void>
 
 export type AddTagToRecipe = (
     userId: string | undefined,
@@ -38,7 +38,7 @@ function commonCheck(findUserById: FindUserById, findRecipeById: FindRecipeById,
 export function createAddTagToRecipe(
     findUserById: FindUserById,
     findRecipeById: FindRecipeById,
-    createAddTag: (userId: string, recipeId: string) => AddTag
+    addTag: AddTag
 ): AddTagToRecipe {
     return (userId, recipeId, tag) => {
         validate.id(userId, 'userId')
@@ -49,8 +49,7 @@ export function createAddTagToRecipe(
             .then(recipe => {
                 if (recipe.tags.length >= 15)
                     throw new ValidationError('too many tags, max 15 allowed')
-                const addTag = createAddTag(userId as string, recipeId as string)
-                return addTag(tag as string)
+                return addTag(recipeId as string, tag as string)
             })
     }
 }
@@ -58,7 +57,7 @@ export function createAddTagToRecipe(
 export function createRemoveTagFromRecipe(
     findUserById: FindUserById,
     findRecipeById: FindRecipeById,
-    createRemoveTag: (userId: string, recipeId: string) => RemoveTag
+    removeTag: RemoveTag
 ): RemoveTagFromRecipe {
     return (userId, recipeId, index) => {
         validate.id(userId, 'userId')
@@ -68,8 +67,7 @@ export function createRemoveTagFromRecipe(
 
         return commonCheck(findUserById, findRecipeById, userId, recipeId)
             .then(() => {
-                const removeTag = createRemoveTag(userId as string, recipeId as string)
-                return removeTag(idx)
+                return removeTag(recipeId as string, idx)
             })
     }
 }

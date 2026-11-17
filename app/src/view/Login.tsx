@@ -4,11 +4,11 @@ import { Link } from "react-router-dom"
 import logic from '../logic'
 import { useAppContext } from '../context'
 
-import CircleButton from './common/CircleButton'
-import Input from './common/Input'
-import LogoVegazetas from './common/LogoVegazetas'
-import SectionTitle from './common/SectionTitle'
-import Footer from './common/Footer'
+import CircleButton from './components/CircleButton'
+import Input from './components/Input'
+import LogoVegazetas from './components/LogoVegazetas'
+import SectionTitle from './components/SectionTitle'
+import Footer from './components/Footer'
 import { errors } from 'com'
 const { CredentialsError, SystemError } = errors
 

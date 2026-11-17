@@ -1,6 +1,6 @@
-import CircleButton from "./common/CircleButton"
-import LogoVegazetas from "./common/LogoVegazetas"
-import Footer from "./common/Footer"
+import CircleButton from "./components/CircleButton"
+import LogoVegazetas from "./components/LogoVegazetas"
+import Footer from "./components/Footer"
 
 function Landing() {
     return <div className="flex flex-col min-h-screen min-w-screen items-center justify-center gap-8 xl:gap-12 bg-folly">

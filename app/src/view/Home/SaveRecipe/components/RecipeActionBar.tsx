@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { FaChevronLeft, FaChevronUp } from 'react-icons/fa'
 import { MdRemoveRedEye, MdDelete } from 'react-icons/md'
 
-import MiniCircleButton from '../../common/MiniCircleButton'
+import MiniCircleButton from '../../shared/MiniCircleButton'
 
 interface RecipeActionBarProps {
     onToRecipeClicked: () => void

@@ -7,7 +7,7 @@ import NotFoundError from 'com/errors/NotFoundError'
 
 import Menu from './Menu'
 import MyRecipes from './MyRecipes'
-import Recipe from './common/Recipe'
+import Recipe from './shared/Recipe'
 import SaveRecipe from './SaveRecipe'
 import Discover from './Discover'
 import Favorites from './Favorites'
@@ -28,7 +28,7 @@ function Home({ onUserLoggedOut }: HomeProps) {
             .then(userId => {
                 if (!userId) throw new NotFoundError('user not found')
 
-                return logic.createRecipe(userId, `Borrador de receta ${String(new Date().getDate()).padStart(2, "0")}/${String(new Date().getMonth() + 1).padStart(2, "0")} ${String(new Date().getHours()).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}:${String(new Date().getSeconds()).padStart(2, "0")}`, undefined, undefined, undefined, undefined, undefined)
+                return logic.createRecipe(userId, `Borrador de receta ${String(new Date().getDate()).padStart(2, "0")}/${String(new Date().getMonth() + 1).padStart(2, "0")} ${String(new Date().getHours()).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}:${String(new Date().getSeconds()).padStart(2, "0")}`, undefined, undefined, undefined, undefined, undefined, undefined, undefined)
             })
             .then(recipeId => {
                 if (!recipeId) throw new NotFoundError('recipe not found')

@@ -2,13 +2,13 @@ import { useState, useEffect, useCallback } from 'react'
 
 import logic from '../../../logic'
 import { useAppContext } from '../../../context'
-import handleCredentialsError from '../../helper/handleCredentialsError'
+import handleCredentialsError from '../../../util/handleCredentialsError'
 import type { RecipeListItem } from '../../../types/recipe'
 
-import Header from '../common/Header'
-import MyRecipeThumbnail from '../common/MyRecipeThumbnail'
-import CircleButton from '../../common/CircleButton'
-import Footer from '../../common/Footer'
+import Header from '../shared/Header'
+import MyRecipeThumbnail from '../shared/MyRecipeThumbnail'
+import CircleButton from '../../components/CircleButton'
+import Footer from '../../components/Footer'
 
 interface MyRecipesProps {
     onRecipeThumbnailClick: (recipeId: string) => void

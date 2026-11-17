@@ -15,21 +15,6 @@ export type Step = {
     order?: number
 }
 
-export type RecipeListItem = {
-    id: string
-    title: string
-    published: boolean
-    isFavorite: boolean
-    images: string[]
-    date: string
-    [key: string]: any
-}
-
-export type RecipeListItemWithAuthor = RecipeListItem & {
-    author: { username: string }
-    own?: boolean
-}
-
 export type Comment = {
     id: string
     user: { _id: string; username: string }
@@ -43,6 +28,21 @@ export type Nutrition = {
     protein?: number
     carbs?: number
     fat?: number
+}
+
+export type RecipeListItem = {
+    id: string
+    title: string
+    published: boolean
+    isFavorite: boolean
+    images: string[]
+    date: string
+    [key: string]: any
+}
+
+export type RecipeListItemWithAuthor = RecipeListItem & {
+    author: { username: string }
+    own?: boolean
 }
 
 export type RecipeData = {

@@ -1,11 +1,11 @@
-import { findUserById, findRecipeById, createAddStep, createRemoveStep, createUpdateStep, createReorderStep } from './recipeStepsRepository.ts'
+import { userRepo, recipeRepo } from '../../../data/repositories/index.ts'
 import { createAddStepToRecipe, createRemoveStepFromRecipe, createUpdateStepInRecipe, createReorderStepInRecipe } from './recipeSteps.ts'
 import { createAddStepHandler, createRemoveStepHandler, createUpdateStepHandler, createReorderStepHandler } from './recipeStepsHandler.ts'
 
-const addStepToRecipe = createAddStepToRecipe(findUserById, findRecipeById, createAddStep)
-const removeStepFromRecipe = createRemoveStepFromRecipe(findUserById, findRecipeById, createRemoveStep)
-const updateStepInRecipe = createUpdateStepInRecipe(findUserById, findRecipeById, createUpdateStep)
-const reorderStepInRecipe = createReorderStepInRecipe(findUserById, findRecipeById, createReorderStep)
+const addStepToRecipe = createAddStepToRecipe(userRepo.findUserById, recipeRepo.findRecipeById, recipeRepo.addStepToRecipe)
+const removeStepFromRecipe = createRemoveStepFromRecipe(userRepo.findUserById, recipeRepo.findRecipeById, recipeRepo.removeStepFromRecipe)
+const updateStepInRecipe = createUpdateStepInRecipe(userRepo.findUserById, recipeRepo.findRecipeById, recipeRepo.updateStepInRecipe)
+const reorderStepInRecipe = createReorderStepInRecipe(userRepo.findUserById, recipeRepo.findRecipeById, recipeRepo.reorderStepInRecipe)
 
 const addStepToRecipeHandler = createAddStepHandler(addStepToRecipe)
 const removeStepFromRecipeHandler = createRemoveStepHandler(removeStepFromRecipe)
