@@ -7,7 +7,10 @@ interface BasicDataFormProps {
     description: string
     time: number | undefined
     difficulty: string
+    category: string
+    servings: number | undefined
     onDifficultyChange: (value: string) => void
+    onCategoryChange: (value: string) => void
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
     inputBase: string
     labelBase: string
@@ -20,7 +23,10 @@ function BasicDataForm({
     description,
     time,
     difficulty,
+    category,
+    servings,
     onDifficultyChange,
+    onCategoryChange,
     onSubmit,
     inputBase,
     labelBase,
@@ -37,15 +43,15 @@ function BasicDataForm({
                 <input
                     id="title" type="text" name="title" required
                     placeholder="Pon un título a tu receta"
-                    defaultValue={title} maxLength={50}
-                    title="Campo obligatorio. Máximo 50 caracteres"
+                    defaultValue={title} maxLength={200}
+                    title="Campo obligatorio. Máximo 200 caracteres"
                     className={`${inputBase} ${inputColor.springBud} mb-2 truncate`}
                 />
 
                 <label className={labelBase} htmlFor="description">Descripción</label>
                 <textarea
-                    id="description" name="description" title="Máximo 500 caracteres" placeholder="Describe tu receta ¡cuéntanos más!"
-                    defaultValue={description} maxLength={500} wrap="soft"
+                    id="description" name="description" title="Máximo 5000 caracteres" placeholder="Describe tu receta ¡cuéntanos más!"
+                    defaultValue={description} maxLength={5000} wrap="soft"
                     onInput={(e) => {
                         e.currentTarget.style.height = 'auto';
                         e.currentTarget.style.height = e.currentTarget.scrollHeight + 'px';
@@ -64,6 +70,17 @@ function BasicDataForm({
                     </div>
 
                     <div className="flex flex-col w-full gap-2">
+                        <label className={labelBase} htmlFor="servings">Porciones</label>
+                        <input
+                            id="servings" type="number" name="servings" title="Introduce un número entero entre 1 y 100"
+                            placeholder="Porciones" defaultValue={servings === 0 ? '' : (servings ?? '')} min={1} max={100} step={1}
+                            className={`${inputBase} ${inputColor.springBud} truncate mb-2`}
+                        />
+                    </div>
+                </div>
+
+                <div className="flex flex-row w-full justify-between gap-4">
+                    <div className="flex flex-col w-full gap-2">
                         <label className={labelBase} htmlFor="difficulty">Dificultad</label>
                         <select
                             id="difficulty" name="difficulty" value={difficulty}
@@ -74,6 +91,25 @@ function BasicDataForm({
                             <option value="easy">Fácil</option>
                             <option value="medium">Media</option>
                             <option value="difficult">Difícil</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col w-full gap-2">
+                        <label className={labelBase} htmlFor="category">Categoría</label>
+                        <select
+                            id="category" name="category" value={category}
+                            onChange={(e) => onCategoryChange(e.target.value)}
+                            className={`${inputBase} ${inputColor.springBud} text-center px-0 mb-2`}
+                        >
+                            <option value="">- Selecciona -</option>
+                            <option value="entrante">Entrante</option>
+                            <option value="principal">Principal</option>
+                            <option value="postre">Postre</option>
+                            <option value="sopa">Sopa</option>
+                            <option value="ensalada">Ensalada</option>
+                            <option value="snack">Snack</option>
+                            <option value="bebida">Bebida</option>
+                            <option value="otro">Otro</option>
                         </select>
                     </div>
                 </div>

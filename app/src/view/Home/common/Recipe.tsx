@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from "react-router-dom"
 
-import { FaChevronUp, FaChevronLeft, FaStar, FaShareAlt } from "react-icons/fa"
-import { FaListUl } from "react-icons/fa6"
+import { FaChevronUp, FaChevronLeft, FaStar, FaShareAlt, FaEye, FaHeart } from "react-icons/fa"
+import { FaListUl, FaUtensils } from "react-icons/fa6"
 import { MdDelete, MdEdit } from "react-icons/md"
 
 import { useAppContext } from '../../../context'
@@ -94,6 +94,23 @@ function Recipe({
         easy: "fácil",
         medium: "media",
         difficult: "difícil"
+    }
+
+    const categoryMap: Record<string, string> = {
+        entrante: "Entrante",
+        principal: "Principal",
+        postre: "Postre",
+        sopa: "Sopa",
+        ensalada: "Ensalada",
+        snack: "Snack",
+        bebida: "Bebida",
+        otro: "Otro"
+    }
+
+    const sourceMap: Record<string, string> = {
+        'manual': "Manual",
+        'ai-generated': "Generada por IA",
+        'url-import': "Importada"
     }
 
     if (!recipe) return <p>Cargando receta...</p>
@@ -241,20 +258,60 @@ function Recipe({
                         {/* <-- description --> */}
                         {recipe.description && <p className="text-folly text-center text-base sm:text-lg lg:text-xl xl:text-2xl leading-tight">{recipe.description}</p>}
 
-                        {/* <-- time, difficulty --> */}
+                        {/* <-- time, difficulty, category, servings --> */}
                         {
-                            (recipe.time || recipe.difficulty) && (
-                                <div className="flex flex-row anybody-title text-lg sm:text-xl lg:text-2xl xl:text-3xl text-folly gap-2">
+                            (recipe.time || recipe.difficulty || recipe.category || recipe.servings) && (
+                                <div className="flex flex-row flex-wrap justify-center anybody-title text-lg sm:text-xl lg:text-2xl xl:text-3xl text-folly gap-2">
                                     {Boolean(recipe.time) && <h3>{recipe.time} min</h3>}
                                     {recipe.difficulty && (
                                         <>
-                                            {Boolean(recipe.time) && " · "}
+                                            {(Boolean(recipe.time) || recipe.category) && " · "}
                                             <h3>Dificultad: {difficultyMap[recipe.difficulty]}</h3>
+                                        </>
+                                    )}
+                                    {recipe.category && (
+                                        <>
+                                            {(Boolean(recipe.time) || recipe.difficulty) && " · "}
+                                            <h3>{categoryMap[recipe.category]}</h3>
+                                        </>
+                                    )}
+                                    {recipe.servings && (
+                                        <>
+                                            {(Boolean(recipe.time) || recipe.difficulty || recipe.category) && " · "}
+                                            <h3>
+                                                <FaUtensils className="inline mr-1 align-middle" aria-hidden="true" />
+                                                {recipe.servings}
+                                            </h3>
                                         </>
                                     )}
                                 </div>
                             )
                         }
+
+                        {/* <-- source badge --> */}
+                        {recipe.source && recipe.source !== 'manual' && (
+                            <div className="anybody-title text-xs sm:text-sm lg:text-base text-spring-bud px-2 py-0.5 rounded-xs bg-folly shadow-hard-sm">
+                                Fuente: {sourceMap[recipe.source] || recipe.source}
+                            </div>
+                        )}
+
+                        {/* <-- views and likes counters --> */}
+                        {(recipe.views !== undefined || recipe.likes !== undefined) && (
+                            <div className="flex flex-row gap-4 text-folly text-sm sm:text-base">
+                                {recipe.views !== undefined && (
+                                    <span className="flex items-center gap-1">
+                                        <FaEye className="opacity-70" aria-hidden="true" />
+                                        {recipe.views}
+                                    </span>
+                                )}
+                                {recipe.likes !== undefined && (
+                                    <span className="flex items-center gap-1">
+                                        <FaHeart className="opacity-70" aria-hidden="true" />
+                                        {recipe.likes}
+                                    </span>
+                                )}
+                            </div>
+                        )}
 
                         {/* <-- tags --> */}
                         {recipe.tags && recipe.tags.length > 0 && (
@@ -314,6 +371,43 @@ function Recipe({
                                                 </p>
                                             </div>
                                         ))}
+                                </div>
+                            )}
+                        </div>
+                    </section>
+                )}
+
+                {/* <-- nutrition --> */}
+                {recipe.nutrition && (recipe.nutrition.calories || recipe.nutrition.protein || recipe.nutrition.carbs || recipe.nutrition.fat) && (
+                    <section aria-labelledby='nutrition' className="flex flex-col justify-items-center items-center py-6 sm:py-8 gap-6 px-8 md:px-12 xl:px-14 w-full bg-folly">
+                        <h2 id="nutrition" className="
+                        anybody-logo text-2xl sm:text-3xl xl:text-4xl text-spring-bud
+                        drop-shadow-hard-sm xl:drop-shadow-hard-md
+                    ">Información nutricional</h2>
+
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center text-spring-bud">
+                            {recipe.nutrition.calories !== undefined && (
+                                <div className="flex flex-col items-center p-4 rounded-xs bg-spring-bud text-folly shadow-hard-md">
+                                    <span className="anybody-title text-lg sm:text-xl">{recipe.nutrition.calories}</span>
+                                    <span className="text-sm sm:text-base">Calorías</span>
+                                </div>
+                            )}
+                            {recipe.nutrition.protein !== undefined && (
+                                <div className="flex flex-col items-center p-4 rounded-xs bg-spring-bud text-folly shadow-hard-md">
+                                    <span className="anybody-title text-lg sm:text-xl">{recipe.nutrition.protein}g</span>
+                                    <span className="text-sm sm:text-base">Proteínas</span>
+                                </div>
+                            )}
+                            {recipe.nutrition.carbs !== undefined && (
+                                <div className="flex flex-col items-center p-4 rounded-xs bg-spring-bud text-folly shadow-hard-md">
+                                    <span className="anybody-title text-lg sm:text-xl">{recipe.nutrition.carbs}g</span>
+                                    <span className="text-sm sm:text-base">Carbohidratos</span>
+                                </div>
+                            )}
+                            {recipe.nutrition.fat !== undefined && (
+                                <div className="flex flex-col items-center p-4 rounded-xs bg-spring-bud text-folly shadow-hard-md">
+                                    <span className="anybody-title text-lg sm:text-xl">{recipe.nutrition.fat}g</span>
+                                    <span className="text-sm sm:text-base">Grasas</span>
                                 </div>
                             )}
                         </div>

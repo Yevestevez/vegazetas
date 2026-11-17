@@ -6,4 +6,10 @@ export const findUserById: FindUserById = userId =>
     User.findById(userId, 'favorites').lean().exec() as Promise<UserFavorites | null>
 
 export const findRecipeById: FindRecipeById = recipeId =>
-    Recipe.findById(recipeId).select('-__v').populate('author', 'username').lean().exec()
+    Recipe.findOneAndUpdate(
+        { _id: recipeId },
+        { $inc: { views: 1 } },
+        { new: true, select: '-__v' }
+    )
+        .populate('author', 'username')
+        .exec()

@@ -10,8 +10,8 @@ export const createCreateRecipeHandler = (
 ): RequestHandler => async (req, res, next) => {
     try {
         const userId = getSessionUserId(req.headers.authorization)
-        const { title, images, description, time, difficulty, tags } = req.body
-        const recipeId = await createRecipe(userId, title, images, description, time, difficulty, tags)
+        const { title, images, description, time, difficulty, tags, category, servings, source, sourceUrl, aiNotes } = req.body
+        const recipeId = await createRecipe(userId, title, images, description, time, difficulty, tags, category, servings, source, sourceUrl, aiNotes)
         res.status(201).json(recipeId)
     } catch (error) {
         if (error instanceof CredentialsError) {

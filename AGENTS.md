@@ -32,7 +32,7 @@
   refactorización. Mientras tanto, ejecuta localmente las comprobaciones
   pertinentes; no instales hooks ni automatización de CI/CD sin acordarlo.
 - Usa versionado semántico para el producto completo, con `v1.0.0` como punto
-  de partida acordado para el estado actual de producción y `v2.0.0` para la
+  de partida acordado para el estado actual de producción y `v2.1.0` para la
   refactorización en desarrollo. Mantén actualizado el historial de versiones
   y distingue los cambios pendientes de los desplegados. No crees etiquetas ni
   publiques versiones sin autorización.
