@@ -20,8 +20,8 @@ function Menu({ onUserLoggedOut, onCreateRecipeClicked, onMyRecipesClicked }: Me
 
     return <div className="flex flex-col min-h-screen min-w-screen items-center bg-spring-bud gap-6 xs:gap-8 xl:gap-12">
         <MenuHeader onUserLoggedOut={onUserLoggedOut} />
-        <main className="flex flex-col items-center w-full px-8 xs:px-12 sm:px-14 gap-8 xl:gap-12 pb-24 pt-44 sm:pt-48 md:pt-32 lg:pt-40 xl:pt-48 max-w-7xl">
-            <nav className="grid grid-cols-1 md:grid-cols-2 w-full gap-6 xs:gap-8 md:gap-10 [&>:last-child]:md:col-span-2 [&>:last-child]:md:flex [&>:last-child]:md:justify-center">
+        <main className="flex flex-col items-center w-full px-8 xs:px-12 sm:px-14 gap-8 xl:gap-12 pb-24 pt-48 sm:pt-48 md:pt-36 lg:pt-44 xl:pt-44 2xl:pt-44 max-w-6xl">
+            <nav className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 w-full gap-6 xs:gap-8 md:gap-10 [&>:last-child]:md:col-span-2 [&>:last-child]:md:flex [&>:last-child]:md:justify-center [&>:last-child]:2xl:col-span-1 [&>:last-child]:2xl:flex-none">
 
                 <MenuButton to="/my-recipes" className="bg-veronica text-sgbus-green">Mis recetas</MenuButton>
 
@@ -53,7 +53,7 @@ function Menu({ onUserLoggedOut, onCreateRecipeClicked, onMyRecipesClicked }: Me
             <CircleButton
                 type='button'
                 onClick={handleCreateRecipeClick}
-                className="bg-folly text-spring-bud hover:bg-spring-bud hover:text-folly outline-none hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-folly"
+                className="bg-folly text-spring-bud hover:bg-spring-bud hover:text-folly outline-hidden hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-folly"
             >Nueva <br></br> receta</CircleButton>
         </main>
         <Footer />

@@ -113,7 +113,7 @@ function Login({ onUserLoggedIn }: LoginProps) {
     return <div className="flex flex-col items-center justify-start md:justify-center w-full min-h-screen gap-2 xs:gap-4 py-6 xs:py-10 md:pt-0 bg-violet">
         <LogoVegazetas to="/Landing" aria-label="Navegar a la Landing" title="Landing" className="text-hot-magenta hover:text-folly"></LogoVegazetas>
 
-        <main className="flex flex-col items-center justify-center w-full max-w-7xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
+        <main className="flex flex-col items-center justify-center w-full max-w-6xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
             <SectionTitle className="bg-hot-magenta text-violet">INICIO</SectionTitle>
 
             <form className="flex flex-col items-center justify-center w-full gap-2"
@@ -158,7 +158,7 @@ function Login({ onUserLoggedIn }: LoginProps) {
 
             <nav aria-label="Navegación a Registro" className="flex flex-col w-full gap-2 -mt-24 xs:-mt-28 md:-mt-32 lg:-mt-36 text-hot-magenta">
                 <p className="anybody text-xs xs:text-sm">¿No estás registrado?</p>
-                <Link className="z-0 w-fit anybody-title text-3xl xs:text-5xl md:text-6xl font-bold underline decoration-8 transition-all duration-150 ease-out hover:text-canary hover:-translate-y-2 hover:scale-105 active:scale-95 focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105"
+                <Link className="z-0 w-fit anybody-title text-3xl xs:text-5xl md:text-6xl font-bold underline decoration-8 interactive-lift focus-ring hover:text-canary"
                     to="/register"
                 >Registro</Link>
             </nav>
@@ -175,7 +175,7 @@ function Login({ onUserLoggedIn }: LoginProps) {
                     <div className="border-t border-aquamarine w-full my-8 border-2" aria-hidden="true" />
                     <h2 id="recovery-title" className="
                             text-center bg-hot-magenta text-violet
-                            flex items-center justify-center p-2 anybody-title text-base xs:text-xl drop-shadow-[0.6rem_0.6rem_0_rgba(0,0,0,0.8)]
+                            flex items-center justify-center p-2 anybody-title text-base xs:text-xl drop-shadow-hard-2xl
                         ">RECUPERA TU CONTRASEÑA
                     </h2>
                     <form className="flex flex-col items-center w-full gap-2" onSubmit={handleRecoverPasswordButtonClick}>

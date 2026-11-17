@@ -72,7 +72,7 @@ function Register({ onUserRegistered }: RegisterProps) {
     return <div className="flex flex-col items-center justify-start md:justify-center w-full min-h-screen gap-2 xs:gap-4 py-6 xs:py-10 lg:py-16 bg-canary">
         <LogoVegazetas to="/Landing" aria-label="Navegar a la Landing" title="Landing" className="text-violet hover:text-folly"></LogoVegazetas>
 
-        <main className="flex flex-col items-center justify-center w-full max-w-7xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20 mb-10 xs:mb-0">
+        <main className="flex flex-col items-center justify-center w-full max-w-6xl gap-4 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20 mb-10 xs:mb-0">
             <SectionTitle className="bg-violet text-canary">REGISTRO</SectionTitle>
 
             <form className="flex flex-col items-center justify-center w-full gap-2"
@@ -148,7 +148,7 @@ function Register({ onUserRegistered }: RegisterProps) {
 
             <nav aria-label="Navegación a Inicio" className="flex flex-col w-full gap-2 -mt-24 xs:-mt-28 md:-mt-32 lg:-mt-36 text-violet">
                 <p className="anybody text-xs xs:text-sm">¿Ya tienes cuenta?</p>
-                <Link className="z-0 w-fit anybody-title text-4xl xs:text-5xl md:text-6xl font-bold underline decoration-8 transition-all duration-150 ease-out hover:text-hot-magenta hover:-translate-y-2 hover:scale-105 active:scale-95 focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105"
+                <Link className="z-0 w-fit anybody-title text-4xl xs:text-5xl md:text-6xl font-bold underline decoration-8 interactive-lift focus-ring hover:text-hot-magenta"
                     to="/login"
                 >Login</Link>
             </nav>

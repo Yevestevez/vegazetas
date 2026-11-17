@@ -4,8 +4,9 @@ The API is an Express service backed by MongoDB. It handles users, authenticatio
 
 ## Run locally
 
-Install [Node.js](https://nodejs.org/) 26.13.1 or later (LTS) and npm. The
-project's `.node-version` selects 26.13.1. Keep Node 26 updated with its latest
+Install [Node.js](https://nodejs.org/) 26.13.1 or later on the 26.x LTS line
+and npm. The project's `.node-version` selects 26.13.1 and `engines.node` in
+`package.json` requires `^26.13.1`. Keep Node 26 updated with its latest
 security patches and make sure MongoDB is available. npm rejects unsupported
 engines during installation; this does not enforce the runtime when starting
 the API.
@@ -43,15 +44,9 @@ Use `npm run watch` to restart the service when files change. The health check i
 
 Set `NODE_ENV=development` to use Ethereal email previews for password recovery. In production, set `NODE_ENV=production`, `RESEND_API_KEY`, and `MAIL_FROM` for Resend.
 
-The API is gradually adopting TypeScript. Node runs the type-strippable
-TypeScript files directly; no separate compilation step is needed at startup.
-Run `npm run typecheck` to check the migrated TypeScript modules. Existing
-JavaScript and the shared `com` package remain in place and are not fully
-type-checked. The `GET /users/name`, `GET /users/username`, `POST /users`,
-`POST /users/auth`, `PATCH /users/favorites/:recipeId` and
-`POST /users/password/recover` and `POST /users/password/reset/:token` modules
-are TypeScript, including their handlers, use cases and repositories. The
-central user router and shared `com` package remain in JavaScript.
+The API is fully TypeScript. Node runs the type-strippable TypeScript files
+directly; no separate compilation step is needed at startup. Run `npm run
+typecheck` to check types. The shared `com` package is also TypeScript.
 
 The API uses Express 5. Its JSON middleware retains the previous empty-object
 behavior for requests without a parsed body, so existing validation responses

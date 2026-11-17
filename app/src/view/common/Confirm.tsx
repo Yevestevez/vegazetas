@@ -15,20 +15,20 @@ function Confirm({ message, onCancel, onAccept }: ConfirmProps) {
             w-full max-w-xl
             text-center 
             border-8 bg-folly border-spring-bud text-spring-bud
-            shadow-[0.6rem_0.6rem_0_0_rgba(0,0,0,0.8)] lg:shadow-[0.8rem_0.8rem_0_0_rgba(0,0,0,0.8)]
+            shadow-hard-2xl
         ">
-            <p className="text-base xs:text-lg md:text-xl xl:text-2xl font-black leading-tight xs:leading-tight md:leading-tight xl:leading-tight">{message}</p>
+            <p className="text-base xs:text-lg md:text-xl xl:text-2xl font-black leading-tight">{message}</p>
             <div className="flex row gap-6 xs:gap-8">
                 <CircleButton
                     onClick={onCancel} variant="small"
-                    className="bg-spring-bud text-folly outline-none hover:bg-folly hover:text-spring-bud hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
+                    className="bg-spring-bud text-folly outline-hidden hover:bg-folly hover:text-spring-bud hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
                 >
                     Cancelar
                 </CircleButton>
 
                 <CircleButton
                     onClick={onAccept} variant="small"
-                    className="bg-spring-bud text-folly outline-none hover:bg-folly hover:text-spring-bud hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
+                    className="bg-spring-bud text-folly outline-hidden hover:bg-folly hover:text-spring-bud hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
                 >
                     Aceptar
                 </CircleButton>

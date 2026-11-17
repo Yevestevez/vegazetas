@@ -88,9 +88,9 @@ function Input({
                     w-full h-12 xs:h-16 md:h-20 p-2 mb-2 xs:mb-4
                     min-w-0 truncate rounded-full
                     anybody text-center text-base xs:text-xl placeholder:italic placeholder:opacity-80
-                    shadow-[0.6rem_0.6rem_0_rgba(0,0,0,0.8)] 
-                    outline-none focus:outline-4 focus:outline-offset-0
-                    transition-all duration-150 ease-out focus:scale-105
+                    shadow-hard-2xl 
+                    outline-hidden focus:outline-4 focus:outline-offset-0
+                    transition-transform duration-150 ease-out focus:scale-105
                     
                     ${currentTheme.input.bg} 
                     ${currentTheme.input.focusBg}
@@ -124,7 +124,7 @@ function Input({
                         cursor-pointer rounded-full 
                         text-xl xs:text-3xl xl:text-4xl 
                         transform hover:scale-110 active:scale-95 
-                        transition-all duration-150 ease-out 
+                        transition-transform duration-150 ease-out 
                         focus:outline-2 focus:outline-offset-0 focus:outline-white 
                         
                         ${currentTheme.icon.text}

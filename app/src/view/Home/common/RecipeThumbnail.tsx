@@ -53,19 +53,18 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
 
     return <article className={`
                 flex flex-col w-full relative
-                drop-shadow-[0.4em_0.4em_0_rgba(0,0,0,0.8)]
-                transition-all duration-150 ease-out hover:scale-105
-                focus:outline focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105
+                drop-shadow-hard-lg
+                interactive-hover focus:outline focus:outline-4 focus:outline-offset-0 focus:outline-white focus:scale-105
                 ${recipe.published ? 'opacity-100' : 'opacity-60 grayscale'}
             `}>
-        <header className="z-20 flex absolute top-0 left-0 right-0 p-4 xs:p-6 xl:p-6 sm:p-4 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 items-center justify-between">
+        <header className="z-20 flex absolute top-0 left-0 right-0 p-3 xs:p-5 xl:p-5 sm:p-3 2xl:p-3 gap-3 xs:gap-4 sm:gap-3 md:gap-4 lg:gap-3 xl:gap-4 2xl:gap-3 items-center justify-between">
 
             <div className="flex items-center justify-start">
                 {recipe.own &&
                     <div className="flex items-center justify-start">
                         {recipe.published
-                            ? <MdRocketLaunch className="text-spring-bud text-2xl xs:text-3xl" title="Receta publicada" />
-                            : <MdVisibilityOff className="text-spring-bud text-xl xs:text-3xl" title="Receta en borrador" />
+                            ? <MdRocketLaunch className="text-spring-bud text-2xl xs:text-3xl 2xl:text-xl" title="Receta publicada" />
+                            : <MdVisibilityOff className="text-spring-bud text-xl xs:text-3xl 2xl:text-xl" title="Receta en borrador" />
                         }
                     </div>
                 }
@@ -99,7 +98,7 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
         </header>
 
         <button
-            className="flex items-center justify-center cursor-pointer w-full rounded-sm overflow-hidden"
+            className="flex items-center justify-center cursor-pointer w-full rounded-xs overflow-hidden"
             type="button"
             aria-label="Ir a la receta" title="Ir a la receta"
             onClick={handleRecipeThumbnailClick}
@@ -121,11 +120,11 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
                 <h2 className={`
                 ${currentVariant.textColor}
                 z-10 absolute inset-0 flex items-center justify-center text-center
-                p-6 pt-10 xs:p-10 xs:pt-14
+                p-4 pt-8 xs:p-8 xs:pt-12 2xl:p-4 2xl:pt-8
                 anybody-logo break-words
-                text-2xl xs:text-4xl sm:text-2xl md:text-3xl lg:text-2xl xl:md:text-4xl
+                text-2xl xs:text-4xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-xl
                 leading-tight
-                drop-shadow-[0.14em_0.14em_0_rgba(0,0,0,0.8)]
+                drop-shadow-hard-sm
             `}>
                     {recipe.title}
                 </h2>
@@ -134,13 +133,13 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
 
         <footer className="
             z-10 mx-auto
-            -mt-4 xs:-mt-5 sm:-mt-4
-            px-4 py-2 xs:py-2 sm:py-1
+            -mt-4 xs:-mt-5 sm:-mt-4 2xl:-mt-4
+            px-3 py-1 xs:py-2 sm:py-1 2xl:px-3 2xl:py-1
             text-spring-bud bg-folly 
-            rounded-sm overflow-hidden flex flex-col
+            rounded-xs overflow-hidden flex flex-col
         ">
-            <p className="anybody-title text-base xs:text-lg sm:text-base md:text-lg lg:text-base xl:md:text-lg">{`@${recipe.author.username}`}</p>
-            <time className="text-sm xs:text-base sm:text-sm md:text-base lg:text-sm xl:md:text-base">{formatDate(recipe.date)}</time>
+            <p className="anybody-title text-base xs:text-lg sm:text-base md:text-lg lg:text-base xl:text-lg 2xl:text-base">{`@${recipe.author.username}`}</p>
+            <time className="text-sm xs:text-base sm:text-sm md:text-base lg:text-sm xl:text-base 2xl:text-sm">{formatDate(recipe.date)}</time>
         </footer>
     </article>
 }
