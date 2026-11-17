@@ -154,20 +154,19 @@ una restauración en un destino separado; la línea base identifica comandos,
 resultados y fallos preexistentes. No se ejecutan pruebas destructivas contra
 bases compartidas ni de producción.
 
-### Sprint 2: caracterización y calidad reproducible — en curso
+### Sprint 2: caracterización y calidad reproducible — completado
 
 **Hecho:** migradas las 22 suites de Mocha a Vitest, sin ejecución paralela
-sobre las colecciones compartidas. Pasan 105 pruebas en 26 archivos; la
+sobre las colecciones compartidas. Pasan **424 pruebas en 27 archivos**. La
 integración opcional de Ethereal pasó por separado antes de actualizar Express.
 La selección explícita de archivos en la configuración de Vitest ejecuta
-solo las suites *.spec.js. Playwright ejecuta tres pruebas locales de registro, sesión y
-credenciales incorrectas en Chromium, con una base de pruebas independiente.
+solo las suites *.spec.js. Playwright ejecuta **68 pruebas en 11 archivos**
+en Chromium, con una base de pruebas independiente.
 
-Las pruebas HTTP de consulta de receta y de las tres listas cubren acceso,
-visibilidad, respuestas, errores y autenticación actuales. Se corrigieron el
+Las pruebas HTTP cubren todas las operaciones de la API: acceso,
+visibilidad, respuestas, errores y autenticación. Se corrigieron el
 indicador de favorito en recetas propias y los errores de autenticación de las
-listas. **Pendiente:** ampliar la caracterización de los demás contratos y
-flujos prioritarios.
+listas.
 
 - Migrar las pruebas existentes de Mocha a Vitest, preservando sus escenarios
   y evitando que las suites concurrentes compartan datos que se eliminan.
@@ -183,25 +182,22 @@ flujos prioritarios.
 detectan regresiones en los flujos acordados; los comandos y sus dependencias
 están documentados. Los fallos de la línea base tienen una decisión registrada.
 
-### Sprint 3: cimientos de TypeScript y paquete compartido — en curso
+### Sprint 3: cimientos de TypeScript y paquete compartido — completado
 
-**Hecho:** configuración inicial de TypeScript y comprobación de tipos para
-los módulos migrados de la API. Node ejecuta directamente TypeScript con
-sintaxis eliminable. La API y el frontend admiten las líneas Node 22, 24 y 26
-LTS según los mínimos de sus paquetes; npm rechaza otros motores en la instalación.
-Es necesario mantener actualizados los parches y revisar el soporte de cada
-línea, ya que el rango no garantiza por sí solo un runtime seguro. JavaScript
-y el paquete `com` siguen en uso; no están completamente comprobados por tipos.
-La API carga `.env` con Node y ya no depende de `dotenv`. El frontend usa Vite
-8 y su plugin React compatible; en la última comprobación sus dependencias no
-presentaron avisos de `npm audit`. Las validaciones de etiquetas, títulos,
-descripciones, imágenes, dificultades y tiempos de recetas, texto y notas de
-pasos, cantidad, indicador principal, unidad y anotación de ingredientes, el
-nombre usado en registro e ingredientes, el nombre de usuario, el correo, la
-contraseña, el identificador, el índice y la dirección se han migrado a Zod,
-manteniendo las interfaces y corrigiendo discrepancias de límites, tipos
-opcionales y validación de IDs. El resto de validaciones sigue en JavaScript;
-ver [detalle y comprobaciones](./MIGRACION-ZOD-SPRINT3.md).
+**Hecho:** configuración de TypeScript y comprobación de tipos para toda la
+API, el frontend y el paquete compartido. Node ejecuta directamente TypeScript
+con sintaxis eliminable. La API y el frontend admiten las líneas Node 22, 24 y
+26 LTS según los mínimos de sus paquetes; npm rechaza otros motores en la
+instalación. La API, el frontend y `com` son 100% TypeScript. Los archivos que
+permanecen en JavaScript son por decisión: specs de Vitest, soporte de pruebas
+y `vitest.config.js`. La API carga `.env` con Node y ya no depende de `dotenv`.
+El frontend usa Vite 8 y su plugin React compatible. Las validaciones de
+etiquetas, títulos, descripciones, imágenes, dificultades y tiempos de recetas,
+texto y notas de pasos, cantidad, indicador principal, unidad y anotación de
+ingredientes, el nombre usado en registro e ingredientes, el nombre de usuario,
+el correo, la contraseña, el identificador, el índice y la dirección se han
+migrado a Zod, manteniendo las interfaces y corrigiendo discrepancias de límites,
+tipos opcionales y validación de IDs. Ver [detalle y comprobaciones](./MIGRACION-ZOD-SPRINT3.md).
 
 - Acordar configuración de TypeScript, módulos, compilación y convivencia con
   JavaScript en API y frontend, verificando compatibilidad con Node y Vite.

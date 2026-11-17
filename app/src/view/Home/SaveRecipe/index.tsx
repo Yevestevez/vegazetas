@@ -586,7 +586,7 @@ function SaveRecipe({
         <main className="flex flex-col w-full max-w-6xl items-center mx-auto pt-32 xs:pt-36 lg:pt-32 xl:pt-36 pb-24 xs:pb-28 sm:pb-32 gap-2">
 
             <RecipeActionBar
-                onToRecipeClicked={handleToRecipeClick}
+                onToRecipeClicked={() => handleToRecipeClick({ preventDefault: () => {} } as React.MouseEvent)}
                 onDeleteClicked={handleDeleteButtonClick}
             />
 
