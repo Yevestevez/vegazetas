@@ -66,7 +66,7 @@ export const createPasswordRecover = (
                 })
                 .then(async (transporter) => {
                     const frontendBase = process.env.FRONTEND_URL!.replace(/\/$/, '')
-                    const resetLink = `${frontendBase}/password-reset?token=${encodeURIComponent(token)}`
+                    const resetLink = `${frontendBase}/password-reset/${encodeURIComponent(token)}`
 
                     if (process.env.NODE_ENV === 'development') {
                         if (!isDevelopmentTransporter(transporter)) {

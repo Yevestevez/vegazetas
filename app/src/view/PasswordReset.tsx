@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import logic from '../logic'
 import { useAppContext } from '../context'
@@ -18,8 +18,7 @@ interface PasswordResetProps {
 
 function PasswordReset({ onPasswordReseted }: PasswordResetProps) {
     const { alert, confirm } = useAppContext()
-    const [searchParams] = useSearchParams()
-    const token = searchParams.get('token')
+    const { token } = useParams<{ token: string }>()
     const [password, setPassword] = useState('')
 
     if (!token) {

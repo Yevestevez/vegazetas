@@ -16,6 +16,22 @@ Cada cambio actualiza este historial y el badge de versión
 de los [README](../README.md). La versión más reciente aparece
 encima; las anteriores, debajo.
 
+## v2.6.0
+
+Correcciones de seguridad: token de recuperación en path param, rate limiting global y headers CSP en Netlify.
+
+### Cambios
+
+- **Token de password recovery en path param:** el enlace de recuperación enviado por correo cambia de `/password-reset?token=...` a `/password-reset/...`, evitando que el token aparezca en los logs del servidor y el historial del navegador. Se actualizó la ruta de React Router y el componente `PasswordReset` para leer el token del path con `useParams`.
+- **Rate limiting global:** se añade un límite de 100 peticiones por 15 minutos a todos los endpoints de la API, complementando los límites específicos de auth (5 por 15 min), password recovery (3 por hora) y password reset (5 por 10 min).
+- **Headers de seguridad en Netlify:** se crea `_headers` en `app/public/` con Content Security Policy, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer Policy y Permissions Policy para el frontend servido por Netlify.
+- **Token en sessionStorage:** se mantiene el patrón actual (token JWT en `sessionStorage`); el riesgo XSS se mitiga con CSP tanto en la API (Helmet) como en el frontend (Netlify `_headers`).
+
+### Resultados
+
+- Vitest: **434 de 434 pruebas pasan**.
+- Typecheck API y frontend: sin errores.
+
 ## v2.5.0
 
 Corrección de fallos de pruebas Vitest: bug en limpieza de favoritos, serialización de `getRecipeById`, tests desactualizados y comparación de timestamps.

@@ -279,13 +279,21 @@ Correcciones aplicadas en el sprint 8:
 - **Middlewares de seguridad:** Helmet (`securityHeaders.ts`) y rate limiting
   (`rateLimiter.ts`) aplicados.
 
-Hallazgos para sprints futuros:
+Correcciones de seguridad aplicadas:
 
-- Token de password recovery en URL como query param (riesgo bajo-medio).
-- Token en `sessionStorage` vulnerable a XSS (patrón común en SPAs, riesgo
-  aceptado con mitigación de CSP).
-- Rate limiting global (solo endpoints de auth tienen rate limiting).
-- CSP en el frontend servido por Netlify (mejora de hardening).
+- **Token de password recovery en path param:** el enlace de recuperación usa
+  ahora `/password-reset/{token}` (path param) en lugar de query param, evitando
+  que el token aparezca en los logs del servidor y el historial del navegador.
+- **Rate limiting global:** se aplica un límite de 100 peticiones por 15 minutos
+  a todos los endpoints, complementando los límites específicos de auth.
+- **CSP en el frontend de Netlify:** se añaden headers de seguridad (`_headers`)
+  con Content Security Policy, HSTS, X-Frame-Options y Permissions Policy.
+
+Hallazgos documentados:
+
+- Token en `sessionStorage` vulnerable a XSS: patrón común en SPAs; riesgo
+  aceptado con mitigación de CSP tanto en la API (Helmet) como en el frontend
+  (Netlify `_headers`).
 
 ## Puntos pendientes
 

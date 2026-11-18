@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="./doc/CHANGELOG.md"><img src="https://img.shields.io/badge/v2.5.0-E05D44?style=flat" alt="Version"></a>
+  <a href="./doc/CHANGELOG.md"><img src="https://img.shields.io/badge/v2.6.0-E05D44?style=flat" alt="Version"></a>
   <a href="https://github.com/Yevestevez/vegazetas/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Yevestevez/vegazetas/ci.yml?branch=main&label=CI" alt="CI"></a>
 </p>
 

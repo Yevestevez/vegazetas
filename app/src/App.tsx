@@ -86,7 +86,7 @@ function App() {
                 logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onUserLoggedIn={handleUserLoggedIn} />
             } />
 
-            <Route path="/password-reset" element={
+            <Route path="/password-reset/:token" element={
                 <PasswordReset onPasswordReseted={handlePasswordReseted} />
             } />
 

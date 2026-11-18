@@ -3,10 +3,12 @@ import cors from 'cors'
 import { usersRouter, recipesRouter } from './routes/index.ts'
 import errorHandler from './middlewares/errorHandler.ts'
 import { securityHeaders } from './middlewares/securityHeaders.ts'
+import { globalLimiter } from './middlewares/rateLimiter.ts'
 
 const createApp = () => {
     const app = express()
 
+    app.use(globalLimiter)
     app.use(securityHeaders)
     app.use(express.json({ limit: '10kb' }))
     
