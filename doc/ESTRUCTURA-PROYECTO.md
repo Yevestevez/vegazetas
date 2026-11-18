@@ -191,7 +191,9 @@ vegazetas/
 │   │   ├── main.css                 # Estilos Tailwind
 │   │   ├── main.tsx                 # Entry point con createRoot
 │   │   └── vite-env.d.ts            # Declaraciones globales Vite
-│   ├── favicon.svg
+│   ├── public/
+│   │   ├── _redirects               # Reglas de redirección de Netlify
+│   │   └── favicon.svg
 │   ├── index.html
 │   ├── package.json
 │   ├── package-lock.json
