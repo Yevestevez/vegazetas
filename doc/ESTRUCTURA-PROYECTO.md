@@ -12,7 +12,9 @@ vegazetas/
 ├── .agents/
 │   └── skills/                      # Instrucciones y guías para agentes
 ├── .github/
-│   └── skills/                      # Skills de referencia (Node, React, calidad, migración)
+│   ├── skills/                      # Skills de referencia (Node, React, calidad, migración)
+│   └── workflows/
+│       └── ci.yml                   # Pipeline de CI en Pull Request
 ├── api/                             # API Express y MongoDB (TypeScript)
 │   ├── config/
 │   │   └── loadEnv.ts               # Carga segura de .env
@@ -228,15 +230,17 @@ vegazetas/
 │   ├── next-features/
 │   │   ├── PLAN-CLOUDINARY.md       # Plan de migración a Cloudinary
 │   │   └── PLAN-IA-GEMINI.md        # Plan de integración con IA Gemini
+│   ├── CHANGELOG.md                 # Historial de versiones semánticas
 │   ├── DEPLOYMENT.md                # Configuración y problemas de despliegue
 │   ├── ESTADO-ACTUAL.md
-│   ├── ESTRUCTURA-PROYECTO.md
-│   ├── HISTORIAL-VERSIONES.md
-│   └── PLAN-REFACTORIZACION.md
+│   └── ESTRUCTURA-PROYECTO.md
 ├── .gitignore
+├── .husky/
+│   └── pre-commit                   # Hook de lint y typecheck
 ├── .node-version
 ├── AGENTS.md
 ├── LICENSE
+├── package.json                     # Husky y scripts de raíz
 ├── README.md
 ├── README-EN.md
 └── skills-lock.json
@@ -267,7 +271,6 @@ Los archivos que permanecen en JavaScript son por decisión: specs de Vitest,
 soporte de pruebas, `vitest.config.js`, `playwright.config.js` y
 `eslint.config.js`. Los scripts `.sh` en `api/test/` son para pruebas manuales.
 
-Véase el [plan](./PLAN-REFACTORIZACION.md) para el estado y los criterios de
-cada sprint, el [estado actual](./ESTADO-ACTUAL.md) para detalles de
+Véase el [estado actual](./ESTADO-ACTUAL.md) para detalles de
 contratos, pruebas y configuración, y la [guía de despliegue](./DEPLOYMENT.md)
 para la configuración de Netlify y Render.

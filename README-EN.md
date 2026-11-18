@@ -13,7 +13,8 @@
 </p>
 
 <p align="center">
-  <a href="./doc/HISTORIAL-VERSIONES.md"><img src="https://img.shields.io/badge/v2.1.0-deployed-E05D44?style=flat" alt="Version"></a>
+  <a href="./doc/CHANGELOG.md"><img src="https://img.shields.io/badge/v2.2.0-E05D44?style=flat" alt="Version"></a>
+  <a href="https://github.com/Yevestevez/vegazetas/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Yevestevez/vegazetas/ci.yml?branch=main&label=CI" alt="CI"></a>
 </p>
 
 <p align="center">
@@ -142,7 +143,7 @@ npm run build
 Playwright browser tests run locally with a separate test database. See the
 [setup and commands](./app/README.md#browser-tests).
 
-See the [current-state documentation](./doc/ESTADO-ACTUAL.md) for the technical inventory, variables and known limitations, and the [refactoring plan](./doc/PLAN-REFACTORIZACION.md) for the planned evolution.
+See the [current-state documentation](./doc/ESTADO-ACTUAL.md) for the technical inventory, variables and known limitations.
 
 ## Deployment
 

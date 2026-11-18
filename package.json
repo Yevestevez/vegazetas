@@ -1,0 +1,11 @@
+{
+  "name": "vegazetas",
+  "private": true,
+  "version": "2.1.0",
+  "scripts": {
+    "postinstall": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}

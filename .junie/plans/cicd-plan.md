@@ -250,4 +250,4 @@ Se actualiza la documentación para reflejar el CI/CD activo y se elimina el pla
 - Actualizar `doc/ESTADO-ACTUAL.md`: sección de CI/CD con el pipeline activo, MongoDB Docker Service, y Husky.
 - Añadir badge de CI en `README.md` y `README-EN.md` (enlazando al workflow de GitHub Actions).
 - Eliminar `doc/PLAN-REFACTORIZACION.md` — reemplazado por `doc/next-features/PLAN-CICD.md`.
-- Actualizar `doc/HISTORIAL-VERSIONES.md` si se considera un cambio de versión (v2.0.1 o v2.1.0 según la naturaleza del cambio).
+- Actualizar `doc/CHANGELOG.md` si se considera un cambio de versión (v2.0.1 o v2.1.0 según la naturaleza del cambio).

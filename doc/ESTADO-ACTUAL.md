@@ -128,8 +128,7 @@ y migró las validaciones a Zod. El sprint 4 creó el primer módulo vertical
 (`GET /users/name`). El sprint 5 migró todos los módulos de usuarios. El sprint 6
 migró todo el módulo de recetas. El sprint 7 migró el frontend a TypeScript.
 El sprint 8 cerró la migración de `com/` y `api/` a TypeScript, aplicó correcciones
-de seguridad y actualizó React a 19. Véase el [plan](./PLAN-REFACTORIZACION.md)
-para el detalle de cada corte.
+de seguridad y actualizó React a 19.
 
 **Despliegue v2.0.0:** la versión v2.0.0 está desplegada en Netlify (frontend) y
 Render (backend). Los cambios de contrato de autenticación (`401` para credenciales
@@ -179,7 +178,9 @@ servicios externos.
 - En `app` existen `npm run lint`, `npm run build`, `npm run typecheck` y
   `npm run test:e2e`. La suite Playwright cubre registro, sesión, credenciales
   incorrectas, recetas, publicación y favoritos con Chromium y servicios locales.
-- No se ha identificado configuración de CI versionada en `.github/`.
+- CI configurado en `.github/workflows/ci.yml`: jobs paralelos de lint, typecheck,
+  build, Vitest y Playwright; MongoDB 8 como Docker service. Husky ejecuta
+  lint y typecheck en el hook pre-commit local.
 
 **Resultados actuales de validación:**
 - Vitest API: **424 pruebas** en 27 archivos.
@@ -309,7 +310,8 @@ Hallazgos para sprints futuros:
 - **Accesibilidad:** revisar con teclado, lectores de pantalla, formularios,
   foco, contraste y diseño adaptable; no se ha realizado una auditoría WCAG.
 - **Rendimiento:** medir experiencia real antes de fijar objetivos.
-- **CI/CD:** implantar GitHub Actions después de validar el despliegue.
+- **CI/CD:** pipeline activo con GitHub Actions (CI en PR) y Husky (hooks locales).
+  El despliegue automático de Netlify y Render se mantiene sin cambios.
 - **OpenAPI:** generar y validar contrato de API.
 
 ## Referencias para la arquitectura
@@ -318,5 +320,4 @@ El [ejemplo backend](https://github.com/DATW-2026/IFCD0210_2026/tree/main/14.Pri
 inspiró la separación por módulos, repositorios, controladores y routers.
 El [ejemplo frontend](https://github.com/DATW-2026/IFCD0210_2026/tree/main/10.Front)
 inspiró la organización funcional en TypeScript.
-Véase el [plan](./PLAN-REFACTORIZACION.md) para decisiones y el
-[esquema del proyecto](./ESTRUCTURA-PROYECTO.md) para la estructura actual.
+Véase el [esquema del proyecto](./ESTRUCTURA-PROYECTO.md) para la estructura actual.

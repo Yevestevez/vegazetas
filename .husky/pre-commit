@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+cd app && npm run lint && cd ..
+cd api && npm run typecheck && cd ..
+cd app && npx tsc --noEmit && cd ..

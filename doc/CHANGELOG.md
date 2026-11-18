@@ -12,11 +12,21 @@ El producto usa [versionado semántico](https://semver.org/lang/es/): `MAJOR.MIN
 - **MINOR** — funcionalidades nuevas compatibles con la versión anterior.
 - **PATCH** — correcciones de errores compatibles.
 
-Cada cambio que se despliega actualiza este historial y el badge de versión
-de los [README](../README.md). La versión más reciente desplegada aparece
+Cada cambio actualiza este historial y el badge de versión
+de los [README](../README.md). La versión más reciente aparece
 encima; las anteriores, debajo.
 
-## v2.1.0 — desplegada
+## v2.2.0
+
+Pipeline de CI/CD con GitHub Actions y hooks locales con Husky.
+
+### Cambios
+
+- **CI en Pull Request:** workflow `ci.yml` con jobs paralelos (install, lint, typecheck, build, vitest, playwright) y MongoDB 8 como Docker service.
+- **Hooks locales:** Husky con pre-commit que ejecuta lint del frontend y typecheck de API y frontend.
+- **Documentación:** ESTADO-ACTUAL.md y READMEs actualizados; PLAN-REFACTORIZACION.md eliminado.
+
+## v2.1.0-prev
 
 Migración del esquema de modelos a la versión 2, ampliando los campos de Recipe y User, y ajustando validaciones y UI.
 
@@ -33,7 +43,7 @@ Migración del esquema de modelos a la versión 2, ampliando los campos de Recip
 - **Componentes UI:** `BasicDataForm` con select de categoría e input de porciones; `Recipe.tsx` muestra categoría, porciones, badge de fuente, contadores de vistas/likes y sección de nutrición.
 - **Pruebas:** mensajes de error actualizados a los nuevos límites, nuevas pruebas para campos nuevos y limpieza referencial.
 
-## v2.0.0 — desplegada
+## v2.0.0
 
 Versión final de la refactorización, desplegada en Netlify (frontend) y Render
 (backend). API, frontend y paquete compartido son 100% TypeScript. Pasaron
@@ -53,10 +63,9 @@ Versión final de la refactorización, desplegada en Netlify (frontend) y Render
 - **Pruebas de navegador:** incorporación de Playwright para registro, inicio y cierre de sesión, con base desechable independiente de Vitest.
 - **Seguridad:** protección contra JWT Algorithm Confusion, CORS configurable, errorHandler protegido en producción, proyección explícita de campos en favoritos.
 
-El detalle de resultados y riesgos está en el [estado actual](./ESTADO-ACTUAL.md)
-y su seguimiento en el [plan](./PLAN-REFACTORIZACION.md).
+El detalle de resultados y riesgos está en el [estado actual](./ESTADO-ACTUAL.md).
 
-## v1.0.0 — referencia de producción
+## v1.0.0
 
 Punto de partida acordado para la aplicación existente en producción, con
 cuentas, sesión y gestión de recetas. Marcada con el tag `v1.0.0` en Git.
