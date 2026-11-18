@@ -121,25 +121,6 @@ errores propios a `400`, `401`, `403`, `404`, `409` o `500`; otros errores se
 convierten en `500`. En producción, el errorHandler usa mensaje genérico
 ("Internal server error") evitando exponer detalles internos.
 
-**Estado de sprints completados:** los sprints 1–8 están completados. El sprint 1
-estableció la línea base y protección de datos. El sprint 2 migró las pruebas a
-Vitest y caracterizó contratos HTTP. El sprint 3 configuró TypeScript, Node 22/24/26,
-y migró las validaciones a Zod. El sprint 4 creó el primer módulo vertical
-(`GET /users/name`). El sprint 5 migró todos los módulos de usuarios. El sprint 6
-migró todo el módulo de recetas. El sprint 7 migró el frontend a TypeScript.
-El sprint 8 cerró la migración de `com/` y `api/` a TypeScript, aplicó correcciones
-de seguridad y actualizó React a 19.
-
-**Despliegue v2.0.0:** la versión v2.0.0 está desplegada en Netlify (frontend) y
-Render (backend). Los cambios de contrato de autenticación (`401` para credenciales
-inválidas), el campo `isFavorite` en `my-recipes` y el tiempo opcional están
-activos. Consulta la [guía de despliegue](./DEPLOYMENT.md) para detalles de
-configuración y problemas conocidos.
-
-**Corrección local desplegada:** la respuesta de alternancia de favoritos incluía
-el campo `password` con el hash. Se eliminó ese campo sin cambiar los demás ni la
-contraseña almacenada.
-
 ## Configuración y ejecución
 
 La guía básica de instalación está en el [README principal](../README.md).
@@ -264,48 +245,11 @@ La base de producción se creó vacía al desplegar la v2; no se migraron los
 datos de la v1. Consulta la [guía de despliegue](./DEPLOYMENT.md) para la
 configuración de Netlify y Render.
 
-## Seguridad
-
-Correcciones aplicadas en el sprint 8:
-
-- **CORS configurable:** `api/app.ts` lee `FRONTEND_URL` del entorno; si está
-  configurada, restringe el origen; si no, deja CORS abierto (desarrollo local).
-- **errorHandler protegido:** mensaje genérico en producción, evitando exponer
-  detalles internos.
-- **JWT Algorithm Confusion Attack:** `jwt.verify()` restringe el algoritmo a
-  `HS256` con `{ algorithms: ['HS256'] }`.
-- **Proyección de campos en favoritos:** desestructuración explícita de campos
-  necesarios en lugar de `delete response.password`.
-- **Middlewares de seguridad:** Helmet (`securityHeaders.ts`) y rate limiting
-  (`rateLimiter.ts`) aplicados.
-
-Correcciones de seguridad aplicadas:
-
-- **Token de password recovery en path param:** el enlace de recuperación usa
-  ahora `/password-reset/{token}` (path param) en lugar de query param, evitando
-  que el token aparezca en los logs del servidor y el historial del navegador.
-- **Rate limiting global:** se aplica un límite de 100 peticiones por 15 minutos
-  a todos los endpoints, complementando los límites específicos de auth.
-- **CSP en el frontend de Netlify:** se añaden headers de seguridad (`_headers`)
-  con Content Security Policy, HSTS, X-Frame-Options y Permissions Policy.
-
-Hallazgos documentados:
-
-- Token en `sessionStorage` vulnerable a XSS: patrón común en SPAs; riesgo
-  aceptado con mitigación de CSP tanto en la API (Helmet) como en el frontend
-  (Netlify `_headers`).
-
 ## Puntos pendientes
 
-- **Tipos de repositorio:** `com/repo-types.ts` contiene `UserFavorites` para
-  tipar `.lean()` + `.select('favorites')`. Cuando los modelos usen los tipos
-  inferidos de Mongoose de forma completa, evaluar si sustituir esta interfaz.
-- **Despliegue:** la v2.0.0 está desplegada. Consulta la [guía de despliegue](./DEPLOYMENT.md).
 - **Accesibilidad:** revisar con teclado, lectores de pantalla, formularios,
   foco, contraste y diseño adaptable; no se ha realizado una auditoría WCAG.
 - **Rendimiento:** medir experiencia real antes de fijar objetivos.
-- **CI/CD:** pipeline activo con GitHub Actions (CI en PR) y Husky (hooks locales).
-  El despliegue automático de Netlify y Render se mantiene sin cambios.
 - **OpenAPI:** generar y validar contrato de API.
 
 ## Referencias para la arquitectura
