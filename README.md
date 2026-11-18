@@ -155,11 +155,9 @@ Consulta la [guía de despliegue](./doc/DEPLOYMENT.md) para la configuración y 
 
 ## Evolución del proyecto
 
-La refactorización a TypeScript está completa. Los detalles están en el [plan de refactorización](./doc/PLAN-REFACTORIZACION.md).
-
 Se está integrando un asistente de IA para la creación de recetas: a partir de una descripción informal, el sistema genera estructura, ingredientes y pasos de preparación, acelerando el flujo de entrada de datos.
 
-Próximas mejoras a considerar: filtros, recetas compartidas, listas, gestión del perfil, planificación de menús, modo cocina y ajustes de visualización. Son ideas, no funcionalidades comprometidas.
+Próximas mejoras a considerar: añadir imágenes con Cloudinary, filtros, recetas compartidas, listas, gestión del perfil, planificación de menús, modo cocina y ajustes de visualización. Son ideas, no funcionalidades comprometidas.
 
 ## Diseño
 

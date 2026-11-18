@@ -156,11 +156,9 @@ See the [deployment guide](./doc/DEPLOYMENT.md) for configuration and known issu
 
 ## Project direction
 
-The TypeScript refactoring is complete. See the [refactoring plan](./doc/PLAN-REFACTORIZACION.md) for details.
-
 An AI-powered recipe assistant is being integrated: from a casual description, the system generates structure, ingredients, and preparation steps, streamlining the recipe creation workflow.
 
-Future improvements to consider: filters, recipe sharing, lists, profile management, menu planning, cooking mode and display adjustments. These are ideas, not committed features.
+Future improvements to consider: add images with Cloudinary, filters, recipe sharing, lists, profile management, menu planning, cooking mode and display adjustments. These are ideas, not committed features.
 
 ## Design
 
