@@ -16,7 +16,7 @@ Cada cambio actualiza este historial y el badge de versión
 de los [README](../README.md). La versión más reciente aparece
 encima; las anteriores, debajo.
 
-## v2.4.0
+## v2.3.3
 
 Correcciones de seguridad: token de recuperación en path param, rate limiting global y headers CSP en Netlify.
 

@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="./doc/CHANGELOG.md"><img src="https://img.shields.io/badge/v2.4.0-E05D44?style=flat" alt="Version"></a>
+  <a href="./doc/CHANGELOG.md"><img src="https://img.shields.io/badge/v2.3.3-E05D44?style=flat" alt="Version"></a>
 </p>
 
 <p align="center">
