@@ -16,7 +16,7 @@ Cada cambio actualiza este historial y el badge de versión
 de los [README](../README.md). La versión más reciente aparece
 encima; las anteriores, debajo.
 
-## v2.6.0
+## v2.4.0
 
 Correcciones de seguridad: token de recuperación en path param, rate limiting global y headers CSP en Netlify.
 
@@ -32,7 +32,7 @@ Correcciones de seguridad: token de recuperación en path param, rate limiting g
 - Vitest: **434 de 434 pruebas pasan**.
 - Typecheck API y frontend: sin errores.
 
-## v2.5.0
+## v2.3.2
 
 Corrección de fallos de pruebas Vitest: bug en limpieza de favoritos, serialización de `getRecipeById`, tests desactualizados y comparación de timestamps.
 
@@ -49,7 +49,7 @@ Corrección de fallos de pruebas Vitest: bug en limpieza de favoritos, serializa
 
 - Vitest: **434 de 434 pruebas pasan** (antes 419 de 434).
 
-## v2.4.0
+## v2.3.1
 
 Corrección del riesgo de Resend y reparación de las suites de validación de Vitest.
 
