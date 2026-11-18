@@ -16,6 +16,43 @@ Cada cambio actualiza este historial y el badge de versión
 de los [README](../README.md). La versión más reciente aparece
 encima; las anteriores, debajo.
 
+## v2.5.0
+
+Corrección de fallos de pruebas Vitest: bug en limpieza de favoritos, serialización de `getRecipeById`, tests desactualizados y comparación de timestamps.
+
+### Cambios
+
+- **Bug `cleanUserFavorites`:** en `recipeRepo.ts` la función usaba `Recipe.updateMany` para borrar referencias de favoritos, pero `favorites` es un campo del modelo `User`. Corregido a `User.updateMany`.
+- **`normalizeRecipe` en `getRecipeById`:** la función mutaba el documento Mongoose directamente, pero con Mongoose 9 `res.json()` usa `toJSON()` que omite los campos añadidos dinámicamente (`id`, `own`, `isFavorite`). Reescrita para crear un nuevo objeto plano.
+- **Tests de imagen:** actualizados en `validateRecipeFields.spec.js` para usar el mensaje del schema (`'invalid image URL: must be a valid HTTPS URL from a public domain'`) y casos de prueba que el schema rechaza realmente (localhost, IPs privadas).
+- **Tests de annotation:** actualizados en `validateIngredientFields.spec.js` con el límite correcto de 500 caracteres (el schema subió de 300 a 500 en v2.1.0).
+- **Tests de ingredient name:** actualizado en `validateName.spec.js` con el límite correcto de 200 caracteres (el schema subió de 50 a 200 en v2.1.0).
+- **Test de timestamps:** `updateRecipe.spec.js` excluía `updatedAt` de la comparación, ya que Mongoose lo actualiza automáticamente con `timestamps: true`.
+
+### Resultados
+
+- Vitest: **434 de 434 pruebas pasan** (antes 419 de 434).
+
+## v2.4.0
+
+Corrección del riesgo de Resend y reparación de las suites de validación de Vitest.
+
+### Cambios
+
+- **Resend error handling:** en `passwordRecover.ts` se comprueba el campo `error` del retorno de `transporter.emails.send()` y se lanza `SystemError` cuando el proveedor falla, evitando respuestas falsas de éxito. Se añadió el tipo `ResendResponse` y se convirtió el callback en `async` para usar `await`.
+- **Suites de validación:** corregidos los imports en 7 archivos `test/validate*.spec.js` que apuntaban a rutas incorrectas de `app/src/logic/` (los módulos se reorganizaron en subdirectorios `auth/`, `recipes/`, etc.). Se configuró `VITE_API_URL` en `vitest.config.js` para que los módulos de frontend puedan construir URLs durante los tests. Las 7 suites que fallaban por import error ahora se importan correctamente.
+
+## v2.3.0
+
+Actualización de dependencias principales: Mongoose 9, ESLint 10 y tipos de Node 26.
+
+### Cambios
+
+- **Mongoose 9:** actualización de `^8.10.2` a `^9.0.1`. Se reemplazó la opción deprecada `new` por `returnDocument` en `recipeRepo.ts` y `userRepo.ts`. Los tests confirman compatibilidad: 178 de 182 pruebas pasan (4 fallos preexistentes).
+- **ESLint 10:** actualización de `^8.53.0` a `^10.2.1`. Se añadieron `@eslint/js` y `globals` como devDependencies. Se eliminaron variables sin usar en `createRecipe.spec.js` y `navigation.spec.js` detectadas por la mayor estrictura de ESLint 10.
+- **ESLint plugins:** `eslint-plugin-react-hooks` de `^4.6.0` a `^7.1.1` (soporte ESLint 10). `eslint-plugin-react-refresh` de `^0.4.4` a `^0.5.8` (ESM-only, soporte ESLint 10).
+- **@types/node:** actualización de `^24.19.2` a `^26.6.6` en `api`, alineado con Node 26 del proyecto.
+
 ## v2.2.0
 
 Pipeline de CI/CD con GitHub Actions y hooks locales con Husky.

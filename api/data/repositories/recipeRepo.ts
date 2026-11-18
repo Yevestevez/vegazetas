@@ -1,4 +1,4 @@
-import { Recipe } from '../models.ts'
+import { Recipe, User } from '../models.ts'
 import type { RecipeDocument, StepDocument } from '../models.ts'
 
 export const findRecipeById = (recipeId: string) =>
@@ -8,7 +8,7 @@ export const findRecipeByIdWithViews = (recipeId: string) =>
     Recipe.findOneAndUpdate(
         { _id: recipeId },
         { $inc: { views: 1 } },
-        { new: true, select: '-__v' }
+        { returnDocument: 'after', select: '-__v' }
     )
         .populate('author', 'username')
         .exec()
@@ -17,7 +17,7 @@ export const saveRecipe = (data: Record<string, unknown>) =>
     new Recipe(data as any).save().then(recipe => recipe._id.toString())
 
 export const updateRecipeDoc = async (recipeId: string, update: Record<string, unknown>) => {
-    await Recipe.findByIdAndUpdate(recipeId, update, { new: false }).exec()
+    await Recipe.findByIdAndUpdate(recipeId, update, { returnDocument: 'before' }).exec()
 }
 
 export const deleteRecipeDoc = async (recipeId: string) => {
@@ -61,7 +61,7 @@ export const findFavoritesRecipes = (userId: string, favoriteIds: string[]) =>
         .exec()
 
 export const cleanUserFavorites = async (recipeId: string) => {
-    await Recipe.updateMany({}, { $pull: { favorites: recipeId } }).exec()
+    await User.updateMany({}, { $pull: { favorites: recipeId } }).exec()
 }
 
 export const cleanRecipeLikedBy = async (recipeId: string) => {

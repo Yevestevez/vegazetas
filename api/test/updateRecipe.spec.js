@@ -58,6 +58,7 @@ describe('PATCH /recipes/:recipeId', () => {
 
     test('updates the author’s recipe without changing unrelated fields', async () => {
         const before = await Recipe.findById(recipe.id).lean()
+        const { updatedAt: beforeUpdatedAt, ...beforeWithoutUpdatedAt } = before
 
         const response = await patchRecipe(author.id, recipe.id, {
             title: 'Updated recipe', description: 'Updated description', time: 45, difficulty: 'medium'
@@ -66,13 +67,15 @@ describe('PATCH /recipes/:recipeId', () => {
         expect(response.status).toBe(204)
         expect(await response.text()).toBe('')
         const updated = await Recipe.findById(recipe.id).lean()
-        expect(updated).toEqual({
-            ...before,
+        const { updatedAt: updatedUpdatedAt, ...updatedWithoutUpdatedAt } = updated
+        expect(updatedWithoutUpdatedAt).toEqual({
+            ...beforeWithoutUpdatedAt,
             title: 'Updated recipe',
             description: 'Updated description',
             time: 45,
             difficulty: 'medium'
         })
+        expect(updatedUpdatedAt).not.toBe(beforeUpdatedAt)
     })
 
     test.each([30, 0])('removes stored time %i when the author omits it', async time => {

@@ -15,12 +15,12 @@ su funcionamiento en todos los escenarios.
 
 ## Estructura y tecnologías
 
-| Directorio        | Responsabilidad actual                                                                                                     |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| [`app/`](../app/) | SPA React 19 con React Router 7, Vite 8 y Tailwind CSS; 100% TypeScript.                                                   |
-| [`api/`](../api/) | API Express 5 en TypeScript con módulos ES, Mongoose y MongoDB; arquitectura por capas en `modules/`.                      |
+| Directorio        | Responsabilidad actual                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| [`app/`](../app/) | SPA React 19 con React Router 7, Vite 8 y Tailwind CSS; 100% TypeScript.                                                                   |
+| [`api/`](../api/) | API Express 5 en TypeScript con módulos ES, Mongoose y MongoDB; arquitectura por capas en `modules/`.                                      |
 | [`com/`](../com/) | Paquete local compartido 100% TypeScript: esquemas Zod 4, validadores y clases de error; lo consumen `app` y `api` mediante `file:../com`. |
-| [`doc/`](./)      | Documentación e imágenes.                                                                                                  |
+| [`doc/`](./)      | Documentación e imágenes.                                                                                                                  |
 
 Cada aplicación tiene su propio `package.json` y `package-lock.json`; no hay
 un gestor de workspaces definido en la raíz. Los archivos `.node-version`
@@ -99,21 +99,21 @@ validado un contrato OpenAPI.
 Este resumen procede principalmente de la lectura del código; aún faltan
 pruebas HTTP para la mayoría de las respuestas y errores.
 
-| Operación | Entrada principal | Respuesta de éxito |
-| --- | --- | --- |
-| `POST /users` | `name`, `email`, `username`, `password` | `201`, sin cuerpo |
-| `POST /users/auth` | `email`, `password` | `200`, token JWT como cadena JSON |
-| `GET /users/name`, `GET /users/username` | Token de sesión | `200`, nombre o nombre de usuario como cadena JSON |
-| `POST /users/password/recover` | `email` | `200`, objeto con mensaje |
-| `POST /users/password/reset/:token` | Token en la ruta y `newPassword` | `204`, sin cuerpo |
-| `PATCH /users/favorites/:recipeId` | Token de sesión e ID de receta | `200`, documento de usuario serializado sin `password` |
-| `POST /recipes` | Token y campos de receta | `201`, ID como cadena JSON |
-| `GET /recipes/my-recipes`, `/published-recipes`, `/favorites-recipes` | Token | `200`, lista de recetas |
-| `GET /recipes/:recipeId` | Token e ID | `200`, receta con `own` e `isFavorite` |
-| `PATCH /recipes/:recipeId` | Token, ID y campos editables | `204`, sin cuerpo |
-| `DELETE /recipes/:recipeId` | Token e ID | `204`, sin cuerpo |
-| `PATCH /recipes/:recipeId/publish` | Token e ID | `200`, objeto con `published` |
-| Operaciones de ingredientes, pasos, imágenes y etiquetas | Token, ID y datos del elemento | `201` al añadir; `204` al modificar o eliminar. Las altas de ingrediente y paso devuelven un ID JSON. |
+| Operación                                                             | Entrada principal                       | Respuesta de éxito                                                                                    |
+| --------------------------------------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `POST /users`                                                         | `name`, `email`, `username`, `password` | `201`, sin cuerpo                                                                                     |
+| `POST /users/auth`                                                    | `email`, `password`                     | `200`, token JWT como cadena JSON                                                                     |
+| `GET /users/name`, `GET /users/username`                              | Token de sesión                         | `200`, nombre o nombre de usuario como cadena JSON                                                    |
+| `POST /users/password/recover`                                        | `email`                                 | `200`, objeto con mensaje                                                                             |
+| `POST /users/password/reset/:token`                                   | Token en la ruta y `newPassword`        | `204`, sin cuerpo                                                                                     |
+| `PATCH /users/favorites/:recipeId`                                    | Token de sesión e ID de receta          | `200`, documento de usuario serializado sin `password`                                                |
+| `POST /recipes`                                                       | Token y campos de receta                | `201`, ID como cadena JSON                                                                            |
+| `GET /recipes/my-recipes`, `/published-recipes`, `/favorites-recipes` | Token                                   | `200`, lista de recetas                                                                               |
+| `GET /recipes/:recipeId`                                              | Token e ID                              | `200`, receta con `own` e `isFavorite`                                                                |
+| `PATCH /recipes/:recipeId`                                            | Token, ID y campos editables            | `204`, sin cuerpo                                                                                     |
+| `DELETE /recipes/:recipeId`                                           | Token e ID                              | `204`, sin cuerpo                                                                                     |
+| `PATCH /recipes/:recipeId/publish`                                    | Token e ID                              | `200`, objeto con `published`                                                                         |
+| Operaciones de ingredientes, pasos, imágenes y etiquetas              | Token, ID y datos del elemento          | `201` al añadir; `204` al modificar o eliminar. Las altas de ingrediente y paso devuelven un ID JSON. |
 
 Los handlers protegidos comparten la validación del JWT y responden `401` para
 credenciales ausentes, inválidas, caducadas o sin `exp`. El middleware traduce
@@ -183,7 +183,8 @@ servicios externos.
   lint y typecheck en el hook pre-commit local.
 
 **Resultados actuales de validación:**
-- Vitest API: **424 pruebas** en 27 archivos.
+
+- Vitest API: **434 pruebas** en 27 archivos (434 pasan, 0 fallan).
 - Playwright E2E: **68 pruebas** en 11 archivos.
 - `tsc --noEmit` en `api/`: pasa sin errores con `allowJs: false`.
 - `vite build` en `app/`: compila sin errores (197 módulos).
@@ -199,72 +200,58 @@ Netlify y Render usa Node 26.
 
 Versiones declaradas en `package.json` tras la refactorización:
 
-| API (producción)      | Versión    |
-| --------------------- | ---------- |
-| bcryptjs              | ^3.0.2     |
+| API (producción)   | Versión     |
+| ------------------ | ----------- |
+| bcryptjs           | ^3.0.2      |
+| com                | file:../com |
+| cors               | ^2.8.5      |
+| express            | ^5.3.0      |
+| express-rate-limit | ^8.7.4      |
+| helmet             | ^8.3.0      |
+| jsonwebtoken       | ^9.0.2      |
+| mongoose           | ^9.0.1      |
+| nodemailer         | ^10.5.0     |
+| resend             | ^6.38.0     |
+
+| API (desarrollo)    | Versión  |
+| ------------------- | -------- |
+| @types/bcryptjs     | ^2.4.6   |
+| @types/cors         | ^2.8.19  |
+| @types/express      | ^5.0.6   |
+| @types/jsonwebtoken | ^9.0.10  |
+| @types/node         | ^26.6.6  |
+| @types/nodemailer   | ^8.0.2   |
+| @vitest/coverage-v8 | ^5.1.0   |
+| tsx                 | ^4.23.15 |
+| typescript          | ^7.0.2   |
+| vitest              | ^5.1.0   |
+
+| Frontend (producción) | Versión     |
+| --------------------- | ----------- |
+| clsx                  | ^2.0.0      |
 | com                   | file:../com |
-| cors                  | ^2.8.5     |
-| express               | ^5.3.0     |
-| express-rate-limit    | ^8.7.4     |
-| helmet                | ^8.3.0     |
-| jsonwebtoken          | ^9.0.2     |
-| mongoose              | ^8.10.2    |
-| nodemailer            | ^10.5.0    |
-| resend                | ^6.38.0    |
+| react                 | ^19.0.0     |
+| react-dom             | ^19.0.0     |
+| react-icons           | ^5.7.0      |
+| react-router-dom      | ^7.18.5     |
 
-| API (desarrollo)      | Versión    |
-| --------------------- | ---------- |
-| @types/bcryptjs       | ^2.4.6     |
-| @types/cors           | ^2.8.19    |
-| @types/express        | ^5.0.6     |
-| @types/jsonwebtoken   | ^9.0.10    |
-| @types/node           | ^24.19.2   |
-| @types/nodemailer     | ^8.0.2     |
-| @vitest/coverage-v8   | ^5.1.0     |
-| tsx                   | ^4.23.15   |
-| typescript            | ^7.0.2     |
-| vitest                | ^5.1.0     |
+| Frontend (desarrollo)       | Versión |
+| --------------------------- | ------- |
+| @playwright/test            | ^1.65.0 |
+| @tailwindcss/vite           | ^4.3.5  |
+| @types/react                | ^19.0.0 |
+| @types/react-dom            | ^19.0.0 |
+| @vitejs/plugin-react        | ^6.3.0  |
+| eslint                      | ^10.2.1 |
+| eslint-plugin-react-hooks   | ^7.1.1  |
+| eslint-plugin-react-refresh | ^0.5.8  |
+| tailwindcss                 | ^4.3.5  |
+| typescript                  | ^7.0.2  |
+| vite                        | ^8.3.8  |
 
-| Frontend (producción) | Versión    |
-| --------------------- | ---------- |
-| clsx                  | ^2.0.0     |
-| com                   | file:../com |
-| react                 | ^19.0.0    |
-| react-dom             | ^19.0.0    |
-| react-icons           | ^5.7.0     |
-| react-router-dom      | ^7.18.5    |
-
-| Frontend (desarrollo) | Versión    |
-| --------------------- | ---------- |
-| @playwright/test      | ^1.65.0    |
-| @tailwindcss/vite     | ^4.3.5     |
-| @types/react          | ^19.0.0    |
-| @types/react-dom      | ^19.0.0    |
-| @vitejs/plugin-react  | ^6.3.0     |
-| eslint                | ^8.53.0    |
-| eslint-plugin-react-hooks | ^4.6.0 |
-| eslint-plugin-react-refresh | ^0.4.4 |
-| tailwindcss           | ^4.3.5     |
-| typescript            | ^7.0.2     |
-| vite                  | ^8.3.8     |
-
-| Compartido (com)      | Versión    |
-| --------------------- | ---------- |
-| zod                   | ^4.6.7     |
-
-**Actualizaciones aplicadas:** React 19, Vite 8, Express 5, Tailwind 4.3,
-Nodemailer 10.5.0, Resend 6.38.0, React Router 7.18.5, react-icons 5. Se retiró
-`dotenv` (reemplazado por `process.loadEnvFile`), `crypto` de npm (módulo nativo
-`node:crypto`), Mocha y c8 (reemplazados por Vitest), `autoprefixer` y `postcss`
-(no necesarios con Tailwind v4).
-
-**Actualizaciones pendientes:** Mongoose 9, ESLint 10 y plugins,
-tipos de Node. Deben abordarse por grupos compatibles, verificando requisitos
-de motor y cambios incompatibles.
-
-**Riesgo pendiente:** el flujo actual no comprueba el campo `error` devuelto
-por el SDK de Resend. Si el proveedor devuelve un error sin rechazar la
-promesa, la API puede responder como si hubiera enviado el correo.
+| Compartido (com) | Versión |
+| ---------------- | ------- |
+| zod              | ^4.6.7  |
 
 ### Entornos y protección de datos
 
@@ -293,6 +280,7 @@ Correcciones aplicadas en el sprint 8:
   (`rateLimiter.ts`) aplicados.
 
 Hallazgos para sprints futuros:
+
 - Token de password recovery en URL como query param (riesgo bajo-medio).
 - Token en `sessionStorage` vulnerable a XSS (patrón común en SPAs, riesgo
   aceptado con mitigación de CSP).
@@ -304,8 +292,6 @@ Hallazgos para sprints futuros:
 - **Tipos de repositorio:** `com/repo-types.ts` contiene `UserFavorites` para
   tipar `.lean()` + `.select('favorites')`. Cuando los modelos usen los tipos
   inferidos de Mongoose de forma completa, evaluar si sustituir esta interfaz.
-- **Actualizaciones pendientes:** Mongoose 9, ESLint 10 y plugins,
-  tipos de Node. Deben abordarse por grupos compatibles.
 - **Despliegue:** la v2.0.0 está desplegada. Consulta la [guía de despliegue](./DEPLOYMENT.md).
 - **Accesibilidad:** revisar con teclado, lectores de pantalla, formularios,
   foco, contraste y diseño adaptable; no se ha realizado una auditoría WCAG.

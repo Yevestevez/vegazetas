@@ -6,11 +6,11 @@ import {
 } from 'com'
 import createApp from '../app.ts'
 import { Recipe, User } from '../data/models.ts'
-import addImageInApp from '../../app/src/logic/addImageToRecipe.ts'
-import addStepInApp from '../../app/src/logic/addStepToRecipe.ts'
-import createRecipeInApp from '../../app/src/logic/createRecipe.ts'
-import updateRecipeInApp from '../../app/src/logic/updateRecipe.ts'
-import updateStepInApp from '../../app/src/logic/updateStep.ts'
+import addImageInApp from '../../app/src/logic/recipes/images/addImageToRecipe.ts'
+import addStepInApp from '../../app/src/logic/recipes/steps/addStepToRecipe.ts'
+import createRecipeInApp from '../../app/src/logic/recipes/createRecipe.ts'
+import updateRecipeInApp from '../../app/src/logic/recipes/updateRecipe.ts'
+import updateStepInApp from '../../app/src/logic/recipes/steps/updateStep.ts'
 
 describe('shared recipe field validation', () => {
     afterEach(() => {
@@ -69,10 +69,10 @@ describe('shared recipe field validation', () => {
     test.each([
         [null, 'invalid image type, must be a string'],
         [42, 'invalid image type, must be a string'],
-        ['', 'invalid image syntax, must be a valid URL'],
-        ['ftp://example.test/image', 'invalid image syntax, must be a valid URL'],
-        ['https://example.test/has space', 'invalid image syntax, must be a valid URL'],
-        ['http://a', 'invalid image syntax, must be a valid URL']
+        ['', 'invalid image URL: must be a valid HTTPS URL from a public domain'],
+        ['ftp://example.test/image', 'invalid image URL: must be a valid HTTPS URL from a public domain'],
+        ['http://localhost/image', 'invalid image URL: must be a valid HTTPS URL from a public domain'],
+        ['http://127.0.0.1/image', 'invalid image URL: must be a valid HTTPS URL from a public domain']
     ])('rejects invalid image %s with its existing error', (image, message) => {
         expect(imageSchema.safeParse(image).success).toBe(false)
         expect(() => validate.image(image)).toThrowError(errors.ValidationError)
@@ -81,7 +81,7 @@ describe('shared recipe field validation', () => {
 
     test('rejects invalid image URLs in the frontend before I/O', () => {
         const id = 'a'.repeat(24)
-        const message = 'invalid image syntax, must be a valid URL'
+        const message = 'invalid image URL: must be a valid HTTPS URL from a public domain'
         expect(() => addImageInApp(id, 'not a URL')).toThrowError(message)
     })
 
@@ -327,7 +327,7 @@ describe('recipe HTTP validation', () => {
         expect(response.status).toBe(400)
         expect(await response.json()).toEqual({
             error: 'ValidationError',
-            message: 'invalid image syntax, must be a valid URL'
+            message: 'invalid image URL: must be a valid HTTPS URL from a public domain'
         })
     })
 
