@@ -114,6 +114,7 @@ jobs:
         env:
           SPEC_MONGO_URL: mongodb://127.0.0.1:27017/vegazetas_disposable
           JWT_SECRET: ci-test-secret
+          FRONTEND_URL: http://127.0.0.1:5173
 
   playwright:
     needs: install
