@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { FaShareAlt, FaStar } from "react-icons/fa"
 import { FaListUl } from "react-icons/fa6"
 import { MdRocketLaunch, MdVisibilityOff } from "react-icons/md"
@@ -19,6 +20,7 @@ interface MyRecipeThumbnailProps {
 
 function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick }: MyRecipeThumbnailProps) {
     const { alert } = useAppContext()
+    const [imgError, setImgError] = useState(false)
 
     const handleRecipeThumbnailClick = (event: React.MouseEvent) => {
         event.preventDefault()
@@ -77,13 +79,14 @@ function MyRecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteCli
             aria-label="Ir a la receta" title="Ir a la receta"
         >
             <div className="w-full relative">
-                {recipe.images && recipe.images.length > 0 ? (
+                {recipe.images && recipe.images.length > 0 && !imgError ? (
                     <>
                         <div className="absolute inset-0 bg-black opacity-25 z-10" />
                         <img
                             className="w-full aspect-square object-cover"
                             src={recipe.images[0]}
                             alt={`Imagen de la receta: ${recipe.title}`}
+                            onError={() => setImgError(true)}
                         />
                     </>
                 ) : (
