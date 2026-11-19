@@ -332,11 +332,11 @@ function Recipe({
                         drop-shadow-hard-sm xl:drop-shadow-hard-md
                     ">Ingredientes</h2>
 
-                        <div className="flex flex-col lg:flex-row lg:items-start justify-center gap-6 text-center">
+                        <div className="flex flex-col lg:flex-row lg:items-start justify-center gap-6 lg:gap-20 text-center">
 
                             {/* <-- main ingredients --> */}
                             {recipe.ingredients.some((ingredient: any) => ingredient.main) && (
-                                <div className="flex flex-col items-center justify-center align-middle lg:flex-1">
+                                <div className="flex flex-col items-center justify-center align-middle w-full lg:w-auto">
                                     <h3 className="
                                         inline-block px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs text-folly bg-spring-bud
                                         shadow-hard-md xl:shadow-hard-lg
@@ -356,7 +356,7 @@ function Recipe({
 
                             {/* <-- pantry ingredients --> */}
                             {recipe.ingredients.some((ingredient: any) => !ingredient.main) && (
-                                <div className="flex flex-col items-center justify-center align-middle lg:flex-1">
+                                <div className="flex flex-col items-center justify-center align-middle w-full lg:w-auto">
                                     <h3 className="
                                         inline-block px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs text-folly bg-spring-bud
                                         shadow-hard-md xl:shadow-hard-lg
