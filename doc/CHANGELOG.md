@@ -16,6 +16,27 @@ Cada cambio actualiza este historial y el badge de versión
 de los [README](../README.md). La versión más reciente aparece
 encima; las anteriores, debajo.
 
+## v2.3.4
+
+Corrección de warnings de Tailwind CSS: clases arbitrarias reescritas con sintaxis canónica v4 y clases redundantes eliminadas.
+
+### Cambios
+
+- **Clases tipográficas faltantes:** añadidas `.anybody` y `.anybody-text` en `@layer components` de `main.css` para eliminar warnings de clases no definidas.
+- **Sintaxis canónica en Menu:** clases `[&>:last-child]:...` reescritas como `*:last:...` en `Menu/index.tsx`.
+- **Clases redundantes eliminadas:** `hover:outline` suprimido donde coexistía con `hover:outline-4` o `hover:outline-{color}` en `Menu`, `MyRecipes`, `SaveRecipe`, `PasswordReset`, `Alert` y `Confirm`.
+- **Z-index canónico:** `z-[100]` reemplazado por `z-100` en `Alert` y `Confirm`.
+
+### Archivos afectados
+
+- `app/src/main.css`
+- `app/src/view/Home/Menu/index.tsx`
+- `app/src/view/Home/MyRecipes/index.tsx`
+- `app/src/view/Home/SaveRecipe/index.tsx`
+- `app/src/view/PasswordReset.tsx`
+- `app/src/view/components/Alert.tsx`
+- `app/src/view/components/Confirm.tsx`
+
 ## v2.3.3
 
 Correcciones de seguridad: token de recuperación en path param, rate limiting global y headers CSP en Netlify.

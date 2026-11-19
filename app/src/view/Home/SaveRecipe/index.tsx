@@ -582,8 +582,8 @@ function SaveRecipe({
     }
 
     const btnColor: Record<string, string> = {
-        springBud: `bg-spring-bud text-folly hover:outline hover:outline-spring-bud hover:bg-folly hover:text-spring-bud`,
-        folly: `bg-folly text-spring-bud hover:outline hover:outline-folly hover:bg-spring-bud hover:text-folly`
+        springBud: `bg-spring-bud text-folly hover:outline-spring-bud hover:bg-folly hover:text-spring-bud`,
+        folly: `bg-folly text-spring-bud hover:outline-folly hover:bg-spring-bud hover:text-folly`
     }
 
     const sectionBase = `flex flex-col w-full items-center gap-8 md:gap-12 px-8 md:px-12 xl:px-14 2xl:px-16 max-w-6xl`
