@@ -110,7 +110,7 @@ function MyRecipes({ onRecipeThumbnailClick, onUserLoggedOut, onCreateRecipeClic
                 <div className="flex flex-col items-center justify-center gap-4 xs:gap-6">
                     <p className="text-center anybody font-bold text-veronica text-sm xl:text-base leading-tight xl:leading-tight">Todavía no tienes ninguna receta<br />¡Añade una nueva!</p>
 
-                    <CircleButton onClick={() => handleCreateRecipeClick()} variant="small" className="bg-veronica text-sgbus-green outline-hidden hover:outline hover:outline-4 hover:outline-offset-0 hover:text-veronica hover:outline-veronica hover:bg-sgbus-green xs:text-lg">Nueva Receta</CircleButton>
+                    <CircleButton onClick={() => handleCreateRecipeClick()} variant="small" className="bg-veronica text-sgbus-green outline-hidden hover:outline-4 hover:outline-offset-0 hover:text-veronica hover:outline-veronica hover:bg-sgbus-green xs:text-lg">Nueva Receta</CircleButton>
                 </div>
             )
             }

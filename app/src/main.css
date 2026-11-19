@@ -82,4 +82,18 @@
         font-style: normal;
         font-variation-settings: "wdth" 80;
     }
+
+    .anybody {
+        font-family: "Anybody", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        font-variation-settings: "wdth" 80;
+    }
+
+    .anybody-text {
+        font-family: "Anybody", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        font-variation-settings: "wdth" 80;
+    }
 }

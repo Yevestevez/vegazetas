@@ -7,7 +7,7 @@ interface ConfirmProps {
 }
 
 function Confirm({ message, onCancel, onAccept }: ConfirmProps) {
-    return <div className="fixed inset-0 z-[100] flex items-center justify-center bg-folly bg-opacity-70">
+    return <div className="fixed inset-0 z-100 flex items-center justify-center bg-folly bg-opacity-70">
         <div className="
             flex flex-col items-center gap-6 xs:gap-8 lg:gap-10 xl:gap-12
             p-6 xs:p-10 md:p-14 xl:p-20
@@ -21,14 +21,14 @@ function Confirm({ message, onCancel, onAccept }: ConfirmProps) {
             <div className="flex row gap-6 xs:gap-8">
                 <CircleButton
                     onClick={onCancel} variant="small"
-                    className="bg-spring-bud text-folly outline-hidden hover:bg-folly hover:text-spring-bud hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
+                    className="bg-spring-bud text-folly outline-hidden hover:bg-folly hover:text-spring-bud hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
                 >
                     Cancelar
                 </CircleButton>
 
                 <CircleButton
                     onClick={onAccept} variant="small"
-                    className="bg-spring-bud text-folly outline-hidden hover:bg-folly hover:text-spring-bud hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
+                    className="bg-spring-bud text-folly outline-hidden hover:bg-folly hover:text-spring-bud hover:outline-4 hover:outline-offset-0 hover:outline-spring-bud"
                 >
                     Aceptar
                 </CircleButton>
