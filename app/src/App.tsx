@@ -5,8 +5,8 @@ import logic from './logic'
 import { SESSION_EXPIRED_EVENT } from './logic/authenticatedFetch'
 import { AppContext } from './context'
 
-import Alert from './view/common/Alert'
-import Confirm from './view/common/Confirm'
+import Alert from './view/components/Alert'
+import Confirm from './view/components/Confirm'
 
 import Landing from './view/Landing'
 import Register from './view/Register'
@@ -86,7 +86,7 @@ function App() {
                 logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onUserLoggedIn={handleUserLoggedIn} />
             } />
 
-            <Route path="/password-reset" element={
+            <Route path="/password-reset/:token" element={
                 <PasswordReset onPasswordReseted={handlePasswordReseted} />
             } />
 

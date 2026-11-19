@@ -1,8 +1,9 @@
 import type { ZodType } from 'zod'
 import errors from './errors/index.ts'
 import {
-    annotationSchema, descriptionSchema, difficultySchema, directionSchema, emailSchema, idSchema, imageSchema, indexSchema, ingredientNameSchema, mainSchema, nameSchema, noteSchema,
-    passwordSchema, quantitySchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema, usernameSchema
+    annotationSchema, categorySchema, descriptionSchema, difficultySchema, directionSchema, emailSchema, idSchema, imageSchema, indexSchema, ingredientNameSchema, mainSchema, nameSchema, noteSchema,
+    passwordSchema, quantitySchema, servingsSchema, sourceSchema, sourceUrlSchema, aiNotesSchema, stepNoteUpdateSchema, tagSchema, textSchema, timeSchema, titleSchema, unitSchema, usernameSchema,
+    commentSchema, nutritionSchema, bioSchema, avatarSchema, socialLinksSchema
 } from './schemas.ts'
 const { ValidationError } = errors
 
@@ -101,6 +102,47 @@ const validate = {
 
     main(main: unknown) {
         validateField(mainSchema, main)
+    },
+
+    // New fields from schema v2
+    category(category: unknown) {
+        validateField(categorySchema, category)
+    },
+
+    servings(servings: unknown) {
+        validateField(servingsSchema, servings)
+    },
+
+    source(source: unknown) {
+        validateField(sourceSchema, source)
+    },
+
+    sourceUrl(url: unknown) {
+        validateField(sourceUrlSchema, url)
+    },
+
+    aiNotes(notes: unknown) {
+        validateField(aiNotesSchema, notes)
+    },
+
+    comment(comment: unknown) {
+        validateField(commentSchema, comment)
+    },
+
+    nutrition(nutrition: unknown) {
+        validateField(nutritionSchema, nutrition)
+    },
+
+    bio(bio: unknown) {
+        validateField(bioSchema, bio)
+    },
+
+    avatar(avatar: unknown) {
+        validateField(avatarSchema, avatar)
+    },
+
+    socialLinks(links: unknown) {
+        validateField(socialLinksSchema, links)
     }
 }
 

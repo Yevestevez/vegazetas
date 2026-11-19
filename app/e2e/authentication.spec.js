@@ -80,7 +80,8 @@ test.describe('authentication', () => {
       json: { error: 'NotFoundError', message: 'User not found' }
     }))
 
-    await page.goto(`/password-reset?token=${token}`)
+    await page.goto(`/password-reset/${token}`)
+    await expect(page.getByLabel('Nueva contraseña')).toBeVisible()
     await page.getByLabel('Nueva contraseña').fill('NewPass456')
     await page.getByRole('button', { name: 'Guardar' }).click()
     await page.getByRole('button', { name: 'Aceptar' }).click()
@@ -88,7 +89,7 @@ test.describe('authentication', () => {
     await expect(page.getByText(
       'No se encontró la cuenta asociada a este enlace. Solicita un enlace nuevo para restablecer la contraseña.'
     )).toBeVisible()
-    await expect(page).toHaveURL(new RegExp(`/password-reset\\?token=${token}$`))
+    await expect(page).toHaveURL(`/password-reset/${token}`)
   })
 
   test('signs out and shows a message when the session token is invalid', async ({ page }) => {

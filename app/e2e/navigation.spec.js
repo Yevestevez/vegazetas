@@ -3,7 +3,6 @@ import { expect, test } from '@playwright/test'
 import { removeE2eUser } from '../../api/test/e2eDatabase.js'
 
 const apiUrl = 'http://127.0.0.1:32123'
-const recipeId = 'aaaaaaaaaaaaaaaaaaaaaaaa'
 
 test.describe('navigation', () => {
   let user

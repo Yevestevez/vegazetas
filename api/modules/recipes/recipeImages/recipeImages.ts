@@ -4,8 +4,8 @@ const { NotFoundError, SystemError, OwnershipError, ValidationError } = errors
 
 export type FindUserById = (userId: string) => Promise<any | null>
 export type FindRecipeById = (recipeId: string) => Promise<any | null>
-export type AddImage = (image: string) => Promise<void>
-export type RemoveImage = (index: number) => Promise<void>
+export type AddImage = (recipeId: string, image: string) => Promise<void>
+export type RemoveImage = (recipeId: string, index: number) => Promise<void>
 
 export type AddImageToRecipe = (
     userId: string | undefined,
@@ -38,7 +38,7 @@ function commonCheck(findUserById: FindUserById, findRecipeById: FindRecipeById,
 export function createAddImageToRecipe(
     findUserById: FindUserById,
     findRecipeById: FindRecipeById,
-    createAddImage: (userId: string, recipeId: string) => AddImage
+    addImage: AddImage
 ): AddImageToRecipe {
     return (userId, recipeId, image) => {
         validate.id(userId, 'userId')
@@ -49,8 +49,7 @@ export function createAddImageToRecipe(
             .then(recipe => {
                 if (recipe.images.length >= 15)
                     throw new ValidationError('too many tags, max 15 allowed')
-                const addImage = createAddImage(userId as string, recipeId as string)
-                return addImage(image as string)
+                return addImage(recipeId as string, image as string)
             })
     }
 }
@@ -58,7 +57,7 @@ export function createAddImageToRecipe(
 export function createRemoveImageFromRecipe(
     findUserById: FindUserById,
     findRecipeById: FindRecipeById,
-    createRemoveImage: (userId: string, recipeId: string) => RemoveImage
+    removeImage: RemoveImage
 ): RemoveImageFromRecipe {
     return (userId, recipeId, index) => {
         validate.id(userId, 'userId')
@@ -68,8 +67,7 @@ export function createRemoveImageFromRecipe(
 
         return commonCheck(findUserById, findRecipeById, userId, recipeId)
             .then(() => {
-                const removeImage = createRemoveImage(userId as string, recipeId as string)
-                return removeImage(idx)
+                return removeImage(recipeId as string, idx)
             })
     }
 }

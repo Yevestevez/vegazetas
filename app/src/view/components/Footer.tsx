@@ -1,0 +1,36 @@
+import { FaGithub, FaLinkedin } from "react-icons/fa"
+
+function Footer() {
+    return (
+        <footer className="fixed bottom-0 left-0 bg-black/80 backdrop-blur-xs w-screen flex items-center justify-center text-right p-4 gap-6 z-10">
+            <div className="anybody-text text-white text-xs sm:text-sm leading-4 sm:leading-5 z-100">
+                <p>Desarrollado por <strong>Edu Yeves</strong></p>
+                <small className="italic">yevestevez.cg@gmail.com</small>
+            </div>
+
+            <nav className="flex items-center gap-4">
+                <a
+                    href="https://linkedin.com/in/edu-yeves"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Abrir perfil de Linkedin de Edu Yeves"
+                    title="Linkedin"
+                >
+                    <FaLinkedin aria-hidden="true" className="text-white hover:text-folly size-7 sm:size-8 interactive-hover focus:scale-105" />
+                </a>
+
+                <a
+                    href="https://github.com/Yevestevez"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Abrir perfil de GitHub de Edu Yeves"
+                    title="GitHub"
+                >
+                    <FaGithub aria-hidden="true" className="text-white hover:text-folly size-7 sm:size-8 interactive-hover focus:scale-105" />
+                </a>
+            </nav>
+        </footer>
+    )
+}
+
+export default Footer

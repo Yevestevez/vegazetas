@@ -11,8 +11,8 @@ export const createUpdateRecipeHandler = (
     try {
         const userId = getSessionUserId(req.headers.authorization)
         const { recipeId } = req.params
-        const { title, description, time, difficulty } = req.body
-        await updateRecipe(userId, recipeId, title, description, time, difficulty)
+        const { title, description, time, difficulty, category, servings, source, sourceUrl, aiNotes } = req.body
+        await updateRecipe(userId, recipeId, title, description, time, difficulty, category, servings, source, sourceUrl, aiNotes)
         res.status(204).send()
     } catch (error) {
         if (error instanceof CredentialsError) {

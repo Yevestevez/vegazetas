@@ -1,36 +1,9 @@
-import registerUser from "./registerUser"
-import loginUser from "./loginUser"
-import getUserName from "./getUserName"
-import isUserLoggedIn from "./isUserLoggedIn"
-import logoutUser from "./logoutUser"
-import getUserId from "./getUserId"
-import getUserUsername from "./getUserUsername"
-import passwordRecover from "./passwordRecover"
-import passwordReset from "./passwordReset"
-import toggleFavoriteRecipe from "./toggleFavoriteRecipe"
-
-import getMyRecipes from "./getMyRecipes"
-import getPublishedRecipes from "./getPublishedRecipes"
-import getFavoritesRecipes from "./getFavoritesRecipes"
-import getRecipeById from "./getRecipeById"
-import createRecipe from "./createRecipe"
-import updateRecipe from "./updateRecipe"
-import deleteRecipe from "./deleteRecipe"
-import togglePublishRecipe from "./togglePublishRecipe"
-
-import addIngredientToRecipe from "./addIngredientToRecipe"
-import removeIngredientFromRecipe from "./removeIngredientFromRecipe"
-
-import addStepToRecipe from "./addStepToRecipe"
-import removeStepFromRecipe from "./removeStepFromRecipe"
-import reorderStep from "./reorderStep"
-import updateStep from "./updateStep"
-
-import addImageToRecipe from "./addImageToRecipe"
-import removeImageFromRecipe from "./removeImageFromRecipe"
-
-import addTagToRecipe from "./addTagToRecipe"
-import removeTagFromRecipe from "./removeTagFromRecipe"
+import { loginUser, logoutUser, registerUser, passwordRecover, passwordReset, getUserName, getUserUsername, getUserId, isUserLoggedIn, toggleFavoriteRecipe } from './auth'
+import { createRecipe, getRecipeById, updateRecipe, deleteRecipe, getMyRecipes, getPublishedRecipes, getFavoritesRecipes, togglePublishRecipe } from './recipes'
+import { addIngredientToRecipe, removeIngredientFromRecipe } from './recipes/ingredients'
+import { addStepToRecipe, removeStepFromRecipe, reorderStep, updateStep } from './recipes/steps'
+import { addImageToRecipe, removeImageFromRecipe } from './recipes/images'
+import { addTagToRecipe, removeTagFromRecipe } from './recipes/tags'
 
 const logic = {
     registerUser,

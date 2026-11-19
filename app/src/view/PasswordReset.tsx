@@ -1,13 +1,13 @@
 import { FormEvent, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import logic from '../logic'
 import { useAppContext } from '../context'
 
-import LogoVegazetas from './common/LogoVegazetas'
-import Input from './common/Input'
-import CircleButton from './common/CircleButton'
-import Footer from './common/Footer'
+import LogoVegazetas from './components/LogoVegazetas'
+import Input from './components/Input'
+import CircleButton from './components/CircleButton'
+import Footer from './components/Footer'
 import { errors } from 'com'
 
 const { NotFoundError, SystemError, ValidationError } = errors
@@ -18,8 +18,7 @@ interface PasswordResetProps {
 
 function PasswordReset({ onPasswordReseted }: PasswordResetProps) {
     const { alert, confirm } = useAppContext()
-    const [searchParams] = useSearchParams()
-    const token = searchParams.get('token')
+    const { token } = useParams<{ token: string }>()
     const [password, setPassword] = useState('')
 
     if (!token) {
@@ -78,8 +77,8 @@ function PasswordReset({ onPasswordReseted }: PasswordResetProps) {
                 <LogoVegazetas to="/Landing" className="text-spring-bud" />
             </header>
 
-            <main className="flex flex-col items-center justify-center w-full max-w-7xl gap-6 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
-                <h1 className="text-center anybody-title text-spring-bud text-2xl lg:text-4xl xl:text-5xl leading-tight lg:leading-tight xl:leading-tight">
+            <main className="flex flex-col items-center justify-center w-full max-w-6xl gap-6 xs:gap-8 px-8 xs:px-20 pb-10 xs:pb-20">
+                <h1 className="text-center anybody-title text-spring-bud text-2xl lg:text-4xl xl:text-5xl leading-tight">
                     Restablecimiento de contraseña
                 </h1>
 

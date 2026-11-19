@@ -1,23 +1,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wdth,wght@0,50..150,100..900;1,50..150,100..900&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* :root {
-    --color-sgbus-green: #44D800;
-    --color-dark-orange: #FF8C00;
-    --color-violet: #7F00FF;
-    --color-coquelicot: #FF3800;
-    --color-spring-bud: #A7FC00;
-    --color-veronica: #AF0DD3;
-    --color-folly: #FF2B67;
-    --color-canary: #FFEB00;
-    --color-aquamarine: #00FFCE;
-    --color-hot-magenta: #FF1DCE;
-} */
+@theme {
+  --color-sgbus-green: #44D800;
+  --color-dark-orange: #FF8C00;
+  --color-violet: #7F00FF;
+  --color-coquelicot: #FF3800;
+  --color-spring-bud: #A7FC00;
+  --color-veronica: #AF0DD3;
+  --color-folly: #FF2B67;
+  --color-canary: #FFEB00;
+  --color-aquamarine: #00FFCE;
+  --color-hot-magenta: #FF1DCE;
+
+  --breakpoint-xs: 480px;
+  --breakpoint-3xl: 1920px;
+
+  --max-width-9xl: 1920px;
+
+  --shadow-hard-sm: 0.2rem 0.2rem 0 rgba(0,0,0,0.8);
+  --shadow-hard-md: 0.3rem 0.3rem 0 rgba(0,0,0,0.8);
+  --shadow-hard-lg: 0.4rem 0.4rem 0 rgba(0,0,0,0.8);
+  --shadow-hard-xl: 0.5rem 0.5rem 0 rgba(0,0,0,0.8);
+  --shadow-hard-2xl: 0.6rem 0.6rem 0 rgba(0,0,0,0.8);
+
+  --drop-shadow-hard-sm: 0.2rem 0.2rem rgba(0,0,0,0.8);
+  --drop-shadow-hard-md: 0.3rem 0.3rem rgba(0,0,0,0.8);
+  --drop-shadow-hard-lg: 0.4rem 0.4rem rgba(0,0,0,0.8);
+  --drop-shadow-hard-xl: 0.5rem 0.5rem rgba(0,0,0,0.8);
+  --drop-shadow-hard-2xl: 0.6rem 0.6rem rgba(0,0,0,0.8);
+}
 
 @layer components {
+    .interactive {
+        transition: transform 150ms ease-out;
+    }
+
+    .interactive-hover {
+        transition: transform 150ms ease-out;
+    }
+    .interactive-hover:hover {
+        transform: scale(1.05);
+    }
+    .interactive-hover:active {
+        transform: scale(0.95);
+    }
+
+    .interactive-lift {
+        transition: transform 150ms ease-out;
+    }
+    .interactive-lift:hover {
+        transform: scale(1.05) translateY(-0.5rem);
+    }
+    .interactive-lift:active {
+        transform: scale(0.95);
+    }
+
+    .focus-ring {
+        transition: transform 150ms ease-out;
+        outline: none;
+    }
+    .focus-ring:focus-visible {
+        outline: 4px solid white;
+        outline-offset: 2px;
+        transform: scale(1.05);
+    }
+
     .anybody-logo {
         font-family: "Anybody", sans-serif;
         font-optical-sizing: auto;

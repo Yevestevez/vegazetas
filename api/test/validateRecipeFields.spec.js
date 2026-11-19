@@ -6,11 +6,11 @@ import {
 } from 'com'
 import createApp from '../app.ts'
 import { Recipe, User } from '../data/models.ts'
-import addImageInApp from '../../app/src/logic/addImageToRecipe.ts'
-import addStepInApp from '../../app/src/logic/addStepToRecipe.ts'
-import createRecipeInApp from '../../app/src/logic/createRecipe.ts'
-import updateRecipeInApp from '../../app/src/logic/updateRecipe.ts'
-import updateStepInApp from '../../app/src/logic/updateStep.ts'
+import addImageInApp from '../../app/src/logic/recipes/images/addImageToRecipe.ts'
+import addStepInApp from '../../app/src/logic/recipes/steps/addStepToRecipe.ts'
+import createRecipeInApp from '../../app/src/logic/recipes/createRecipe.ts'
+import updateRecipeInApp from '../../app/src/logic/recipes/updateRecipe.ts'
+import updateStepInApp from '../../app/src/logic/recipes/steps/updateStep.ts'
 
 describe('shared recipe field validation', () => {
     afterEach(() => {
@@ -18,7 +18,7 @@ describe('shared recipe field validation', () => {
         vi.unstubAllGlobals()
     })
 
-    test.each(['a', 'x'.repeat(50), '  ', '🍎'.repeat(25)])('accepts a title without changing it', title => {
+    test.each(['a', 'x'.repeat(200), '  ', '🍎'.repeat(100)])('accepts a title without changing it', title => {
         expect(titleSchema.parse(title)).toBe(title)
         expect(validate.title(title)).toBeUndefined()
     })
@@ -27,15 +27,15 @@ describe('shared recipe field validation', () => {
         [undefined, 'invalid title type, must be a string'],
         [null, 'invalid title type, must be a string'],
         [5, 'invalid title type, must be a string'],
-        ['', 'invalid title length, must be between 1 and 50 characters'],
-        ['🍎'.repeat(26), 'invalid title length, must be between 1 and 50 characters']
+        ['', 'invalid title length, must be between 1 and 200 characters'],
+        ['🍎'.repeat(101), 'invalid title length, must be between 1 and 200 characters']
     ])('rejects invalid title %s with its existing error', (title, message) => {
         expect(titleSchema.safeParse(title).success).toBe(false)
         expect(() => validate.title(title)).toThrowError(errors.ValidationError)
         expect(() => validate.title(title)).toThrowError(message)
     })
 
-    test.each(['', 'x'.repeat(500), '🍎'.repeat(250)])('accepts a description without changing it', description => {
+    test.each(['', 'x'.repeat(5000), '🍎'.repeat(2500)])('accepts a description without changing it', description => {
         expect(descriptionSchema.parse(description)).toBe(description)
         expect(validate.description(description)).toBeUndefined()
     })
@@ -44,8 +44,8 @@ describe('shared recipe field validation', () => {
         [undefined, 'invalid description type, must be a string'],
         [null, 'invalid description type, must be a string'],
         [5, 'invalid description type, must be a string'],
-        ['x'.repeat(501), 'invalid description length, must be 500 characters maximum'],
-        ['🍎'.repeat(251), 'invalid description length, must be 500 characters maximum']
+        ['x'.repeat(5001), 'invalid description length, must be 5000 characters maximum'],
+        ['🍎'.repeat(2501), 'invalid description length, must be 5000 characters maximum']
     ])('rejects invalid description %s with its existing error', (description, message) => {
         expect(descriptionSchema.safeParse(description).success).toBe(false)
         expect(() => validate.description(description)).toThrowError(errors.ValidationError)
@@ -53,8 +53,8 @@ describe('shared recipe field validation', () => {
     })
 
     test.each([
-        ['', undefined, 'invalid title length, must be between 1 and 50 characters'],
-        ['valid', 'x'.repeat(501), 'invalid description length, must be 500 characters maximum']
+        ['', undefined, 'invalid title length, must be between 1 and 200 characters'],
+        ['valid', 'x'.repeat(5001), 'invalid description length, must be 5000 characters maximum']
     ])('rejects invalid recipe fields in creation and editing before I/O', (title, description, message) => {
         const id = 'a'.repeat(24)
         expect(() => createRecipeInApp(id, title, undefined, description)).toThrowError(message)
@@ -69,10 +69,10 @@ describe('shared recipe field validation', () => {
     test.each([
         [null, 'invalid image type, must be a string'],
         [42, 'invalid image type, must be a string'],
-        ['', 'invalid image syntax, must be a valid URL'],
-        ['ftp://example.test/image', 'invalid image syntax, must be a valid URL'],
-        ['https://example.test/has space', 'invalid image syntax, must be a valid URL'],
-        ['http://a', 'invalid image syntax, must be a valid URL']
+        ['', 'invalid image URL: must be a valid HTTPS URL from a public domain'],
+        ['ftp://example.test/image', 'invalid image URL: must be a valid HTTPS URL from a public domain'],
+        ['http://localhost/image', 'invalid image URL: must be a valid HTTPS URL from a public domain'],
+        ['http://127.0.0.1/image', 'invalid image URL: must be a valid HTTPS URL from a public domain']
     ])('rejects invalid image %s with its existing error', (image, message) => {
         expect(imageSchema.safeParse(image).success).toBe(false)
         expect(() => validate.image(image)).toThrowError(errors.ValidationError)
@@ -81,7 +81,7 @@ describe('shared recipe field validation', () => {
 
     test('rejects invalid image URLs in the frontend before I/O', () => {
         const id = 'a'.repeat(24)
-        const message = 'invalid image syntax, must be a valid URL'
+        const message = 'invalid image URL: must be a valid HTTPS URL from a public domain'
         expect(() => addImageInApp(id, 'not a URL')).toThrowError(message)
     })
 
@@ -193,22 +193,22 @@ describe('shared recipe field validation', () => {
     })
 
 
-    test.each(['a', 'x'.repeat(800), '🍎'.repeat(400)])('accepts step text without changing it', text => {
+    test.each(['a', 'x'.repeat(5000), '🍎'.repeat(2500)])('accepts step text without changing it', text => {
         expect(textSchema.parse(text)).toBe(text)
         expect(validate.text(text)).toBeUndefined()
     })
 
     test.each([
         [null, 'invalid text type, must be a string'],
-        ['', 'invalid text length, must be between 1 and 800 characters'],
-        ['🍎'.repeat(401), 'invalid text length, must be between 1 and 800 characters']
+        ['', 'invalid text length, must be between 1 and 5000 characters'],
+        ['🍎'.repeat(2501), 'invalid text length, must be between 1 and 5000 characters']
     ])('rejects invalid step text %s with its existing error', (text, message) => {
         expect(textSchema.safeParse(text).success).toBe(false)
         expect(() => validate.text(text)).toThrowError(errors.ValidationError)
         expect(() => validate.text(text)).toThrowError(message)
     })
 
-    test.each(['a', 'x'.repeat(500), '🍎'.repeat(250)])('accepts a step note without changing it', note => {
+    test.each(['a', 'x'.repeat(2000), '🍎'.repeat(1000)])('accepts a step note without changing it', note => {
         expect(noteSchema.parse(note)).toBe(note)
         expect(stepNoteUpdateSchema.parse(note)).toBe(note)
         expect(validate.note(note)).toBeUndefined()
@@ -216,14 +216,14 @@ describe('shared recipe field validation', () => {
     })
 
     test('preserves different empty note rules for direct creation and update validation', () => {
-        expect(() => validate.note('')).toThrowError('invalid note length, must be between 1 and 500 characters')
+        expect(() => validate.note('')).toThrowError('invalid note length, must be between 1 and 2000 characters')
         expect(stepNoteUpdateSchema.parse('')).toBe('')
         expect(validate.noteForUpdate('')).toBeUndefined()
     })
 
     test.each([
         [null, 'invalid note type, must be a string', 'invalid note type, must be a string'],
-        ['🍎'.repeat(251), 'invalid note length, must be between 1 and 500 characters', 'invalid note length, must be 500 characters maximum']
+        ['🍎'.repeat(1001), 'invalid note length, must be between 1 and 2000 characters', 'invalid note length, must be 2000 characters maximum']
     ])('preserves distinct step note errors for %s', (note, createMessage, updateMessage) => {
         expect(noteSchema.safeParse(note).success).toBe(false)
         expect(stepNoteUpdateSchema.safeParse(note).success).toBe(false)
@@ -235,10 +235,10 @@ describe('shared recipe field validation', () => {
 
     test('rejects invalid step text and notes in app consumer before I/O', () => {
         const id = 'a'.repeat(24)
-        const textMessage = 'invalid text length, must be between 1 and 800 characters'
-        const createNoteMessage = 'invalid note length, must be between 1 and 500 characters'
-        const updateNoteMessage = 'invalid note length, must be 500 characters maximum'
-        const note = '🍎'.repeat(251)
+        const textMessage = 'invalid text length, must be between 1 and 5000 characters'
+        const createNoteMessage = 'invalid note length, must be between 1 and 2000 characters'
+        const updateNoteMessage = 'invalid note length, must be 2000 characters maximum'
+        const note = '🍎'.repeat(1001)
 
         expect(() => addStepInApp(id, '')).toThrowError(textMessage)
         expect(() => updateStepInApp(id, id, '')).toThrowError(textMessage)
@@ -280,8 +280,8 @@ describe('recipe HTTP validation', () => {
     })
 
     test.each([
-        [{ title: '' }, 'invalid title length, must be between 1 and 50 characters'],
-        [{ title: 'valid', description: 'x'.repeat(501) }, 'invalid description length, must be 500 characters maximum'],
+        [{ title: '' }, 'invalid title length, must be between 1 and 200 characters'],
+        [{ title: 'valid', description: 'x'.repeat(5001) }, 'invalid description length, must be 5000 characters maximum'],
         [{ title: 'valid', difficulty: 'hard' }, 'invalid difficulty (must be easy, medium or difficult)'],
         [{ title: 'valid', time: 4 }, 'invalid time, minimum 5 minutes'],
         [{ title: 'valid', time: 4.5 }, 'invalid time type, must be a number'],
@@ -327,15 +327,15 @@ describe('recipe HTTP validation', () => {
         expect(response.status).toBe(400)
         expect(await response.json()).toEqual({
             error: 'ValidationError',
-            message: 'invalid image syntax, must be a valid URL'
+            message: 'invalid image URL: must be a valid HTTPS URL from a public domain'
         })
     })
 
     test.each([
-        ['POST', '', { text: 'valid', note: 'x'.repeat(501) }, 'invalid note length, must be between 1 and 500 characters'],
-        ['PATCH', '/bbbbbbbbbbbbbbbbbbbbbbbb', { text: 'valid', note: 'x'.repeat(501) }, 'invalid note length, must be 500 characters maximum'],
+        ['POST', '', { text: 'valid', note: 'x'.repeat(2001) }, 'invalid note length, must be between 1 and 2000 characters'],
+        ['PATCH', '/bbbbbbbbbbbbbbbbbbbbbbbb', { text: 'valid', note: 'x'.repeat(2001) }, 'invalid note length, must be 2000 characters maximum'],
         ['PATCH', '/bbbbbbbbbbbbbbbbbbbbbbbb', { text: 'valid', note: null }, 'invalid note type, must be a string'],
-        ['POST', '', { text: '' }, 'invalid text length, must be between 1 and 800 characters']
+        ['POST', '', { text: '' }, 'invalid text length, must be between 1 and 5000 characters']
     ])('preserves HTTP validation on step %s', async (method, stepPath, body, message) => {
         const id = 'a'.repeat(24)
         const token = jwt.sign({ sub: id }, secret, { expiresIn: '24h' })

@@ -8,7 +8,7 @@ export type ResetUser = {
     save: () => Promise<unknown>
 }
 
-type FindUserById = (userId: unknown) => Promise<ResetUser | null>
+type FindUserById = (userId: string) => Promise<ResetUser | null>
 type HashPassword = (password: string, rounds: number) => Promise<string>
 type ResetPayload = { sub?: unknown } | string
 type VerifyToken = (token: string) => ResetPayload
@@ -36,6 +36,7 @@ export const createPasswordReset = (
     }
 
     const userId = typeof payload === 'string' ? undefined : payload.sub
+    if (!userId || typeof userId !== 'string') throw new ValidationError('Invalid token payload')
 
     return findUserById(userId)
         .then(user => {

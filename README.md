@@ -9,11 +9,11 @@
 <p align="center">
   <strong>Una forma colorida de crear, organizar y compartir recetas veganas.</strong>
   <br>
-  Diseñado y desarrollado artesanalmente de principio a fin: desde Figma hasta el despliegue.
+  De Figma al despliegue, sin sufrimiento animal.
 </p>
 
 <p align="center">
-  <a href="./doc/HISTORIAL-VERSIONES.md"><img src="https://img.shields.io/badge/v2.0.0-desplegada-E05D44?style=flat" alt="Version"></a>
+  <a href="./doc/CHANGELOG.md"><img src="https://img.shields.io/badge/v2.3.3-E05D44?style=flat" alt="Version"></a>
 </p>
 
 <p align="center">
@@ -27,6 +27,10 @@
   <a href="https://www.linkedin.com/in/edu-yeves/">LinkedIn</a>
 </p>
 
+<p align="center">
+  <img src="./doc/images/Vegazetas.png" alt="Vista previa de Vegazetas" width="900">
+</p>
+
 ---
 
 <p align="center"><strong>Frontend:</strong></p>
@@ -34,7 +38,7 @@
   <a href="https://www.npmjs.com/package/vite"><img src="https://img.shields.io/badge/Vite-8.3-F0DB4F?logo=vite&logoColor=black" alt="Vite"></a>
   <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19.0-61DAFB?logo=react&logoColor=black" alt="React"></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-7.0-3178C6?logo=typescript&logoColor=white" alt="TypeScript"></a>
-  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS"></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-4.3-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS"></a>
 </p>
 
 <p align="center"><strong>Backend:</strong></p>
@@ -55,9 +59,7 @@
 
 Vegazetas es una aplicación web full-stack para guardar recetas veganas propias y descubrir las que publica la comunidad. La experiencia gira en torno a una interfaz expresiva y alegre, pensada para que crear y consultar recetas resulte sencillo.
 
-Es un proyecto diseñado y desarrollado íntegramente por mí: desde el diseño UX/UI en Figma hasta la aplicación de una sola página, la API REST, la base de datos y el despliegue en la nube. Incluye **424 pruebas de API** y **68 pruebas de navegador** automatizadas.
-
-> La refactorización a TypeScript y las mejoras de esta versión se han realizado con asistencia de IA, utilizando agentes, skills y MCPs para optimizar el flujo de trabajo. Las herramientas principales han sido **GitHub Copilot** y **Junie** (JetBrains).
+Es un proyecto concebido y desarrollado de principio a fin por mí: desde el diseño UX/UI en Figma hasta la aplicación de una sola página, la API REST, la base de datos y el despliegue en la nube. La refactorización a TypeScript y las mejoras de esta versión se han realizado con asistencia de IA —agentes, skills y MCPs—, con **GitHub Copilot** y **Junie** (JetBrains) como herramientas principales y revisión humana en cada cambio.
 
 ## Funcionalidades
 
@@ -76,7 +78,7 @@ El proyecto sigue una arquitectura modular con paquetes separados y código comp
 - **Backend:** API REST con Express 5.3, TypeScript, Mongoose y MongoDB.
 - **Compartido:** paquete `com/` con validación Zod 4 y clases de error, consumido por ambos paquetes.
 - **Seguridad:** Helmet, rate limiting, CORS configurado, protección contra JWT Algorithm Confusion.
-- **Pruebas:** Vitest para lógica e integración (424 pruebas), Playwright para navegador (68 pruebas).
+- **Pruebas:** Vitest para lógica e integración (424 pruebas) y Playwright para navegador (68 pruebas); comandos en [api](./api/README.md#tests) y [app](./app/README.md#browser-tests).
 
 Los detalles están en el [estado actual](./doc/ESTADO-ACTUAL.md) y la [estructura del proyecto](./doc/ESTRUCTURA-PROYECTO.md).
 
@@ -139,7 +141,7 @@ npm run build
 Las pruebas de navegador con Playwright se ejecutan localmente con una base
 de pruebas distinta. Consulta los [preparativos y comandos](./app/README.md#browser-tests).
 
-Para el inventario técnico, variables y limitaciones conocidas, consulta el [estado actual](./doc/ESTADO-ACTUAL.md). La evolución prevista está en el [plan de refactorización](./doc/PLAN-REFACTORIZACION.md).
+Para el inventario técnico, variables y limitaciones conocidas, consulta el [estado actual](./doc/ESTADO-ACTUAL.md).
 
 ## Despliegue
 
@@ -153,12 +155,14 @@ Consulta la [guía de despliegue](./doc/DEPLOYMENT.md) para la configuración y 
 
 ## Evolución del proyecto
 
-La refactorización a TypeScript está completa. Los detalles están en el [plan de refactorización](./doc/PLAN-REFACTORIZACION.md).
-
 Se está integrando un asistente de IA para la creación de recetas: a partir de una descripción informal, el sistema genera estructura, ingredientes y pasos de preparación, acelerando el flujo de entrada de datos.
 
-Próximas mejoras a considerar: filtros, recetas compartidas, listas, gestión del perfil, planificación de menús, modo cocina y ajustes de visualización. Son ideas, no funcionalidades comprometidas.
+Próximas mejoras a considerar: añadir imágenes con Cloudinary, filtros, recetas compartidas, listas, gestión del perfil, planificación de menús, modo cocina y ajustes de visualización. Son ideas, no funcionalidades comprometidas.
 
 ## Diseño
 
 Consulta el [prototipo de Vegazetas en Figma](https://www.figma.com/proto/wJ7OQyaNcJneXTPpf4jx6X/Vegazetas?node-id=149-214&t=m7ZNRd48c95egXOo-1&scaling=scale-down&content-scaling=fixed&page-id=149%3A212&starting-point-node-id=149%3A214).
+
+## Licencia
+
+Distribuido bajo la licencia [MIT](./LICENSE).

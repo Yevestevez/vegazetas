@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { annotationSchema, errors, mainSchema, quantitySchema, unitSchema, validate } from 'com'
 import createApp from '../app.ts'
 import { User } from '../data/models.ts'
-import addIngredientInApp from '../../app/src/logic/addIngredientToRecipe.ts'
+import addIngredientInApp from '../../app/src/logic/recipes/ingredients/addIngredientToRecipe.ts'
 
 describe('shared ingredient field validation', () => {
     afterEach(() => {
@@ -89,7 +89,7 @@ describe('shared ingredient field validation', () => {
         expect(() => validate.unit(unit)).toThrowError(message)
     })
 
-    test.each(['', 'x'.repeat(300), '🍎'.repeat(150), undefined, null])('accepts an optional annotation value %s without changing it', annotation => {
+    test.each(['', 'x'.repeat(500), '🍎'.repeat(250), undefined, null])('accepts an optional annotation value %s without changing it', annotation => {
         expect(annotationSchema.parse(annotation)).toBe(annotation)
         expect(validate.annotation(annotation)).toBeUndefined()
     })
@@ -102,8 +102,8 @@ describe('shared ingredient field validation', () => {
         [0n, 'invalid annotation type, must be a string'],
         [NaN, 'invalid annotation type, must be a string'],
         [Symbol('annotation'), 'invalid annotation type, must be a string'],
-        ['x'.repeat(301), 'invalid annotation length, max 300 characters'],
-        ['🍎'.repeat(151), 'invalid annotation length, max 300 characters']
+        ['x'.repeat(501), 'invalid annotation length, max 500 characters'],
+        ['🍎'.repeat(251), 'invalid annotation length, max 500 characters']
     ])('rejects invalid annotation %s with its existing error', (annotation, message) => {
         expect(annotationSchema.safeParse(annotation).success).toBe(false)
         expect(() => validate.annotation(annotation)).toThrowError(errors.ValidationError)
@@ -112,7 +112,7 @@ describe('shared ingredient field validation', () => {
 
     test.each([
         ['', 'valid', 'invalid unit syntax'],
-        ['g', 'x'.repeat(301), 'invalid annotation length, max 300 characters']
+        ['g', 'x'.repeat(501), 'invalid annotation length, max 500 characters']
     ])('rejects invalid unit or annotation in app consumer before I/O', (unit, annotation, message) => {
         const id = 'a'.repeat(24)
         expect(() => addIngredientInApp(id, 'arroz', 1, unit, annotation)).toThrowError(message)
@@ -161,7 +161,7 @@ describe('ingredient HTTP validation', () => {
         [{ name: 'arroz', quantity: 1, unit: '' }, 'invalid unit syntax'],
         [{ name: 'arroz', quantity: 1, unit: false }, 'invalid unit type, must be a string'],
         [{ name: 'arroz', quantity: 1, unit: 'g', annotation: false }, 'invalid annotation type, must be a string'],
-        [{ name: 'arroz', quantity: 1, unit: 'g', annotation: 'x'.repeat(301) }, 'invalid annotation length, max 300 characters']
+        [{ name: 'arroz', quantity: 1, unit: 'g', annotation: 'x'.repeat(501) }, 'invalid annotation length, max 500 characters']
     ])('preserves the validation response for invalid ingredient fields', async (body, message) => {
         const id = 'a'.repeat(24)
         const token = jwt.sign({ sub: id }, secret, { expiresIn: '24h' })

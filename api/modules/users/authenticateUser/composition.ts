@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
+import { userRepo } from '../../../data/repositories/index.ts'
 import { createAuthenticateUser } from './authenticateUser.ts'
-import { findUserByEmail } from './userRepository.ts'
 
-export const authenticateUser = createAuthenticateUser(findUserByEmail, bcrypt.compare)
+export const authenticateUser = createAuthenticateUser(userRepo.findUserByEmail, bcrypt.compare)

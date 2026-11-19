@@ -31,8 +31,10 @@ function isDevelopmentTransporter(value: unknown): value is {
         'sendMail' in value && typeof value.sendMail === 'function'
 }
 
+type ResendResponse = { data: { id: string }; error: null } | { data: null; error: { message: string; name: string } }
+
 function isProductionTransporter(value: unknown): value is {
-    emails: { send: (mail: RecoveryMail) => Promise<unknown> }
+    emails: { send: (mail: RecoveryMail) => Promise<ResendResponse> }
 } {
     return typeof value === 'object' && value !== null &&
         'emails' in value && typeof value.emails === 'object' && value.emails !== null &&
@@ -62,37 +64,44 @@ export const createPasswordRecover = (
                 .catch(error => {
                     throw new SystemError(errorMessage(error))
                 })
-                .then(transporter => {
+                .then(async (transporter) => {
                     const frontendBase = process.env.FRONTEND_URL!.replace(/\/$/, '')
-                    const resetLink = `${frontendBase}/password-reset?token=${encodeURIComponent(token)}`
+                    const resetLink = `${frontendBase}/password-reset/${encodeURIComponent(token)}`
 
                     if (process.env.NODE_ENV === 'development') {
                         if (!isDevelopmentTransporter(transporter)) {
                             throw new SystemError('Development email transporter is unavailable')
                         }
 
-                        return transporter.sendMail({
+                        const info = await transporter.sendMail({
                             from: `"Vegazetas" <${process.env.MAIL_FROM}>`,
                             to: user.email,
                             subject: 'Recuperar contraseña Vegazetas',
                             text: `Haz click en el siguiente enlace para cambiar tu contraseña: ${resetLink}`,
                             html: `<p>Haz click en el siguiente enlace para cambiar tu contraseña:</p><a href="${resetLink}">Restablecer contraseña</a>`
-                        }).then(info => {
-                            const previewUrl = nodemailer.getTestMessageUrl(info)
-                            console.log('📨 Vista previa (Ethereal):', previewUrl)
                         })
+                        const previewUrl = nodemailer.getTestMessageUrl(info)
+                        console.log('📨 Vista previa (Ethereal):', previewUrl)
+                        return
                     }
 
                     if (!isProductionTransporter(transporter)) {
                         throw new SystemError('Production email transporter is unavailable')
                     }
 
-                    return transporter.emails.send({
+                    const { data, error } = await transporter.emails.send({
                         from: process.env.MAIL_FROM!,
                         to: user.email,
                         subject: 'Recuperar contraseña Vegazetas',
                         html: `<p>Haz click en el siguiente enlace para cambiar tu contraseña:</p><a href="${resetLink}">Restablecer contraseña</a>`
-                    }).then(() => console.log('✅ Email enviado mediante Resend API'))
+                    })
+
+                    if (error) {
+                        console.error('❌ Resend error:', error.message)
+                        throw new SystemError(`Email send failed: ${error.message}`)
+                    }
+
+                    console.log('✅ Email enviado mediante Resend API, id:', data.id)
                 })
         })
 }

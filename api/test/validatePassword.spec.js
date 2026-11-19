@@ -4,9 +4,9 @@ import createApp from '../app.ts'
 import { authenticateUser } from '../modules/users/authenticateUser/composition.ts'
 import { passwordReset } from '../modules/users/passwordReset/composition.ts'
 import { registerUser } from '../modules/users/registerUser/composition.ts'
-import registerUserInApp from '../../app/src/logic/registerUser.ts'
-import loginUser from '../../app/src/logic/loginUser.ts'
-import passwordResetInApp from '../../app/src/logic/passwordReset.ts'
+import registerUserInApp from '../../app/src/logic/auth/registerUser.ts'
+import loginUser from '../../app/src/logic/auth/loginUser.ts'
+import passwordResetInApp from '../../app/src/logic/auth/passwordReset.ts'
 
 describe('shared password validation', () => {
     test.each([
