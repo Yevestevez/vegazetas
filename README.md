@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="./doc/HISTORIAL-VERSIONES.md"><img src="https://img.shields.io/badge/v2.1.0-desplegada-E05D44?style=flat" alt="Version"></a>
+  <a href="./doc/CHANGELOG.md"><img src="https://img.shields.io/badge/v2.3.3-E05D44?style=flat" alt="Version"></a>
 </p>
 
 <p align="center">
@@ -141,7 +141,7 @@ npm run build
 Las pruebas de navegador con Playwright se ejecutan localmente con una base
 de pruebas distinta. Consulta los [preparativos y comandos](./app/README.md#browser-tests).
 
-Para el inventario técnico, variables y limitaciones conocidas, consulta el [estado actual](./doc/ESTADO-ACTUAL.md). La evolución prevista está en el [plan de refactorización](./doc/PLAN-REFACTORIZACION.md).
+Para el inventario técnico, variables y limitaciones conocidas, consulta el [estado actual](./doc/ESTADO-ACTUAL.md).
 
 ## Despliegue
 

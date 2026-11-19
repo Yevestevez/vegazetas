@@ -6,7 +6,6 @@ const apiUrl = 'http://127.0.0.1:32123'
 
 test.describe('create recipe', () => {
   let user
-  let recipeId = 'test-recipe-id-' + randomUUID()
 
   test.beforeEach(async ({ page }) => {
     const id = randomUUID()

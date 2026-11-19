@@ -4,9 +4,9 @@
   de proponer o modificar arquitectura; distingue hechos de decisiones pendientes.
 - El proyecto mantiene MongoDB. No sustituyas la base de datos ni introduzcas
   funcionalidades nuevas como parte de una refactorización sin acordarlo.
-- Sigue el [plan por sprints](doc/PLAN-REFACTORIZACION.md): React y Vite,
-  TypeScript gradual, MongoDB y POO pragmática. Acuerda los cambios visibles
-  y las decisiones técnicas pendientes antes de implementarlos.
+- La refactorización a TypeScript está completa. Consulta [el estado actual](doc/ESTADO-ACTUAL.md)
+  para la arquitectura y las decisiones técnicas. Acuerda los cambios visibles
+  antes de implementarlos.
 - Puedes proponer cambios justificados de stack o arquitectura; la decisión
   final corresponde a la persona responsable.
 - Nombra variables, funciones, clases y demás identificadores en inglés, con
@@ -28,9 +28,8 @@
 - Trabaja por ramas: `main` representa producción, `dev` integra el desarrollo
   y se usan ramas de características. Los cambios llegan a `main` únicamente
   mediante PR y las comprobaciones acordadas.
-- Aplaza la implantación de CI/CD con GitHub Actions hasta terminar la
-  refactorización. Mientras tanto, ejecuta localmente las comprobaciones
-  pertinentes; no instales hooks ni automatización de CI/CD sin acordarlo.
+- El pipeline de CI/CD está activo: GitHub Actions ejecuta las comprobaciones
+  en cada PR y Husky ejecuta lint y typecheck en el hook pre-commit local.
 - Usa versionado semántico para el producto completo, con `v1.0.0` como punto
   de partida acordado para el estado actual de producción y `v2.1.0` para la
   refactorización en desarrollo. Mantén actualizado el historial de versiones

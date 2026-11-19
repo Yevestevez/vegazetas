@@ -75,8 +75,10 @@ describe('POST /users/password/recover', () => {
         expect(sentMail.from).toBe('"Vegazetas" <noreply@example.invalid>')
 
         const resetLink = new URL(sentMail.html.match(/href="([^"]+)"/)[1])
-        expect(resetLink.origin + resetLink.pathname).toBe('http://localhost:5173/password-reset')
-        const token = jwt.verify(resetLink.searchParams.get('token'), secret)
+        expect(resetLink.origin).toBe('http://localhost:5173')
+        const pathSegments = resetLink.pathname.split('/').filter(Boolean)
+        expect(pathSegments[0]).toBe('password-reset')
+        const token = jwt.verify(pathSegments[1], secret)
         expect(token.sub).toBe(user.id)
         expect(token.exp - token.iat).toBe(15 * 60)
     })

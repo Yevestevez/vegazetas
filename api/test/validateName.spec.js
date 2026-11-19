@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken'
 import { errors, ingredientNameSchema, nameSchema, validate } from 'com'
 import createApp from '../app.ts'
 import { registerUser } from '../modules/users/registerUser/composition.ts'
-import registerUserInApp from '../../app/src/logic/registerUser.ts'
-import addIngredientInApp from '../../app/src/logic/addIngredientToRecipe.ts'
+import registerUserInApp from '../../app/src/logic/auth/registerUser.ts'
+import addIngredientInApp from '../../app/src/logic/recipes/ingredients/addIngredientToRecipe.ts'
 
 describe('shared name validation', () => {
     test.each(['A', 'a'.repeat(50), 'Ana Pérez', 'Ñoño', ' ', '\t'])('accepts a name without changing it', name => {
@@ -44,7 +44,7 @@ describe('shared name validation', () => {
 
     test.each([
         [undefined, 'invalid ingredient name type, must be a string'],
-        ['a'.repeat(51), 'invalid ingredient name length, must be between 1 and 50 characters'],
+        ['a'.repeat(201), 'invalid ingredient name length, must be between 1 and 200 characters'],
         ['arroz*', 'invalid ingredient name syntax'],
         ['🍎', 'invalid ingredient name syntax']
     ])('rejects invalid ingredient name %s in app consumer before I/O', (name, message) => {

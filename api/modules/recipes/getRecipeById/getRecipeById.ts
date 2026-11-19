@@ -58,27 +58,39 @@ export function createGetRecipeById(
 
 function normalizeRecipe(recipe: any, isOwn: boolean, favorites: string[]): RecipeResponse {
     const id = recipe._id.toString()
-    delete recipe._id
+    const ingredients = (Array.isArray(recipe.ingredients) 
+        ? recipe.ingredients.map((ing: any) => ({ id: ing._id.toString(), name: ing.name, quantity: ing.quantity, unit: ing.unit, annotation: ing.annotation, main: ing.main }))
+        : []
+    )
+    const steps = (Array.isArray(recipe.steps)
+        ? recipe.steps.map((step: any) => ({ id: step._id.toString(), text: step.text, note: step.note, image: step.image, order: step.order }))
+        : []
+    )
 
-    recipe.id = id
-    recipe.own = isOwn
-    recipe.isFavorite = favorites.includes(id)
-
-    if (Array.isArray(recipe.ingredients)) {
-        recipe.ingredients.forEach((ing: any) => {
-            ing.id = ing._id.toString()
-            delete ing._id
-            delete ing.__v
-        })
+    return {
+        id,
+        title: recipe.title,
+        description: recipe.description,
+        images: recipe.images || [],
+        date: recipe.date,
+        time: recipe.time,
+        difficulty: recipe.difficulty,
+        category: recipe.category,
+        servings: recipe.servings,
+        tags: recipe.tags || [],
+        ingredients,
+        steps,
+        published: recipe.published,
+        source: recipe.source,
+        sourceUrl: recipe.sourceUrl,
+        aiNotes: recipe.aiNotes,
+        views: recipe.views,
+        likedBy: recipe.likedBy || [],
+        own: isOwn,
+        isFavorite: favorites.includes(id),
+        author: {
+            _id: recipe.author._id.toString(),
+            username: recipe.author.username
+        }
     }
-
-    if (Array.isArray(recipe.steps)) {
-        recipe.steps.forEach((step: any) => {
-            step.id = step._id.toString()
-            delete step._id
-            delete step.__v
-        })
-    }
-
-    return recipe as RecipeResponse
 }

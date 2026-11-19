@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import jwt from 'jsonwebtoken'
 import { errors, tagSchema, validate } from 'com'
-import addTagInApp from '../../app/src/logic/addTagToRecipe.ts'
+import addTagInApp from '../../app/src/logic/recipes/tags/addTagToRecipe.ts'
 import createApp from '../app.ts'
 
 describe('shared recipe tag validation', () => {

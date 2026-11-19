@@ -21,7 +21,7 @@ export const createUser = async (name: string, email: string, username: string, 
 }
 
 export const updateUserFavorites = (userId: string, favorites: string[]) =>
-    User.findByIdAndUpdate(userId, { favorites }, { new: false }).exec()
+    User.findByIdAndUpdate(userId, { favorites }, { returnDocument: 'before' }).exec()
 
 export const findUserByEmailRecovery = (email: string) =>
     User.findOne({ email }).exec().then(user =>
@@ -29,4 +29,4 @@ export const findUserByEmailRecovery = (email: string) =>
     )
 
 export const updateUserPassword = (userId: string, password: string) =>
-    User.findByIdAndUpdate(userId, { password }, { new: false }).exec()
+    User.findByIdAndUpdate(userId, { password }, { returnDocument: 'before' }).exec()
