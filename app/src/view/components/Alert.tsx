@@ -7,7 +7,7 @@ interface AlertProps {
 }
 
 function Alert({ message, onAccept, isWakingServer = false }: AlertProps) {
-    return <div className="fixed inset-0 z-100 flex items-center justify-center bg-folly bg-opacity-70">
+    return <div className="fixed inset-0 z-100 flex items-center justify-center bg-folly/40">
         <div className="
             flex flex-col items-center gap-6 xs:gap-8 lg:gap-10 xl:gap-12
             p-6 xs:p-10 md:p-14 xl:p-20
