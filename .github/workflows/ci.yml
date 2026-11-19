@@ -100,6 +100,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 26
+      - name: Install com
+        run: npm ci
+        working-directory: com
       - name: Install api
         run: npm ci
         working-directory: api
@@ -133,6 +136,9 @@ jobs:
       - name: Install com
         run: npm ci
         working-directory: com
+      - name: Install api
+        run: npm ci
+        working-directory: api
       - name: Install app
         run: npm ci
         working-directory: app
