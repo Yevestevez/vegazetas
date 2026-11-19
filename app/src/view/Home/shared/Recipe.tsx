@@ -422,7 +422,7 @@ function Recipe({
                         drop-shadow-hard-sm xl:drop-shadow-hard-md
                     ">Preparación</h2>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 xs:gap-8 justify-items-center text-center text-spring-bud">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 xs:gap-8 justify-items-center text-center text-spring-bud">
                             {recipe.steps.map((step: any, index: number) => (
                                 <div className="
                                     rounded-xs
