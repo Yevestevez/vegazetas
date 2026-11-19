@@ -15,7 +15,7 @@ function IngredientList({ mainIngredients, pantryIngredients, onDeleteIngredient
     return (
         <div className="columns-1 lg:columns-2 2xl:columns-3 gap-6 space-y-6">
             {mainIngredients.length > 0 && (
-                <section aria-labelledby="main-ingredients" className="flex flex-col py-2 gap-2">
+                <section aria-labelledby="main-ingredients" className="flex flex-col py-2 gap-2 break-inside-avoid">
                     <h3 id="main-ingredients" className={`${h3Base} text-spring-bud bg-folly`}>Principales</h3>
 
                     <ul className="flex flex-col gap-2">
@@ -34,7 +34,7 @@ function IngredientList({ mainIngredients, pantryIngredients, onDeleteIngredient
             )}
 
             {pantryIngredients.length > 0 && (
-                <section aria-labelledby="pantry-ingredients" className="flex flex-col py-2 gap-2">
+                <section aria-labelledby="pantry-ingredients" className="flex flex-col py-2 gap-2 break-inside-avoid">
                     <h3 id="pantry-ingredients" className={`${h3Base} text-spring-bud bg-folly`}>Despensa</h3>
 
                     <ul className="flex flex-col gap-2">
