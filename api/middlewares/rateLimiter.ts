@@ -6,7 +6,7 @@ export const globalLimiter = rateLimit({
     message: 'Too many requests, please try again later',
     standardHeaders: true,
     legacyHeaders: false,
-    skip: (req) => process.env.NODE_ENV !== 'production'
+    skip: (req) => process.env.NODE_ENV !== 'production' || req.path === '/health'
 })
 
 export const authLimiter = rateLimit({
