@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "2.1.0",
+  "version": "2.3.4",
   "description": "",
   "main": "index.ts",
   "type": "module",
@@ -9,8 +9,10 @@
   },
   "scripts": {
     "start": "tsx index.ts",
+    "dev": "tsx data/seed.ts && tsx --watch index.ts",
     "watch": "tsx --watch index.ts",
     "inspect": "tsx --inspect-brk index.ts",
+    "seed": "tsx data/seed.ts",
     "test": "vitest run",
     "test-favorite-security": "vitest run test/toggleFavoriteRecipe.spec.js",
     "test-mail-integration": "vitest run --mode ethereal",

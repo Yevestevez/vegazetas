@@ -100,7 +100,7 @@ function PasswordReset({ onPasswordReseted }: PasswordResetProps) {
 
                     <CircleButton
                         type="submit"
-                        className="bg-spring-bud text-folly hover:outline hover:outline-spring-bud hover:bg-folly hover:text-spring-bud mt-4"
+                        className="bg-spring-bud text-folly hover:outline-spring-bud hover:bg-folly hover:text-spring-bud mt-4"
                     >
                         Guardar
                     </CircleButton>

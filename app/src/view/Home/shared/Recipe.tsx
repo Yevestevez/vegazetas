@@ -332,13 +332,13 @@ function Recipe({
                         drop-shadow-hard-sm xl:drop-shadow-hard-md
                     ">Ingredientes</h2>
 
-                        <div className="columns-1 lg:columns-2 gap-6 text-center space-y-6">
+                        <div className="flex flex-col lg:flex-row lg:items-start justify-center gap-6 lg:gap-20 text-center">
 
                             {/* <-- main ingredients --> */}
                             {recipe.ingredients.some((ingredient: any) => ingredient.main) && (
-                                <div className="flex flex-col items-center justify-center align-middle">
+                                <div className="flex flex-col items-center justify-center align-middle w-full lg:w-auto">
                                     <h3 className="
-                                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs text-folly bg-spring-bud
+                                        inline-block px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs text-folly bg-spring-bud
                                         shadow-hard-md xl:shadow-hard-lg
                                     ">Principales</h3>
                                     {recipe.ingredients
@@ -356,9 +356,9 @@ function Recipe({
 
                             {/* <-- pantry ingredients --> */}
                             {recipe.ingredients.some((ingredient: any) => !ingredient.main) && (
-                                <div className="flex flex-col items-center justify-center align-middle">
+                                <div className="flex flex-col items-center justify-center align-middle w-full lg:w-auto">
                                     <h3 className="
-                                        px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs text-folly bg-spring-bud
+                                        inline-block px-2 py-0.5 mb-4 anybody-title text-base sm:text-lg xl:text-xl rounded-xs text-folly bg-spring-bud
                                         shadow-hard-md xl:shadow-hard-lg
                                     ">Despensa</h3>
                                     {recipe.ingredients
@@ -422,16 +422,16 @@ function Recipe({
                         drop-shadow-hard-sm xl:drop-shadow-hard-md
                     ">Preparación</h2>
 
-                        <div className="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 gap-6 xs:gap-8 space-y-6 items-center justify-center text-center text-spring-bud">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 xs:gap-8 justify-items-center text-center text-spring-bud">
                             {recipe.steps.map((step: any, index: number) => (
                                 <div className="
-                                    break-inside-avoid rounded-xs
-                                    flex flex-col h-full p-4 xs:p-6 gap-3 w-full bg-folly 
+                                    rounded-xs
+                                    flex flex-col p-4 xs:p-6 gap-3 w-full bg-folly 
                                     shadow-hard-md xs:shadow-hard-lg xl:shadow-hard-xl
                                 " key={index}>
                                     <h3 className="anybody-logo text-lg sm:text-xl xl:text-2xl">{index + 1}</h3>
-                                    <p className="text-base sm:text-lg xl:text-xl leading-tight">{step.text}</p>
-                                    {step.note && <p className="text-sm sm:text-base italic font-light leading-tight">({step.note})</p>}
+                                    <p className="text-base sm:text-lg xl:text-xl leading-tight hyphens-auto break-words">{step.text}</p>
+                                    {step.note && <p className="text-sm sm:text-base italic font-light leading-tight hyphens-auto break-words">({step.note})</p>}
                                     {step.image && (
                                         <div className="w-full mt-2 sm:max-h-48 overflow-hidden bg-folly">
                                             <img
