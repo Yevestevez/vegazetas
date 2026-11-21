@@ -82,35 +82,45 @@ function BasicDataForm({
                 <div className="flex flex-row w-full justify-between gap-4">
                     <div className="flex flex-col w-full gap-2">
                         <label className={labelBase} htmlFor="difficulty">Dificultad</label>
-                        <select
-                            id="difficulty" name="difficulty" value={difficulty}
-                            onChange={(e) => onDifficultyChange(e.target.value)}
-                            className={`${inputBase} ${inputColor.springBud} text-center px-0 mb-2`}
-                        >
-                            <option value="">- Selecciona -</option>
-                            <option value="easy">Fácil</option>
-                            <option value="medium">Media</option>
-                            <option value="difficult">Difícil</option>
-                        </select>
+                        <div className="relative mb-2">
+                            <select
+                                id="difficulty" name="difficulty" value={difficulty}
+                                onChange={(e) => onDifficultyChange(e.target.value)}
+                                className={`${inputBase} ${inputColor.springBud} text-center pr-10 appearance-none`}
+                            >
+                                <option value="">- Selecciona -</option>
+                                <option value="easy">Fácil</option>
+                                <option value="medium">Media</option>
+                                <option value="difficult">Difícil</option>
+                            </select>
+                            <svg className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none w-5 h-5 text-folly" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="6 8 10 12 14 8" />
+                            </svg>
+                        </div>
                     </div>
 
                     <div className="flex flex-col w-full gap-2">
                         <label className={labelBase} htmlFor="category">Categoría</label>
-                        <select
-                            id="category" name="category" value={category}
-                            onChange={(e) => onCategoryChange(e.target.value)}
-                            className={`${inputBase} ${inputColor.springBud} text-center px-0 mb-2`}
-                        >
-                            <option value="">- Selecciona -</option>
-                            <option value="entrante">Entrante</option>
-                            <option value="principal">Principal</option>
-                            <option value="postre">Postre</option>
-                            <option value="sopa">Sopa</option>
-                            <option value="ensalada">Ensalada</option>
-                            <option value="snack">Snack</option>
-                            <option value="bebida">Bebida</option>
-                            <option value="otro">Otro</option>
-                        </select>
+                        <div className="relative mb-2">
+                            <select
+                                id="category" name="category" value={category}
+                                onChange={(e) => onCategoryChange(e.target.value)}
+                                className={`${inputBase} ${inputColor.springBud} text-center pr-10 appearance-none`}
+                            >
+                                <option value="">- Selecciona -</option>
+                                <option value="entrante">Entrante</option>
+                                <option value="principal">Principal</option>
+                                <option value="postre">Postre</option>
+                                <option value="sopa">Sopa</option>
+                                <option value="ensalada">Ensalada</option>
+                                <option value="snack">Snack</option>
+                                <option value="bebida">Bebida</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                            <svg className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none w-5 h-5 text-folly" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="6 8 10 12 14 8" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
 

@@ -42,7 +42,7 @@ function StepItem({
     const stepButton = `text-xl sm:text-2xl interactive-lift cursor-pointer`
 
     return (
-        <li className="flex flex-col text-center gap-2" key={index}>
+        <li className="flex flex-col text-center gap-2 break-inside-avoid" key={index}>
             <h3 className="anybody-logo text-lg sm:text-xl">{index + 1}</h3>
 
             {isEditing ? (

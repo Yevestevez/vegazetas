@@ -26,9 +26,18 @@ const startApi = () => {
     })
 }
 
-connectToDb()
-    .then(() => startApi())
-    .catch(error => {
-        console.error('Failed to connect to database:', error.message)
-        process.exit(1)
-    })
+async function boot() {
+    await connectToDb()
+
+    if (process.env.SEED_DB === 'true') {
+        const { run } = await import('./data/seed.ts')
+        await run()
+    }
+
+    startApi()
+}
+
+boot().catch(error => {
+    console.error('Failed to start API:', error.message)
+    process.exit(1)
+})

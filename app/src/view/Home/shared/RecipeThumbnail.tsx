@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { FaShareAlt, FaStar } from "react-icons/fa"
 import { FaListUl } from "react-icons/fa6"
 import { MdRocketLaunch, MdVisibilityOff } from "react-icons/md"
@@ -36,6 +37,7 @@ const VARIANTS: Record<RecipeThumbnailVariant, {
 
 function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick, variant = 'discover' }: RecipeThumbnailProps) {
     const { alert } = useAppContext()
+    const [imgError, setImgError] = useState(false)
 
     const handleToggleFavoriteClick = (event: React.MouseEvent) => {
         event.preventDefault()
@@ -104,13 +106,14 @@ function RecipeThumbnail({ recipe, onRecipeThumbnailClick, onToggleFavoriteClick
             onClick={handleRecipeThumbnailClick}
         >
             <div className="w-full relative">
-                {recipe.images && recipe.images.length > 0 ? (
+                {recipe.images && recipe.images.length > 0 && !imgError ? (
                     <>
                         <div className="absolute inset-0 bg-black opacity-25 z-10" />
                         <img
                             className="w-full aspect-square object-cover"
                             src={recipe.images[0]}
                             alt={`Imagen de la receta: ${recipe.title}`}
+                            onError={() => setImgError(true)}
                         />
                     </>
                 ) : (
